@@ -34,6 +34,8 @@ import matplotlib.pyplot as plt
 
 from matplotlib.backends.backend_pdf import PdfPages
 
+from matplotlib.lines import Line2D
+
 
 from core.utilities import get_translation, round2
 
@@ -113,8 +115,8 @@ class VirtualMeterComparisonPDFExporter:
         self.trans = get_translation(language)
         self._ = self.trans.gettext
 
-        # Page settings - A4 landscape
-        self.page_size = (11.69, 8.27)
+        # Page settings - A4 portrait
+        self.page_size = (8.27, 11.69)  # A4 portrait
         self.dpi = 80
 
     def export(self,
@@ -180,6 +182,13 @@ class VirtualMeterComparisonPDFExporter:
         self.ec2 = meter2.get('energy_category_name', '')
         self.unit2 = meter2.get('unit_of_measure', '')
 
+        # Header/footer setup for body pages (cover page is excluded)
+        _ = self._
+        self.header_title = (f"{_('Meter Data')} - {_('Virtual Meter Comparison')}"
+                             f"  |  {self.name1 + ' vs ' + self.name2}")
+        # Body page counter; cover page is not counted, body starts at 1
+        self.current_page_number = 0
+
         with PdfPages(filename) as pdf:
             # Cover page
             self._create_cover_page(pdf)
@@ -195,6 +204,31 @@ class VirtualMeterComparisonPDFExporter:
 
         logger.info(f"PDF generated: {filename}")
         return filename
+
+    def _draw_header_footer(self, fig):
+        """Draw the standard MyEMS header (centered title + grey separator) and
+        footer (centered current page number) on a body page figure.
+        The cover page must NOT call this method.
+        """
+        # Header: centered title near top edge
+        fig.text(0.5, 0.97, self.header_title,
+                 fontsize=9, ha='center', va='center')
+        # Header separator line (light grey), just below header text
+        sep = Line2D([0.05, 0.95], [0.955, 0.955],
+                     transform=fig.transFigure, color='#999999', lw=0.8)
+        fig.add_artist(sep)
+        # Footer: centered current page number near bottom edge
+        fig.text(0.5, 0.02, str(self.current_page_number),
+                 fontsize=9, ha='center', va='center')
+
+    def _save_body_page(self, pdf, fig):
+        """Unified exit for every non-cover page: bump the page counter, draw
+        header/footer, then save and close the figure.
+        """
+        self.current_page_number += 1
+        self._draw_header_footer(fig)
+        pdf.savefig(fig)
+        plt.close(fig)
 
     def _create_cover_page(self, pdf: PdfPages):
         """Create cover page with logo, centered title, and borderless info list."""
@@ -227,7 +261,7 @@ class VirtualMeterComparisonPDFExporter:
         info_data = [
             [_('Name') + '1:', self.name1],
             [_('Name') + '2:', self.name2],
-            [_('Period Type') + ':', self.period_type],
+            [_('Period Type') + ':', _(self.period_type)],
             [_('Reporting Start Datetime') + ':', self.reporting_start],
             [_('Reporting End Datetime') + ':', self.reporting_end],
         ]
@@ -268,7 +302,7 @@ class VirtualMeterComparisonPDFExporter:
         total2 = round2(rp2.get('total_in_category', 0), 2)
 
         fig = plt.figure(figsize=self.page_size)
-        fig.suptitle(_('Consumption'), fontsize=16, weight='bold', y=0.95)
+        fig.suptitle(_('Consumption'), fontsize=16, weight='bold', y=0.94)
 
         # --- Meter1 consumption table ---
         ax1 = fig.add_axes([0.10, 0.55, 0.80, 0.30])
@@ -332,8 +366,7 @@ class VirtualMeterComparisonPDFExporter:
         val2_table[0, 0].set_text_props(weight='bold')
         _style_table_borders(val2_table, 2, 1)
 
-        pdf.savefig(fig)
-        plt.close()
+        self._save_body_page(pdf, fig)
 
     def _create_line_chart(self, pdf: PdfPages):
         """Create line chart matching Excel's 'Reporting Period Consumption' chart.
@@ -355,7 +388,7 @@ class VirtualMeterComparisonPDFExporter:
 
         fig = plt.figure(figsize=self.page_size)
         fig.suptitle(_('Reporting Period Consumption'),
-                     fontsize=16, weight='bold', y=0.95)
+                     fontsize=16, weight='bold', y=0.94)
 
         ax = fig.add_axes([0.08, 0.10, 0.88, 0.78])
 
@@ -389,8 +422,7 @@ class VirtualMeterComparisonPDFExporter:
         ax.legend(loc='best', fontsize=8)
         ax.grid(True, linestyle='--', alpha=0.5)
 
-        pdf.savefig(fig)
-        plt.close()
+        self._save_body_page(pdf, fig)
 
     def _create_detailed_data_table(self, pdf: PdfPages):
         """Create detailed data table with timestamps, values, and difference.
@@ -446,11 +478,11 @@ class VirtualMeterComparisonPDFExporter:
             if num_pages == 1:
                 fig.suptitle(self.name1 + ' and ' + self.name2 + ' ' +
                              _('Detailed Data'),
-                             fontsize=14, weight='bold', y=0.98)
+                             fontsize=14, weight='bold', y=0.94)
             else:
                 fig.suptitle(self.name1 + ' and ' + self.name2 + ' ' +
                              _('Detailed Data') + ' (' + str(page + 1) + '/' + str(num_pages) + ')',
-                             fontsize=14, weight='bold', y=0.98)
+                             fontsize=14, weight='bold', y=0.94)
 
             table_data = [col_headers] + page_rows
 
@@ -478,8 +510,7 @@ class VirtualMeterComparisonPDFExporter:
 
             _style_table_borders(tbl, len(table_data), total_cols)
 
-            pdf.savefig(fig)
-            plt.close()
+            self._save_body_page(pdf, fig)
 
 
 # Convenience function for backward compatibility

@@ -27,6 +27,7 @@ import matplotlib.pyplot as plt
 from matplotlib.backends.backend_pdf import PdfPages
 
 import matplotlib.gridspec as gridspec
+from matplotlib.lines import Line2D
 
 
 from core.utilities import get_translation, round2
@@ -91,6 +92,20 @@ def _style_table_borders(table, num_rows, num_cols):
             table[i, j].set_linewidth(0.5)
 
 
+def _uniform_row_bbox(num_rows, max_rows):
+    """Compute a bbox [x, y, width, height] (axes coordinates) for ax.table that
+    keeps row height uniform across tables and pages.
+    The table block is anchored to the top of the axes and its height follows the
+    number of rows, so tables with fewer rows keep the standard per-row height
+    instead of being stretched to absurdly tall rows (same convention as
+    tenantbill.py).
+    """
+    if max_rows <= 0:
+        return [0, 0, 1, 1]
+    fill_ratio = min(1.0, float(num_rows) / max_rows)
+    return [0, 1 - fill_ratio, 1, fill_ratio]
+
+
 class TenantPredictionPDFExporter:
     """
     Export tenant prediction data to PDF format.
@@ -106,8 +121,8 @@ class TenantPredictionPDFExporter:
         self.trans = get_translation(language)
         self._ = self.trans.gettext
 
-        # Page settings - A4 landscape
-        self.page_size = (11.69, 8.27)
+        # Page settings - A4 portrait
+        self.page_size = (8.27, 11.69)  # A4 portrait
         self.dpi = 80
 
         # Color scheme
@@ -207,6 +222,13 @@ class TenantPredictionPDFExporter:
 
         self.is_base_period_exists = self._is_base_period_timestamp_exists(report['base_period'])
 
+        # Header/footer setup for body pages (cover page is excluded)
+        _ = self._
+        self.header_title = (f"{_('Tenant Data')} - {_('Energy Prediction Analysis')}"
+                             f"  |  {self.name}")
+        # Body page counter; cover page is not counted, body starts at 1
+        self.current_page_number = 0
+
         with PdfPages(filename) as pdf:
             # Cover page
             self._create_cover_page(pdf, name, period_type,
@@ -229,13 +251,37 @@ class TenantPredictionPDFExporter:
             self._create_detailed_data_page(pdf)
 
             # Separate line charts for each energy category
-            self._create_detailed_data_charts(pdf)
 
             # Parameters
             self._create_parameters_page(pdf)
 
         logger.info(f"PDF generated: {filename}")
         return filename
+
+    def _draw_header_footer(self, fig):
+        """Draw the standard MyEMS header (centered title + grey separator) and
+        footer (centered current page number) on a body page figure.
+        The cover page must NOT call this method.
+        """
+        # Header: centered title near top edge
+        fig.text(0.5, 0.97, self.header_title,
+                 fontsize=9, ha='center', va='center')
+        # Header separator line (light grey), just below header text
+        sep = Line2D([0.05, 0.95], [0.955, 0.955],
+                     transform=fig.transFigure, color='#999999', lw=0.8)
+        fig.add_artist(sep)
+        # Footer: centered current page number near bottom edge
+        fig.text(0.5, 0.02, str(self.current_page_number),
+                 fontsize=9, ha='center', va='center')
+
+    def _save_body_page(self, pdf, fig):
+        """Unified exit for every non-cover page: bump the page counter, draw
+        header/footer, then save and close the figure.
+        """
+        self.current_page_number += 1
+        self._draw_header_footer(fig)
+        pdf.savefig(fig)
+        plt.close(fig)
 
     def _create_base_period_working_days_page(self, pdf: PdfPages):
         """Create base period working/non-working days page matching Excel table."""
@@ -284,7 +330,7 @@ class TenantPredictionPDFExporter:
         ax.axis('off')
 
         fig.suptitle(self.name + ' ' + section_title,
-                     fontsize=16, weight='bold', y=0.98)
+                     fontsize=16, weight='bold', y=0.94)
 
         # Table matching Excel
         col_headers = ['', _('Non Working Days') + _('Consumption'),
@@ -299,9 +345,11 @@ class TenantPredictionPDFExporter:
                                str(w_val) if w_val and w_val > 0 else '-'])
 
         num_cols = len(col_headers)
-        table = ax.table(cellText=table_data, loc='center',
+        # Full-page table: 64-row capacity keeps the same per-row height as the
+        # half-page detailed data tables (32 rows per half page)
+        table = ax.table(cellText=table_data, loc='upper center',
                          cellLoc='center', colWidths=[0.4, 0.3, 0.3],
-                         bbox=[0, 0, 1, 1])
+                         bbox=_uniform_row_bbox(len(table_data), 64))
         table.auto_set_font_size(False)
         table.set_fontsize(10)
         for j in range(num_cols):
@@ -309,8 +357,7 @@ class TenantPredictionPDFExporter:
             table[0, j].set_text_props(weight='bold')
         _style_table_borders(table, len(table_data), num_cols)
 
-        pdf.savefig(fig)
-        plt.close()
+        self._save_body_page(pdf, fig)
 
     def _create_cover_page(self, pdf, name, period_type,
                            reporting_start, reporting_end,
@@ -345,7 +392,7 @@ class TenantPredictionPDFExporter:
         # Info list
         info_data = [
             [_('Name') + ':', name],
-            [_('Period Type') + ':', period_type],
+            [_('Period Type') + ':', _(period_type)],
             [_('Reporting Start Datetime') + ':', reporting_start],
             [_('Reporting End Datetime') + ':', reporting_end],
         ]
@@ -459,10 +506,10 @@ class TenantPredictionPDFExporter:
         # ===== Create figure =====
         fig = plt.figure(figsize=self.page_size)
         fig.suptitle(self.name + ' - ' + _('Reporting Period Consumption'),
-                     fontsize=14, weight='bold', y=0.98)
+                     fontsize=14, weight='bold', y=0.94)
 
         # Main layout: top = summary table, bottom = TOU + TCE/TCO2E
-        gs_main = gridspec.GridSpec(2, 1, height_ratios=[0.28, 0.72], hspace=0.25)
+        gs_main = gridspec.GridSpec(2, 1, height_ratios=[0.28, 0.72], hspace=0.25, top=0.90, bottom=0.05, left=0.04, right=0.96)
 
         # ===== Top: Reporting Period Consumption table =====
         ax_rp = fig.add_subplot(gs_main[0])
@@ -473,8 +520,9 @@ class TenantPredictionPDFExporter:
         rp_total_w = sum(rp_col_widths)
         rp_col_widths = [w / rp_total_w for w in rp_col_widths]
 
-        tbl_rp = ax_rp.table(cellText=rp_table_data, loc='center',
-                             cellLoc='center', colWidths=rp_col_widths)
+        tbl_rp = ax_rp.table(cellText=rp_table_data, loc='upper center',
+                             cellLoc='center', colWidths=rp_col_widths,
+                             bbox=_uniform_row_bbox(len(rp_table_data), 13))
         tbl_rp.auto_set_font_size(False)
         tbl_rp.set_fontsize(7)
         for j in range(rp_num_cols):
@@ -501,8 +549,9 @@ class TenantPredictionPDFExporter:
             [_('MidPeak'), str(tou_values[2]) if tou_exists else ''],
             [_('OffPeak'), str(tou_values[3]) if tou_exists else ''],
         ]
-        tbl_tou = ax_tou_tbl.table(cellText=tou_table_data, loc='center',
-                                    cellLoc='center', colWidths=[0.4, 0.6])
+        tbl_tou = ax_tou_tbl.table(cellText=tou_table_data, loc='upper center',
+                                    cellLoc='center', colWidths=[0.4, 0.6],
+                                    bbox=_uniform_row_bbox(len(tou_table_data), 13))
         tbl_tou.auto_set_font_size(False)
         tbl_tou.set_fontsize(8)
         tbl_tou[0, 0].set_facecolor('#90EE90')
@@ -530,8 +579,9 @@ class TenantPredictionPDFExporter:
         # --- TCE table (bottom-center) ---
         ax_tce_tbl = fig.add_subplot(gs_bottom[0, 1])
         ax_tce_tbl.axis('off')
-        tbl_tce = ax_tce_tbl.table(cellText=tce_table_data, loc='center',
-                                   cellLoc='center', colWidths=[0.35, 0.65])
+        tbl_tce = ax_tce_tbl.table(cellText=tce_table_data, loc='upper center',
+                                   cellLoc='center', colWidths=[0.35, 0.65],
+                                   bbox=_uniform_row_bbox(len(tce_table_data), 13))
         tbl_tce.auto_set_font_size(False)
         tbl_tce.set_fontsize(8)
         for j in range(2):
@@ -554,8 +604,9 @@ class TenantPredictionPDFExporter:
         # --- TCO2E table (bottom-right) ---
         ax_co2e_tbl = fig.add_subplot(gs_bottom[0, 2])
         ax_co2e_tbl.axis('off')
-        tbl_co2e = ax_co2e_tbl.table(cellText=co2e_table_data, loc='center',
-                                     cellLoc='center', colWidths=[0.35, 0.65])
+        tbl_co2e = ax_co2e_tbl.table(cellText=co2e_table_data, loc='upper center',
+                                     cellLoc='center', colWidths=[0.35, 0.65],
+                                     bbox=_uniform_row_bbox(len(co2e_table_data), 13))
         tbl_co2e.auto_set_font_size(False)
         tbl_co2e.set_fontsize(8)
         for j in range(2):
@@ -575,8 +626,7 @@ class TenantPredictionPDFExporter:
         ax_co2e_pie.set_title(self.name + ' ' + _('Ton of Carbon Dioxide Emissions(TCO2E) by Prediction'),
                               fontsize=8, weight='bold')
 
-        pdf.savefig(fig)
-        plt.close()
+        self._save_body_page(pdf, fig)
 
     def _create_detailed_data_page(self, pdf: PdfPages):
         """Create detailed data table pages matching Excel full data table."""
@@ -609,9 +659,40 @@ class TenantPredictionPDFExporter:
 
                 fig = plt.figure(figsize=self.page_size)
                 fig.suptitle(self.name + ' ' + _('Detailed Data'),
-                             fontsize=16, weight='bold', y=0.98)
+                             fontsize=16, weight='bold', y=0.94)
 
-                ax_table = fig.add_axes([0.06, 0.06, 0.88, 0.84])
+                gs = gridspec.GridSpec(2, 1, height_ratios=[1, 1],
+                                       hspace=0.55,
+                                       top=0.88, bottom=0.04, left=0.05, right=0.96)
+
+                # ---- top half: detailed data line charts (all categories) ----
+                n_charts = len(names)
+                if n_charts > 0:
+                    if n_charts <= 3:
+                        ct_rows, ct_cols = 1, n_charts
+                    else:
+                        ct_rows, ct_cols = 2, (n_charts + 1) // 2
+                    gs_charts = gs[0].subgridspec(ct_rows, ct_cols,
+                                                  hspace=0.60, wspace=0.25)
+                    for i in range(n_charts):
+                        ax_chart = fig.add_subplot(gs_charts[i // ct_cols, i % ct_cols])
+                        cdata = values[i] if i < len(values) else []
+                        ccolor = self.colors['chart_colors'][i % len(self.colors['chart_colors'])]
+                        ax_chart.plot(range(len(cdata)), cdata, linewidth=1.0,
+                                      color=ccolor, marker='o', markersize=2,
+                                      markevery=max(1, len(cdata) // 30))
+                        cstep = max(1, len(cdata) // 8)
+                        ax_chart.set_xticks(range(0, len(cdata), cstep))
+                        ax_chart.set_xticklabels(
+                            [times[t][:10] if t < len(times) else ''
+                             for t in range(0, len(cdata), cstep)],
+                            rotation=45, ha='right', fontsize=6)
+                        ax_chart.set_title(_('Reporting Period Consumption') + ' - ' + names[i] + ' (' + units[i] + ')',
+                                           fontsize=7, weight='bold')
+                        ax_chart.grid(True, alpha=0.3)
+
+                # ---- bottom half: detailed data table ----
+                ax_table = fig.add_subplot(gs[1])
                 ax_table.axis('off')
 
                 col_headers = [_('Datetime')]
@@ -633,8 +714,9 @@ class TenantPredictionPDFExporter:
 
                 num_cols = len(col_headers)
                 col_widths = [0.12] + [0.88 / ca_len] * ca_len
-                table = ax_table.table(cellText=table_data, loc='center',
-                                       cellLoc='center', colWidths=col_widths, bbox=[0, 0, 1, 1])
+                table = ax_table.table(cellText=table_data, loc='upper center',
+                                       cellLoc='center', colWidths=col_widths,
+                                       bbox=_uniform_row_bbox(len(table_data), rows_per_page + 2))
                 table.auto_set_font_size(False)
                 table.set_fontsize(7)
 
@@ -647,8 +729,7 @@ class TenantPredictionPDFExporter:
                     table[last_row, j].set_text_props(weight='bold')
                 _style_table_borders(table, len(table_data), num_cols)
 
-                pdf.savefig(fig)
-                plt.close()
+                self._save_body_page(pdf, fig)
         else:
             base_period_data = self.report['base_period']
             base_timestamps = base_period_data.get('timestamps', [])
@@ -671,9 +752,49 @@ class TenantPredictionPDFExporter:
 
                 fig = plt.figure(figsize=self.page_size)
                 fig.suptitle(self.name + ' ' + _('Detailed Data'),
-                             fontsize=16, weight='bold', y=0.98)
+                             fontsize=16, weight='bold', y=0.94)
 
-                ax_table = fig.add_axes([0.06, 0.06, 0.88, 0.84])
+                gs = gridspec.GridSpec(2, 1, height_ratios=[1, 1],
+                                       hspace=0.55,
+                                       top=0.88, bottom=0.04, left=0.05, right=0.96)
+
+                # ---- top half: detailed data line charts (reporting vs base) ----
+                n_charts = len(names)
+                if n_charts > 0:
+                    if n_charts <= 3:
+                        ct_rows, ct_cols = 1, n_charts
+                    else:
+                        ct_rows, ct_cols = 2, (n_charts + 1) // 2
+                    gs_charts = gs[0].subgridspec(ct_rows, ct_cols,
+                                                  hspace=0.60, wspace=0.25)
+                    for i in range(n_charts):
+                        ax_chart = fig.add_subplot(gs_charts[i // ct_cols, i % ct_cols])
+                        cdata = values[i] if i < len(values) else []
+                        ccolor = self.colors['chart_colors'][i % len(self.colors['chart_colors'])]
+                        ax_chart.plot(range(len(cdata)), cdata, linewidth=1.0,
+                                      color=ccolor, marker='o', markersize=2,
+                                      markevery=max(1, len(cdata) // 30),
+                                      label=_('Reporting Period') + ' - ' + names[i])
+                        if i < len(base_values):
+                            b_data = base_values[i]
+                            ax_chart.plot(range(len(cdata)), b_data[:len(cdata)],
+                                          linewidth=1.0, color=ccolor, linestyle='--',
+                                          marker='s', markersize=2,
+                                          markevery=max(1, len(cdata) // 30),
+                                          label=_('Base Period') + ' - ' + base_names[i])
+                        cstep = max(1, len(cdata) // 8)
+                        ax_chart.set_xticks(range(0, len(cdata), cstep))
+                        ax_chart.set_xticklabels(
+                            [reporting_times[t][:10] if t < len(reporting_times) else ''
+                             for t in range(0, len(cdata), cstep)],
+                            rotation=45, ha='right', fontsize=6)
+                        ax_chart.set_title(_('Base Period Consumption') + ' / ' + _('Reporting Period Consumption') + ' - ' + names[i] + ' (' + units[i] + ')',
+                                           fontsize=7, weight='bold')
+                        ax_chart.legend(fontsize=6)
+                        ax_chart.grid(True, alpha=0.3)
+
+                # ---- bottom half: wide detailed data table ----
+                ax_table = fig.add_subplot(gs[1])
                 ax_table.axis('off')
 
                 col_headers = [_('Base Period') + ' - ' + _('Datetime')]
@@ -710,8 +831,9 @@ class TenantPredictionPDFExporter:
 
                 num_cols = len(col_headers)
                 col_widths = [1.0 / num_cols] * num_cols
-                table = ax_table.table(cellText=table_data, loc='center',
-                                       cellLoc='center', colWidths=col_widths, bbox=[0, 0, 1, 1])
+                table = ax_table.table(cellText=table_data, loc='upper center',
+                                       cellLoc='center', colWidths=col_widths,
+                                       bbox=_uniform_row_bbox(len(table_data), rows_per_page + 2))
                 table.auto_set_font_size(False)
                 table.set_fontsize(6)
 
@@ -724,8 +846,7 @@ class TenantPredictionPDFExporter:
                     table[last_row, j].set_text_props(weight='bold')
                 _style_table_borders(table, len(table_data), num_cols)
 
-                pdf.savefig(fig)
-                plt.close()
+                self._save_body_page(pdf, fig)
 
     def _create_detailed_data_charts(self, pdf: PdfPages):
         """Create separate line charts for each energy category."""
@@ -755,7 +876,7 @@ class TenantPredictionPDFExporter:
 
                 fig = plt.figure(figsize=self.page_size)
                 fig.suptitle(self.name + ' ' + _('Detailed Data'),
-                             fontsize=16, weight='bold', y=0.98)
+                             fontsize=16, weight='bold', y=0.94)
 
                 if n == 1:
                     gs = gridspec.GridSpec(1, 1)
@@ -787,8 +908,7 @@ class TenantPredictionPDFExporter:
                                        fontsize=9, weight='bold')
                     ax_chart.grid(True, alpha=0.3)
 
-                pdf.savefig(fig)
-                plt.close()
+                self._save_body_page(pdf, fig)
         else:
             base_period_data = self.report['base_period']
             base_timestamps = base_period_data.get('timestamps', [])
@@ -805,7 +925,7 @@ class TenantPredictionPDFExporter:
 
                 fig = plt.figure(figsize=self.page_size)
                 fig.suptitle(self.name + ' ' + _('Detailed Data'),
-                             fontsize=16, weight='bold', y=0.98)
+                             fontsize=16, weight='bold', y=0.94)
 
                 if n == 1:
                     gs = gridspec.GridSpec(1, 1)
@@ -850,8 +970,7 @@ class TenantPredictionPDFExporter:
                     ax_chart.legend(fontsize=7)
                     ax_chart.grid(True, alpha=0.3)
 
-                pdf.savefig(fig)
-                plt.close()
+                self._save_body_page(pdf, fig)
 
     def _create_parameters_page(self, pdf: PdfPages):
         """Create parameters pages: batch 4 parameters per page with compact table + chart."""
@@ -893,10 +1012,10 @@ class TenantPredictionPDFExporter:
             fig = plt.figure(figsize=self.page_size)
             fig.suptitle(self.name + ' ' + _('Parameters') +
                          ' (' + str(batch_start + 1) + '-' + str(batch_end) + ')',
-                         fontsize=16, weight='bold', y=0.98)
+                         fontsize=16, weight='bold', y=0.94)
 
-            gs = gridspec.GridSpec(len(valid_params), 2, width_ratios=[0.35, 0.65],
-                                   hspace=0.50)
+            gs = gridspec.GridSpec(batch_size, 2, width_ratios=[0.35, 0.65],
+                                   hspace=0.50, top=0.90, bottom=0.05, left=0.04, right=0.96)
 
             for idx, pi in enumerate(valid_params):
                 name = param_names[pi]
@@ -921,7 +1040,8 @@ class TenantPredictionPDFExporter:
                 for j in range(tbl_rows):
                     tbl_data.append([times[j], safe_data[j]])
                 tbl = ax_tbl.table(cellText=tbl_data, loc='upper center',
-                                   cellLoc='center', colWidths=[0.5, 0.5], bbox=[0, 0, 1, 1])
+                                   cellLoc='center', colWidths=[0.5, 0.5],
+                                   bbox=_uniform_row_bbox(len(tbl_data), rows_per_param + 1))
                 tbl.auto_set_font_size(False)
                 tbl.set_fontsize(6)
                 tbl[0, 0].set_facecolor('#90EE90')
@@ -946,8 +1066,7 @@ class TenantPredictionPDFExporter:
                 ax_chart.set_title(name, fontsize=9, weight='bold')
                 ax_chart.grid(True, alpha=0.3)
 
-            pdf.savefig(fig)
-            plt.close()
+            self._save_body_page(pdf, fig)
 
     @staticmethod
     def _filter_valid_data(data):

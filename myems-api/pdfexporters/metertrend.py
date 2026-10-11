@@ -37,6 +37,7 @@ import matplotlib.pyplot as plt
 from matplotlib.backends.backend_pdf import PdfPages
 
 import matplotlib.gridspec as gridspec
+from matplotlib.lines import Line2D
 
 
 from core.utilities import get_translation, round2
@@ -141,7 +142,7 @@ class MeterTrendPDFExporter:
         self._ = self.trans.gettext
 
         # Page settings
-        self.page_size = (11.69, 8.27)  # A4 landscape
+        self.page_size = (8.27, 11.69)  # A4 portrait
         self.dpi = 80
 
         # Color scheme (matching Excel style)
@@ -222,6 +223,13 @@ class MeterTrendPDFExporter:
         self.energy_category_name = meter.get('energy_category_name', '')
         self.unit_of_measure = meter.get('unit_of_measure', '')
 
+        # Header/footer setup for body pages (cover page is excluded)
+        _ = self._
+        self.header_title = (f"{_('Meter Data')} - {_('Meter Trend')}"
+                             f"  |  {name}")
+        # Body page counter; cover page is not counted, body starts at 1
+        self.current_page_number = 0
+
         # Generate PDF
         with PdfPages(filename) as pdf:
             # Cover page
@@ -237,6 +245,31 @@ class MeterTrendPDFExporter:
 
         logger.info(f"PDF generated: {filename}")
         return filename
+
+    def _draw_header_footer(self, fig):
+        """Draw the standard MyEMS header (centered title + grey separator) and
+        footer (centered current page number) on a body page figure.
+        The cover page must NOT call this method.
+        """
+        # Header: centered title near top edge
+        fig.text(0.5, 0.97, self.header_title,
+                 fontsize=9, ha='center', va='center')
+        # Header separator line (light grey), just below header text
+        sep = Line2D([0.05, 0.95], [0.955, 0.955],
+                     transform=fig.transFigure, color='#999999', lw=0.8)
+        fig.add_artist(sep)
+        # Footer: centered current page number near bottom edge
+        fig.text(0.5, 0.02, str(self.current_page_number),
+                 fontsize=9, ha='center', va='center')
+
+    def _save_body_page(self, pdf, fig):
+        """Unified exit for every non-cover page: bump the page counter, draw
+        header/footer, then save and close the figure.
+        """
+        self.current_page_number += 1
+        self._draw_header_footer(fig)
+        pdf.savefig(fig)
+        plt.close(fig)
 
     def _create_cover_page(self, pdf: PdfPages, name: str,
                            reporting_start: str, reporting_end: str):
@@ -358,7 +391,7 @@ class MeterTrendPDFExporter:
 
             fig = plt.figure(figsize=self.page_size)
             fig.suptitle(self.name + ' ' + _('Trend'),
-                         fontsize=16, weight='bold', y=0.98)
+                         fontsize=16, weight='bold', y=0.94)
 
             # Fixed axes instead of GridSpec: the table is pinned to its box via
             # bbox so that all rows stay inside the page.
@@ -414,8 +447,7 @@ class MeterTrendPDFExporter:
             ax_chart.legend(fontsize=6, loc='best', ncol=legend_ncol, framealpha=0.6)
             ax_chart.grid(True, alpha=0.3)
 
-            pdf.savefig(fig)
-            plt.close()
+            self._save_body_page(pdf, fig)
 
     def _create_parameters_pages(self, pdf: PdfPages):
         """Create parameters pages: batch 4 parameters per page with compact table and chart."""
@@ -459,10 +491,11 @@ class MeterTrendPDFExporter:
 
             fig = plt.figure(figsize=self.page_size)
             fig.suptitle(self.name + ' ' + _('Parameters'),
-                         fontsize=16, weight='bold', y=0.98)
+                         fontsize=16, weight='bold', y=0.94)
 
-            gs = gridspec.GridSpec(len(valid_params), 2, width_ratios=[0.35, 0.65],
-                                   hspace=0.50)
+            gs = gridspec.GridSpec(batch_size, 2, width_ratios=[0.35, 0.65],
+                                   hspace=0.50, top=0.90, bottom=0.05,
+                                   left=0.04, right=0.96)
 
             for idx, pi in enumerate(valid_params):
                 param_name = param_names[pi]
@@ -505,8 +538,7 @@ class MeterTrendPDFExporter:
                                    fontsize=9, weight='bold')
                 ax_chart.grid(True, alpha=0.3)
 
-            pdf.savefig(fig)
-            plt.close()
+            self._save_body_page(pdf, fig)
 
 
 # Convenience function keeping the same interface as the Excel exporter

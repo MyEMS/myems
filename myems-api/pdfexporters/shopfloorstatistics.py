@@ -27,6 +27,7 @@ import matplotlib.pyplot as plt
 from matplotlib.backends.backend_pdf import PdfPages
 
 import matplotlib.gridspec as gridspec
+from matplotlib.lines import Line2D
 
 
 from core.utilities import get_translation, round2
@@ -106,8 +107,8 @@ class ShopfloorStatisticsPDFExporter:
         self.trans = get_translation(language)
         self._ = self.trans.gettext
 
-        # Page settings - A4 landscape
-        self.page_size = (11.69, 8.27)
+        # Page settings - A4 portrait
+        self.page_size = (8.27, 11.69)  # A4 portrait
         self.dpi = 80
 
         # Color scheme
@@ -199,6 +200,13 @@ class ShopfloorStatisticsPDFExporter:
 
         self.is_base_period_exists = self._is_base_period_timestamp_exists(report['base_period'])
 
+        # Header/footer setup for body pages (cover page is excluded)
+        _ = self._
+        self.header_title = (f"{_('Shopfloor Data')} - {_('Statistics')}"
+                             f"  |  {self.name}")
+        # Body page counter; cover page is not counted, body starts at 1
+        self.current_page_number = 0
+
         with PdfPages(filename) as pdf:
             # Cover page
             self._create_cover_page(pdf, name, period_type,
@@ -215,13 +223,37 @@ class ShopfloorStatisticsPDFExporter:
             self._create_detailed_data_page(pdf)
 
             # Detailed data charts (one page per energy category)
-            self._create_detailed_data_charts(pdf)
 
             # Parameters (batched)
             self._create_parameters_page(pdf)
 
         logger.info(f"PDF generated: {filename}")
         return filename
+
+    def _draw_header_footer(self, fig):
+        """Draw the standard MyEMS header (centered title + grey separator) and
+        footer (centered current page number) on a body page figure.
+        The cover page must NOT call this method.
+        """
+        # Header: centered title near top edge
+        fig.text(0.5, 0.97, self.header_title,
+                 fontsize=9, ha='center', va='center')
+        # Header separator line (light grey), just below header text
+        sep = Line2D([0.05, 0.95], [0.955, 0.955],
+                     transform=fig.transFigure, color='#999999', lw=0.8)
+        fig.add_artist(sep)
+        # Footer: centered current page number near bottom edge
+        fig.text(0.5, 0.02, str(self.current_page_number),
+                 fontsize=9, ha='center', va='center')
+
+    def _save_body_page(self, pdf, fig):
+        """Unified exit for every non-cover page: bump the page counter, draw
+        header/footer, then save and close the figure.
+        """
+        self.current_page_number += 1
+        self._draw_header_footer(fig)
+        pdf.savefig(fig)
+        plt.close(fig)
 
     def _create_cover_page(self, pdf, name, period_type,
                            reporting_start, reporting_end,
@@ -256,7 +288,7 @@ class ShopfloorStatisticsPDFExporter:
         # Info list
         info_data = [
             [_('Name') + ':', name],
-            [_('Period Type') + ':', period_type],
+            [_('Period Type') + ':', _(period_type)],
             [_('Reporting Start Datetime') + ':', reporting_start],
             [_('Reporting End Datetime') + ':', reporting_end],
         ]
@@ -402,8 +434,7 @@ class ShopfloorStatisticsPDFExporter:
             tbl2[i, 0].set_text_props(weight='bold')
         _style_table_borders(tbl2, len(per_area_table_data), num_cols)
 
-        pdf.savefig(fig)
-        plt.close()
+        self._save_body_page(pdf, fig)
 
     @staticmethod
     def _filter_valid_data(data):
@@ -434,7 +465,7 @@ class ShopfloorStatisticsPDFExporter:
         subtotals = reporting_data.get('subtotals', [])
         ca_len = len(names)
 
-        rows_per_page = 100
+        rows_per_page = 40
 
         if not self.is_base_period_exists:
             times = timestamps[0]
@@ -449,10 +480,42 @@ class ShopfloorStatisticsPDFExporter:
 
                 fig = plt.figure(figsize=self.page_size)
                 fig.suptitle(self.name + ' ' + _('Detailed Data'),
-                             fontsize=16, weight='bold', y=0.98)
+                             fontsize=16, weight='bold', y=0.94)
 
-                gs = gridspec.GridSpec(1, 1)
-                ax_table = fig.add_subplot(gs[0])
+                gs = gridspec.GridSpec(2, 1, height_ratios=[1, 1],
+                                       hspace=0.55,
+                                       top=0.88, bottom=0.04, left=0.05, right=0.96)
+
+                # ---- top half: detailed data line charts (all categories) ----
+                n_charts = len(names)
+                if n_charts > 0:
+                    if n_charts <= 3:
+                        ct_rows, ct_cols = 1, n_charts
+                    else:
+                        ct_rows, ct_cols = 2, (n_charts + 1) // 2
+                    gs_charts = gs[0].subgridspec(ct_rows, ct_cols,
+                                                  hspace=0.60, wspace=0.25)
+                    for i in range(n_charts):
+                        ax_chart = fig.add_subplot(gs_charts[i // ct_cols, i % ct_cols])
+                        raw_data = values[i] if i < len(values) else []
+                        xs, ys = self._filter_valid_data(raw_data)
+                        ccolor = self.colors['chart_colors'][i % len(self.colors['chart_colors'])]
+                        if ys:
+                            ax_chart.plot(xs, ys, linewidth=1.0, color=ccolor,
+                                          marker='o', markersize=2,
+                                          markevery=max(1, len(ys) // 30))
+                        cstep = max(1, len(raw_data) // 8)
+                        ax_chart.set_xticks(range(0, len(raw_data), cstep))
+                        ax_chart.set_xticklabels(
+                            [times[t][:10] if t < len(times) else ''
+                             for t in range(0, len(raw_data), cstep)],
+                            rotation=45, ha='right', fontsize=6)
+                        ax_chart.set_title(_('Reporting Period Consumption') + ' - ' + names[i] + ' (' + units[i] + ')',
+                                           fontsize=7, weight='bold')
+                        ax_chart.grid(True, alpha=0.3)
+
+                # ---- bottom half: detailed data table ----
+                ax_table = fig.add_subplot(gs[1])
                 ax_table.axis('off')
 
                 col_headers = [_('Datetime')]
@@ -488,8 +551,7 @@ class ShopfloorStatisticsPDFExporter:
                     table[last_row, j].set_text_props(weight='bold')
                 _style_table_borders(table, len(table_data), num_cols)
 
-                pdf.savefig(fig)
-                plt.close()
+                self._save_body_page(pdf, fig)
         else:
             base_period_data = self.report['base_period']
             base_timestamps = base_period_data.get('timestamps', [])
@@ -512,10 +574,51 @@ class ShopfloorStatisticsPDFExporter:
 
                 fig = plt.figure(figsize=self.page_size)
                 fig.suptitle(self.name + ' ' + _('Detailed Data'),
-                             fontsize=16, weight='bold', y=0.98)
+                             fontsize=16, weight='bold', y=0.94)
 
-                gs = gridspec.GridSpec(1, 1)
-                ax_table = fig.add_subplot(gs[0])
+                gs = gridspec.GridSpec(2, 1, height_ratios=[1, 1],
+                                       hspace=0.55,
+                                       top=0.88, bottom=0.04, left=0.05, right=0.96)
+
+                # ---- top half: detailed data line charts (reporting vs base) ----
+                n_charts = len(names)
+                if n_charts > 0:
+                    if n_charts <= 3:
+                        ct_rows, ct_cols = 1, n_charts
+                    else:
+                        ct_rows, ct_cols = 2, (n_charts + 1) // 2
+                    gs_charts = gs[0].subgridspec(ct_rows, ct_cols,
+                                                  hspace=0.60, wspace=0.25)
+                    for i in range(n_charts):
+                        ax_chart = fig.add_subplot(gs_charts[i // ct_cols, i % ct_cols])
+                        r_data = values[i] if i < len(values) else []
+                        r_xs, r_ys = self._filter_valid_data(r_data)
+                        ccolor = self.colors['chart_colors'][i % len(self.colors['chart_colors'])]
+                        if r_ys:
+                            ax_chart.plot(r_xs, r_ys, linewidth=1.0, color=ccolor,
+                                          marker='o', markersize=2,
+                                          markevery=max(1, len(r_ys) // 30),
+                                          label=_('Reporting Period') + ' - ' + names[i])
+                        if i < len(base_values):
+                            b_xs, b_ys = self._filter_valid_data(base_values[i])
+                            if b_ys:
+                                ax_chart.plot(b_xs, b_ys, linewidth=1.0, color=ccolor,
+                                              linestyle='--', marker='s', markersize=2,
+                                              markevery=max(1, len(b_ys) // 30),
+                                              label=_('Base Period') + ' - ' + base_names[i])
+                        cstep = max(1, len(r_data) // 8)
+                        ax_chart.set_xticks(range(0, len(r_data), cstep))
+                        ax_chart.set_xticklabels(
+                            [reporting_times[t][:10] if t < len(reporting_times) else ''
+                             for t in range(0, len(r_data), cstep)],
+                            rotation=45, ha='right', fontsize=6)
+                        ax_chart.set_title(_('Base Period Consumption') + ' / ' + _('Reporting Period Consumption') + ' - ' + names[i] + ' (' + units[i] + ')',
+                                           fontsize=7, weight='bold')
+                        ax_chart.legend(fontsize=6)
+                        ax_chart.grid(True, alpha=0.3)
+
+                # ---- bottom half: wide detailed data table ----
+                ax_table = fig.add_subplot(gs[1])
                 ax_table.axis('off')
 
                 col_headers = [_('Base Period') + ' - ' + _('Datetime')]
@@ -566,8 +669,7 @@ class ShopfloorStatisticsPDFExporter:
                     table[last_row, j].set_text_props(weight='bold')
                 _style_table_borders(table, len(table_data), num_cols)
 
-                pdf.savefig(fig)
-                plt.close()
+                self._save_body_page(pdf, fig)
 
 
     def _create_detailed_data_charts(self, pdf: PdfPages):
@@ -598,10 +700,10 @@ class ShopfloorStatisticsPDFExporter:
 
                 fig = plt.figure(figsize=self.page_size)
                 fig.suptitle(self.name + ' ' + _('Detailed Data'),
-                             fontsize=16, weight='bold', y=0.98)
+                             fontsize=16, weight='bold', y=0.94)
 
                 rows = (num_on_page + 1) // 2
-                gs = gridspec.GridSpec(rows, 2, hspace=0.35)
+                gs = gridspec.GridSpec(rows, 2, hspace=0.35, top=0.90, bottom=0.05, left=0.04, right=0.96)
 
                 for slot, i in enumerate(page_indices):
                     ax = fig.add_subplot(gs[slot // 2, slot % 2])
@@ -623,8 +725,7 @@ class ShopfloorStatisticsPDFExporter:
                                  fontsize=9, weight='bold')
                     ax.grid(True, alpha=0.3)
 
-                pdf.savefig(fig)
-                plt.close()
+                self._save_body_page(pdf, fig)
         else:
             base_period_data = self.report['base_period']
             base_values = base_period_data.get('values', [])
@@ -636,10 +737,10 @@ class ShopfloorStatisticsPDFExporter:
 
                 fig = plt.figure(figsize=self.page_size)
                 fig.suptitle(self.name + ' ' + _('Detailed Data'),
-                             fontsize=16, weight='bold', y=0.98)
+                             fontsize=16, weight='bold', y=0.94)
 
                 rows = (num_on_page + 1) // 2
-                gs = gridspec.GridSpec(rows, 2, hspace=0.35)
+                gs = gridspec.GridSpec(rows, 2, hspace=0.35, top=0.90, bottom=0.05, left=0.04, right=0.96)
 
                 for slot, i in enumerate(page_indices):
                     ax = fig.add_subplot(gs[slot // 2, slot % 2])
@@ -678,8 +779,7 @@ class ShopfloorStatisticsPDFExporter:
                     ax.legend(fontsize=7)
                     ax.grid(True, alpha=0.3)
 
-                pdf.savefig(fig)
-                plt.close()
+                self._save_body_page(pdf, fig)
 
     def _create_parameters_page(self, pdf):
         """Create parameters pages: batch 4 parameters per page with compact table + chart."""
@@ -724,10 +824,10 @@ class ShopfloorStatisticsPDFExporter:
             fig = plt.figure(figsize=self.page_size)
             fig.suptitle(self.name + ' ' + _('Parameters') +
                          ' (' + str(batch_start + 1) + '-' + str(batch_end) + ')',
-                         fontsize=16, weight='bold', y=0.98)
+                         fontsize=16, weight='bold', y=0.94)
 
-            gs = gridspec.GridSpec(len(valid_params), 2, width_ratios=[0.35, 0.65],
-                                   hspace=0.50)
+            gs = gridspec.GridSpec(batch_size, 2, width_ratios=[0.35, 0.65],
+                                   hspace=0.50, top=0.90, bottom=0.05, left=0.04, right=0.96)
 
             for idx, pi in enumerate(valid_params):
                 name = param_names[pi]
@@ -780,8 +880,7 @@ class ShopfloorStatisticsPDFExporter:
                 ax_chart.set_title(name, fontsize=9, weight='bold')
                 ax_chart.grid(True, alpha=0.3)
 
-            pdf.savefig(fig)
-            plt.close()
+            self._save_body_page(pdf, fig)
 
     def _is_base_period_timestamp_exists(self, base_period_data):
         """Check if base period timestamp exists."""
