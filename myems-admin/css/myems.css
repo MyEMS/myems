@@ -708,8 +708,11 @@ li span.divider{
  * Left: fixed column + overflow-y so wheel over menu scrolls the menu only.
  * Right: #page-wrapper max-height 100vh + overflow-y so wheel over main scrolls
  *        the right column only (does not depend on #wrapper flex / ng-include).
- * Sticky footer: with flex + margin-top:auto, footer sits at viewport bottom when
- * content is short (all widths; md+ rules below add sidebar + scroll cap).
+ * Sticky footer: #page-wrapper is a column flex container at least one viewport tall.
+ * margin-top:auto must sit on the flex item itself. ng-include keeps the host
+ * div and puts .footer inside it, so the auto margin is on .page-footer.
+ * Short pages pin the version/URL to the viewport bottom; long pages scroll it
+ * with the content (all widths; md+ rules below add sidebar + scroll cap).
  * -------------------------------------------------------------------------- */
 body:has(#page-wrapper.gray-bg) #page-wrapper.gray-bg {
 	display: flex;
@@ -717,13 +720,15 @@ body:has(#page-wrapper.gray-bg) #page-wrapper.gray-bg {
 	min-height: 100vh;
 	box-sizing: border-box;
 }
+body:has(#page-wrapper.gray-bg) #page-wrapper.gray-bg > .page-footer {
+	margin-top: auto;
+	flex-shrink: 0;
+}
 body:has(#page-wrapper.gray-bg) #page-wrapper.gray-bg .footer {
 	position: static;
 	left: auto;
 	right: auto;
 	bottom: auto;
-	margin-top: auto;
-	flex-shrink: 0;
 }
 
 @media (min-width: 768px) {
