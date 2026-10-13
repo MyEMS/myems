@@ -147,8 +147,8 @@ app.controller('ShopfloorController', function (
 		modalInstance.result.then(function(modifiedShopfloor) {
 			modifiedShopfloor.cost_center_id = modifiedShopfloor.cost_center.id;
 			modifiedShopfloor.contact_id = modifiedShopfloor.contact.id;
-			if (angular.isDefined(shopfloor.is_input_counted) == false) {
-				shopfloor.is_input_counted = false;
+			if (angular.isDefined(modifiedShopfloor.is_input_counted) == false) {
+				modifiedShopfloor.is_input_counted = false;
 			}
 			if (angular.isDefined(modifiedShopfloor.is_enabled) == false) {
 				modifiedShopfloor.is_enabled = true;
@@ -329,6 +329,7 @@ app.controller('ModalAddShopfloorCtrl', function ($scope, $uibModalInstance, par
 	$scope.costcenters = params.costcenters;
 	$scope.contacts = params.contacts;
 	$scope.shopfloor = {
+		is_input_counted: false,
 		is_enabled: true
 	};
 	$scope.ok = function () {

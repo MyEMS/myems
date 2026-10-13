@@ -19,6 +19,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - changed pdf exporters in myems-api
 ### Fixed
 - fixed issue of dockerfile in myems-s7
+- fixed footer issue in myems-admin
+- fixed shopfloor issue in myems-admin
 ### Removed
 
 

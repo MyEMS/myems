@@ -14,8 +14,8 @@
         <!-- Main view  -->
         <div ui-view></div>
 
-        <!-- Footer -->
-        <div ng-include="'views/common/footer.html'"></div>
+        <!-- Footer: class is on the flex item (ng-include host), so margin-top:auto can pin it -->
+        <div class="page-footer" ng-include="'views/common/footer.html'"></div>
 
     </div>
     <!-- End page wrapper-->
