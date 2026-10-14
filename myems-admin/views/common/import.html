@@ -15,10 +15,18 @@
                 <p>{{description_more | translate}}</p>
             </div>
         </div>
+        <div ng-if="importTemplate" class="m-b-sm">
+            <p>
+                <strong>{{'SETTING.IMPORT_FORMAT_TEMPLATE' | translate}}</strong>
+                <span class="text-muted" ng-if="importTemplateHint">{{importTemplateHint | translate}}</span>
+                <a ng-click="useImportTemplate()" class="pull-right">{{'SETTING.USE_IMPORT_TEMPLATE' | translate}}</a>
+            </p>
+            <pre class="m-b-none" style="max-height: 240px; overflow: auto;">{{importTemplate}}</pre>
+        </div>
         <form role="form" name="form_import" novalidate class="form-horizontal">
             <div class="form-group">
                 <div class="col-sm-12">
-                    <textarea ng-model="importdata" rows="22" cols="100" name="importdata" class="form-control" required="" placeholder=""></textarea>
+                    <textarea ng-model="importdata" ng-attr-rows="{{importTemplate ? 12 : 22}}" cols="100" name="importdata" class="form-control" required="" placeholder=""></textarea>
                 </div>
             </div>
         </form>

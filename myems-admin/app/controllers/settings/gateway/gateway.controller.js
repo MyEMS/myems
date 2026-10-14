@@ -238,7 +238,12 @@ app.controller('GatewayController', function($scope,
 				params: function() {
 					return {
 						description: 'SETTING.IMPORT_GATEWAY_DESCRIPTION',
-						description_more: 'SETTING.IMPORT_GATEWAY_DESCRIPTION_MORE'
+						description_more: 'SETTING.IMPORT_GATEWAY_DESCRIPTION_MORE',
+						import_template: JSON.stringify({
+							name: "Gateway Name",
+							description: "Gateway description"
+						}, null, 4),
+						import_template_hint: 'SETTING.IMPORT_GATEWAY_FORMAT_HINT'
 					};
 				}
 			}
