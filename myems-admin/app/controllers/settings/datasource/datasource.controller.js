@@ -247,7 +247,35 @@ app.controller('DataSourceController', function(
 				params: function() {
 					return {
 						description: 'SETTING.IMPORT_DATASOURCE_DESCRIPTION',
-						description_more: 'SETTING.IMPORT_DATASOURCE_DESCRIPTION_MORE'
+						description_more: 'SETTING.IMPORT_DATASOURCE_DESCRIPTION_MORE',
+						import_template: JSON.stringify({
+							name: "Data Source Name",
+							gateway: {
+								id: 1
+							},
+							protocol: "modbus-tcp",
+							connection: "{\"host\":\"127.0.0.1\",\"port\":502,\"interval_in_seconds\":60}",
+							description: "Data source description",
+							points: [
+								{
+									name: "Point Name",
+									object_type: "ENERGY_VALUE",
+									units: "kWh",
+									high_limit: 999999,
+									low_limit: 0,
+									higher_limit: null,
+									lower_limit: null,
+									ratio: 1,
+									is_trend: true,
+									is_virtual: false,
+									address: "{\"format\": \"<f\", \"offset\": 0, \"slave_id\": 1, \"byte_swap\": true, \"function_code\": 3, \"number_of_registers\": 2}",
+									description: "Point description",
+									faults: null,
+									definitions: null
+								}
+							]
+						}, null, 4),
+						import_template_hint: 'SETTING.IMPORT_DATASOURCE_FORMAT_HINT'
 					};
 				}
 			}

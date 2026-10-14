@@ -343,8 +343,12 @@
                     DATA_REPAIR_FILE_DESCRIPTION_MORE: 'Bila ada kehilangan data untuk jangka waktu lama karena gangguan jaringan atau bila nilai historis yang salah perlu diperbaiki, Anda dapat menggunakan fungsi perbaikan data. Siapkan data sesuai dengan format templat Excel yang diperlukan oleh sistem dan seret file ke area unggah. Setelah diunggah, klik tombol \'Pulihkan\', dan sistem akan menganalisis file dan menimpa catatan basis data untuk periode yang sesuai. Pastikan untuk mencadangkan data asli sebelum operasi dan pastikan stempel waktu dan ID titik data dalam file akurat.',
                     DOWNLOAD_DATA_REPAIR_TEMPLATE: 'Unduh Templat Perbaikan Data',
 
+                    IMPORT_FORMAT_TEMPLATE: 'Templat format impor',
+                    USE_IMPORT_TEMPLATE: 'Gunakan templat',
+                    IMPORT_GATEWAY_FORMAT_HINT: 'name wajib diisi. description bersifat opsional.',
                     IMPORT_GATEWAY_DESCRIPTION: 'Alat impor batch gateway; membuat atau memperbarui beberapa konfigurasi gateway dengan cepat melalui format JSON.',
                     IMPORT_GATEWAY_DESCRIPTION_MORE: 'Fungsi impor batch memungkinkan Anda menyebarkan beberapa gateway dengan cepat dengan menempelkan data konfigurasi dalam format JSON. Ini sangat efisien selama inisialisasi sistem atau perluasan skala besar. Pastikan data JSON sesuai dengan struktur yang diperlukan oleh sistem (termasuk kolom seperti nama, deskripsi, dll.). Disarankan untuk mengekspor gateway yang ada sebagai templat terlebih dahulu, memodifikasinya, lalu mengimpornya untuk memastikan keakuratan format.',
+                    IMPORT_DATASOURCE_FORMAT_HINT: 'name, gateway.id, protocol, dan connection wajib diisi. description bersifat opsional. points wajib diisi dan boleh null.',
                     IMPORT_DATASOURCE_DESCRIPTION: 'Alat impor batch sumber data; membuat atau memperbarui beberapa konfigurasi sumber data dengan cepat melalui format JSON.',
                     IMPORT_DATASOURCE_DESCRIPTION_MORE: 'Fungsi impor batch sumber data memungkinkan Anda mengonfigurasi beberapa tautan pengumpulan dengan cepat melalui format JSON. Anda perlu menentukan nama, gateway, protokol, dan string koneksi untuk setiap sumber data. Disarankan untuk mengekspor sumber data yang ada sebagai templat terlebih dahulu, memodifikasinya, lalu mengimpornya untuk memastikan keakuratan format.',
                     IMPORT_POINT_DESCRIPTION: 'Alat impor batch titik data; membuat atau memperbarui beberapa konfigurasi titik data dengan cepat melalui format JSON.',

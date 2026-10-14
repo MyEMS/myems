@@ -334,8 +334,12 @@
                     DATA_REPAIR_FILE_DESCRIPTION_MORE: '네트워크 중단으로 인해 장기간 데이터 손실이 발생하거나 잘못된 기록 값을 수정해야 하는 경우 데이터 복구 기능을 사용할 수 있습니다. 시스템에서 요구하는 Excel 템플릿 형식에 따라 데이터를 준비하고 파일을 업로드 영역으로 드래그하십시오. 업로드 후 \'복구\' 버튼을 클릭하면 시스템이 파일을 분석하고 해당 기간의 데이터베이스 기록을 덮어씁니다. 작업 전에 원본 데이터를 백업하고 파일의 타임스탬프와 데이터 포인트 ID가 정확한지 확인하십시오.',
                     DOWNLOAD_DATA_REPAIR_TEMPLATE: '데이터 복구 템플릿 다운로드',
 
+                    IMPORT_FORMAT_TEMPLATE: '가져오기 형식 템플릿',
+                    USE_IMPORT_TEMPLATE: '템플릿 사용',
+                    IMPORT_GATEWAY_FORMAT_HINT: 'name은 필수입니다. description은 선택 사항입니다.',
                     IMPORT_GATEWAY_DESCRIPTION: '게이트웨이 일괄 가져오기 도구; JSON 형식을 통해 여러 게이트웨이 구성을 신속하게 생성하거나 업데이트합니다.',
                     IMPORT_GATEWAY_DESCRIPTION_MORE: '일괄 가져오기 기능을 사용하면 JSON 형식의 구성 데이터를 붙여넣어 여러 게이트웨이를 신속하게 배포할 수 있습니다. 이는 시스템 초기화 또는 대규모 확장 시 매우 효율적입니다. JSON 데이터가 시스템에서 요구하는 구조(이름, 설명 등의 필드 포함)를 준수하는지 확인하십시오. 형식의 정확성을 보장하기 위해 먼저 기존 게이트웨이를 템플릿으로 내보내고 수정한 다음 가져오는 것이 좋습니다.',
+                    IMPORT_DATASOURCE_FORMAT_HINT: 'name, gateway.id, protocol, connection은 필수입니다. description은 선택 사항입니다. points는 필수이며 null일 수 있습니다.',
                     IMPORT_DATASOURCE_DESCRIPTION: '데이터 소스 일괄 가져오기 도구; JSON 형식을 통해 여러 데이터 소스 구성을 신속하게 생성하거나 업데이트합니다.',
                     IMPORT_DATASOURCE_DESCRIPTION_MORE: '데이터 소스 일괄 가져오기 기능을 사용하면 JSON 형식을 통해 여러 수집 링크를 신속하게 구성할 수 있습니다. 각 데이터 소스에 대해 이름, 게이트웨이, 프로토콜 및 연결 문자열을 지정해야 합니다. 형식의 정확성을 보장하기 위해 먼저 기존 데이터 소스를 템플릿으로 내보내고 수정한 다음 가져오는 것이 좋습니다.',
                     IMPORT_POINT_DESCRIPTION: '데이터 포인트 일괄 가져오기 도구; JSON 형식을 통해 여러 데이터 포인트 구성을 신속하게 생성하거나 업데이트합니다.',
