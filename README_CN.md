@@ -140,6 +140,18 @@ MyEMS开源能源管理系统参考ISO 50001能源管理体系标准(GB/T 23331-
 
 详见 [myems-modbus-tcp](./myems-modbus-tcp/README.md)介绍
 
+### MyEMS Bacnet 数据采集服务
+
+详见 [myems-bacnet](./myems-bacnet/README.md)介绍
+
+### MyEMS Opc-ua 数据采集服务
+
+详见 [myems-opc-ua](./myems-opc-ua/README.md)介绍
+
+### MyEMS S7 数据采集服务
+
+详见 [myems-s7](./myems-s7/README.md)介绍
+
 ### MyEMS 数据清洗服务
 
 详见 [myems-cleaning](./myems-cleaning/README.md)介绍
