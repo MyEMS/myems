@@ -140,6 +140,18 @@
 
 См. введение [myems-modbus-tcp](./myems-modbus-tcp/README.md)
 
+### Служба сбора данных MyEMS BACnet
+
+См. введение [myems-bacnet](./myems-bacnet/README.md)
+
+### Служба сбора данных MyEMS OPC UA
+
+См. введение [myems-opc-ua](./myems-opc-ua/README.md)
+
+### Служба сбора данных MyEMS S7
+
+См. введение [myems-s7](./myems-s7/README.md)
+
 ### Служба очистки данных MyEMS
 
 См. введение [myems-cleaning](./myems-cleaning/README.md)

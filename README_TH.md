@@ -140,6 +140,18 @@
 
 ดูการแนะนำ [myems-modbus-tcp](./myems-modbus-tcp/README.md)
 
+### บริการรวบรวมข้อมูล MyEMS BACnet
+
+ดูการแนะนำ [myems-bacnet](./myems-bacnet/README.md)
+
+### บริการรวบรวมข้อมูล MyEMS OPC UA
+
+ดูการแนะนำ [myems-opc-ua](./myems-opc-ua/README.md)
+
+### บริการรวบรวมข้อมูล MyEMS S7
+
+ดูการแนะนำ [myems-s7](./myems-s7/README.md)
+
 ### บริการทำความสะอาดข้อมูล MyEMS
 
 ดูการแนะนำ [myems-cleaning](./myems-cleaning/README.md)
