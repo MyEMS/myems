@@ -1,4 +1,4 @@
-﻿// Auto-split from i18n.js — language: fa
+// Auto-split from i18n.js — language: fa
 export default {
     translation: {
         // routes & menus
@@ -18,6 +18,8 @@ export default {
         Monitoring: 'پایش تجهیزات',
         'Advanced Reporting': 'گزارش‌گیری پیشرفته',
         'Knowledge Base': 'پایگاه دانش',
+        'Tool': 'ابزارها',
+        'Cable Sizing Tool': 'ابزار انتخاب کابل',
         ABOUT_MYEMS: 'درباره MyEMS',
         ABOUT_INTRO: "MyEMS یک سیستم مدیریت انرژی متن‌باز است که توسط <strong>Hassoft Beijing Co., Ltd.</strong> (<a href='https://hassoft.cn' target='_blank' style='color:#1ab394;'>hassoft.cn</a>) توسعه یافته است.",
         OFFICIAL_SITE: "وب‌سایت رسمی: <a href='https://myems.cn' target='_blank' style='color:#1ab394;'>https://myems.cn</a>",

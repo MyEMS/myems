@@ -18,6 +18,8 @@ export default {
         Monitoring: 'Giám sát',
         'Advanced Reporting': 'Báo cáo nâng cao',
         'Knowledge Base': 'Cơ sở tri thức',
+        'Tool': 'Công cụ',
+        'Cable Sizing Tool': 'Công cụ chọn cáp',
         ABOUT_MYEMS: 'Về MyEMS',
         ABOUT_INTRO: "MyEMS là hệ thống quản lý năng lượng mã nguồn mở được phát triển bởi <strong>Hassoft Beijing Co., Ltd.</strong> (<a href='https://hassoft.cn' target='_blank' style='color:#1ab394;'>hassoft.cn</a>).",
         OFFICIAL_SITE: "Trang Chính Thức: <a href='https://myems.cn' target='_blank' style='color:#1ab394;'>https://myems.cn</a>",

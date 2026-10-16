@@ -1,4 +1,4 @@
-﻿// Auto-split from i18n.js — language: id
+// Auto-split from i18n.js — language: id
 export default {
     translation: {
         // routes & menus
@@ -18,6 +18,8 @@ export default {
         Monitoring: 'Monitor Peralatan',
         'Advanced Reporting': 'Laporan Lanjutan',
         'Knowledge Base': 'Dasar Pengetahuan',
+        'Tool': 'Perkakas',
+        'Cable Sizing Tool': 'Alat Pemilihan Kabel',
         ABOUT_MYEMS: 'Tentang MyEMS',
         ABOUT_INTRO: "MyEMS adalah sistem manajemen energi sumber terbuka yang dikembangkan oleh <strong>Hassoft Beijing Co., Ltd.</strong> (<a href='https://hassoft.cn' target='_blank' style='color:#1ab394;'>hassoft.cn</a>).",
         OFFICIAL_SITE: "Situs Resmi: <a href='https://myems.cn' target='_blank' style='color:#1ab394;'>https://myems.cn</a>",

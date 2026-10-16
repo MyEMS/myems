@@ -18,6 +18,8 @@ export default {
         Monitoring: 'Контроль',
         'Advanced Reporting': 'Расширенная отчетность',
         'Knowledge Base': 'База знаний',
+        'Tool': 'Инструменты',
+        'Cable Sizing Tool': 'Инструмент выбора кабелей',
         ABOUT_MYEMS: 'О MyEMS',
         ABOUT_INTRO: "MyEMS — это система управления энергией с открытым исходным кодом, разработанная <strong>Hassoft Beijing Co., Ltd.</strong> (<a href='https://hassoft.cn' target='_blank' style='color:#1ab394;'>hassoft.cn</a>).",
         OFFICIAL_SITE: "Официальный сайт: <a href='https://myems.cn' target='_blank' style='color:#1ab394;'>https://myems.cn</a>",

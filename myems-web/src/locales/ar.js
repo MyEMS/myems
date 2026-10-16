@@ -1,4 +1,4 @@
-﻿// Auto-split from i18n.js — language: ar
+// Auto-split from i18n.js — language: ar
 export default {
     translation: {
         // routes & menus
@@ -18,6 +18,8 @@ export default {
         Monitoring: 'رصد',
         'Advanced Reporting': 'التقارير المتقدمة',
         'Knowledge Base': 'معارف',
+        'Tool': 'أدوات',
+        'Cable Sizing Tool': 'أداة اختيار الكابلات',
         ABOUT_MYEMS: 'حول MyEMS',
         ABOUT_INTRO: "MyEMS هو نظام مفتوح المصدر لإدارة الطاقة طورته <strong>Hassoft Beijing Co., Ltd.</strong> (<a href='https://hassoft.cn' target='_blank' style='color:#1ab394;'>hassoft.cn</a>).",
         OFFICIAL_SITE: "الموقع الرسمي: <a href='https://myems.cn' target='_blank' style='color:#1ab394;'>https://myems.cn</a>",

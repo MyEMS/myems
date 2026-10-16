@@ -1,4 +1,4 @@
-﻿// Auto-split from i18n.js — language: it
+// Auto-split from i18n.js — language: it
 export default {
     translation: {
 // routes & menus
@@ -18,6 +18,8 @@ export default {
         Monitoring: 'Monitoraggio',
         'Advanced Reporting': 'Report Avanzati',
         'Knowledge Base': 'Base di Conoscenza',
+        'Tool': 'Strumenti',
+        'Cable Sizing Tool': 'Strumento di scelta dei cavi',
         ABOUT_MYEMS: 'Informazioni su MyEMS',
         ABOUT_INTRO: "MyEMS è un sistema di gestione energetica open source sviluppato da <strong>Hassoft Beijing Co., Ltd.</strong> (<a href='https://hassoft.cn' target='_blank' style='color:#1ab394;'>hassoft.cn</a>).",
         OFFICIAL_SITE: "Sito Ufficiale: <a href='https://myems.cn' target='_blank' style='color:#1ab394;'>https://myems.cn</a>",

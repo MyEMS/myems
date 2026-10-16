@@ -1,4 +1,4 @@
-﻿// Auto-split from i18n.js — language: nl
+// Auto-split from i18n.js — language: nl
 export default {
     translation: {
         // routes & menus
@@ -18,6 +18,8 @@ export default {
         Monitoring: 'Apparatuurmonitoring',
         'Advanced Reporting': 'Geavanceerde rapportage',
         'Knowledge Base': 'Kennisbank',
+        'Tool': 'Hulpmiddelen',
+        'Cable Sizing Tool': 'Kabelkeuzetool',
         ABOUT_MYEMS: 'Over MyEMS',
         ABOUT_INTRO: "MyEMS is een open-source energiebeheersysteem ontwikkeld door <strong>Hassoft Beijing Co., Ltd.</strong> (<a href='https://hassoft.cn' target='_blank' style='color:#1ab394;'>hassoft.cn</a>).",
         OFFICIAL_SITE: "Officiële Site: <a href='https://myems.cn' target='_blank' style='color:#1ab394;'>https://myems.cn</a>",

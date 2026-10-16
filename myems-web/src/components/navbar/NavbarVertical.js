@@ -67,7 +67,9 @@ const NavbarVertical = ({ setRedirectUrl, setRedirect, navbarStyle, t }) => {
     HTMLClassList.add('navbar-vertical-collapsed');
   }
 
-  const [showRoutes, setShowRoutes] = useState([routes[0]]);
+  // Dashboard (routes[0]) is always visible; add menus flagged as alwaysVisible
+  // (e.g. Tool) so they show even before/independently of the /menus/web result.
+  const [showRoutes, setShowRoutes] = useState(() => [routes[0], ...routes.filter(route => route.alwaysVisible === true)]);
 
   useEffect(() => {
     if (navigator.userAgent.includes('Windows')) {
@@ -122,6 +124,13 @@ const NavbarVertical = ({ setRedirectUrl, setRedirect, navbarStyle, t }) => {
           let showRoutes = [routes[0]];
           for (let i = 0; i < routes.length; i++) {
             let route = routes[i];
+            // alwaysVisible menus (e.g. Tool) bypass the tbl_menus filtering
+            if (route.alwaysVisible === true) {
+              if (showRoutes.indexOf(route) === -1) {
+                showRoutes.push(route);
+              }
+              continue;
+            }
             if (route.to in json && 'children' in route) {
               let showChildren = [];
               for (let j = 0; j < route.children.length; j++) {

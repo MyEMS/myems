@@ -1,4 +1,4 @@
-﻿// Auto-split from i18n.js — language: ko_KR
+// Auto-split from i18n.js — language: ko_KR
 export default {
     translation: {
         // routes & menus
@@ -18,6 +18,8 @@ export default {
         Monitoring: '장비 모니터링',
         'Advanced Reporting': '고급 보고서',
         'Knowledge Base': '지식 베이스',
+        'Tool': '도구',
+        'Cable Sizing Tool': '케이블 선정 도구',
         ABOUT_MYEMS: 'MyEMS 소개',
         ABOUT_INTRO: "MyEMS는 <strong>Hassoft Beijing Co., Ltd.</strong>(<a href='https://hassoft.cn' target='_blank' style='color:#1ab394;'>hassoft.cn</a>)에서 개발한 오픈 소스 에너지 관리 시스템입니다.",
         OFFICIAL_SITE: "공식 사이트: <a href='https://myems.cn' target='_blank' style='color:#1ab394;'>https://myems.cn</a>",
