@@ -140,6 +140,18 @@ Lihat pengenalan [myems-admin](myems-admin/README.md)
 
 Lihat pengenalan [myems-modbus-tcp](./myems-modbus-tcp/README.md)
 
+### Perkhidmatan pemerolehan data MyEMS BACnet
+
+Lihat pengenalan [myems-bacnet](./myems-bacnet/README.md)
+
+### Perkhidmatan pemerolehan data MyEMS OPC UA
+
+Lihat pengenalan [myems-opc-ua](./myems-opc-ua/README.md)
+
+### Perkhidmatan pemerolehan data MyEMS S7
+
+Lihat pengenalan [myems-s7](./myems-s7/README.md)
+
 ### Perkhidmatan pembersihan data MyEMS
 
 Lihat pengenalan [myems-cleaning](./myems-cleaning/README.md)

@@ -140,6 +140,18 @@ Lihat pengantar [myems-admin](myems-admin/README.md)
 
 Lihat pengantar [myems-modbus-tcp](./myems-modbus-tcp/README.md)
 
+### Layanan akuisisi data MyEMS BACnet
+
+Lihat pengantar [myems-bacnet](./myems-bacnet/README.md)
+
+### Layanan akuisisi data MyEMS OPC UA
+
+Lihat pengantar [myems-opc-ua](./myems-opc-ua/README.md)
+
+### Layanan akuisisi data MyEMS S7
+
+Lihat pengantar [myems-s7](./myems-s7/README.md)
+
 ### Layanan pembersihan data MyEMS
 
 Lihat pengantar [myems-cleaning](./myems-cleaning/README.md)
