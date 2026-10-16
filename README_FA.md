@@ -140,6 +140,18 @@
 
 جهت مشاهده توضیحات به [myems-modbus-tcp](./myems-modbus-tcp/README.md) مراجعه نمایید
 
+### سرویس جمع آوری داده MyEMS BACnet
+
+جهت مشاهده توضیحات به [myems-bacnet](./myems-bacnet/README.md) مراجعه نمایید
+
+### سرویس جمع آوری داده MyEMS OPC UA
+
+جهت مشاهده توضیحات به [myems-opc-ua](./myems-opc-ua/README.md) مراجعه نمایید
+
+### سرویس جمع آوری داده MyEMS S7
+
+جهت مشاهده توضیحات به [myems-s7](./myems-s7/README.md) مراجعه نمایید
+
 ### سرویس پالایش داده MyEMS
 
 جهت مشاهده توضیحات به [myems-cleaning](./myems-cleaning/README.md) مراجعه نمایید

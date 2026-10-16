@@ -141,6 +141,18 @@
 
 परिचय देखें [myems-modbus-tcp](./myems-modbus-tcp/README.md)
 
+### MyEMS BACnet डेटा अधिग्रहण सेवा
+
+परिचय देखें [myems-bacnet](./myems-bacnet/README.md)
+
+### MyEMS OPC UA डेटा अधिग्रहण सेवा
+
+परिचय देखें [myems-opc-ua](./myems-opc-ua/README.md)
+
+### MyEMS S7 डेटा अधिग्रहण सेवा
+
+परिचय देखें [myems-s7](./myems-s7/README.md)
+
 ### MyEMS डेटा सफाई सेवा
 
 परिचय देखें [myems-cleaning](./myems-cleaning/README.md)

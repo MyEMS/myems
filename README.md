@@ -145,6 +145,18 @@ See [myems-admin](myems-admin/README.md) Introduction
 
 See [myems-modbus-tcp](./myems-modbus-tcp/README.md) Introduction
 
+### MyEMS BACnet Data Acquisition Service (Python)
+
+See [myems-bacnet](./myems-bacnet/README.md) Introduction
+
+### MyEMS OPC UA Data Acquisition Service (Python)
+
+See [myems-opc-ua](./myems-opc-ua/README.md) Introduction
+
+### MyEMS S7 Data Acquisition Service (Python)
+
+See [myems-s7](./myems-s7/README.md) Introduction
+
 ### MyEMS Cleaning Service (Python)
 
 See [myems-cleaning](./myems-cleaning/README.md) Introduction

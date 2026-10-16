@@ -140,6 +140,18 @@ Vedere l'introduzione in [myems-admin](myems-admin/README.md)
 
 Vedere l'introduzione in [myems-modbus-tcp](./myems-modbus-tcp/README.md)
 
+### Servizio di acquisizione dati MyEMS BACnet
+
+Vedere l'introduzione in [myems-bacnet](./myems-bacnet/README.md)
+
+### Servizio di acquisizione dati MyEMS OPC UA
+
+Vedere l'introduzione in [myems-opc-ua](./myems-opc-ua/README.md)
+
+### Servizio di acquisizione dati MyEMS S7
+
+Vedere l'introduzione in [myems-s7](./myems-s7/README.md)
+
 ### Servizio di pulizia dati MyEMS
 
 Vedere l'introduzione in [myems-cleaning](./myems-cleaning/README.md)

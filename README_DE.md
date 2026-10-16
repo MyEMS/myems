@@ -140,6 +140,18 @@ Sehen [myems-admin](myems-admin/README.md) Einleitung
 
 Sehen [myems-modbus-tcp](./myems-modbus-tcp/README.md) Einleitung
 
+### MyEMS BACnet Datenerfassungsdienst
+
+Sehen [myems-bacnet](./myems-bacnet/README.md) Einleitung
+
+### MyEMS OPC UA Datenerfassungsdienst
+
+Sehen [myems-opc-ua](./myems-opc-ua/README.md) Einleitung
+
+### MyEMS S7 Datenerfassungsdienst
+
+Sehen [myems-s7](./myems-s7/README.md) Einleitung
+
 ### MyEMS Cleaning Service
 
 Sehen [myems-cleaning](./myems-cleaning/README.md) Einleitung

@@ -139,6 +139,18 @@ Zobacz wprowadzenie [myems-admin](myems-admin/README.md)
 
 Zobacz wprowadzenie [myems-modbus-tcp](./myems-modbus-tcp/README.md)
 
+### Usługa akwizycji danych MyEMS BACnet
+
+Zobacz wprowadzenie [myems-bacnet](./myems-bacnet/README.md)
+
+### Usługa akwizycji danych MyEMS OPC UA
+
+Zobacz wprowadzenie [myems-opc-ua](./myems-opc-ua/README.md)
+
+### Usługa akwizycji danych MyEMS S7
+
+Zobacz wprowadzenie [myems-s7](./myems-s7/README.md)
+
 ### Usługa oczyszczania danych MyEMS
 
 Zobacz wprowadzenie [myems-cleaning](./myems-cleaning/README.md)
