@@ -441,7 +441,27 @@ app.controller('MeterController', function($scope,
 				params: function() {
 					return {
 						description: 'SETTING.IMPORT_METER_DESCRIPTION',
-						description_more: 'SETTING.IMPORT_METER_DESCRIPTION_MORE'
+						description_more: 'SETTING.IMPORT_METER_DESCRIPTION_MORE',
+						import_template: JSON.stringify({
+							name: "Meter Name",
+							energy_category: {
+								id: 1
+							},
+							is_counted: true,
+							is_enabled: true,
+							hourly_low_limit: 0,
+							hourly_high_limit: 999999,
+							cost_center: {
+								id: 1
+							},
+							energy_item: {
+								id: 1
+							},
+							master_meter: null,
+							description: "Meter description",
+							points: []
+						}, null, 4),
+						import_template_hint: 'SETTING.IMPORT_METER_FORMAT_HINT'
 					};
 				}
 			}

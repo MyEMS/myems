@@ -238,6 +238,18 @@ app.controller('RuleController', function(
 			resolve: {
 				params: function() {
 					return {
+						import_template: JSON.stringify({
+							name: "Rule Name",
+							category: "METER",
+							fdd_code: "FDD_CODE",
+							priority: "HIGH",
+							channel: "WEB",
+							expression: "{\"condition\":\"value > 0\"}",
+							message_template: "Rule message",
+							is_enabled: true,
+							is_run_immediately: true
+						}, null, 4),
+						import_template_hint: 'SETTING.IMPORT_RULE_FORMAT_HINT'
 					};
 				}
 			}

@@ -229,7 +229,24 @@ app.controller('EmissionFactorController', function(
 				params: function() {
 					return {
 						description: 'SETTING.IMPORT_EMISSION_FACTOR_DESCRIPTION',
-						description_more: 'SETTING.IMPORT_EMISSION_FACTOR_DESCRIPTION_MORE'
+						description_more: 'SETTING.IMPORT_EMISSION_FACTOR_DESCRIPTION_MORE',
+						import_template: JSON.stringify({
+							name: "Emission Factor Name",
+							energy_category: {
+								id: 1
+							},
+							unit_of_factor: "kgCO2/kWh",
+							valid_from: "2026-01-01T00:00:00",
+							valid_through: "2026-12-31T23:59:59",
+							timeofuse: [
+								{
+									start_time_of_day: "00:00:00",
+									end_time_of_day: "23:59:59",
+									factor: 0.5
+								}
+							]
+						}, null, 4),
+						import_template_hint: 'SETTING.IMPORT_EMISSION_FACTOR_FORMAT_HINT'
 					};
 				}
 			}

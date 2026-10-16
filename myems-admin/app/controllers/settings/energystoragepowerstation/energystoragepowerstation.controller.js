@@ -543,7 +543,42 @@ app.controller(
         windowClass: "animated fadeIn",
         resolve: {
           params: function () {
-            return {};
+            return {
+              import_template: JSON.stringify({
+                name: "Energy Storage Power Station Name",
+                address: "Station address",
+                latitude: 39.9,
+                longitude: 116.4,
+                rated_capacity: 1000,
+                rated_power: 1000,
+                contact: {
+                  id: 1
+                },
+                cost_center: {
+                  id: 1
+                },
+                svg: {
+                  id: 1
+                },
+                is_cost_data_displayed: true,
+                phase_of_lifecycle: "Operating",
+                commissioning_date: "2026-01-01",
+                svg2: {
+                  id: null
+                },
+                svg3: {
+                  id: null
+                },
+                svg4: {
+                  id: null
+                },
+                svg5: {
+                  id: null
+                },
+                description: "Energy storage power station description"
+              }, null, 4),
+              import_template_hint: 'SETTING.IMPORT_ENERGY_STORAGE_POWER_STATION_FORMAT_HINT'
+            };
           },
         },
       });

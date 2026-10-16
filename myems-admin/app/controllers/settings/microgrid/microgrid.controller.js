@@ -292,6 +292,27 @@ app.controller('MicrogridController', function(
 			resolve: {
 				params: function() {
 					return {
+						import_template: JSON.stringify({
+							name: "Microgrid Name",
+							address: "Microgrid address",
+							postal_code: "100000",
+							latitude: 39.9,
+							longitude: 116.4,
+							rated_capacity: 1000,
+							rated_power: 1000,
+							contact: {
+								id: 1
+							},
+							cost_center: {
+								id: 1
+							},
+							serial_number: "SN0001",
+							svg_id: 1,
+							is_cost_data_displayed: true,
+							phase_of_lifecycle: "Operating",
+							description: "Microgrid description"
+						}, null, 4),
+						import_template_hint: 'SETTING.IMPORT_MICROGRID_FORMAT_HINT'
 					};
 				}
 			}

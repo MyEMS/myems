@@ -213,6 +213,18 @@ app.controller('ControlModeController', function(
 			resolve: {
 				params: function() {
 					return {
+						import_template: JSON.stringify({
+							name: "Control Mode Name",
+							is_active: true,
+							times: [
+								{
+									start_time_of_day: "00:00:00",
+									end_time_of_day: "08:00:00",
+									power_value: 0
+								}
+							]
+						}, null, 4),
+						import_template_hint: 'SETTING.IMPORT_CONTROL_MODE_FORMAT_HINT'
 					};
 				}
 			}
