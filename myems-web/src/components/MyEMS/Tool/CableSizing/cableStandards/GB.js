@@ -56,7 +56,12 @@ const GB = {
   // Return [{ section, baseAmpacity }] sorted by ascending section.
   getSections(material, insulation, method) {
     const mat = gbData.materials[material] || gbData.materials.copper;
-    const table = (mat.airAmpacity && mat.airAmpacity[insulation]) || mat.airAmpacity.PVC;
+    const airAmpacity = mat.airAmpacity || {};
+    const table = airAmpacity[insulation] || airAmpacity.PVC;
+    if (!table) {
+      console.warn(`No ampacity table found for material=${material}, insulation=${insulation}`);
+      return [];
+    }
     const baseFactor = this._methodConfig(method).baseFactor;
     return gbData.sections_mm2.map((section, i) => ({
       section,

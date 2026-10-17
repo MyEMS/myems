@@ -76,7 +76,7 @@ const CableSizing = ({ setRedirect, setRedirectUrl, t }) => {
     try {
       return selectCable(standard, form);
     } catch (e) {
-      console.log(e);
+      console.error('Cable sizing calculation error:', e);
       return null;
     }
     // eslint-disable-next-line

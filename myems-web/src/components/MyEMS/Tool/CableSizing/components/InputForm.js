@@ -15,7 +15,7 @@ const Field = ({ t, id, label, value, onChange, unit, type = 'number', step, min
         step={step}
         min={min}
         value={value}
-        onChange={e => (type === 'number' ? onChange(e.target.value) : onChange(e.target.value))}
+        onChange={e => onChange(e.target.value)}
       />
       {unit && <InputGroupText>{unit}</InputGroupText>}
     </InputGroup>
