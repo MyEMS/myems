@@ -300,7 +300,7 @@
         IMPORT_VIRTUAL_METER_FORMAT_HINT: "name、energy_category.id、is_counted、is_enabled、cost_center.id、expression 為必填，energy_item.id、description 為可選。",
         IMPORT_SENSOR_FORMAT_HINT: "name 為必填，description、points 為可選。",
         IMPORT_SHOPFLOOR_FORMAT_HINT: "name、area、is_input_counted、is_enabled 為必填，contact、cost_center、description、equipments、commands、meters、offline_meters、virtual_meters、points、sensors、working_calendars 為可選。",
-        IMPORT_SPACE_FORMAT_HINT: "name、area、timezone.id、is_input_counted、is_output_counted 為必填，parent_space_id、contact、cost_center、latitude、longitude、description、commands、meters、offline_meters、virtual_meters、shopfloors、combined_equipments、equipments、points、sensors、tenants、stores、working_calendars 為可選。",
+        IMPORT_SPACE_FORMAT_HINT: "name、area、parent_space_id、timezone.id、is_input_counted、is_output_counted 為必填，contact、cost_center、latitude、longitude、description、commands、meters、offline_meters、virtual_meters、shopfloors、combined_equipments、equipments、points、sensors、tenants、stores、working_calendars 為可選。",
         IMPORT_EQUIPMENT_FORMAT_HINT: "name、is_input_counted、is_output_counted、is_enabled、cost_center.id、efficiency_indicator 為必填，svg.id、camera_url、description 及嵌套陣列（commands、meters、offline_meters、virtual_meters、parameters）為可選。",
         IMPORT_COMBINED_EQUIPMENT_FORMAT_HINT: "name、is_input_counted、is_output_counted、is_enabled、cost_center.id、efficiency_indicator 為必填，svg.id、camera_url、description 及嵌套陣列（equipments、commands、meters、offline_meters、virtual_meters、parameters）為可選。",
         IMPORT_DISTRIBUTION_SYSTEM_FORMAT_HINT: "name、svg.id 為必填，description、circuits 為可選。",

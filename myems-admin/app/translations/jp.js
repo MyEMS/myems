@@ -348,7 +348,7 @@
                     IMPORT_VIRTUAL_METER_FORMAT_HINT: 'name、energy_category.id、is_counted、is_enabled、cost_center.id、expression は必須です。energy_item.id、description は任意です。',
                     IMPORT_SENSOR_FORMAT_HINT: 'name は必須です。description、points は任意です。',
                     IMPORT_SHOPFLOOR_FORMAT_HINT: 'name、area、is_input_counted、is_enabled は必須です。contact、cost_center、description、equipments、commands、meters、offline_meters、virtual_meters、points、sensors、working_calendars は任意です。',
-                    IMPORT_SPACE_FORMAT_HINT: 'name、area、timezone.id、is_input_counted、is_output_counted は必須です。parent_space_id、contact、cost_center、latitude、longitude、description、commands、meters、offline_meters、virtual_meters、shopfloors、combined_equipments、equipments、points、sensors、tenants、stores、working_calendars は任意です。',
+                    IMPORT_SPACE_FORMAT_HINT: 'name、area、parent_space_id、timezone.id、is_input_counted、is_output_counted は必須です。contact、cost_center、latitude、longitude、description、commands、meters、offline_meters、virtual_meters、shopfloors、combined_equipments、equipments、points、sensors、tenants、stores、working_calendars は任意です。',
                     IMPORT_EQUIPMENT_FORMAT_HINT: 'name、is_input_counted、is_output_counted、is_enabled、cost_center.id、efficiency_indicator は必須です。svg.id、camera_url、description、およびネストされた配列（commands、meters、offline_meters、virtual_meters、parameters）は任意です。',
                     IMPORT_COMBINED_EQUIPMENT_FORMAT_HINT: 'name、is_input_counted、is_output_counted、is_enabled、cost_center.id、efficiency_indicator は必須です。svg.id、camera_url、description、およびネストされた配列（equipments、commands、meters、offline_meters、virtual_meters、parameters）は任意です。',
                     IMPORT_DISTRIBUTION_SYSTEM_FORMAT_HINT: 'name、svg.id は必須です。description、circuits は任意です。',
