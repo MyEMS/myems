@@ -60,6 +60,15 @@ const CableSizing = ({ setRedirect, setRedirectUrl, t }) => {
   const setField = (key, value) => {
     setForm(prev => {
       const next = { ...prev, [key]: value };
+      // Clear the mutually exclusive input when switching between power and current mode,
+      // so a stale value from the other mode cannot leak into the calculation.
+      if (key === 'inputMode') {
+        if (value === 'power') {
+          next.designCurrentA = '';
+        } else {
+          next.powerkW = '';
+        }
+      }
       // Keep default voltage in sync when the phase selection changes.
       if (key === 'phaseType') {
         next.voltageV = String(value === 'three' ? standard.defaultVoltageV.three : standard.defaultVoltageV.single);
@@ -74,13 +83,18 @@ const CableSizing = ({ setRedirect, setRedirectUrl, t }) => {
 
   const { result, calcError } = useMemo(() => {
     try {
-      return { result: selectCable(standard, form), calcError: null };
+      const res = selectCable(standard, form);
+      // Guard against silent numeric failures (e.g. division by zero -> NaN).
+      if (!res || isNaN(res.ib) || !res.factors || isNaN(res.factors.total)) {
+        throw new Error(t('Cable sizing calculation failed'));
+      }
+      return { result: res, calcError: null };
     } catch (e) {
       console.error('Cable sizing calculation error:', e);
       return { result: null, calcError: (e && e.message) || t('Cable sizing calculation failed') };
     }
     // eslint-disable-next-line
-  }, [form, standard]);
+  }, [form, standard, t]);
 
   return (
     <div className="wrapper-content">

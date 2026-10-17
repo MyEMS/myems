@@ -62,8 +62,8 @@ const GB = {
     }
     const airAmpacity = mat.airAmpacity;
     const table = airAmpacity[insulation] || airAmpacity.PVC;
-    if (!table) {
-      console.warn(`No ampacity table found for material=${material}, insulation=${insulation}`);
+    if (!table || !Array.isArray(table)) {
+      console.warn(`No valid ampacity table found for material=${material}, insulation=${insulation}`);
       return [];
     }
     const baseFactor = this._methodConfig(method).baseFactor;
