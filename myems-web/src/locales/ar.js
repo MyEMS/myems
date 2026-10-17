@@ -84,6 +84,7 @@ export default {
         'NG': 'NG',
         'Standard Note': 'المعيار',
         'Values are approximate and should be verified against the official standard.': 'القيم تقريبية ويجب التحقق منها وفقًا للمعيار الرسمي.',
+        'Cable sizing calculation failed': 'فشل حساب اختيار الكابل',
         ABOUT_MYEMS: 'حول MyEMS',
         ABOUT_INTRO: "MyEMS هو نظام مفتوح المصدر لإدارة الطاقة طورته <strong>Hassoft Beijing Co., Ltd.</strong> (<a href='https://hassoft.cn' target='_blank' style='color:#1ab394;'>hassoft.cn</a>).",
         OFFICIAL_SITE: "الموقع الرسمي: <a href='https://myems.cn' target='_blank' style='color:#1ab394;'>https://myems.cn</a>",

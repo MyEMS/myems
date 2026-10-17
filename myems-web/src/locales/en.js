@@ -84,6 +84,7 @@ export default {
         'NG': 'NG',
         'Standard Note': 'Standard',
         'Values are approximate and should be verified against the official standard.': 'Values are approximate and should be verified against the official standard.',
+        'Cable sizing calculation failed': 'Cable sizing calculation failed',
         ABOUT_MYEMS: 'About MyEMS',
         ABOUT_INTRO: "MyEMS is an open-source energy management system developed by <strong>Hassoft Beijing Co., Ltd.</strong> (<a href='https://hassoft.cn' target='_blank' style='color:#1ab394;'>hassoft.cn</a>).",
         OFFICIAL_SITE: "Official Site: <a href='https://myems.cn' target='_blank' style='color:#1ab394;'>https://myems.cn</a>",

@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { Card, CardBody, Col, Row } from 'reactstrap';
+import { Alert, Card, CardBody, Col, Row } from 'reactstrap';
 import FalconCardHeader from '../../../common/FalconCardHeader';
 import { getCookieValue, createCookie, checkEmpty } from '../../../../helpers/utils';
 import withRedirect from '../../../../hoc/withRedirect';
@@ -72,12 +72,12 @@ const CableSizing = ({ setRedirect, setRedirectUrl, t }) => {
     });
   };
 
-  const result = useMemo(() => {
+  const { result, calcError } = useMemo(() => {
     try {
-      return selectCable(standard, form);
+      return { result: selectCable(standard, form), calcError: null };
     } catch (e) {
       console.error('Cable sizing calculation error:', e);
-      return null;
+      return { result: null, calcError: (e && e.message) || t('Cable sizing calculation failed') };
     }
     // eslint-disable-next-line
   }, [form, standard]);
@@ -103,6 +103,7 @@ const CableSizing = ({ setRedirect, setRedirectUrl, t }) => {
           <Card>
             <FalconCardHeader title={t('Result')} titleClass="text-lightSlateGray mb-0" />
             <CardBody>
+              {calcError && <Alert color="danger" className="mb-3">{calcError}</Alert>}
               <ResultPanel t={t} result={result} form={form} standard={standard} />
             </CardBody>
           </Card>

@@ -84,6 +84,7 @@ export default {
         'NG': '不合格',
         'Standard Note': '标准说明',
         'Values are approximate and should be verified against the official standard.': '数值为工程近似值，正式使用前应以标准文本核定。',
+        'Cable sizing calculation failed': '电缆选型计算失败',
         ABOUT_MYEMS: '关于 MyEMS',
         ABOUT_INTRO: "MyEMS 是一款开源的能源管理系统，由<strong>北京海识软件有限公司</strong>（<a href='https://hassoft.cn' target='_blank' style='color:#1ab394;'>hassoft.cn</a>）开发。",
         OFFICIAL_SITE: "官网：<a href='https://myems.cn' target='_blank' style='color:#1ab394;'>https://myems.cn</a>",

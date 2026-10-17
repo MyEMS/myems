@@ -84,6 +84,7 @@ export default {
         'NG': 'NG',
         'Standard Note': '표준',
         'Values are approximate and should be verified against the official standard.': '값은 근사치이므로 공식 표준에 따라 확인해야 합니다.',
+        'Cable sizing calculation failed': '케이블 선정 계산 실패',
         ABOUT_MYEMS: 'MyEMS 소개',
         ABOUT_INTRO: "MyEMS는 <strong>Hassoft Beijing Co., Ltd.</strong>(<a href='https://hassoft.cn' target='_blank' style='color:#1ab394;'>hassoft.cn</a>)에서 개발한 오픈 소스 에너지 관리 시스템입니다.",
         OFFICIAL_SITE: "공식 사이트: <a href='https://myems.cn' target='_blank' style='color:#1ab394;'>https://myems.cn</a>",

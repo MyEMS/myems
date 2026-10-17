@@ -55,8 +55,12 @@ const GB = {
 
   // Return [{ section, baseAmpacity }] sorted by ascending section.
   getSections(material, insulation, method) {
-    const mat = gbData.materials[material] || gbData.materials.copper;
-    const airAmpacity = mat.airAmpacity || {};
+    const mat = gbData.materials[material];
+    if (!mat || !mat.airAmpacity) {
+      console.warn(`Invalid material or missing ampacity data: ${material}`);
+      return [];
+    }
+    const airAmpacity = mat.airAmpacity;
     const table = airAmpacity[insulation] || airAmpacity.PVC;
     if (!table) {
       console.warn(`No ampacity table found for material=${material}, insulation=${insulation}`);

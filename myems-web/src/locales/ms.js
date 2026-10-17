@@ -84,6 +84,7 @@ export default {
         'NG': 'NG',
         'Standard Note': 'Standard',
         'Values are approximate and should be verified against the official standard.': 'Nilai adalah anggaran dan hendaklah disahkan terhadap standard rasmi.',
+        'Cable sizing calculation failed': 'Pengiraan pemilihan kabel gagal',
         ABOUT_MYEMS: 'Mengenai MyEMS',
         ABOUT_INTRO: "MyEMS ialah sistem pengurusan tenaga sumber terbuka yang dibangunkan oleh <strong>Hassoft Beijing Co., Ltd.</strong> (<a href='https://hassoft.cn' target='_blank' style='color:#1ab394;'>hassoft.cn</a>).",
         OFFICIAL_SITE: "Laman Rasmi: <a href='https://myems.cn' target='_blank' style='color:#1ab394;'>https://myems.cn</a>",

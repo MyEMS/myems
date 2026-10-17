@@ -84,6 +84,7 @@ export default {
         'NG': 'NG',
         'Standard Note': 'Tiêu chuẩn',
         'Values are approximate and should be verified against the official standard.': 'Giá trị chỉ gần đúng và cần được đối chiếu với tiêu chuẩn chính thức.',
+        'Cable sizing calculation failed': 'Tính toán chọn cáp thất bại',
         ABOUT_MYEMS: 'Về MyEMS',
         ABOUT_INTRO: "MyEMS là hệ thống quản lý năng lượng mã nguồn mở được phát triển bởi <strong>Hassoft Beijing Co., Ltd.</strong> (<a href='https://hassoft.cn' target='_blank' style='color:#1ab394;'>hassoft.cn</a>).",
         OFFICIAL_SITE: "Trang Chính Thức: <a href='https://myems.cn' target='_blank' style='color:#1ab394;'>https://myems.cn</a>",

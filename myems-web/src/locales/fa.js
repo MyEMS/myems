@@ -84,6 +84,7 @@ export default {
         'NG': 'NG',
         'Standard Note': 'استاندارد',
         'Values are approximate and should be verified against the official standard.': 'مقادیر تقریبی هستند و باید با استاندارد رسمی بررسی شوند.',
+        'Cable sizing calculation failed': 'محاسبه انتخاب کابل ناموفق بود',
         ABOUT_MYEMS: 'درباره MyEMS',
         ABOUT_INTRO: "MyEMS یک سیستم مدیریت انرژی متن‌باز است که توسط <strong>Hassoft Beijing Co., Ltd.</strong> (<a href='https://hassoft.cn' target='_blank' style='color:#1ab394;'>hassoft.cn</a>) توسعه یافته است.",
         OFFICIAL_SITE: "وب‌سایت رسمی: <a href='https://myems.cn' target='_blank' style='color:#1ab394;'>https://myems.cn</a>",
