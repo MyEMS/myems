@@ -19,7 +19,7 @@ export default {
         'Advanced Reporting': '高度レポート',
         'Knowledge Base': 'ナレッジベース',
         'Tools': 'ツール',
-        'Cable Sizing Tools': 'ケーブル選定ツール',
+        'Cable Sizing Tool': 'ケーブル選定ツール',
         // Tools - Cable Sizing
         'Standard GB': 'GB/T 16895.15（中国国家標準）',
         'Standard GB Full': 'GB/T 16895.15 / GB 50217（中国国家標準）',

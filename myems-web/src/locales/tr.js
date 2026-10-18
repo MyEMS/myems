@@ -19,7 +19,7 @@ export default {
         'Advanced Reporting': 'Gelişmiş Raporlama',
         'Knowledge Base': 'Bilgi bankası',
         'Tools': 'Araçlar',
-        'Cable Sizing Tools': 'Kablo Seçim Aracı',
+        'Cable Sizing Tool': 'Kablo Seçim Aracı',
         // Tools - Cable Sizing
         'Standard GB': 'GB/T 16895.15 (Çin Ulusal Standardı)',
         'Standard GB Full': 'GB/T 16895.15 / GB 50217 (Çin Ulusal Standardı)',

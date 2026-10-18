@@ -19,7 +19,7 @@ export default {
         'Advanced Reporting': 'Geavanceerde rapportage',
         'Knowledge Base': 'Kennisbank',
         'Tools': 'Hulpmiddelen',
-        'Cable Sizing Tools': 'Kabelkeuzetool',
+        'Cable Sizing Tool': 'Kabelkeuzetool',
         // Tools - Cable Sizing
         'Standard GB': 'GB/T 16895.15 (Chinese nationale standaard)',
         'Standard GB Full': 'GB/T 16895.15 / GB 50217 (Chinese nationale standaard)',

@@ -19,7 +19,7 @@ export default {
         'Advanced Reporting': 'Báo cáo nâng cao',
         'Knowledge Base': 'Cơ sở tri thức',
         'Tools': 'Công cụ',
-        'Cable Sizing Tools': 'Công cụ chọn cáp',
+        'Cable Sizing Tool': 'Công cụ chọn cáp',
         // Tools - Cable Sizing
         'Standard GB': 'GB/T 16895.15 (Tiêu chuẩn quốc gia Trung Quốc)',
         'Standard GB Full': 'GB/T 16895.15 / GB 50217 (Tiêu chuẩn quốc gia Trung Quốc)',

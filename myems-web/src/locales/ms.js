@@ -19,7 +19,7 @@ export default {
         'Advanced Reporting': 'Laporan Lanjutan',
         'Knowledge Base': 'Pangkalan Pengetahuan',
         'Tools': 'Alatan',
-        'Cable Sizing Tools': 'Alat Pemilihan Kabel',
+        'Cable Sizing Tool': 'Alat Pemilihan Kabel',
         // Tools - Cable Sizing
         'Standard GB': 'GB/T 16895.15 (Piawai Negara China)',
         'Standard GB Full': 'GB/T 16895.15 / GB 50217 (Piawai Negara China)',

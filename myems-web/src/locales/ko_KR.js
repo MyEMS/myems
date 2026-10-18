@@ -19,7 +19,7 @@ export default {
         'Advanced Reporting': '고급 보고서',
         'Knowledge Base': '지식 베이스',
         'Tools': '도구',
-        'Cable Sizing Tools': '케이블 선정 도구',
+        'Cable Sizing Tool': '케이블 선정 도구',
         // Tools - Cable Sizing
         'Standard GB': 'GB/T 16895.15 (중국 국가 표준)',
         'Standard GB Full': 'GB/T 16895.15 / GB 50217 (중국 국가 표준)',

@@ -19,7 +19,7 @@ export default {
         'Advanced Reporting': 'التقارير المتقدمة',
         'Knowledge Base': 'معارف',
         'Tools': 'أدوات',
-        'Cable Sizing Tools': 'أداة اختيار الكابلات',
+        'Cable Sizing Tool': 'أداة اختيار الكابلات',
         // Tools - Cable Sizing
         'Standard GB': 'GB/T 16895.15 (المعيار الوطني الصيني)',
         'Standard GB Full': 'GB/T 16895.15 / GB 50217 (المعيار الوطني الصيني)',
