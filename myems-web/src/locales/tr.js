@@ -21,7 +21,8 @@ export default {
         'Tools': 'Araçlar',
         'Cable Sizing Tools': 'Kablo Seçim Aracı',
         // Tools - Cable Sizing
-        'Standard GB': 'GB (Çin Ulusal Standardı)',
+        'Standard GB': 'GB/T 16895.15 (Çin Ulusal Standardı)',
+        'Standard GB Full': 'GB/T 16895.15 / GB 50217 (Çin Ulusal Standardı)',
         'Copper': 'Bakır',
         'Aluminium': 'Alüminyum',
         'Method In Free Air': 'Serbest havada',

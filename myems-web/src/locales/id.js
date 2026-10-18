@@ -21,7 +21,8 @@ export default {
         'Tools': 'Perkakas',
         'Cable Sizing Tools': 'Alat Pemilihan Kabel',
         // Tools - Cable Sizing
-        'Standard GB': 'GB (Standar Nasional Tiongkok)',
+        'Standard GB': 'GB/T 16895.15 (Standar Nasional Tiongkok)',
+        'Standard GB Full': 'GB/T 16895.15 / GB 50217 (Standar Nasional Tiongkok)',
         'Copper': 'Tembaga',
         'Aluminium': 'Aluminium',
         'Method In Free Air': 'Dalam udara terbuka',

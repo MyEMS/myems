@@ -21,7 +21,8 @@ export default {
         'Tools': 'Werkzeuge',
         'Cable Sizing Tools': 'Kabelauswahl-Tool',
         // Tools - Cable Sizing
-        'Standard GB': 'GB (Chinesische Norm)',
+        'Standard GB': 'GB/T 16895.15 (Chinesischer Nationalstandard)',
+        'Standard GB Full': 'GB/T 16895.15 / GB 50217 (Chinesischer Nationalstandard)',
         'Copper': 'Kupfer',
         'Aluminium': 'Aluminium',
         'Method In Free Air': 'Verlegung in freier Luft',

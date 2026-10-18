@@ -21,7 +21,8 @@ export default {
         'Tools': 'Công cụ',
         'Cable Sizing Tools': 'Công cụ chọn cáp',
         // Tools - Cable Sizing
-        'Standard GB': 'GB (Tiêu chuẩn quốc gia Trung Quốc)',
+        'Standard GB': 'GB/T 16895.15 (Tiêu chuẩn quốc gia Trung Quốc)',
+        'Standard GB Full': 'GB/T 16895.15 / GB 50217 (Tiêu chuẩn quốc gia Trung Quốc)',
         'Copper': 'Đồng',
         'Aluminium': 'Nhôm',
         'Method In Free Air': 'Đi nổi trong không khí',

@@ -21,7 +21,8 @@ export default {
         'Tools': 'ابزارها',
         'Cable Sizing Tools': 'ابزار انتخاب کابل',
         // Tools - Cable Sizing
-        'Standard GB': 'GB (استاندارد ملی چین)',
+        'Standard GB': 'GB/T 16895.15 (استاندارد ملی چین)',
+        'Standard GB Full': 'GB/T 16895.15 / GB 50217 (استاندارد ملی چین)',
         'Copper': 'مس',
         'Aluminium': 'آلومینیوم',
         'Method In Free Air': 'در هوای آزاد',
