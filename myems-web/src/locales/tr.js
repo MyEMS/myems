@@ -18,9 +18,9 @@ export default {
         Monitoring: 'Izleme',
         'Advanced Reporting': 'Gelişmiş Raporlama',
         'Knowledge Base': 'Bilgi bankası',
-        'Tool': 'Araçlar',
-        'Cable Sizing Tool': 'Kablo Seçim Aracı',
-        // Tool - Cable Sizing
+        'Tools': 'Araçlar',
+        'Cable Sizing Tools': 'Kablo Seçim Aracı',
+        // Tools - Cable Sizing
         'Standard GB': 'GB (Çin Ulusal Standardı)',
         'Copper': 'Bakır',
         'Aluminium': 'Alüminyum',

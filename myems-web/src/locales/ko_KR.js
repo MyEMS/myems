@@ -18,9 +18,9 @@ export default {
         Monitoring: '장비 모니터링',
         'Advanced Reporting': '고급 보고서',
         'Knowledge Base': '지식 베이스',
-        'Tool': '도구',
-        'Cable Sizing Tool': '케이블 선정 도구',
-        // Tool - Cable Sizing
+        'Tools': '도구',
+        'Cable Sizing Tools': '케이블 선정 도구',
+        // Tools - Cable Sizing
         'Standard GB': 'GB (중국 국가 표준)',
         'Copper': '구리',
         'Aluminium': '알루미늄',

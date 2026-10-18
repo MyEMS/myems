@@ -18,9 +18,9 @@ export default {
         Monitoring: 'Monitoraggio',
         'Advanced Reporting': 'Report Avanzati',
         'Knowledge Base': 'Base di Conoscenza',
-        'Tool': 'Strumenti',
-        'Cable Sizing Tool': 'Strumento di scelta dei cavi',
-        // Tool - Cable Sizing
+        'Tools': 'Strumenti',
+        'Cable Sizing Tools': 'Strumento di scelta dei cavi',
+        // Tools - Cable Sizing
         'Standard GB': 'GB (Norma nazionale cinese)',
         'Copper': 'Rame',
         'Aluminium': 'Alluminio',

@@ -18,9 +18,9 @@ export default {
         Monitoring: 'پایش تجهیزات',
         'Advanced Reporting': 'گزارش‌گیری پیشرفته',
         'Knowledge Base': 'پایگاه دانش',
-        'Tool': 'ابزارها',
-        'Cable Sizing Tool': 'ابزار انتخاب کابل',
-        // Tool - Cable Sizing
+        'Tools': 'ابزارها',
+        'Cable Sizing Tools': 'ابزار انتخاب کابل',
+        // Tools - Cable Sizing
         'Standard GB': 'GB (استاندارد ملی چین)',
         'Copper': 'مس',
         'Aluminium': 'آلومینیوم',

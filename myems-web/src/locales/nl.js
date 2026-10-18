@@ -18,9 +18,9 @@ export default {
         Monitoring: 'Apparatuurmonitoring',
         'Advanced Reporting': 'Geavanceerde rapportage',
         'Knowledge Base': 'Kennisbank',
-        'Tool': 'Hulpmiddelen',
-        'Cable Sizing Tool': 'Kabelkeuzetool',
-        // Tool - Cable Sizing
+        'Tools': 'Hulpmiddelen',
+        'Cable Sizing Tools': 'Kabelkeuzetool',
+        // Tools - Cable Sizing
         'Standard GB': 'GB (Chinese nationale norm)',
         'Copper': 'Koper',
         'Aluminium': 'Aluminium',

@@ -18,9 +18,9 @@ export default {
         Monitoring: 'Giám sát',
         'Advanced Reporting': 'Báo cáo nâng cao',
         'Knowledge Base': 'Cơ sở tri thức',
-        'Tool': 'Công cụ',
-        'Cable Sizing Tool': 'Công cụ chọn cáp',
-        // Tool - Cable Sizing
+        'Tools': 'Công cụ',
+        'Cable Sizing Tools': 'Công cụ chọn cáp',
+        // Tools - Cable Sizing
         'Standard GB': 'GB (Tiêu chuẩn quốc gia Trung Quốc)',
         'Copper': 'Đồng',
         'Aluminium': 'Nhôm',

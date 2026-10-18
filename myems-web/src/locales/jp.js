@@ -18,9 +18,9 @@ export default {
         Monitoring: '設備監視',
         'Advanced Reporting': '高度レポート',
         'Knowledge Base': 'ナレッジベース',
-        'Tool': 'ツール',
-        'Cable Sizing Tool': 'ケーブル選定ツール',
-        // Tool - Cable Sizing
+        'Tools': 'ツール',
+        'Cable Sizing Tools': 'ケーブル選定ツール',
+        // Tools - Cable Sizing
         'Standard GB': 'GB（中国国家標準）',
         'Copper': '銅',
         'Aluminium': 'アルミニウム',

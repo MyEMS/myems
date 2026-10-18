@@ -51,7 +51,7 @@ const NavbarTopDropDownMenus = ({ setRedirectUrl, setRedirect, setNavbarCollapse
     isCombo && windowWidth < breakpoints[navbarBreakPoint] && setShowBurgerMenu(false);
   };
   const isLanding = getPageName('landing');
-  // Dashboard plus any alwaysVisible menus (e.g. Tool) show regardless of tbl_menus.
+  // Dashboard plus any alwaysVisible menus (e.g. Tools) show regardless of tbl_menus.
   const [showRoutes, setShowRoutes] = useState(() => [routes[0], ...routes.filter(route => route.alwaysVisible === true)]);
 
   useEffect(() => {
@@ -82,7 +82,7 @@ const NavbarTopDropDownMenus = ({ setRedirectUrl, setRedirect, setNavbarCollapse
           let showRoutes = [routes[0]];
           for (let i = 0; i < routes.length; i++) {
             let route = routes[i];
-            // alwaysVisible menus (e.g. Tool) bypass the tbl_menus filtering
+            // alwaysVisible menus (e.g. Tools) bypass the tbl_menus filtering
             if (route.alwaysVisible === true) {
               if (showRoutes.indexOf(route) === -1) {
                 showRoutes.push(route);

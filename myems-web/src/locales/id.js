@@ -18,9 +18,9 @@ export default {
         Monitoring: 'Monitor Peralatan',
         'Advanced Reporting': 'Laporan Lanjutan',
         'Knowledge Base': 'Dasar Pengetahuan',
-        'Tool': 'Perkakas',
-        'Cable Sizing Tool': 'Alat Pemilihan Kabel',
-        // Tool - Cable Sizing
+        'Tools': 'Perkakas',
+        'Cable Sizing Tools': 'Alat Pemilihan Kabel',
+        // Tools - Cable Sizing
         'Standard GB': 'GB (Standar Nasional Tiongkok)',
         'Copper': 'Tembaga',
         'Aluminium': 'Aluminium',

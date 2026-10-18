@@ -18,9 +18,9 @@ export default {
         Monitoring: 'ตรวจ สอบ',
         'Advanced Reporting': 'การรายงานขั้นสูง',
         'Knowledge Base': 'ฐานความรู้',
-        'Tool': 'เครื่องมือ',
-        'Cable Sizing Tool': 'เครื่องมือเลือกสายเคเบิล',
-        // Tool - Cable Sizing
+        'Tools': 'เครื่องมือ',
+        'Cable Sizing Tools': 'เครื่องมือเลือกสายเคเบิล',
+        // Tools - Cable Sizing
         'Standard GB': 'GB (มาตรฐานแห่งชาติจีน)',
         'Copper': 'ทองแดง',
         'Aluminium': 'อลูมิเนียม',
