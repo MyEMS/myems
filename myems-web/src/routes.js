@@ -198,6 +198,16 @@ export const knowledgeBaseRoutes = {
   icon: 'folder'
 };
 
+// Tools menu is always visible to every user and does NOT rely on tbl_menus.
+// See the alwaysVisible handling in components/navbar/NavbarVertical.js.
+export const toolsRoutes = {
+  name: 'Tools',
+  to: '/tools',
+  icon: 'tools',
+  alwaysVisible: true,
+  children: [{ to: '/tools/cablesizing', name: 'Cable Sizing Tool' }]
+};
+
 export default [
   dashboardRoutes,
   spaceRoutes,
@@ -208,5 +218,6 @@ export default [
   shopfloorRoutes,
   combinedEquipmentRoutes,
   auxiliarySystemRoutes,
-  knowledgeBaseRoutes
+  knowledgeBaseRoutes,
+  toolsRoutes
 ];
