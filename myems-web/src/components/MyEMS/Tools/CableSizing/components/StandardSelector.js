@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle, FormFeedback, Label } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import AppContext from '../../../../../context/Context';
+import { getGrays, themeColors } from '../../../../../helpers/utils';
 import { listStandards } from '../cableStandards';
 
 // A custom dropdown for the calculation standard that shows a selected-state
@@ -10,6 +12,9 @@ const StandardSelector = ({ value, onChange, t }) => {
   const [isOpen, setIsOpen] = useState(false);
   const standards = listStandards();
   const current = standards.find(std => std.id === value) || standards[0];
+  // Theme-aware colors so the toggle renders correctly in both light and dark mode.
+  const { isDark } = useContext(AppContext);
+  const g = getGrays(isDark);
 
   return (
     <div className="form-group">
@@ -21,8 +26,8 @@ const StandardSelector = ({ value, onChange, t }) => {
           id="cable-standard"
           caret
           color="light"
-          className="text-left text-slateGray font-weight-semi-bold w-100 text-truncate"
-          style={{ backgroundColor: '#fff', borderColor: '#dfe3e8' }}
+          className="text-left font-weight-semi-bold w-100 text-truncate"
+          style={{ backgroundColor: isDark ? g[200] : g.white, borderColor: g[300], color: isDark ? g[1000] : g[700] }}
         >
           {current ? current.getName(t) : ''}
         </DropdownToggle>
@@ -38,7 +43,7 @@ const StandardSelector = ({ value, onChange, t }) => {
                   setIsOpen(false);
                 }}
                 className="d-flex justify-content-between align-items-center cursor-pointer"
-                style={active ? { backgroundColor: '#1f6ed5', color: '#fff' } : undefined}
+                style={active ? { backgroundColor: themeColors.primary, color: '#fff' } : undefined}
               >
                 <span>{std.getName(t)}</span>
                 {active && <FontAwesomeIcon icon="check" transform="shrink-3" />}
