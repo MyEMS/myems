@@ -2583,6 +2583,7 @@
                 "Batch Analysis": 'Toplu Analiz',
                 "Equipment Tracking": 'Ekipman Takibi',
                 "Equipment Comparison": 'Ekipman Karşılaştırması',
+                "Equipment Realtime Monitor": 'Ekipman Gerçek Zamanlı İzleme',
                 "Meter Data": 'Sayaç Verileri',
                 "Meter Energy": 'Sayaç Enerjisi',
                 "Meter Cost": 'Sayaç Maliyeti',

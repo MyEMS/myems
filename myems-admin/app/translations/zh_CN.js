@@ -2813,6 +2813,7 @@
       "Batch Analysis": "批量分析",
       "Equipment Tracking": "设备台账",
       "Equipment Comparison": "对比分析",
+      "Equipment Realtime Monitor": "设备实时监控",
       "Meter Data": "计量表数据",
       "Meter Energy": "计量表能耗分析",
       "Meter Cost": "计量表成本分析",

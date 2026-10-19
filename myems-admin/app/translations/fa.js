@@ -2583,6 +2583,7 @@
                 "Batch Analysis": 'تحلیل دسته‌ای',
                 "Equipment Tracking": 'دفترچه تجهیزات',
                 "Equipment Comparison": 'تحلیل مقایسه‌ای',
+                "Equipment Realtime Monitor": 'پایش بلادرنگ تجهیزات',
                 "Meter Data": 'داده‌های کنتور',
                 "Meter Energy": 'تحلیل مصرف انرژی کنتور',
                 "Meter Cost": 'تحلیل هزینه کنتور',
