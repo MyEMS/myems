@@ -2583,6 +2583,7 @@
                 "Batch Analysis": 'Analiza zbiorcza',
                 "Equipment Tracking": 'Rejestr urządzeń',
                 "Equipment Comparison": 'Analiza porównawcza urządzeń',
+                "Equipment Realtime Monitor": 'Monitorowanie czasu rzeczywistego urządzeń',
                 "Meter Data": 'Dane liczników',
                 "Meter Energy": 'Analiza zużycia energii przez liczniki',
                 "Meter Cost": 'Analiza kosztów liczników',

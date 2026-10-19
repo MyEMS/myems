@@ -2583,6 +2583,7 @@
                 "Batch Analysis": 'การวิเคราะห์แบบแบทช์',
                 "Equipment Tracking": 'การติดตามอุปกรณ์',
                 "Equipment Comparison": 'การเปรียบเทียบอุปกรณ์',
+                "Equipment Realtime Monitor": 'การเฝ้าติดตามอุปกรณ์แบบเรียลไทม์',
                 "Meter Data": 'ข้อมูลมิเตอร์',
                 "Meter Energy": 'พลังงานของมิเตอร์',
                 "Meter Cost": 'ต้นทุนของมิเตอร์',

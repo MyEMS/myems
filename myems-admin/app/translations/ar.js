@@ -2583,6 +2583,7 @@
                 "Batch Analysis": 'تحليل الدفعة',
                 "Equipment Tracking": 'تتبع المعدات',
                 "Equipment Comparison": 'مقارنة المعدات',
+                "Equipment Realtime Monitor": 'مراقبة المعدات في الوقت الحقيقي',
                 "Meter Data": 'بيانات العداد',
                 "Meter Energy": 'طاقة العداد',
                 "Meter Cost": 'تكلفة العداد',

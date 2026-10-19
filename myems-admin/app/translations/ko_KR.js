@@ -2583,6 +2583,7 @@
                 "Batch Analysis": '일괄 분석',
                 "Equipment Tracking": '장비 대장',
                 "Equipment Comparison": '비교 분석',
+                "Equipment Realtime Monitor": '장비 실시간 모니터링',
                 "Meter Data": '계량기 데이터',
                 "Meter Energy": '계량기 에너지 소비 분석',
                 "Meter Cost": '계량기 비용 분석',

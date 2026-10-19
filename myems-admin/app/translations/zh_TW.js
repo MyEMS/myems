@@ -2811,6 +2811,7 @@
       "Batch Analysis": "批量分析",
       "Equipment Tracking": "設備臺帳",
       "Equipment Comparison": "對比分析",
+      "Equipment Realtime Monitor": "設備實時監控",
       "Meter Data": "計量表數據",
       "Meter Energy": "計量表能耗分析",
       "Meter Cost": "計量表成本分析",

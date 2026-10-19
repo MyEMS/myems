@@ -2582,6 +2582,7 @@
                 "Batch Analysis": 'Charge Analyse',
                 "Equipment Tracking": 'Ausrüstung Datei',
                 "Equipment Comparison": 'Ausrüstung Vergleich',
+                "Equipment Realtime Monitor": 'Ausrüstung Echtzeit Überwachung',
                 "Meter Data": 'Meter',
                 "Meter Energy": 'Meter Energie ',
                 "Meter Cost": 'Meter Kosten',

@@ -2583,6 +2583,7 @@
                 "Batch Analysis": 'Анализ партии',
                 "Equipment Tracking": 'Отслеживание оборудования',
                 "Equipment Comparison": 'Сравнение оборудования',
+                "Equipment Realtime Monitor": 'Мониторинг оборудования в реальном времени',
                 "Meter Data": 'Данные счетчика',
                 "Meter Energy": 'Энергия счетчика',
                 "Meter Cost": 'Стоимость счетчика',

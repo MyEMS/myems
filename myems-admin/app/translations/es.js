@@ -2583,6 +2583,7 @@
                 "Batch Analysis": 'Análisis por Lotes',
                 "Equipment Tracking": 'Seguimiento de Equipos',
                 "Equipment Comparison": 'Comparación de Equipos',
+                "Equipment Realtime Monitor": 'Monitoreo de Equipos en Tiempo Real',
                 "Meter Data": 'Datos del Medidor',
                 "Meter Energy": 'Energía del Medidor',
                 "Meter Cost": 'Costo del Medidor',
