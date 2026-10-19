@@ -231,7 +231,27 @@ app.controller('DistributionSystemController', function(
 				params: function() {
 					return {
 						description: 'SETTING.IMPORT_DISTRIBUTION_SYSTEM_DESCRIPTION',
-						description_more: 'SETTING.IMPORT_DISTRIBUTION_SYSTEM_DESCRIPTION_MORE'
+						description_more: 'SETTING.IMPORT_DISTRIBUTION_SYSTEM_DESCRIPTION_MORE',
+						import_template: JSON.stringify({
+							name: "Distribution System Name",
+							svg: {
+								id: 1
+							},
+							description: "Distribution system description",
+							circuits: [
+								{
+									name: "Circuit Name",
+									distribution_room: "Distribution Room",
+									switchgear: "Switchgear",
+									peak_load: 100,
+									peak_current: 200,
+									customers: "Customer",
+									meters: "Meter Name",
+									points: []
+								}
+							]
+						}, null, 4),
+						import_template_hint: 'SETTING.IMPORT_DISTRIBUTION_SYSTEM_FORMAT_HINT'
 					};
 				}
 			}

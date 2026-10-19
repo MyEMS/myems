@@ -228,6 +228,14 @@ app.controller('CommandController', function(
 			resolve: {
 				params: function() {
 					return {
+						import_template: JSON.stringify({
+							name: "Command Name",
+							topic: "topic/example",
+							payload: "{\"key\":\"value\"}",
+							set_value: null,
+							description: "Command description"
+						}, null, 4),
+						import_template_hint: 'SETTING.IMPORT_COMMAND_FORMAT_HINT'
 					};
 				}
 			}

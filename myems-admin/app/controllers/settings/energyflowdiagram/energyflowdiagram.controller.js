@@ -207,7 +207,17 @@ app.controller('EnergyFlowDiagramController', function(
 				params: function() {
 					return {
 						description: 'SETTING.IMPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION',
-						description_more: 'SETTING.IMPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION_MORE'
+						description_more: 'SETTING.IMPORT_ENERGY_FLOW_DIAGRAM_DESCRIPTION_MORE',
+						import_template: JSON.stringify({
+							name: "Energy Flow Diagram Name",
+							nodes: [
+								{
+									name: "Node Name"
+								}
+							],
+							links: []
+						}, null, 4),
+						import_template_hint: 'SETTING.IMPORT_ENERGY_FLOW_DIAGRAM_FORMAT_HINT'
 					};
 				}
 			}

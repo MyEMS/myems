@@ -274,7 +274,25 @@ app.controller('OfflineMeterController', function(
 				params: function() {
 					return {
 						description: 'SETTING.IMPORT_OFFLINE_METER_DESCRIPTION',
-						description_more: 'SETTING.IMPORT_OFFLINE_METER_DESCRIPTION_MORE'
+						description_more: 'SETTING.IMPORT_OFFLINE_METER_DESCRIPTION_MORE',
+						import_template: JSON.stringify({
+							name: "Offline Meter Name",
+							energy_category: {
+								id: 1
+							},
+							is_counted: true,
+							is_enabled: true,
+							hourly_low_limit: 0,
+							hourly_high_limit: 999999,
+							cost_center: {
+								id: 1
+							},
+							energy_item: {
+								id: 1
+							},
+							description: "Offline meter description"
+						}, null, 4),
+						import_template_hint: 'SETTING.IMPORT_OFFLINE_METER_FORMAT_HINT'
 					};
 				}
 			}

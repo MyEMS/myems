@@ -127,7 +127,21 @@ app.controller(
         windowClass: "animated fadeIn",
         resolve: {
           params: function () {
-            return {};
+            return {
+              import_template: JSON.stringify({
+                name: "Energy Storage Container Name",
+                rated_capacity: 1000,
+                rated_power: 1000,
+                contact: {
+                  id: 1
+                },
+                cost_center: {
+                  id: 1
+                },
+                description: "Energy storage container description"
+              }, null, 4),
+              import_template_hint: 'SETTING.IMPORT_ENERGY_STORAGE_CONTAINER_FORMAT_HINT'
+            };
           }
         }
       });

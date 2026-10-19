@@ -275,7 +275,28 @@ app.controller('EquipmentController', function(
 				params: function() {
 					return {
 						description: 'SETTING.IMPORT_EQUIPMENT_DESCRIPTION',
-						description_more: 'SETTING.IMPORT_EQUIPMENT_DESCRIPTION_MORE'
+						description_more: 'SETTING.IMPORT_EQUIPMENT_DESCRIPTION_MORE',
+						import_template: JSON.stringify({
+							name: "Equipment Name",
+							is_input_counted: true,
+							is_output_counted: false,
+							is_enabled: true,
+							cost_center: {
+								id: 1
+							},
+							efficiency_indicator: 0.9,
+							svg: {
+								id: null
+							},
+							camera_url: "",
+							description: "Equipment description",
+							commands: [],
+							meters: [],
+							offline_meters: [],
+							virtual_meters: [],
+							parameters: []
+						}, null, 4),
+						import_template_hint: 'SETTING.IMPORT_EQUIPMENT_FORMAT_HINT'
 					};
 				}
 			}
