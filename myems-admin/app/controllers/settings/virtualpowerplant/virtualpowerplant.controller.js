@@ -259,6 +259,20 @@ app.controller('VirtualPowerPlantController', function(
 			resolve: {
 				params: function() {
 					return {
+						import_template: JSON.stringify({
+							name: "Virtual Power Plant Name",
+							cost_center: {
+								id: 1
+							},
+							balancing_price_point: {
+								id: 1
+							},
+							svg: {
+								id: 1
+							},
+							description: "Virtual power plant description"
+						}, null, 4),
+						import_template_hint: 'SETTING.IMPORT_VIRTUAL_POWER_PLANT_FORMAT_HINT'
 					};
 				}
 			}

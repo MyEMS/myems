@@ -293,6 +293,28 @@ app.controller('PhotovoltaicPowerStationController', function(
 			resolve: {
 				params: function() {
 					return {
+						import_template: JSON.stringify({
+							name: "Photovoltaic Power Station Name",
+							station_code: "PV0001",
+							address: "Station address",
+							latitude: 39.9,
+							longitude: 116.4,
+							rated_capacity: 1000,
+							rated_power: 1000,
+							contact: {
+								id: 1
+							},
+							cost_center: {
+								id: 1
+							},
+							svg: {
+								id: 1
+							},
+							is_cost_data_displayed: true,
+							phase_of_lifecycle: "Operating",
+							description: "Photovoltaic power station description"
+						}, null, 4),
+						import_template_hint: 'SETTING.IMPORT_PHOTOVOLTAIC_POWER_STATION_FORMAT_HINT'
 					};
 				}
 			}

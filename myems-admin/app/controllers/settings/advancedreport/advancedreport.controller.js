@@ -239,6 +239,14 @@ app.controller('AdvancedReportController', function(
 			resolve: {
 				params: function() {
 					return {
+						import_template: JSON.stringify({
+							name: "Advanced Report Name",
+							expression: "{\"period\":\"monthly\"}",
+							is_enabled: true,
+							is_run_immediately: true,
+							next_run_datetime: "2026-01-01T00:00:00"
+						}, null, 4),
+						import_template_hint: 'SETTING.IMPORT_ADVANCED_REPORT_FORMAT_HINT'
 					};
 				}
 			}

@@ -284,7 +284,39 @@ app.controller('TenantController', function (
 				params: function() {
 					return {
 						description: 'SETTING.IMPORT_TENANT_DESCRIPTION',
-						description_more: 'SETTING.IMPORT_TENANT_DESCRIPTION_MORE'
+						description_more: 'SETTING.IMPORT_TENANT_DESCRIPTION_MORE',
+						import_template: JSON.stringify({
+							name: "Tenant Name",
+							buildings: "Building A",
+							floors: "1F",
+							rooms: "101",
+							area: 100,
+							tenant_type: {
+								id: 1
+							},
+							is_input_counted: true,
+							is_enabled: true,
+							is_key_tenant: false,
+							lease_number: "L2026001",
+							is_in_lease: true,
+							lease_start_datetime: "2026-01-01T00:00:00",
+							lease_end_datetime: "2026-12-31T23:59:59",
+							contact: {
+								id: 1
+							},
+							cost_center: {
+								id: 1
+							},
+							description: "Tenant description",
+							commands: [],
+							meters: [],
+							offline_meters: [],
+							virtual_meters: [],
+							points: [],
+							sensors: [],
+							working_calendars: []
+						}, null, 4),
+						import_template_hint: 'SETTING.IMPORT_TENANT_FORMAT_HINT'
 					};
 				}
 			}

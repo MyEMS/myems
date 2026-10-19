@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 ### Added
 - added cable sizing tool to myems-web
+- added templates to import dialogs in myems-admin
 ### Changed
 - changed the aggregation algorithms to determine whether the meter is enabled in myems-aggregation
 - changed the aggregation algorithms to determine whether the offline meter is enabled in myems-aggregation

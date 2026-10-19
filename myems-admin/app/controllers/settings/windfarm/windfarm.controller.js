@@ -283,6 +283,24 @@ app.controller('WindFarmController', function(
 			resolve: {
 				params: function() {
 					return {
+						import_template: JSON.stringify({
+							name: "Wind Farm Name",
+							address: "Wind farm address",
+							latitude: 39.9,
+							longitude: 116.4,
+							rated_power: 1000,
+							contact: {
+								id: 1
+							},
+							cost_center: {
+								id: 1
+							},
+							svg: {
+								id: 1
+							},
+							description: "Wind farm description"
+						}, null, 4),
+						import_template_hint: 'SETTING.IMPORT_WIND_FARM_FORMAT_HINT'
 					};
 				}
 			}

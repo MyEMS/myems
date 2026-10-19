@@ -15,13 +15,17 @@
                 <p>{{description_more | translate}}</p>
             </div>
         </div>
-        <div ng-if="importTemplate" class="m-b-sm">
+        <div ng-if="importTemplate" class="import-format-template m-b-sm">
             <p>
                 <strong>{{'SETTING.IMPORT_FORMAT_TEMPLATE' | translate}}</strong>
                 <span class="text-muted" ng-if="importTemplateHint">{{importTemplateHint | translate}}</span>
-                <a ng-click="useImportTemplate()" class="pull-right">{{'SETTING.USE_IMPORT_TEMPLATE' | translate}}</a>
             </p>
-            <pre class="m-b-none" style="max-height: 240px; overflow: auto;">{{importTemplate}}</pre>
+            <div class="import-format-template-box">
+                <pre class="m-b-none">{{importTemplate}}</pre>
+                <div class="import-format-template-actions">
+                    <button type="button" class="btn btn-xs btn-primary" ng-click="useImportTemplate()">{{'SETTING.USE_IMPORT_TEMPLATE' | translate}}</button>
+                </div>
+            </div>
         </div>
         <form role="form" name="form_import" novalidate class="form-horizontal">
             <div class="form-group">

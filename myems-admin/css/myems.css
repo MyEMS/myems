@@ -117,6 +117,28 @@ td.action{
 .inmodal table{
 	margin-bottom: 0px !important;
 }
+@media (min-width: 992px) {
+	.modal-dialog:has(.import-format-template) {
+		width: 900px;
+	}
+}
+.import-format-template-box {
+	background-color: #f5f5f5;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+}
+.import-format-template-box pre {
+	max-height: 240px;
+	overflow: auto;
+	margin-bottom: 0;
+	border: 0;
+	background: transparent;
+}
+.import-format-template-actions {
+	text-align: right;
+	padding: 6px 10px 8px;
+	border-top: 1px solid #e7eaec;
+}
 .trashcan{
 	width: 100% !important;
 }

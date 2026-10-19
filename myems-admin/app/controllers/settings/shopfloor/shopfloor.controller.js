@@ -282,7 +282,29 @@ app.controller('ShopfloorController', function (
 				params: function() {
 					return {
 						description: 'SETTING.IMPORT_SHOPFLOOR_DESCRIPTION',
-						description_more: 'SETTING.IMPORT_SHOPFLOOR_DESCRIPTION_MORE'
+						description_more: 'SETTING.IMPORT_SHOPFLOOR_DESCRIPTION_MORE',
+						import_template: JSON.stringify({
+							name: "Shopfloor Name",
+							area: 100,
+							is_input_counted: true,
+							is_enabled: true,
+							contact: {
+								id: 1
+							},
+							cost_center: {
+								id: 1
+							},
+							description: "Shopfloor description",
+							equipments: [],
+							commands: [],
+							meters: [],
+							offline_meters: [],
+							virtual_meters: [],
+							points: [],
+							sensors: [],
+							working_calendars: []
+						}, null, 4),
+						import_template_hint: 'SETTING.IMPORT_SHOPFLOOR_FORMAT_HINT'
 					};
 				}
 			}

@@ -216,7 +216,18 @@ app.controller('WorkingCalendarController', function(
 				params: function() {
 					return {
 						description: 'SETTING.IMPORT_WORKING_CALENDAR_DESCRIPTION',
-						description_more: 'SETTING.IMPORT_WORKING_CALENDAR_DESCRIPTION_MORE'
+						description_more: 'SETTING.IMPORT_WORKING_CALENDAR_DESCRIPTION_MORE',
+						import_template: JSON.stringify({
+							name: "Working Calendar Name",
+							description: "Working calendar description",
+							non_working_days: [
+								{
+									date_local: "2026-01-01",
+									description: "New Year's Day"
+								}
+							]
+						}, null, 4),
+						import_template_hint: 'SETTING.IMPORT_WORKING_CALENDAR_FORMAT_HINT'
 					};
 				}
 			}

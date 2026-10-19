@@ -235,7 +235,26 @@ app.controller('TariffController', function(
 				params: function() {
 					return {
 						description: 'SETTING.IMPORT_TARIFF_DESCRIPTION',
-						description_more: 'SETTING.IMPORT_TARIFF_DESCRIPTION_MORE'
+						description_more: 'SETTING.IMPORT_TARIFF_DESCRIPTION_MORE',
+						import_template: JSON.stringify({
+							name: "Tariff Name",
+							energy_category: {
+								id: 1
+							},
+							tariff_type: "timeofuse",
+							unit_of_price: "CNY/kWh",
+							valid_from: "2026-01-01T00:00:00",
+							valid_through: "2026-12-31T23:59:59",
+							timeofuse: [
+								{
+									start_time_of_day: "00:00:00",
+									end_time_of_day: "08:00:00",
+									peak_type: "offpeak",
+									price: 0.3
+								}
+							]
+						}, null, 4),
+						import_template_hint: 'SETTING.IMPORT_TARIFF_FORMAT_HINT'
 					};
 				}
 			}

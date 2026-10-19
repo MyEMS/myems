@@ -1151,6 +1151,7 @@ Please copy it to the input box below.':
         'API.INVALID_PAYLOAD': 'Invalid payload',
         'API.INVALID_PEAK_CURRENT': '無效峰值電流',
         'API.INVALID_PEAK_LOAD': '無效峰值負載',
+        'API.INVALID_PEAK_TYPE': '無效的峰谷平類型',
         'API.INVALID_PERIOD_TYPE': '無效周期類型',
         'API.INVALID_PHOTOVOLTAIC_POWER_STATION_ID': 'Invalid photovoltaic power station ID',
         'API.INVALID_PHOTOVOLTAIC_POWER_STATION_NAME': 'Invalid photovoltaic power station name',

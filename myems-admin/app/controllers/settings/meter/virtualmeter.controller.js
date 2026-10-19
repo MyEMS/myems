@@ -300,7 +300,33 @@ app.controller('VirtualMeterController', function($scope, $rootScope, $window, $
 				params: function() {
 					return {
 						description: 'SETTING.IMPORT_VIRTUAL_METER_DESCRIPTION',
-						description_more: 'SETTING.IMPORT_VIRTUAL_METER_DESCRIPTION_MORE'
+						description_more: 'SETTING.IMPORT_VIRTUAL_METER_DESCRIPTION_MORE',
+						import_template: JSON.stringify({
+							name: "Virtual Meter Name",
+							energy_category: {
+								id: 1
+							},
+							is_counted: true,
+							is_enabled: true,
+							cost_center: {
+								id: 1
+							},
+							energy_item: {
+								id: 1
+							},
+							description: "Virtual meter description",
+							expression: {
+								equation: "x1 + x2",
+								variables: [
+									{
+										name: "x1",
+										meter_type: "meter",
+										meter_id: 1
+									}
+								]
+							}
+						}, null, 4),
+						import_template_hint: 'SETTING.IMPORT_VIRTUAL_METER_FORMAT_HINT'
 					};
 				}
 			}

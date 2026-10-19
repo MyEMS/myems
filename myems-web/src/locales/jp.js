@@ -1132,6 +1132,7 @@ export default {
         'API.INVALID_PAYLOAD': '無効なペイロード',
         'API.INVALID_PEAK_CURRENT': '無効なピーク電流',
         'API.INVALID_PEAK_LOAD': '無効なピーク負荷',
+        'API.INVALID_PEAK_TYPE': '無効なピークタイプ',
         'API.INVALID_PERIOD_TYPE': '無効な期間タイプ',
         'API.INVALID_PHOTOVOLTAIC_POWER_STATION_ID': '無効な太陽光発電所ID',
         'API.INVALID_PHOTOVOLTAIC_POWER_STATION_NAME': '無効な太陽光発電所名',

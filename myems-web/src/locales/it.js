@@ -1134,6 +1134,7 @@ export default {
         'API.INVALID_PAYLOAD': 'Invalid payload',
         'API.INVALID_PEAK_CURRENT': 'Corrente di picco non valida',
         'API.INVALID_PEAK_LOAD': 'Carico di picco non valido',
+        'API.INVALID_PEAK_TYPE': 'Tipo di picco non valido',
         'API.INVALID_PERIOD_TYPE': 'Tipo periodo non valido',
         'API.INVALID_PHOTOVOLTAIC_POWER_STATION_ID': 'Invalid photovoltaic power station ID',
         'API.INVALID_PHOTOVOLTAIC_POWER_STATION_NAME': 'Invalid photovoltaic power station name',
