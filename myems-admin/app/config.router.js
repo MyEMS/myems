@@ -1928,6 +1928,7 @@ app
                                                     'app/controllers/settings/workingcalendar/workingcalendar.controller.js',
                                                     'app/controllers/settings/workingcalendar/workingcalendar.master.controller.js',
                                                     'app/controllers/settings/workingcalendar/workingcalendarnonworkingday.controller.js',
+                                                    'app/controllers/common/import.controller.js',
                                                 ]
                                             }]);
                                         }

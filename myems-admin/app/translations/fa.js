@@ -2178,6 +2178,7 @@
                     INVALID_PAYLOAD: 'بار نامعتبر',
                     INVALID_PEAK_CURRENT: 'حداکثر جریان نامعتبر',
                     INVALID_PEAK_LOAD: 'حداکثر بار نامعتبر',
+                    INVALID_PEAK_TYPE: 'نوع پیک نامعتبر',
                     INVALID_PERIOD_TYPE: 'نوع دوره نامعتبر',
                     INVALID_PHOTOVOLTAIC_POWER_STATION_ID: 'شناسه نیروگاه فتوولتائیک نامعتبر',
                     INVALID_PHOTOVOLTAIC_POWER_STATION_NAME: 'نام نیروگاه فتوولتائیک نامعتبر',

@@ -1099,6 +1099,7 @@ export default {
         'API.INVALID_PAYLOAD': 'Invalid payload',
         'API.INVALID_PEAK_CURRENT': 'Maksimum saat ini tidak valid',
         'API.INVALID_PEAK_LOAD': 'Muatan puncak tidak valid',
+        'API.INVALID_PEAK_TYPE': 'Tipe puncak tidak valid',
         'API.INVALID_PERIOD_TYPE': 'Tipe siklus tidak valid',
         'API.INVALID_PHOTOVOLTAIC_POWER_STATION_ID': 'Invalid photovoltaic power station ID',
         'API.INVALID_PHOTOVOLTAIC_POWER_STATION_NAME': 'Invalid photovoltaic power station name',

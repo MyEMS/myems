@@ -2178,6 +2178,7 @@
                     INVALID_PAYLOAD: 'Ongeldige payload',
                     INVALID_PEAK_CURRENT: 'Ongeldige piekstroom',
                     INVALID_PEAK_LOAD: 'Ongeldige piekbelasting',
+                    INVALID_PEAK_TYPE: 'Ongeldig piektype',
                     INVALID_PERIOD_TYPE: 'Ongeldig periode type',
                     INVALID_PHOTOVOLTAIC_POWER_STATION_ID: 'Ongeldig fotovoltaïsche centrale ID',
                     INVALID_PHOTOVOLTAIC_POWER_STATION_NAME: 'Ongeldige fotovoltaïsche centrale naam',

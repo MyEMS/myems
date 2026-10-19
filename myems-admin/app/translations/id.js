@@ -2178,6 +2178,7 @@
                     INVALID_PAYLOAD: 'Invalid Payload',
                     INVALID_PEAK_CURRENT: 'Maksimum saat ini tidak valid',
                     INVALID_PEAK_LOAD: 'Muatan puncak tidak valid',
+                    INVALID_PEAK_TYPE: 'Tipe puncak tidak valid',
                     INVALID_PERIOD_TYPE: 'Tipe siklus tidak valid',
                     INVALID_PHOTOVOLTAIC_POWER_STATION_ID: 'Invalid Photovoltaic Power Station ID',
                     INVALID_PHOTOVOLTAIC_POWER_STATION_NAME: 'Invalid Photovoltaic Power Station Name',

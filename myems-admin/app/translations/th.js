@@ -2178,6 +2178,7 @@
                     INVALID_PAYLOAD: 'Invalid Payload',
                     INVALID_PEAK_CURRENT: 'Invalid Peak Current',
                     INVALID_PEAK_LOAD: 'Invalid Peak Load',
+                    INVALID_PEAK_TYPE: 'Invalid Peak Type',
                     INVALID_PERIOD_TYPE: 'Invalid Period Type',
                     INVALID_PHOTOVOLTAIC_POWER_STATION_ID: 'Invalid Photovoltaic Power Station ID',
                     INVALID_PHOTOVOLTAIC_POWER_STATION_NAME: 'Invalid Photovoltaic Power Station Name',

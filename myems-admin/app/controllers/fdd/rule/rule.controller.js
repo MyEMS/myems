@@ -241,7 +241,7 @@ app.controller('RuleController', function(
 						import_template: JSON.stringify({
 							name: "Rule Name",
 							category: "METER",
-							fdd_code: "FDD_CODE",
+							fdd_code: "METER01",
 							priority: "HIGH",
 							channel: "WEB",
 							expression: "{\"condition\":\"value > 0\"}",

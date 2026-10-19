@@ -2178,6 +2178,7 @@
                     INVALID_PAYLOAD: 'Carga Útil Inválida',
                     INVALID_PEAK_CURRENT: 'Corrente de Pico Inválida',
                     INVALID_PEAK_LOAD: 'Carga de Pico Inválida',
+                    INVALID_PEAK_TYPE: 'Tipo de Pico Inválido',
                     INVALID_PERIOD_TYPE: 'Tipo de Período Inválido',
                     INVALID_PHOTOVOLTAIC_POWER_STATION_ID: 'ID de Estação de Energia Fotovoltaica Inválido',
                     INVALID_PHOTOVOLTAIC_POWER_STATION_NAME: 'Nome de Estação de Energia Fotovoltaica Inválido',

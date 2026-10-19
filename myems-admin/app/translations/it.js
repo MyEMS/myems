@@ -2177,6 +2177,7 @@
                     INVALID_PAYLOAD: 'Payload non valido',
                     INVALID_PEAK_CURRENT: 'Corrente di picco non valida',
                     INVALID_PEAK_LOAD: 'Carico di picco non valido',
+                    INVALID_PEAK_TYPE: 'Tipo di picco non valido',
                     INVALID_PERIOD_TYPE: 'Tipo periodo non valido',
                     INVALID_PHOTOVOLTAIC_POWER_STATION_ID: 'ID della Centrale Fotovoltaica non valido',
                     INVALID_PHOTOVOLTAIC_POWER_STATION_NAME: 'Nome della Centrale Fotovoltaica non valido',

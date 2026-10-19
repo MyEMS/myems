@@ -7,6 +7,24 @@ import redis
 from core.useractivity import user_logger, admin_control, access_control, api_key_control
 import config
 
+# tbl_tariffs_timeofuses.peak_type: toppeak尖 onpeak峰 midpeak平 offpeak谷 deep深谷
+VALID_PEAK_TYPES = ('toppeak', 'onpeak', 'midpeak', 'offpeak', 'deep')
+
+
+def validate_timeofuse_peak_types(timeofuses):
+    """Reject time-of-use rows whose peak_type is outside the allowed set."""
+    if not isinstance(timeofuses, list):
+        raise falcon.HTTPError(status=falcon.HTTP_400,
+                               title='API.BAD_REQUEST',
+                               description='API.INVALID_TARIFF_TIME_OF_USE_PRICING')
+    for timeofuse in timeofuses:
+        peak_type = timeofuse.get('peak_type') if isinstance(timeofuse, dict) else None
+        if not isinstance(peak_type, str) or str.strip(peak_type) not in VALID_PEAK_TYPES:
+            raise falcon.HTTPError(status=falcon.HTTP_400,
+                                   title='API.BAD_REQUEST',
+                                   description='API.INVALID_PEAK_TYPE')
+        timeofuse['peak_type'] = str.strip(peak_type)
+
 
 def clear_tariff_cache(tariff_id=None):
     """
@@ -231,6 +249,7 @@ class TariffCollection:
                 raise falcon.HTTPError(status=falcon.HTTP_400,
                                        title='API.BAD_REQUEST',
                                        description='API.INVALID_TARIFF_TIME_OF_USE_PRICING')
+            validate_timeofuse_peak_types(new_values['data']['timeofuse'])
 
         if 'unit_of_price' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['unit_of_price'], str) or \
@@ -523,6 +542,7 @@ class TariffItem:
                 raise falcon.HTTPError(status=falcon.HTTP_400,
                                        title='API.BAD_REQUEST',
                                        description='API.INVALID_TARIFF_TIME_OF_USE_PRICING')
+            validate_timeofuse_peak_types(new_values['data']['timeofuse'])
 
         if 'unit_of_price' not in new_values['data'].keys() or \
                 not isinstance(new_values['data']['unit_of_price'], str) or \
@@ -778,6 +798,7 @@ class TariffImport:
                 raise falcon.HTTPError(status=falcon.HTTP_400,
                                        title='API.BAD_REQUEST',
                                        description='API.INVALID_TARIFF_TIME_OF_USE_PRICING')
+            validate_timeofuse_peak_types(new_values['timeofuse'])
 
         if 'unit_of_price' not in new_values.keys() or \
                 not isinstance(new_values['unit_of_price'], str) or \
@@ -917,6 +938,9 @@ class TariffClone:
                 timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
                 if config.utc_offset[0] == '-':
                     timezone_offset = -timezone_offset
+                if result['tariff_type'] == 'timeofuse':
+                    validate_timeofuse_peak_types(result['timeofuse'])
+
                 suffix = (
                     datetime.now(timezone.utc).replace(tzinfo=None)
                     + timedelta(minutes=timezone_offset)

@@ -1083,6 +1083,7 @@ export default {
         'API.INVALID_PAYLOAD': 'Invalid payload',
         'API.INVALID_PEAK_CURRENT': '无效峰值电流',
         'API.INVALID_PEAK_LOAD': '无效峰值负载',
+        'API.INVALID_PEAK_TYPE': '无效的峰谷平类型',
         'API.INVALID_PERIOD_TYPE': '无效周期类型',
         'API.INVALID_PHOTOVOLTAIC_POWER_STATION_ID': 'Invalid photovoltaic power station ID',
         'API.INVALID_PHOTOVOLTAIC_POWER_STATION_NAME': 'Invalid photovoltaic power station name',

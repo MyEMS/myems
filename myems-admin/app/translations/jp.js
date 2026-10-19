@@ -2178,6 +2178,7 @@
                     INVALID_PAYLOAD: 'Invalid Payload',
                     INVALID_PEAK_CURRENT: '無効なピーク電流',
                     INVALID_PEAK_LOAD: '無効なピーク負荷',
+                    INVALID_PEAK_TYPE: '無効なピークタイプ',
                     INVALID_PERIOD_TYPE: '無効な期間タイプ',
                     INVALID_PHOTOVOLTAIC_POWER_STATION_ID: 'Invalid Photovoltaic Power Station ID',
                     INVALID_PHOTOVOLTAIC_POWER_STATION_NAME: 'Invalid Photovoltaic Power Station Name',

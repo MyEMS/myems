@@ -1059,6 +1059,7 @@ Please copy it to the input box below.':
         'API.INVALID_PAYLOAD': 'Invalid payload',
         'API.INVALID_PEAK_CURRENT': 'Invalid peak current',
         'API.INVALID_PEAK_LOAD': 'Invalid peak load',
+        'API.INVALID_PEAK_TYPE': 'Invalid peak type',
         'API.INVALID_PERIOD_TYPE': 'Invalid period type',
         'API.INVALID_PHOTOVOLTAIC_POWER_STATION_ID': 'Invalid photovoltaic power station ID',
         'API.INVALID_PHOTOVOLTAIC_POWER_STATION_NAME': 'Invalid photovoltaic power station name',

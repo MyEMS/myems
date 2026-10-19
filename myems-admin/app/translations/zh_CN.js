@@ -2303,6 +2303,7 @@
         INVALID_PAYLOAD: "无效的载荷",
         INVALID_PEAK_CURRENT: "无效峰值电流",
         INVALID_PEAK_LOAD: "无效峰值负载",
+        INVALID_PEAK_TYPE: "无效的峰谷平类型",
         INVALID_PERIOD_TYPE: "无效周期类型",
         INVALID_PHOTOVOLTAIC_POWER_STATION_ID:
           "无效的光伏电站ID",

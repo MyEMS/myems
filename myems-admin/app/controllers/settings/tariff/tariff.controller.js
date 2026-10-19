@@ -249,7 +249,7 @@ app.controller('TariffController', function(
 								{
 									start_time_of_day: "00:00:00",
 									end_time_of_day: "08:00:00",
-									peak_type: "valley",
+									peak_type: "offpeak",
 									price: 0.3
 								}
 							]

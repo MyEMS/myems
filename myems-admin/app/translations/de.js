@@ -2177,6 +2177,7 @@
                     INVALID_PAYLOAD: 'Ungültige Nutzlast',
                     INVALID_PEAK_CURRENT: 'Ungültiger Spitzenstrom',
                     INVALID_PEAK_LOAD: 'Ungültige Spitzenlast',
+                    INVALID_PEAK_TYPE: 'Ungültiger Spitzentyp',
                     INVALID_PERIOD_TYPE: 'Ungültiger Periodentyp',
                     INVALID_PHOTOVOLTAIC_POWER_STATION_ID: 'Ungültige ID des Photovoltaik-Kraftwerks',
                     INVALID_PHOTOVOLTAIC_POWER_STATION_NAME: 'Ungültiger Name des Photovoltaik-Kraftwerks',
