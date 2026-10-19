@@ -2582,6 +2582,7 @@
                 "Batch Analysis": 'Analyse par lot',
                 "Equipment Tracking": 'Suivi d\'équipement',
                 "Equipment Comparison": 'Comparaison d\'équipements',
+                "Equipment Realtime Monitor": 'Surveillance en temps réel d\'équipements',
                 "Meter Data": 'Données de compteur',
                 "Meter Energy": 'Énergie du compteur',
                 "Meter Cost": 'Coût du compteur',

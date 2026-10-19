@@ -2583,6 +2583,7 @@
                 "Batch Analysis": 'Batchanalyse',
                 "Equipment Tracking": 'Apparatuurregister',
                 "Equipment Comparison": 'Vergelijkende analyse',
+                "Equipment Realtime Monitor": 'Realtime bewaking van apparatuur',
                 "Meter Data": 'Metergegevens',
                 "Meter Energy": 'Meter energie-analyse',
                 "Meter Cost": 'Meter kostenanalyse',

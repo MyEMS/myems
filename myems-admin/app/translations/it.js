@@ -2582,6 +2582,7 @@
                 "Batch Analysis": 'Analisi Batch',
                 "Equipment Tracking": 'Registro Equipaggiamenti',
                 "Equipment Comparison": 'Analisi Comparativa',
+                "Equipment Realtime Monitor": 'Monitoraggio Tempo Reale Equipaggiamenti',
                 "Meter Data": 'Dati Contatore',
                 "Meter Energy": 'Analisi Consumo Contatore',
                 "Meter Cost": 'Analisi Costi Contatore',

@@ -2584,6 +2584,7 @@
                 "Batch Analysis": 'Batch Analysis',
                 "Equipment Tracking": 'Equipment Tracking',
                 "Equipment Comparison": 'Comparison',
+                "Equipment Realtime Monitor": 'Equipment Realtime Monitor',
                 "Meter Data": 'Meter',
                 "Meter Energy": 'Meter Energy',
                 "Meter Cost": 'Meter Cost',

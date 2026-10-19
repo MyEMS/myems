@@ -2583,6 +2583,7 @@
                 "Batch Analysis": 'Analisis Kelompok',
                 "Equipment Tracking": 'Penjejakan Peralatan',
                 "Equipment Comparison": 'Perbandingan Peralatan',
+                "Equipment Realtime Monitor": 'Pemantauan Peralatan Masa Nyata',
                 "Meter Data": 'Data Meter',
                 "Meter Energy": 'Tenaga Meter',
                 "Meter Cost": 'Kos Meter',

@@ -2583,6 +2583,7 @@
                 "Batch Analysis": 'Phân tích hàng loạt',
                 "Equipment Tracking": 'Theo dõi thiết bị',
                 "Equipment Comparison": 'So sánh thiết bị',
+                "Equipment Realtime Monitor": 'Giám sát thiết bị thời gian thực',
                 "Meter Data": 'Mét',
                 "Meter Energy": 'Năng lượng đo',
                 "Meter Cost": 'Chi phí đồng hồ đo',

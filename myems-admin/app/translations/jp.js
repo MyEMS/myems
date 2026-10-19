@@ -2583,6 +2583,7 @@
                 "Batch Analysis": 'バッチ分析',
                 "Equipment Tracking": '設備台帳',
                 "Equipment Comparison": '比較分析',
+                "Equipment Realtime Monitor": '設備リアルタイム監視',
                 "Meter Data": 'メーターデータ',
                 "Meter Energy": 'メーターエネルギー分析',
                 "Meter Cost": 'メーターコスト分析',
