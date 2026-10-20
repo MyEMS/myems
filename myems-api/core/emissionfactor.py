@@ -296,7 +296,7 @@ class EmissionFactorCollection:
                          )
                     )
 
-                cnx.commit()
+                    cnx.commit()
 
             finally:
                 if cursor:
@@ -600,7 +600,7 @@ class EmissionFactorItem:
                         )
                     )
 
-                cnx.commit()
+                    cnx.commit()
             finally:
                 if cursor:
                     cursor.close()
