@@ -272,8 +272,8 @@ class WebMessageStatusNewCollection:
                                     ),
                                "update_datetime":
                                    (
-                                   row[6].replace(tzinfo=timezone.utc).timestamp() * 1000
-                                   if isinstance(row[6], datetime) else None
+                                        row[6].replace(tzinfo=timezone.utc).timestamp() * 1000
+                                        if isinstance(row[6], datetime) else None
                                     ),
                                "status": row[7],
                                "reply": row[8]}
