@@ -269,12 +269,12 @@ class WebMessageStatusNewCollection:
                                    (
                                         row[5].replace(tzinfo=timezone.utc).timestamp() * 1000
                                         if isinstance(row[5], datetime) else None
-                                    ),
+                                   ),
                                "update_datetime":
                                    (
                                         row[6].replace(tzinfo=timezone.utc).timestamp() * 1000
                                         if isinstance(row[6], datetime) else None
-                                    ),
+                                   ),
                                "status": row[7],
                                "reply": row[8]}
                 result.append(meta_result)
