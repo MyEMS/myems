@@ -432,11 +432,26 @@ class Reporting:
         # export result to Excel/PDF/DOCX file and then encode the file to base64 string
         if not is_quick_mode:
             if is_export_excel:
-                result['excel_bytes_base64'] = excelexporters.storebatch.export(result, space_name, reporting_period_start_datetime_local, reporting_period_end_datetime_local, language)
+                result['excel_bytes_base64'] = (
+                    excelexporters.storebatch.export(result,
+                                                     space_name,
+                                                     reporting_period_start_datetime_local,
+                                                     reporting_period_end_datetime_local,
+                                                     language))
             if is_export_pdf:
-                result['pdf_bytes_base64'] = pdfexporters.storebatch.export(result, space_name, reporting_period_start_datetime_local, reporting_period_end_datetime_local, language)
+                result['pdf_bytes_base64'] = (
+                    pdfexporters.storebatch.export(result,
+                                                   space_name,
+                                                   reporting_period_start_datetime_local,
+                                                   reporting_period_end_datetime_local,
+                                                   language))
             if is_export_docx:
-                result['docx_bytes_base64'] = docxexporters.storebatch.export(result, space_name, reporting_period_start_datetime_local, reporting_period_end_datetime_local, language)
+                result['docx_bytes_base64'] = (
+                    docxexporters.storebatch.export(result,
+                                                    space_name,
+                                                    reporting_period_start_datetime_local,
+                                                    reporting_period_end_datetime_local,
+                                                    language))
         resp_text = json.dumps(result)
         resp.text = resp_text
 

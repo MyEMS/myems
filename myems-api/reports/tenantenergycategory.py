@@ -800,23 +800,23 @@ class Reporting:
             if is_export_pdf:
                 result['pdf_bytes_base64'] = \
                     pdfexporters.tenantenergycategory.export(result,
-                                                                  tenant['name'],
-                                                                  base_period_start_datetime_local,
-                                                                  base_period_end_datetime_local,
-                                                                  reporting_period_start_datetime_local,
-                                                                  reporting_period_end_datetime_local,
-                                                                  period_type,
-                                                                  language)
+                                                             tenant['name'],
+                                                             base_period_start_datetime_local,
+                                                             base_period_end_datetime_local,
+                                                             reporting_period_start_datetime_local,
+                                                             reporting_period_end_datetime_local,
+                                                             period_type,
+                                                             language)
             if is_export_docx:
                 result['docx_bytes_base64'] = \
                     docxexporters.tenantenergycategory.export(result,
-                                                                   tenant['name'],
-                                                                   base_period_start_datetime_local,
-                                                                   base_period_end_datetime_local,
-                                                                   reporting_period_start_datetime_local,
-                                                                   reporting_period_end_datetime_local,
-                                                                   period_type,
-                                                                   language)
+                                                              tenant['name'],
+                                                              base_period_start_datetime_local,
+                                                              base_period_end_datetime_local,
+                                                              reporting_period_start_datetime_local,
+                                                              reporting_period_end_datetime_local,
+                                                              period_type,
+                                                              language)
 
         resp_text = json.dumps(result)
         resp.text = resp_text

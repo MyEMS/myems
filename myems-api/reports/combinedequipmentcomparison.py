@@ -641,13 +641,13 @@ class Reporting:
                 try:
                     result['pdf_bytes_base64'] = \
                         pdfexporters.combinedequipmentcomparison.export(result,
-                                                                    combined_equipment1['name'],
-                                                                    combined_equipment2['name'],
-                                                                    energy_category['name'],
-                                                                    reporting_period_start_datetime_local,
-                                                                    reporting_period_end_datetime_local,
-                                                                    period_type,
-                                                                    language)
+                                                                        combined_equipment1['name'],
+                                                                        combined_equipment2['name'],
+                                                                        energy_category['name'],
+                                                                        reporting_period_start_datetime_local,
+                                                                        reporting_period_end_datetime_local,
+                                                                        period_type,
+                                                                        language)
                 except Exception:
                     logger.error("Failed to export PDF", exc_info=True)
 

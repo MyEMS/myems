@@ -248,7 +248,8 @@ class Reporting:
             # Get store list based on user privileges
             store_list = []
             if user['is_admin']:
-                cursor_system.execute(" SELECT id, name, uuid, area, address, latitude, longitude, contact_id, cost_center_id "
+                cursor_system.execute(" SELECT id, name, uuid, area, address, "
+                                      "latitude, longitude, contact_id, cost_center_id "
                                       " FROM tbl_stores ORDER BY id ")
                 rows_stores = cursor_system.fetchall()
                 if rows_stores:
@@ -360,9 +361,9 @@ class Reporting:
             store_ids_list = [store['id'] for store in store_list]
             store_ids_tuple = tuple(store_ids_list)
 
-            ################################################################################################################
+            ############################################################################################################
             # Step 3: Query energy categories
-            ################################################################################################################
+            ############################################################################################################
             cursor_system.execute(" SELECT id, name, unit_of_measure, kgce, kgco2e "
                                   " FROM tbl_energy_categories ORDER BY id ")
             rows_energy_categories = cursor_system.fetchall()
@@ -376,9 +377,9 @@ class Reporting:
                         'kgco2e': float(row[4])
                     }
 
-            ################################################################################################################
+            ############################################################################################################
             # Step 4: Query reporting period energy input by category
-            ################################################################################################################
+            ############################################################################################################
             reporting_input = {
                 'names': [],
                 'units': [],
@@ -433,9 +434,9 @@ class Reporting:
             reporting_input['total_in_kgce_per_unit_area'] = total_in_kgce / total_area if total_area > 0 else 0.0
             reporting_input['total_in_kgco2e_per_unit_area'] = total_in_kgco2e / total_area if total_area > 0 else 0.0
 
-            ################################################################################################################
+            ############################################################################################################
             # Step 5: Query energy cost data
-            ################################################################################################################
+            ############################################################################################################
             reporting_cost = {
                 'names': list(reporting_input['names']),
                 'energy_category_ids': list(reporting_input['energy_category_ids']),
@@ -472,9 +473,9 @@ class Reporting:
                             reporting_cost['subtotals_per_unit_area'][idx] = (
                                 cost / total_area if total_area > 0 else 0.0)
 
-            ################################################################################################################
+            ############################################################################################################
             # Step 6: Query daily trends from 1st of last month (OPTIMIZED: single query + memory aggregation)
-            ################################################################################################################
+            ############################################################################################################
             # Calculate the start date: 1st of last month relative to reporting end
             if reporting_end_datetime_utc.month == 1:
                 daily_start = reporting_end_datetime_utc.replace(
@@ -589,9 +590,9 @@ class Reporting:
             reporting_input['category_names'] = list(reporting_input['names'])
             reporting_input['category_units'] = list(reporting_input['units'])
 
-            ################################################################################################################
+            ############################################################################################################
             # Step 7: Query store statistics
-            ################################################################################################################
+            ############################################################################################################
             # Count meters
             total_meters = 0
             total_sensors = 0
@@ -650,9 +651,9 @@ class Reporting:
                 if cnx_fdd:
                     cnx_fdd.close()
 
-            ################################################################################################################
+            ############################################################################################################
             # Step 8: Query top 5 consuming stores and all stores energy by category
-            ################################################################################################################
+            ############################################################################################################
             top_stores = []
             store_energy_by_category = {}
 
@@ -779,9 +780,9 @@ class Reporting:
                     'categories': energy_data['categories']
                 })
 
-            ################################################################################################################
+            ############################################################################################################
             # Step 9: Construct the report
-            ################################################################################################################
+            ############################################################################################################
 
             # Prepare store details for response with energy data by category
             store_details = []

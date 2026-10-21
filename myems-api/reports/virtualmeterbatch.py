@@ -327,7 +327,8 @@ class Reporting:
                     virtual_meter_id_placeholders = ', '.join(['%s'] * len(virtual_meter_ids))
                     daily_query = (
                         " SELECT virtual_meter_id, "
-                        "        DATE(DATE_ADD(start_datetime_utc, INTERVAL " + str(timezone_offset) + " MINUTE)) AS local_date, "
+                        "        DATE(DATE_ADD(start_datetime_utc, INTERVAL " + str(timezone_offset) +
+                        " MINUTE)) AS local_date, "
                         "        SUM(actual_value) AS daily_value "
                         " FROM tbl_virtual_meter_hourly "
                         " WHERE virtual_meter_id IN (" + virtual_meter_id_placeholders + ") "
@@ -351,7 +352,9 @@ class Reporting:
                         if virtual_meter_id not in virtual_meter_dict:
                             continue
 
-                        date_str = local_date.strftime('%Y-%m-%d') if isinstance(local_date, datetime) else str(local_date)
+                        date_str = local_date.strftime('%Y-%m-%d') \
+                            if isinstance(local_date, datetime) \
+                            else str(local_date)
                         virtual_meter_dict[virtual_meter_id]['daily_values'][date_str] = daily_value
 
                         if daily_value is None:
@@ -366,7 +369,9 @@ class Reporting:
                         virtual_meter_dict[virtual_meter_id]['subtotal'] = subtotal
                         for energy_category in energy_category_list:
                             virtual_meter_dict[virtual_meter_id]['values'].append(
-                                subtotal if energy_category['id'] == virtual_meter_dict[virtual_meter_id]['energy_category_id'] else None
+                                subtotal
+                                if energy_category['id'] == virtual_meter_dict[virtual_meter_id]['energy_category_id']
+                                else None
                             )
 
             finally:

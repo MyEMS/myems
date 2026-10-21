@@ -248,7 +248,8 @@ class Reporting:
             # Get tenant list based on user privileges
             tenant_list = []
             if user['is_admin']:
-                cursor_system.execute(" SELECT t.id, t.uuid, t.name, t.area, t.tenant_type_id, tt.name as tenant_type_name "
+                cursor_system.execute(" SELECT t.id, t.uuid, t.name, t.area, t.tenant_type_id, tt.name "
+                                      "as tenant_type_name "
                                       " FROM tbl_tenants t "
                                       " LEFT JOIN tbl_tenant_types tt ON t.tenant_type_id = tt.id "
                                       " ORDER BY t.id ")
@@ -357,9 +358,9 @@ class Reporting:
             tenant_ids_list = [tenant['id'] for tenant in tenant_list]
             tenant_ids_tuple = tuple(tenant_ids_list)
 
-            ################################################################################################################
+            ############################################################################################################
             # Step 3: Query energy categories
-            ################################################################################################################
+            ############################################################################################################
             cursor_system.execute(" SELECT id, name, unit_of_measure, kgce, kgco2e "
                                   " FROM tbl_energy_categories ORDER BY id ")
             rows_energy_categories = cursor_system.fetchall()
@@ -373,9 +374,9 @@ class Reporting:
                         'kgco2e': float(row[4])
                     }
 
-            ################################################################################################################
+            ############################################################################################################
             # Step 4: Query reporting period energy input by category
-            ################################################################################################################
+            ############################################################################################################
             reporting_input = {
                 'names': [],
                 'units': [],
@@ -431,9 +432,9 @@ class Reporting:
             reporting_input['total_in_kgce_per_unit_area'] = total_in_kgce / total_area if total_area > 0 else 0.0
             reporting_input['total_in_kgco2e_per_unit_area'] = total_in_kgco2e / total_area if total_area > 0 else 0.0
 
-            ################################################################################################################
+            ############################################################################################################
             # Step 5: Query energy cost data
-            ################################################################################################################
+            ############################################################################################################
             reporting_cost = {
                 'names': list(reporting_input['names']),
                 'energy_category_ids': list(reporting_input['energy_category_ids']),
@@ -471,9 +472,9 @@ class Reporting:
                                 reporting_cost['subtotals_per_unit_area'][idx] = (
                                     cost / total_area if total_area > 0 else 0.0)
 
-            ################################################################################################################
+            ############################################################################################################
             # Step 6: Query daily trends from 1st of last month (OPTIMIZED: single query + memory aggregation)
-            ################################################################################################################
+            ############################################################################################################
             # Calculate the start date: 1st of last month relative to reporting end
             if reporting_end_datetime_utc.month == 1:
                 daily_start = reporting_end_datetime_utc.replace(
@@ -588,9 +589,9 @@ class Reporting:
             reporting_input['category_names'] = list(reporting_input['names'])
             reporting_input['category_units'] = list(reporting_input['units'])
 
-            ################################################################################################################
+            ############################################################################################################
             # Step 7: Query tenant statistics
-            ################################################################################################################
+            ############################################################################################################
             # Count meters
             # Validate all IDs are integers before using in SQL (already validated above)
             total_meters = 0
@@ -649,9 +650,9 @@ class Reporting:
                 if cnx_fdd:
                     cnx_fdd.close()
 
-            ################################################################################################################
+            ############################################################################################################
             # Step 8: Query top 5 consuming tenants and all tenants energy by category
-            ################################################################################################################
+            ############################################################################################################
             top_tenants = []
             tenant_energy_by_category = {}
 
@@ -779,9 +780,9 @@ class Reporting:
                     'categories': energy_data['categories']
                 })
 
-            ################################################################################################################
+            ############################################################################################################
             # Step 9: Construct the report
-            ################################################################################################################
+            ############################################################################################################
 
             # Prepare tenant details for response with energy data by category
             tenant_details = []
