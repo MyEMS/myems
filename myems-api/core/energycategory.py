@@ -8,6 +8,8 @@ import config
 import logging
 
 logger = logging.getLogger(__name__)
+
+
 def clear_energycategory_cache(energy_category_id=None):
     """
     Clear energy category-related cache after data modification

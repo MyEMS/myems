@@ -179,13 +179,16 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
               let microgridList = [];
               let totalRatedCapacity = 0;
               let totalRatedPower = 0;
+              const microgrids = Array.isArray(json['microgrids']) ? json['microgrids'] : [];
 
-              setRootLongitude(json['microgrids'][0]['longitude']);
-              setRootLatitude(json['microgrids'][0]['latitude']);
+              if (microgrids.length > 0) {
+                setRootLongitude(microgrids[0]['longitude']);
+                setRootLatitude(microgrids[0]['latitude']);
+              }
               let geojson = {};
               let geojsonData = [];
-              json['microgrids'].forEach((currentValue, index) => {
-                let microgridItem = json['microgrids'][index];
+              microgrids.forEach((currentValue, index) => {
+                let microgridItem = microgrids[index];
                 totalRatedCapacity += microgridItem['rated_capacity'];
                 totalRatedPower += microgridItem['rated_power'];
                 if (microgridItem['latitude'] && microgridItem['longitude']) {
@@ -199,7 +202,7 @@ const Dashboard = ({ setRedirect, setRedirectUrl, t }) => {
                       title: microgridItem['name'],
                       description: microgridItem['description'],
                       uuid: microgridItem['uuid'],
-                      url: '/microgrid/details'
+                      url: '/singlemicrogrid/details'
                     }
                   });
                 }

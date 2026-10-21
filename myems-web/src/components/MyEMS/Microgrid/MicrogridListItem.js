@@ -155,7 +155,7 @@ const MicrogridListItem = ({
                     icon="tv"
                     iconClassName="ml-2 d-none d-md-inline-block"
                     className="w-lg-100 mt-2"
-                    onClick={() => window.open(`microgrid/details?uuid=${uuid}`, '_blank')}
+                    onClick={() => window.open(`/singlemicrogrid/details?uuid=${uuid}`, '_blank')}
                   >
                     {t('Monitoring')}
                   </ButtonIcon>
@@ -165,7 +165,7 @@ const MicrogridListItem = ({
                     icon="chart-pie"
                     iconClassName="ml-2 d-none d-md-inline-block"
                     className="w-lg-100 mt-2"
-                    onClick={() => window.open(`microgrid/reporting?uuid=${uuid}`, '_blank')}
+                    onClick={() => window.open(`/microgridreports/energy?uuid=${uuid}`, '_blank')}
                   >
                     {t('Reporting')}
                   </ButtonIcon>
@@ -176,21 +176,10 @@ const MicrogridListItem = ({
                       'border-300': !isOnline
                     })}
                     icon={[isOnline ? 'fas' : 'far', 'exclamation-triangle']}
-                    onClick={() => window.open('fdd', '_blank')}
+                    onClick={() => window.open('/notification', '_blank')}
                   >
                     {/* {t('Fault Alarms')}({alarms.length}) */}
                     {t('Fault Alarms')}
-                  </ButtonIcon>
-
-                  <ButtonIcon
-                    color="primary"
-                    size="sm"
-                    icon="tools"
-                    iconClassName="ml-2 d-none d-md-inline-block"
-                    className="w-lg-100 mt-2"
-                    onClick={handleAddToCart}
-                  >
-                    {t('Maintenance')}
                   </ButtonIcon>
                 </div>
               </Col>

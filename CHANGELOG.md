@@ -23,6 +23,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - fixed issue of dockerfile in myems-s7
 - fixed footer issue in myems-admin
 - fixed shopfloor issue in myems-admin
+- fixed pep 8 warnings in myems-api
 ### Removed
 
 

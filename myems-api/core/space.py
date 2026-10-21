@@ -11,6 +11,8 @@ import config
 import logging
 
 logger = logging.getLogger(__name__)
+
+
 def clear_space_cache(space_id=None, parent_space_id=None):
     """
     Clear space-related cache after data modification
@@ -3752,7 +3754,6 @@ class SpaceTreeCollection:
                         if row[3] is not None and row[3] in node_dict:
                             node_dict[row[0]].parent = node_dict[row[3]]
 
-                        
                 if space_id not in node_dict:
                     raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                            description='API.SPACE_NOT_FOUND')
