@@ -370,7 +370,9 @@ class Reporting:
                             continue
 
                         date_str = (
-                            local_date.strftime('%Y-%m-%d')) if isinstance(local_date, datetime) else str(local_date)
+                            local_date.strftime('%Y-%m-%d')
+                            if isinstance(local_date, datetime)
+                            else str(local_date))
                         meter_dict[meter_id]['daily_values'][date_str] = daily_value
 
                         if daily_value is None:
