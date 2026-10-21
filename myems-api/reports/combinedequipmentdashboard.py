@@ -660,8 +660,8 @@ class Reporting:
                                 'categories': {}
                             }
 
-                        combined_equipment_energy_by_category[combined_equipment_id]['categories'][ec_id] \
-                            = category_energy
+                        combined_equipment_energy_by_category[combined_equipment_id]['categories'][ec_id] = (
+                            category_energy)
                         combined_equipment_energy_by_category[combined_equipment_id]['total_energy'] += category_energy
 
             # Query cost by category for each combined equipment
@@ -721,8 +721,8 @@ class Reporting:
                                 'categories': {}
                             }
 
-                        combined_equipment_carbon_by_category[combined_equipment_id]['categories'][ec_id] \
-                            = category_carbon
+                        combined_equipment_carbon_by_category[combined_equipment_id]['categories'][ec_id] = (
+                            category_carbon)
                         combined_equipment_carbon_by_category[combined_equipment_id]['total_carbon'] += category_carbon
 
             # Build top 5 combined equipments
@@ -733,9 +733,9 @@ class Reporting:
             )[:5]
 
             for combined_equipment_id, energy_data in sorted_combined_equipments:
-                combined_equipment_name = combined_equipment_name_dict.get(combined_equipment_id,
-                                                                           f'Combined Equipment #'
-                                                                           f'{combined_equipment_id}')
+                combined_equipment_name = (
+                    combined_equipment_name_dict.get(
+                        combined_equipment_id, f'Combined Equipment #{combined_equipment_id}'))
                 top_combined_equipments.append({
                     'id': combined_equipment_id,
                     'name': combined_equipment_name,
