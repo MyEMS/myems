@@ -255,26 +255,14 @@ class WebMessageStatusNewCollection:
                 meta_result = {"id": row[0],
                                "subject": row[1],
                                "message": row[2].replace("<br>", ""),
-                               "created_datetime":
-                                   (
-                                        row[3].replace(tzinfo=timezone.utc).timestamp() * 1000
-                                        if isinstance(row[3], datetime) else None
-                                   ),
-                               "start_datetime":
-                                   (
-                                        row[4].replace(tzinfo=timezone.utc).timestamp() * 1000
-                                        if isinstance(row[4], datetime) else None
-                                   ),
-                               "end_datetime":
-                                   (
-                                        row[5].replace(tzinfo=timezone.utc).timestamp() * 1000
-                                        if isinstance(row[5], datetime) else None
-                                   ),
-                               "update_datetime":
-                                   (
-                                        row[6].replace(tzinfo=timezone.utc).timestamp() * 1000
-                                        if isinstance(row[6], datetime) else None
-                                   ),
+                               "created_datetime": row[3].replace(tzinfo=timezone.utc).timestamp() * 1000
+                               if isinstance(row[3], datetime) else None,
+                               "start_datetime": row[4].replace(tzinfo=timezone.utc).timestamp() * 1000
+                               if isinstance(row[4], datetime) else None,
+                               "end_datetime": row[5].replace(tzinfo=timezone.utc).timestamp() * 1000
+                               if isinstance(row[5], datetime) else None,
+                               "update_datetime": row[6].replace(tzinfo=timezone.utc).timestamp() * 1000
+                               if isinstance(row[6], datetime) else None,
                                "status": row[7],
                                "reply": row[8]}
                 result.append(meta_result)

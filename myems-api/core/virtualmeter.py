@@ -557,8 +557,8 @@ class VirtualMeterItem:
                                                     "name": row[1],
                                                     "uuid": row[2]}
 
-                query = (" SELECT id, name, uuid, equation, energy_category_id, is_counted, "
-                         "is_enabled, cost_center_id, "
+                query = (" SELECT id, name, uuid, equation, energy_category_id,"
+                         " is_counted, is_enabled, cost_center_id, "
                          "        energy_item_id, description "
                          " FROM tbl_virtual_meters "
                          " WHERE id = %s ")
@@ -1168,8 +1168,8 @@ class VirtualMeterExport:
                                                     "name": row[1],
                                                     "uuid": row[2]}
 
-                query = (" SELECT id, name, uuid, equation, energy_category_id, "
-                         "is_counted, is_enabled, cost_center_id, "
+                query = (" SELECT id, name, uuid, equation, energy_category_id,"
+                         " is_counted, is_enabled, cost_center_id, "
                          "        energy_item_id, description "
                          " FROM tbl_virtual_meters "
                          " WHERE id = %s ")
@@ -1544,8 +1544,8 @@ class VirtualMeterClone:
                         cost_center_dict[row[0]] = {"id": row[0],
                                                     "name": row[1],
                                                     "uuid": row[2]}
-                query = (" SELECT id, name, uuid, equation, energy_category_id, "
-                         "is_counted, is_enabled, cost_center_id, "
+                query = (" SELECT id, name, uuid, equation, energy_category_id,"
+                         " is_counted, is_enabled, cost_center_id, "
                          "        energy_item_id, description "
                          " FROM tbl_virtual_meters "
                          " WHERE id = %s ")
