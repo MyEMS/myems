@@ -916,5 +916,4 @@ class EmissionFactorClone:
         clear_emission_factor_cache()
 
         resp.status = falcon.HTTP_201
-
         resp.location = '/emissionfactors/' + str(new_id)
