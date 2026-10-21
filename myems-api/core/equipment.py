@@ -10,6 +10,8 @@ from decimal import Decimal
 import logging
 
 logger = logging.getLogger(__name__)
+
+
 def clear_equipment_cache(equipment_id=None):
     """
     Clear equipment-related cache after data modification
