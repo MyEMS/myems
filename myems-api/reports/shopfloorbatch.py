@@ -442,17 +442,21 @@ class Reporting:
                     language,
                 )
             if is_export_pdf:
-                result['pdf_bytes_base64'] = pdfexporters.shopfloorbatch.export(result,
-                                                                                space_name,
-                                                                                reporting_period_start_datetime_local,
-                                                                                reporting_period_end_datetime_local,
-                                                                                language)
+                result['pdf_bytes_base64'] = pdfexporters.shopfloorbatch.export(
+                    result,
+                    space_name,
+                    reporting_period_start_datetime_local,
+                    reporting_period_end_datetime_local,
+                    language,
+                )
             if is_export_docx:
-                result['docx_bytes_base64'] = docxexporters.shopfloorbatch.export(result,
-                                                                                  space_name,
-                                                                                  reporting_period_start_datetime_local,
-                                                                                  reporting_period_end_datetime_local,
-                                                                                  language)
+                result['docx_bytes_base64'] = docxexporters.shopfloorbatch.export(
+                    result,
+                    space_name,
+                    reporting_period_start_datetime_local,
+                    reporting_period_end_datetime_local,
+                    language,
+                )
         resp_text = json.dumps(result)
         resp.text = resp_text
 
