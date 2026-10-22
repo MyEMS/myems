@@ -428,7 +428,7 @@ class Reporting:
             'energycategories': energy_category_list,
             'excel_bytes_base64': None,
             'pdf_bytes_base64': None,
-            'docx_bytes_base64': None
+            'docx_bytes_base64': None,
         }
 
         # export result to Excel/PDF file and then encode the file to base64 string
