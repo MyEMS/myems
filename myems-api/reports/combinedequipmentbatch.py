@@ -378,10 +378,14 @@ class Reporting:
 
                     # Attach cost and carbon to combined_equipment_dict
                     for combined_equipment_id in combined_equipment_dict:
-                        combined_equipment_dict[combined_equipment_id]['cost'] = (
-                            cost_map.get(combined_equipment_id, 0.0))
-                        combined_equipment_dict[combined_equipment_id]['carbon_emissions'] = (
-                            carbon_map.get(combined_equipment_id, 0.0))
+                        combined_equipment_dict[combined_equipment_id]['cost'] = cost_map.get(
+                            combined_equipment_id,
+                            0.0,
+                        )
+                        combined_equipment_dict[combined_equipment_id]['carbon_emissions'] = carbon_map.get(
+                            combined_equipment_id,
+                            0.0,
+                        )
         finally:
             if cursor_energy_db is not None:
                 try:

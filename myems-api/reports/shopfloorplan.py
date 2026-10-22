@@ -846,15 +846,16 @@ class Reporting:
         # export result to Excel/PDF file and then encode the file to base64 string
         if not is_quick_mode:
             if is_export_excel:
-                result['excel_bytes_base64'] = (
-                    excelexporters.shopfloorplan.export(result,
-                                                        shopfloor['name'],
-                                                        base_period_start_datetime_local,
-                                                        base_period_end_datetime_local,
-                                                        reporting_period_start_datetime_local,
-                                                        reporting_period_end_datetime_local,
-                                                        period_type,
-                                                        language))
+                result['excel_bytes_base64'] = excelexporters.shopfloorplan.export(
+                    result,
+                    shopfloor['name'],
+                    base_period_start_datetime_local,
+                    base_period_end_datetime_local,
+                    reporting_period_start_datetime_local,
+                    reporting_period_end_datetime_local,
+                    period_type,
+                    language,
+                )
             if is_export_pdf:
                 result['pdf_bytes_base64'] = pdfexporters.shopfloorplan.export(result,
                                                                                shopfloor['name'],
@@ -865,15 +866,16 @@ class Reporting:
                                                                                period_type,
                                                                                language)
             if is_export_docx:
-                result['docx_bytes_base64'] = (
-                    docxexporters.shopfloorplan.export(result,
-                                                       shopfloor['name'],
-                                                       base_period_start_datetime_local,
-                                                       base_period_end_datetime_local,
-                                                       reporting_period_start_datetime_local,
-                                                       reporting_period_end_datetime_local,
-                                                       period_type,
-                                                       language))
+                result['docx_bytes_base64'] = docxexporters.shopfloorplan.export(
+                    result,
+                    shopfloor['name'],
+                    base_period_start_datetime_local,
+                    base_period_end_datetime_local,
+                    reporting_period_start_datetime_local,
+                    reporting_period_end_datetime_local,
+                    period_type,
+                    language,
+                )
 
         resp_text = json.dumps(result)
         resp.text = resp_text

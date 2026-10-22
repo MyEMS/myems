@@ -248,8 +248,8 @@ class Reporting:
             # Get tenant list based on user privileges
             tenant_list = []
             if user['is_admin']:
-                cursor_system.execute(" SELECT t.id, t.uuid, t.name, t.area, t.tenant_type_id, tt.name "
-                                      "as tenant_type_name "
+                cursor_system.execute(" SELECT t.id, t.uuid, t.name, t.area, t.tenant_type_id, tt.name"
+                                      " as tenant_type_name "
                                       " FROM tbl_tenants t "
                                       " LEFT JOIN tbl_tenant_types tt ON t.tenant_type_id = tt.id "
                                       " ORDER BY t.id ")

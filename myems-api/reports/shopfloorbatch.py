@@ -271,8 +271,8 @@ class Reporting:
                     space_ids_placeholders = ','.join(['%s'] * len(space_ids))
                     cursor_system_db.execute(" SELECT shopfloor.id, shopfloor.name AS shopfloor_name, "
                                              "        shopfloor.uuid AS shopfloor_uuid, s.name AS space_name, "
-                                             "        s.id AS space_id, cc.name "
-                                             "AS cost_center_name, shopfloor.description "
+                                             "        s.id AS space_id, cc.name"
+                                             " AS cost_center_name, shopfloor.description "
                                              " FROM tbl_spaces s, tbl_spaces_shopfloors ss,"
                                              " tbl_shopfloors shopfloor, tbl_cost_centers cc "
                                              " WHERE s.id IN ( " + space_ids_placeholders + ") "
@@ -432,12 +432,13 @@ class Reporting:
         # export result to Excel/PDF file and then encode the file to base64 string
         if not is_quick_mode:
             if is_export_excel:
-                result['excel_bytes_base64'] = (
-                    excelexporters.shopfloorbatch.export(result,
-                                                         space_name,
-                                                         reporting_period_start_datetime_local,
-                                                         reporting_period_end_datetime_local,
-                                                         language))
+                result['excel_bytes_base64'] = excelexporters.shopfloorbatch.export(
+                    result,
+                    space_name,
+                    reporting_period_start_datetime_local,
+                    reporting_period_end_datetime_local,
+                    language,
+                )
             if is_export_pdf:
                 result['pdf_bytes_base64'] = pdfexporters.shopfloorbatch.export(result,
                                                                                 space_name,

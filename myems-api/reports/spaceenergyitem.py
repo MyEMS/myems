@@ -738,41 +738,44 @@ class Reporting:
         if not is_quick_mode:
             if is_export_excel:
                 try:
-                    result['excel_bytes_base64'] = (
-                        excelexporters.spaceenergyitem.export(result,
-                                                              space['name'],
-                                                              base_period_start_datetime_local,
-                                                              base_period_end_datetime_local,
-                                                              reporting_period_start_datetime_local,
-                                                              reporting_period_end_datetime_local,
-                                                              period_type,
-                                                              language))
+                    result['excel_bytes_base64'] = excelexporters.spaceenergyitem.export(
+                        result,
+                        space['name'],
+                        base_period_start_datetime_local,
+                        base_period_end_datetime_local,
+                        reporting_period_start_datetime_local,
+                        reporting_period_end_datetime_local,
+                        period_type,
+                        language,
+                    )
                 except Exception:
                     logger.error("Failed to export Excel for SpaceEnergyItem", exc_info=True)
             if is_export_pdf:
                 try:
-                    result['pdf_bytes_base64'] = (
-                        pdfexporters.spaceenergyitem.export(result,
-                                                            space['name'],
-                                                            base_period_start_datetime_local,
-                                                            base_period_end_datetime_local,
-                                                            reporting_period_start_datetime_local,
-                                                            reporting_period_end_datetime_local,
-                                                            period_type,
-                                                            language))
+                    result['pdf_bytes_base64'] = pdfexporters.spaceenergyitem.export(
+                        result,
+                        space['name'],
+                        base_period_start_datetime_local,
+                        base_period_end_datetime_local,
+                        reporting_period_start_datetime_local,
+                        reporting_period_end_datetime_local,
+                        period_type,
+                        language,
+                    )
                 except Exception:
                     logger.error("Failed to export PDF for SpaceEnergyItem", exc_info=True)
             if is_export_docx:
                 try:
-                    result['docx_bytes_base64'] = (
-                        docxexporters.spaceenergyitem.export(result,
-                                                             space['name'],
-                                                             base_period_start_datetime_local,
-                                                             base_period_end_datetime_local,
-                                                             reporting_period_start_datetime_local,
-                                                             reporting_period_end_datetime_local,
-                                                             period_type,
-                                                             language))
+                    result['docx_bytes_base64'] = docxexporters.spaceenergyitem.export(
+                        result,
+                        space['name'],
+                        base_period_start_datetime_local,
+                        base_period_end_datetime_local,
+                        reporting_period_start_datetime_local,
+                        reporting_period_end_datetime_local,
+                        period_type,
+                        language,
+                    )
                 except Exception:
                     logger.error("Failed to export DOCX for SpaceEnergyItem", exc_info=True)
 
