@@ -865,7 +865,8 @@ class Reporting:
                     reporting_period_start_datetime_local,
                     reporting_period_end_datetime_local,
                     period_type,
-                    language)
+                    language
+                )
             if is_export_docx:
                 result['docx_bytes_base64'] = docxexporters.shopfloorplan.export(
                     result,
