@@ -328,7 +328,7 @@ class Reporting:
                     daily_query = (
                         " SELECT virtual_meter_id, "
                         "        DATE(DATE_ADD(start_datetime_utc, INTERVAL " + str(timezone_offset) +
-                        " MINUTE)) AS local_date, "
+                        "        MINUTE)) AS local_date, "
                         "        SUM(actual_value) AS daily_value "
                         " FROM tbl_virtual_meter_hourly "
                         " WHERE virtual_meter_id IN (" + virtual_meter_id_placeholders + ") "
