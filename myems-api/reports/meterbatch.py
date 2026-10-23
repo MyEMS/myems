@@ -351,8 +351,8 @@ class Reporting:
                         " SUM(actual_value) AS daily_value "
                         " FROM tbl_meter_hourly "
                         " WHERE meter_id IN (" + meter_id_placeholders + ") "
-                        " AND start_datetime_utc >= %s "
-                        " AND start_datetime_utc < %s "
+                        "        AND start_datetime_utc >= %s "
+                        "        AND start_datetime_utc < %s "
                         " GROUP BY meter_id, local_date "
                         " ORDER BY meter_id, local_date "
                     )
