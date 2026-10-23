@@ -439,8 +439,8 @@ class Reporting:
                                               "      tbl_working_calendars_non_working_days nwd "
                                               " WHERE sp.id = %s AND "
                                               "       sp.id = spwc.space_id AND "
-                                              "       spwc.working_calendar_id = nwd.working_calendar_id AND"
-                                              "       nwd.date_local >= %s AND"
+                                              "       spwc.working_calendar_id = nwd.working_calendar_id AND "
+                                              "       nwd.date_local >= %s AND "
                                               "       nwd.date_local <= %s ",
                                               (space['id'],
                                                base_start_datetime_non_working_day,
@@ -516,8 +516,8 @@ class Reporting:
                                           " tbl_working_calendars_non_working_days nwd "
                                           " WHERE sp.id = %s AND "
                                           " sp.id = spwc.space_id AND "
-                                          " spwc.working_calendar_id = nwd.working_calendar_id AND"
-                                          " nwd.date_local >= %s AND"
+                                          " spwc.working_calendar_id = nwd.working_calendar_id AND "
+                                          " nwd.date_local >= %s AND "
                                           " nwd.date_local <= %s ",
                                           (space['id'],
                                            reporting_start_datetime_non_working_day,

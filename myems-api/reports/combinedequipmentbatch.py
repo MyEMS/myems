@@ -343,8 +343,8 @@ class Reporting:
                     for combined_equipment_id in combined_equipment_dict:
                         for energy_category in energy_category_list:
                             subtotal = Decimal(0.0)
-                            if (combined_equipment_id in energy_map and
-                                    energy_category['id'] in energy_map[combined_equipment_id]):
+                            if combined_equipment_id in energy_map and \
+                                    energy_category['id'] in energy_map[combined_equipment_id]:
                                 subtotal = energy_map[combined_equipment_id][energy_category['id']]
                             combined_equipment_dict[combined_equipment_id]['values'].append(subtotal)
 

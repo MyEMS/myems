@@ -354,8 +354,8 @@ class Reporting:
                         "SELECT mp.meter_id, mp.point_id "
                         "FROM tbl_meters_points mp "
                         "JOIN tbl_points p ON mp.point_id = p.id "
-                        "WHERE p.object_type = 'ENERGY_VALUE' AND mp.meter_id IN (" + placeholders + ")",
-                        tuple(meter_ids)
+                        "WHERE p.object_type = 'ENERGY_VALUE' "
+                        "AND mp.meter_id IN (" + placeholders + ")", tuple(meter_ids)
                     )
                     point_rows = cursor_system_db.fetchall()
                     meter_point_map = {}

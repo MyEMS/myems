@@ -190,8 +190,8 @@ class Reporting:
                     "language": language,
                 }
                 cache_params_json = json.dumps(cache_params, sort_keys=True)
-                cache_key = ('report:combinedequipmentdashboard:' +
-                             hashlib.sha256(cache_params_json.encode('utf-8')).hexdigest())
+                cache_key = \
+                    'report:combinedequipmentdashboard:' + hashlib.sha256(cache_params_json.encode('utf-8')).hexdigest()
 
                 cached_result = redis_client.get(cache_key)
                 if cached_result:
@@ -735,7 +735,6 @@ class Reporting:
             for combined_equipment_id, energy_data in sorted_combined_equipments:
                 combined_equipment_name = combined_equipment_name_dict.get(
                     combined_equipment_id, f'Combined Equipment #{combined_equipment_id}')
-
                 top_combined_equipments.append({
                     'id': combined_equipment_id,
                     'name': combined_equipment_name,

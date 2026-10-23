@@ -356,8 +356,8 @@ class Reporting:
                         "        GROUP BY meter_id, local_date "
                         "        ORDER BY meter_id, local_date "
                     )
-                    cursor_energy_db.execute(
-                        daily_query, meter_ids + [reporting_start_datetime_utc, reporting_end_datetime_utc])
+                    cursor_energy_db.execute(daily_query, meter_ids +
+                                             [reporting_start_datetime_utc, reporting_end_datetime_utc])
                     rows_daily_aggregated = cursor_energy_db.fetchall()
 
                     meter_subtotal_dict = dict()
