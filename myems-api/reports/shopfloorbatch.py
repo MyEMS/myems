@@ -273,11 +273,11 @@ class Reporting:
                                              "        shopfloor.uuid AS shopfloor_uuid, s.name AS space_name, "
                                              "        s.id AS space_id, cc.name "
                                              "        AS cost_center_name, shopfloor.description "
-                                             "        FROM tbl_spaces s, tbl_spaces_shopfloors ss,"
-                                             "        tbl_shopfloors shopfloor, tbl_cost_centers cc "
-                                             "        WHERE s.id IN ( " + space_ids_placeholders + ") "
-                                             "        AND ss.space_id = s.id AND ss.shopfloor_id = shopfloor.id "
-                                             "        AND shopfloor.cost_center_id = cc.id  ", tuple(space_ids))
+                                             " FROM tbl_spaces s, tbl_spaces_shopfloors ss,"
+                                             "      tbl_shopfloors shopfloor, tbl_cost_centers cc "
+                                             " WHERE s.id IN ( " + space_ids_placeholders + ") "
+                                             "       AND ss.space_id = s.id AND ss.shopfloor_id = shopfloor.id "
+                                             "       AND shopfloor.cost_center_id = cc.id  ", tuple(space_ids))
                     rows_shopfloors = cursor_system_db.fetchall()
                     if rows_shopfloors is not None and len(rows_shopfloors) > 0:
                         for row in rows_shopfloors:

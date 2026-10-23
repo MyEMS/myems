@@ -248,7 +248,7 @@ class Reporting:
             # Get store list based on user privileges
             store_list = []
             if user['is_admin']:
-                cursor_system.execute(" SELECT id, name, uuid, area, address,"
+                cursor_system.execute(" SELECT id, name, uuid, area, address, "
                                       "        latitude, longitude, contact_id, cost_center_id "
                                       " FROM tbl_stores ORDER BY id ")
                 rows_stores = cursor_system.fetchall()

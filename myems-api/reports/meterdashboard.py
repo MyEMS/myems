@@ -283,7 +283,7 @@ class Reporting:
                                                  "        AS energy_category_name, "
                                                  "         m.description, m.uuid AS meter_uuid "
                                                  " FROM tbl_spaces s, tbl_spaces_meters sm, "
-                                                 " tbl_meters m, tbl_cost_centers cc, "
+                                                 "      tbl_meters m, tbl_cost_centers cc, "
                                                  "      tbl_energy_categories ec "
                                                  " WHERE s.id IN (" + placeholders + ") "
                                                  "       AND sm.space_id = s.id AND sm.meter_id = m.id "
@@ -296,7 +296,7 @@ class Reporting:
                                                  "        AS energy_category_name, "
                                                  "         m.description, m.uuid AS meter_uuid "
                                                  " FROM tbl_spaces s, tbl_spaces_meters sm, "
-                                                 " tbl_meters m, tbl_cost_centers cc, "
+                                                 "      tbl_meters m, tbl_cost_centers cc, "
                                                  "      tbl_energy_categories ec "
                                                  " WHERE s.id IN (" + placeholders + ") "
                                                  "       AND sm.space_id = s.id AND sm.meter_id = m.id "
@@ -309,7 +309,7 @@ class Reporting:
                                                  "        AS energy_category_name, "
                                                  "         m.description, m.uuid AS meter_uuid "
                                                  " FROM tbl_spaces s, tbl_spaces_meters sm, "
-                                                 " tbl_meters m, tbl_cost_centers cc, "
+                                                 "      tbl_meters m, tbl_cost_centers cc, "
                                                  "      tbl_energy_categories ec "
                                                  " WHERE s.id = %s AND sm.space_id = s.id AND sm.meter_id = m.id "
                                                  "       AND m.energy_category_id = %s "
@@ -321,7 +321,7 @@ class Reporting:
                                                  "        AS energy_category_name, "
                                                  "         m.description, m.uuid AS meter_uuid "
                                                  " FROM tbl_spaces s, tbl_spaces_meters sm, "
-                                                 " tbl_meters m, tbl_cost_centers cc, "
+                                                 "      tbl_meters m, tbl_cost_centers cc, "
                                                  "      tbl_energy_categories ec "
                                                  " WHERE s.id = %s AND sm.space_id = s.id AND sm.meter_id = m.id "
                                                  " AND m.cost_center_id = cc.id AND m.energy_category_id = ec.id  "
@@ -429,25 +429,25 @@ class Reporting:
                                                  "        AS energy_category_name, "
                                                  "         vm.description, vm.uuid AS virtual_meter_uuid "
                                                  " FROM tbl_spaces s, tbl_spaces_virtual_meters svm, "
-                                                 " tbl_virtual_meters vm, tbl_cost_centers cc, "
+                                                 "      tbl_virtual_meters vm, tbl_cost_centers cc, "
                                                  "      tbl_energy_categories ec "
                                                  " WHERE s.id IN (" + placeholders + ") "
                                                  "       AND svm.space_id = s.id AND svm.virtual_meter_id = vm.id "
                                                  "       AND vm.energy_category_id = %s "
-                                                 " AND vm.cost_center_id = cc.id AND vm.energy_category_id = ec.id "
-                                                 "       ORDER BY "
-                                                 " virtual_meter_id ", tuple(space_ids) + (energy_category_id,))
+                                                 "       AND vm.cost_center_id = cc.id AND vm.energy_category_id = ec.id "
+                                                 " ORDER BY "
+                                                 "       virtual_meter_id ", tuple(space_ids) + (energy_category_id,))
                     else:
                         cursor_system_db.execute(" SELECT vm.id, vm.name AS virtual_meter_name, s.id AS space_id, "
                                                  "        cc.name AS cost_center_name, ec.name "
                                                  "        AS energy_category_name, "
                                                  "         vm.description, vm.uuid AS virtual_meter_uuid "
                                                  " FROM tbl_spaces s, tbl_spaces_virtual_meters svm, "
-                                                 " tbl_virtual_meters vm, tbl_cost_centers cc, "
+                                                 "      tbl_virtual_meters vm, tbl_cost_centers cc, "
                                                  "      tbl_energy_categories ec "
                                                  " WHERE s.id IN (" + placeholders + ") "
                                                  "       AND svm.space_id = s.id AND svm.virtual_meter_id = vm.id "
-                                                 " AND vm.cost_center_id = cc.id AND vm.energy_category_id = ec.id "
+                                                 "       AND vm.cost_center_id = cc.id AND vm.energy_category_id = ec.id "
                                                  " ORDER BY virtual_meter_id ", tuple(space_ids))
                 else:
                     if energy_category_id is not None:
@@ -456,12 +456,12 @@ class Reporting:
                                                  "        AS energy_category_name, "
                                                  "         vm.description, vm.uuid AS virtual_meter_uuid "
                                                  " FROM tbl_spaces s, tbl_spaces_virtual_meters svm, "
-                                                 "tbl_virtual_meters vm, tbl_cost_centers cc, "
+                                                 "      tbl_virtual_meters vm, tbl_cost_centers cc, "
                                                  "      tbl_energy_categories ec "
                                                  " WHERE s.id = %s AND svm.space_id = s.id "
-                                                 " AND svm.virtual_meter_id = vm.id "
+                                                 "       AND svm.virtual_meter_id = vm.id "
                                                  "       AND vm.energy_category_id = %s "
-                                                 " AND vm.cost_center_id = cc.id AND vm.energy_category_id = ec.id  "
+                                                 "       AND vm.cost_center_id = cc.id AND vm.energy_category_id = ec.id  "
                                                  " ORDER BY virtual_meter_id ", (space_id, energy_category_id))
                     else:
                         cursor_system_db.execute(" SELECT vm.id, vm.name AS virtual_meter_name, s.id AS space_id, "
@@ -469,11 +469,11 @@ class Reporting:
                                                  "        AS energy_category_name, "
                                                  "         vm.description, vm.uuid AS virtual_meter_uuid "
                                                  " FROM tbl_spaces s, tbl_spaces_virtual_meters svm, "
-                                                 " tbl_virtual_meters vm, tbl_cost_centers cc, "
+                                                 "      tbl_virtual_meters vm, tbl_cost_centers cc, "
                                                  "      tbl_energy_categories ec "
                                                  " WHERE s.id = %s AND svm.space_id = s.id "
-                                                 " AND svm.virtual_meter_id = vm.id "
-                                                 " AND vm.cost_center_id = cc.id AND vm.energy_category_id = ec.id  "
+                                                 "       AND svm.virtual_meter_id = vm.id "
+                                                 "       AND vm.cost_center_id = cc.id AND vm.energy_category_id = ec.id  "
                                                  " ORDER BY virtual_meter_id ", (space_id,))
 
                 rows_virtual_meters = cursor_system_db.fetchall()
@@ -564,25 +564,25 @@ class Reporting:
                                                  "        AS energy_category_name, "
                                                  "         om.description, om.uuid AS offline_meter_uuid "
                                                  " FROM tbl_spaces s, tbl_spaces_offline_meters som, "
-                                                 " tbl_offline_meters om, tbl_cost_centers cc, "
+                                                 "      tbl_offline_meters om, tbl_cost_centers cc, "
                                                  "      tbl_energy_categories ec "
                                                  " WHERE s.id IN (" + placeholders + ") "
                                                  "       AND som.space_id = s.id AND som.offline_meter_id = om.id "
                                                  "       AND om.energy_category_id = %s "
-                                                 " AND om.cost_center_id = cc.id AND om.energy_category_id = ec.id "
+                                                 "       AND om.cost_center_id = cc.id AND om.energy_category_id = ec.id "
                                                  " ORDER BY "
-                                                 " offline_meter_id ", tuple(space_ids) + (energy_category_id,))
+                                                 "       offline_meter_id ", tuple(space_ids) + (energy_category_id,))
                     else:
                         cursor_system_db.execute(" SELECT om.id, om.name AS offline_meter_name, s.id AS space_id, "
                                                  "        cc.name AS cost_center_name, ec.name "
                                                  "        AS energy_category_name, "
                                                  "         om.description, om.uuid AS offline_meter_uuid "
                                                  " FROM tbl_spaces s, tbl_spaces_offline_meters som, "
-                                                 " tbl_offline_meters om, tbl_cost_centers cc, "
+                                                 "      tbl_offline_meters om, tbl_cost_centers cc, "
                                                  "      tbl_energy_categories ec "
                                                  " WHERE s.id IN (" + placeholders + ") "
                                                  "       AND som.space_id = s.id AND som.offline_meter_id = om.id "
-                                                 " AND om.cost_center_id = cc.id AND om.energy_category_id = ec.id "
+                                                 "       AND om.cost_center_id = cc.id AND om.energy_category_id = ec.id "
                                                  " ORDER BY offline_meter_id ", tuple(space_ids))
                 else:
                     if energy_category_id is not None:
@@ -591,12 +591,12 @@ class Reporting:
                                                  "        AS energy_category_name, "
                                                  "         om.description, om.uuid AS offline_meter_uuid "
                                                  " FROM tbl_spaces s, tbl_spaces_offline_meters som, "
-                                                 " tbl_offline_meters om, tbl_cost_centers cc, "
+                                                 "      tbl_offline_meters om, tbl_cost_centers cc, "
                                                  "      tbl_energy_categories ec "
                                                  " WHERE s.id = %s AND som.space_id = s.id "
-                                                 " AND som.offline_meter_id = om.id "
+                                                 "       AND som.offline_meter_id = om.id "
                                                  "       AND om.energy_category_id = %s "
-                                                 " AND om.cost_center_id = cc.id AND om.energy_category_id = ec.id  "
+                                                 "       AND om.cost_center_id = cc.id AND om.energy_category_id = ec.id  "
                                                  " ORDER BY offline_meter_id ", (space_id, energy_category_id))
                     else:
                         cursor_system_db.execute(" SELECT om.id, om.name AS offline_meter_name, s.id AS space_id, "
@@ -604,11 +604,11 @@ class Reporting:
                                                  "        AS energy_category_name, "
                                                  "         om.description, om.uuid AS offline_meter_uuid "
                                                  " FROM tbl_spaces s, tbl_spaces_offline_meters som, "
-                                                 "tbl_offline_meters om, tbl_cost_centers cc, "
+                                                 "      tbl_offline_meters om, tbl_cost_centers cc, "
                                                  "      tbl_energy_categories ec "
                                                  " WHERE s.id = %s AND som.space_id = s.id "
-                                                 " AND som.offline_meter_id = om.id "
-                                                 " AND om.cost_center_id = cc.id AND om.energy_category_id = ec.id  "
+                                                 "       AND som.offline_meter_id = om.id "
+                                                 "       AND om.cost_center_id = cc.id AND om.energy_category_id = ec.id  "
                                                  " ORDER BY offline_meter_id ", (space_id,))
 
                 rows_offline_meters = cursor_system_db.fetchall()
