@@ -493,9 +493,9 @@ class Reporting:
                 # OPTIMIZATION: Single query to fetch all daily energy data grouped by day and category
                 try:
                     cursor_energy.execute(
-                        " SELECT DATE_FORMAT(start_datetime_utc, '%%Y-%%m-%%d') as day_str, "
+                        " SELECT DATE_FORMAT(start_datetime_utc, '%%Y-%%m-%%d') AS day_str, "
                         "        energy_category_id, "
-                        "        SUM(actual_value) as total_value "
+                        "        SUM(actual_value) AS total_value "
                         " FROM tbl_shopfloor_input_category_hourly "
                         " WHERE shopfloor_id IN (%s) "
                         "   AND start_datetime_utc >= %%s "
@@ -533,9 +533,9 @@ class Reporting:
                 # OPTIMIZATION: Single query to fetch all daily cost data grouped by day and category
                 try:
                     cursor_billing.execute(
-                        " SELECT DATE_FORMAT(start_datetime_utc, '%%Y-%%m-%%d') as day_str, "
+                        " SELECT DATE_FORMAT(start_datetime_utc, '%%Y-%%m-%%d') AS day_str, "
                         "        energy_category_id, "
-                        "        SUM(actual_value) as total_value "
+                        "        SUM(actual_value) AS total_value "
                         " FROM tbl_shopfloor_input_category_hourly "
                         " WHERE shopfloor_id IN (%s) "
                         "   AND start_datetime_utc >= %%s "
@@ -666,7 +666,7 @@ class Reporting:
                 # Validate all IDs are integers before using in SQL (already validated above)
                 format_strings = ','.join(['%s'] * len(shopfloor_ids_list))
                 cursor_energy.execute(
-                    " SELECT shopfloor_id, energy_category_id, SUM(actual_value) as category_energy "
+                    " SELECT shopfloor_id, energy_category_id, SUM(actual_value) AS category_energy "
                     " FROM tbl_shopfloor_input_category_hourly "
                     " WHERE shopfloor_id IN (%s) "
                     "   AND start_datetime_utc >= %%s "
@@ -697,7 +697,7 @@ class Reporting:
                 # Validate all IDs are integers before using in SQL (already validated above)
                 format_strings = ','.join(['%s'] * len(shopfloor_ids_list))
                 cursor_billing.execute(
-                    " SELECT shopfloor_id, energy_category_id, SUM(actual_value) as category_cost "
+                    " SELECT shopfloor_id, energy_category_id, SUM(actual_value) AS category_cost "
                     " FROM tbl_shopfloor_input_category_hourly "
                     " WHERE shopfloor_id IN (%s) "
                     "   AND start_datetime_utc >= %%s "
@@ -728,7 +728,7 @@ class Reporting:
                 # Validate all IDs are integers before using in SQL (already validated above)
                 format_strings = ','.join(['%s'] * len(shopfloor_ids_list))
                 cursor_carbon.execute(
-                    " SELECT shopfloor_id, energy_category_id, SUM(actual_value) as category_carbon "
+                    " SELECT shopfloor_id, energy_category_id, SUM(actual_value) AS category_carbon "
                     " FROM tbl_shopfloor_input_category_hourly "
                     " WHERE shopfloor_id IN (%s) "
                     "   AND start_datetime_utc >= %%s "

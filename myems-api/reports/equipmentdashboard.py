@@ -473,9 +473,9 @@ class Reporting:
                 # OPTIMIZATION: Single query to fetch all daily energy data grouped by day and category
                 try:
                     cursor_energy.execute(
-                        " SELECT DATE_FORMAT(start_datetime_utc, '%%Y-%%m-%%d') as day_str, "
+                        " SELECT DATE_FORMAT(start_datetime_utc, '%%Y-%%m-%%d') AS day_str, "
                         "        energy_category_id, "
-                        "        SUM(actual_value) as total_value "
+                        "        SUM(actual_value) AS total_value "
                         " FROM tbl_equipment_input_category_hourly "
                         " WHERE equipment_id IN (%s) "
                         "   AND start_datetime_utc >= %%s "
@@ -513,9 +513,9 @@ class Reporting:
                 # OPTIMIZATION: Single query to fetch all daily cost data grouped by day and category
                 try:
                     cursor_billing.execute(
-                        " SELECT DATE_FORMAT(start_datetime_utc, '%%Y-%%m-%%d') as day_str, "
+                        " SELECT DATE_FORMAT(start_datetime_utc, '%%Y-%%m-%%d') AS day_str, "
                         "        energy_category_id, "
-                        "        SUM(actual_value) as total_value "
+                        "        SUM(actual_value) AS total_value "
                         " FROM tbl_equipment_input_category_hourly "
                         " WHERE equipment_id IN (%s) "
                         "   AND start_datetime_utc >= %%s "
@@ -681,7 +681,7 @@ class Reporting:
                 validate_integer_ids(equipment_ids_list, "equipment_ids")
                 format_strings = ','.join(['%s'] * len(equipment_ids_list))
                 cursor_energy.execute(
-                    " SELECT equipment_id, energy_category_id, SUM(actual_value) as category_energy "
+                    " SELECT equipment_id, energy_category_id, SUM(actual_value) AS category_energy "
                     " FROM tbl_equipment_input_category_hourly "
                     " WHERE equipment_id IN (%s) "
                     "   AND start_datetime_utc >= %%s "
@@ -709,7 +709,7 @@ class Reporting:
                 # Query energy output by category for each equipment
                 try:
                     cursor_energy.execute(
-                        " SELECT equipment_id, energy_category_id, SUM(actual_value) as category_output "
+                        " SELECT equipment_id, energy_category_id, SUM(actual_value) AS category_output "
                         " FROM tbl_equipment_output_category_hourly "
                         " WHERE equipment_id IN (%s) "
                         "   AND start_datetime_utc >= %%s "
@@ -740,7 +740,7 @@ class Reporting:
                 equipment_cost_by_category = {}
                 try:
                     cursor_billing.execute(
-                        " SELECT equipment_id, energy_category_id, SUM(actual_value) as category_cost "
+                        " SELECT equipment_id, energy_category_id, SUM(actual_value) AS category_cost "
                         " FROM tbl_equipment_input_category_hourly "
                         " WHERE equipment_id IN (%s) "
                         "   AND start_datetime_utc >= %%s "
@@ -771,7 +771,7 @@ class Reporting:
                 equipment_carbon_by_category = {}
                 try:
                     cursor_carbon.execute(
-                        " SELECT equipment_id, energy_category_id, SUM(actual_value) as category_carbon "
+                        " SELECT equipment_id, energy_category_id, SUM(actual_value) AS category_carbon "
                         " FROM tbl_equipment_input_category_hourly "
                         " WHERE equipment_id IN (%s) "
                         "   AND start_datetime_utc >= %%s "

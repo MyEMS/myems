@@ -281,7 +281,7 @@ class Reporting:
                     if len(tenant_ids_list) > 0:
                         format_strings = ','.join(['%s'] * len(tenant_ids_list))
                         cursor_system.execute(
-                            " SELECT t.id, t.uuid, t.name, t.area, t.tenant_type_id, tt.name as tenant_type_name "
+                            " SELECT t.id, t.uuid, t.name, t.area, t.tenant_type_id, tt.name AS tenant_type_name "
                             " FROM tbl_tenants t "
                             " LEFT JOIN tbl_tenant_types tt ON t.tenant_type_id = tt.id "
                             " WHERE t.id IN (%s) ORDER BY t.id " % format_strings,
@@ -326,7 +326,7 @@ class Reporting:
                         format_strings = ','.join(['%s'] * len(space_ids))
                         cursor_system.execute(
                             " SELECT DISTINCT t.id, t.uuid, t.name, t.area, t.tenant_type_id, "
-                            "        tt.name as tenant_type_name "
+                            "        tt.name AS tenant_type_name "
                             " FROM tbl_tenants t "
                             " INNER JOIN tbl_spaces_tenants st ON st.tenant_id = t.id "
                             " LEFT JOIN tbl_tenant_types tt ON t.tenant_type_id = tt.id "
@@ -503,9 +503,9 @@ class Reporting:
                 # OPTIMIZATION: Single query to fetch all daily energy data grouped by day and category
                 try:
                     cursor_energy.execute(
-                        " SELECT DATE_FORMAT(start_datetime_utc, '%%Y-%%m-%%d') as day_str, "
+                        " SELECT DATE_FORMAT(start_datetime_utc, '%%Y-%%m-%%d') AS day_str, "
                         "        energy_category_id, "
-                        "        SUM(actual_value) as total_value "
+                        "        SUM(actual_value) AS total_value "
                         " FROM tbl_tenant_input_category_hourly "
                         " WHERE tenant_id IN (%s) "
                         "   AND start_datetime_utc >= %%s "
@@ -543,9 +543,9 @@ class Reporting:
                 # OPTIMIZATION: Single query to fetch all daily cost data grouped by day and category
                 try:
                     cursor_billing.execute(
-                        " SELECT DATE_FORMAT(start_datetime_utc, '%%Y-%%m-%%d') as day_str, "
+                        " SELECT DATE_FORMAT(start_datetime_utc, '%%Y-%%m-%%d') AS day_str, "
                         "        energy_category_id, "
-                        "        SUM(actual_value) as total_value "
+                        "        SUM(actual_value) AS total_value "
                         " FROM tbl_tenant_input_category_hourly "
                         " WHERE tenant_id IN (%s) "
                         "   AND start_datetime_utc >= %%s "
@@ -675,7 +675,7 @@ class Reporting:
             if len(tenant_ids_list) > 0:
                 format_strings = ','.join(['%s'] * len(tenant_ids_list))
                 cursor_energy.execute(
-                    " SELECT tenant_id, energy_category_id, SUM(actual_value) as category_energy "
+                    " SELECT tenant_id, energy_category_id, SUM(actual_value) AS category_energy "
                     " FROM tbl_tenant_input_category_hourly "
                     " WHERE tenant_id IN (%s) "
                     "   AND start_datetime_utc >= %%s "
@@ -707,7 +707,7 @@ class Reporting:
                 # Validate all IDs are integers before using in SQL (already validated above)
                 format_strings = ','.join(['%s'] * len(tenant_ids_list))
                 cursor_billing.execute(
-                    " SELECT tenant_id, energy_category_id, SUM(actual_value) as category_cost "
+                    " SELECT tenant_id, energy_category_id, SUM(actual_value) AS category_cost "
                     " FROM tbl_tenant_input_category_hourly "
                     " WHERE tenant_id IN (%s) "
                     "   AND start_datetime_utc >= %%s "
@@ -739,7 +739,7 @@ class Reporting:
                 # Validate all IDs are integers before using in SQL (already validated above)
                 format_strings = ','.join(['%s'] * len(tenant_ids_list))
                 cursor_carbon.execute(
-                    " SELECT tenant_id, energy_category_id, SUM(actual_value) as category_carbon "
+                    " SELECT tenant_id, energy_category_id, SUM(actual_value) AS category_carbon "
                     " FROM tbl_tenant_input_category_hourly "
                     " WHERE tenant_id IN (%s) "
                     "   AND start_datetime_utc >= %%s "
