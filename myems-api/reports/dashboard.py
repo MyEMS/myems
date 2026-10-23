@@ -43,6 +43,7 @@ from core.useractivity import access_control, api_key_control
 import logging
 logger = logging.getLogger(__name__)
 
+
 class Reporting:
     def __init__(self):
         """Initializes Class"""

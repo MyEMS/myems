@@ -343,9 +343,9 @@ class Reporting:
             equipment_ids_list = [equipment['id'] for equipment in equipment_list]
             equipment_ids_tuple = tuple(equipment_ids_list)
 
-            ################################################################################################################
+            ############################################################################################################
             # Step 3: Query energy categories
-            ################################################################################################################
+            ############################################################################################################
             cursor_system.execute(" SELECT id, name, unit_of_measure, kgce, kgco2e "
                                   " FROM tbl_energy_categories ORDER BY id ")
             rows_energy_categories = cursor_system.fetchall()
@@ -359,9 +359,9 @@ class Reporting:
                         'kgco2e': float(row[4])
                     }
 
-            ################################################################################################################
+            ############################################################################################################
             # Step 4: Query reporting period energy input by category
-            ################################################################################################################
+            ############################################################################################################
             reporting_input = {
                 'names': [],
                 'units': [],
@@ -406,9 +406,9 @@ class Reporting:
             reporting_input['total_in_kgce'] = total_in_kgce
             reporting_input['total_in_kgco2e'] = total_in_kgco2e
 
-            ################################################################################################################
+            ############################################################################################################
             # Step 5: Query energy cost data
-            ################################################################################################################
+            ############################################################################################################
             reporting_cost = {
                 'names': list(reporting_input['names']),
                 'units': ['CNY'] * len(reporting_input['names']),
@@ -441,9 +441,9 @@ class Reporting:
                                 idx = reporting_cost['names'].index(ec_name)
                                 reporting_cost['subtotals'][idx] = cost
 
-            ################################################################################################################
+            ############################################################################################################
             # Step 6: Query daily trends from 1st of last month (OPTIMIZED: single query + memory aggregation)
-            ################################################################################################################
+            ############################################################################################################
             # Calculate the start date: 1st of last month relative to reporting end
             if reporting_end_datetime_utc.month == 1:
                 daily_start = reporting_end_datetime_utc.replace(
@@ -473,9 +473,9 @@ class Reporting:
                 # OPTIMIZATION: Single query to fetch all daily energy data grouped by day and category
                 try:
                     cursor_energy.execute(
-                        " SELECT DATE_FORMAT(start_datetime_utc, '%%Y-%%m-%%d') as day_str, "
+                        " SELECT DATE_FORMAT(start_datetime_utc, '%%Y-%%m-%%d') AS day_str, "
                         "        energy_category_id, "
-                        "        SUM(actual_value) as total_value "
+                        "        SUM(actual_value) AS total_value "
                         " FROM tbl_equipment_input_category_hourly "
                         " WHERE equipment_id IN (%s) "
                         "   AND start_datetime_utc >= %%s "
@@ -513,9 +513,9 @@ class Reporting:
                 # OPTIMIZATION: Single query to fetch all daily cost data grouped by day and category
                 try:
                     cursor_billing.execute(
-                        " SELECT DATE_FORMAT(start_datetime_utc, '%%Y-%%m-%%d') as day_str, "
+                        " SELECT DATE_FORMAT(start_datetime_utc, '%%Y-%%m-%%d') AS day_str, "
                         "        energy_category_id, "
-                        "        SUM(actual_value) as total_value "
+                        "        SUM(actual_value) AS total_value "
                         " FROM tbl_equipment_input_category_hourly "
                         " WHERE equipment_id IN (%s) "
                         "   AND start_datetime_utc >= %%s "
@@ -559,9 +559,9 @@ class Reporting:
             reporting_input['category_names'] = list(reporting_input['names'])
             reporting_input['category_units'] = list(reporting_input['units'])
 
-            ################################################################################################################
+            ############################################################################################################
             # Step 6.5: Query reporting period energy output by category
-            ################################################################################################################
+            ############################################################################################################
             reporting_output = {
                 'names': [],
                 'units': [],
@@ -602,9 +602,9 @@ class Reporting:
                 logger.error(f"Error querying equipment output data: {e}")
                 # Keep empty output data on error
 
-            ################################################################################################################
+            ############################################################################################################
             # Step 7: Query equipment statistics (meters, sensors, alerts)
-            ################################################################################################################
+            ############################################################################################################
             # Count meters
             total_meters = 0
             total_sensors = 0
@@ -665,9 +665,9 @@ class Reporting:
                 if cnx_fdd:
                     cnx_fdd.close()
 
-            ################################################################################################################
+            ############################################################################################################
             # Step 8: Query top 5 consuming equipments and equipment output data
-            ################################################################################################################
+            ############################################################################################################
             top_equipments = []
             equipment_energy_by_category = {}
             equipment_output_by_category = {}
@@ -681,7 +681,7 @@ class Reporting:
                 validate_integer_ids(equipment_ids_list, "equipment_ids")
                 format_strings = ','.join(['%s'] * len(equipment_ids_list))
                 cursor_energy.execute(
-                    " SELECT equipment_id, energy_category_id, SUM(actual_value) as category_energy "
+                    " SELECT equipment_id, energy_category_id, SUM(actual_value) AS category_energy "
                     " FROM tbl_equipment_input_category_hourly "
                     " WHERE equipment_id IN (%s) "
                     "   AND start_datetime_utc >= %%s "
@@ -709,7 +709,7 @@ class Reporting:
                 # Query energy output by category for each equipment
                 try:
                     cursor_energy.execute(
-                        " SELECT equipment_id, energy_category_id, SUM(actual_value) as category_output "
+                        " SELECT equipment_id, energy_category_id, SUM(actual_value) AS category_output "
                         " FROM tbl_equipment_output_category_hourly "
                         " WHERE equipment_id IN (%s) "
                         "   AND start_datetime_utc >= %%s "
@@ -740,7 +740,7 @@ class Reporting:
                 equipment_cost_by_category = {}
                 try:
                     cursor_billing.execute(
-                        " SELECT equipment_id, energy_category_id, SUM(actual_value) as category_cost "
+                        " SELECT equipment_id, energy_category_id, SUM(actual_value) AS category_cost "
                         " FROM tbl_equipment_input_category_hourly "
                         " WHERE equipment_id IN (%s) "
                         "   AND start_datetime_utc >= %%s "
@@ -771,7 +771,7 @@ class Reporting:
                 equipment_carbon_by_category = {}
                 try:
                     cursor_carbon.execute(
-                        " SELECT equipment_id, energy_category_id, SUM(actual_value) as category_carbon "
+                        " SELECT equipment_id, energy_category_id, SUM(actual_value) AS category_carbon "
                         " FROM tbl_equipment_input_category_hourly "
                         " WHERE equipment_id IN (%s) "
                         "   AND start_datetime_utc >= %%s "
@@ -814,9 +814,9 @@ class Reporting:
                     'categories': energy_data['categories']
                 })
 
-            ################################################################################################################
+            ############################################################################################################
             # Step 9: Construct the report
-            ################################################################################################################
+            ############################################################################################################
 
             # Prepare equipment details for response with energy data by category
             equipment_details = []

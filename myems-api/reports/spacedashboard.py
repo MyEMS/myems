@@ -319,8 +319,8 @@ class Reporting:
                                           " tbl_working_calendars_non_working_days nwd "
                                           " WHERE sp.id = %s AND "
                                           " sp.id = spwc.space_id AND "
-                                          " spwc.working_calendar_id = nwd.working_calendar_id AND"
-                                          " nwd.date_local >= %s AND"
+                                          " spwc.working_calendar_id = nwd.working_calendar_id AND "
+                                          " nwd.date_local >= %s AND "
                                           " nwd.date_local <= %s ",
                                           (space['id'],
                                            reporting_start_datetime_non_working_day,
@@ -535,14 +535,14 @@ class Reporting:
 
         result['reporting_period']['total_in_kgce_per_capita'] = \
             result['reporting_period']['total_in_kgce'] / space['number_of_occupants'] \
-                if space['number_of_occupants'] > 0.0 else None
+            if space['number_of_occupants'] > 0.0 else None
 
         result['reporting_period']['total_in_kgco2e_per_unit_area'] = \
             result['reporting_period']['total_in_kgco2e'] / space['area'] if space['area'] > 0.0 else None
 
         result['reporting_period']['total_in_kgco2e_per_capita'] = \
             result['reporting_period']['total_in_kgco2e'] / space['number_of_occupants'] \
-                if space['number_of_occupants'] > 0.0 else None
+            if space['number_of_occupants'] > 0.0 else None
 
         result['child_space'] = dict()
         result['child_space']['energy_category_names'] = list()  # 1D array [energy category]
