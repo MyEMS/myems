@@ -271,9 +271,10 @@ class Reporting:
                     space_ids_placeholders = ','.join(['%s'] * len(space_ids))
                     cursor_system_db.execute(" SELECT shopfloor.id, shopfloor.name AS shopfloor_name, "
                                              "        shopfloor.uuid AS shopfloor_uuid, s.name AS space_name, "
-                                             "        s.id AS space_id, cc.name AS cost_center_name, shopfloor.description "
+                                             "        s.id AS space_id, cc.name "
+                                             "        AS cost_center_name, shopfloor.description "
                                              " FROM tbl_spaces s, tbl_spaces_shopfloors ss,"
-                                             " tbl_shopfloors shopfloor, tbl_cost_centers cc "
+                                             "      tbl_shopfloors shopfloor, tbl_cost_centers cc "
                                              " WHERE s.id IN ( " + space_ids_placeholders + ") "
                                              "       AND ss.space_id = s.id AND ss.shopfloor_id = shopfloor.id "
                                              "       AND shopfloor.cost_center_id = cc.id  ", tuple(space_ids))
@@ -422,28 +423,40 @@ class Reporting:
                 "carbon_emissions": shopfloor.get('carbon_emissions', 0.0),
             })
 
-        result = {'shopfloors': shopfloor_list, 'energycategories': energy_category_list, 'excel_bytes_base64': None, 'pdf_bytes_base64': None, 'docx_bytes_base64': None}
+        result = {
+            'shopfloors': shopfloor_list,
+            'energycategories': energy_category_list,
+            'excel_bytes_base64': None,
+            'pdf_bytes_base64': None,
+            'docx_bytes_base64': None,
+        }
 
         # export result to Excel/PDF file and then encode the file to base64 string
         if not is_quick_mode:
             if is_export_excel:
-                result['excel_bytes_base64'] = excelexporters.shopfloorbatch.export(result,
-                                                                                    space_name,
-                                                                                    reporting_period_start_datetime_local,
-                                                                                    reporting_period_end_datetime_local,
-                                                                                    language)
+                result['excel_bytes_base64'] = excelexporters.shopfloorbatch.export(
+                    result,
+                    space_name,
+                    reporting_period_start_datetime_local,
+                    reporting_period_end_datetime_local,
+                    language,
+                )
             if is_export_pdf:
-                result['pdf_bytes_base64'] = pdfexporters.shopfloorbatch.export(result,
-                                                                                space_name,
-                                                                                reporting_period_start_datetime_local,
-                                                                                reporting_period_end_datetime_local,
-                                                                                language)
+                result['pdf_bytes_base64'] = pdfexporters.shopfloorbatch.export(
+                    result,
+                    space_name,
+                    reporting_period_start_datetime_local,
+                    reporting_period_end_datetime_local,
+                    language,
+                )
             if is_export_docx:
-                result['docx_bytes_base64'] = docxexporters.shopfloorbatch.export(result,
-                                                                                  space_name,
-                                                                                  reporting_period_start_datetime_local,
-                                                                                  reporting_period_end_datetime_local,
-                                                                                  language)
+                result['docx_bytes_base64'] = docxexporters.shopfloorbatch.export(
+                    result,
+                    space_name,
+                    reporting_period_start_datetime_local,
+                    reporting_period_end_datetime_local,
+                    language,
+                )
         resp_text = json.dumps(result)
         resp.text = resp_text
 

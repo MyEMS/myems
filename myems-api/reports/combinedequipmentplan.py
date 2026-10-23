@@ -935,13 +935,13 @@ class Reporting:
                 try:
                     result['pdf_bytes_base64'] = \
                         pdfexporters.combinedequipmentplan.export(result,
-                                                                    combined_equipment['name'],
-                                                                    base_period_start_datetime_local,
-                                                                    base_period_end_datetime_local,
-                                                                    reporting_period_start_datetime_local,
-                                                                    reporting_period_end_datetime_local,
-                                                                    period_type,
-                                                                    language)
+                                                                  combined_equipment['name'],
+                                                                  base_period_start_datetime_local,
+                                                                  base_period_end_datetime_local,
+                                                                  reporting_period_start_datetime_local,
+                                                                  reporting_period_end_datetime_local,
+                                                                  period_type,
+                                                                  language)
                 except Exception:
                     logger.error("Failed to export PDF", exc_info=True)
 
