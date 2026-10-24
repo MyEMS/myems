@@ -130,6 +130,7 @@ export default {
         'Full-width Space': '全角スペース',
         'Quotation Mark': '引用符',
         'Unsupported Token': 'サポートされていないトークン',
+        'Only the first {{max}} issues are shown; the one-click fix still converts all occurrences.': '最初の {{max}} 件の問題のみを表示しています。ワンクリック修正は引き続きすべての該当文字を変換します。',
         ABOUT_MYEMS: 'MyEMSについて',
         ABOUT_INTRO: "MyEMSは<strong>Hassoft Beijing Co., Ltd.</strong>（<a href='https://hassoft.cn' target='_blank' style='color:#1ab394;'>hassoft.cn</a>）によって開発されたオープンソースのエネルギー管理システムです。",
         OFFICIAL_SITE: "公式サイト：<a href='https://myems.cn' target='_blank' style='color:#1ab394;'>https://myems.cn</a>",

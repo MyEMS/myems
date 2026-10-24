@@ -35,6 +35,7 @@ const JSONValidator = ({ setRedirect, setRedirectUrl, t }) => {
   const [indent, setIndent] = useState('2');
   const [checkResult, setCheckResult] = useState(null);
   const [punctuationIssues, setPunctuationIssues] = useState([]);
+  const [issuesTruncated, setIssuesTruncated] = useState(false);
   const [output, setOutput] = useState(null);
   const [autoFixInfo, setAutoFixInfo] = useState(null);
   const [copied, setCopied] = useState(false);
@@ -71,6 +72,7 @@ const JSONValidator = ({ setRedirect, setRedirectUrl, t }) => {
     setCheckResult(check);
     const detection = detectFullWidthPunctuation(text);
     setPunctuationIssues(detection.issues);
+    setIssuesTruncated(detection.truncated);
     return check;
   };
 
@@ -79,6 +81,7 @@ const JSONValidator = ({ setRedirect, setRedirectUrl, t }) => {
     // Drop stale results so the panel never refers to a previous input.
     setCheckResult(null);
     setPunctuationIssues([]);
+    setIssuesTruncated(false);
     setOutput(null);
     setAutoFixInfo(null);
   };
@@ -99,6 +102,7 @@ const JSONValidator = ({ setRedirect, setRedirectUrl, t }) => {
       setCheckResult(res);
       const detection = detectFullWidthPunctuation(inputText);
       setPunctuationIssues(detection.issues);
+      setIssuesTruncated(detection.truncated);
       setOutput(null);
     }
     setAutoFixInfo(null);
@@ -108,6 +112,7 @@ const JSONValidator = ({ setRedirect, setRedirectUrl, t }) => {
     setInputText('');
     setCheckResult(null);
     setPunctuationIssues([]);
+    setIssuesTruncated(false);
     setOutput(null);
     setAutoFixInfo(null);
   };
@@ -118,6 +123,7 @@ const JSONValidator = ({ setRedirect, setRedirectUrl, t }) => {
     setInputText(text);
     setCheckResult(null);
     setPunctuationIssues([]);
+    setIssuesTruncated(false);
     setOutput(null);
     setAutoFixInfo(null);
   };
@@ -189,6 +195,7 @@ const JSONValidator = ({ setRedirect, setRedirectUrl, t }) => {
                 t={t}
                 checkResult={checkResult}
                 punctuationIssues={punctuationIssues}
+                truncated={issuesTruncated}
                 output={output}
                 autoFixInfo={autoFixInfo}
                 onAutoFix={handleAutoFix}

@@ -130,6 +130,7 @@ export default {
         'Full-width Space': 'Полноширинный пробел',
         'Quotation Mark': 'Кавычка',
         'Unsupported Token': 'Неподдерживаемый токен',
+        'Only the first {{max}} issues are shown; the one-click fix still converts all occurrences.': 'Показаны только первые {{max}} проблем; исправление в один клик по-прежнему преобразует все вхождения.',
         ABOUT_MYEMS: 'О MyEMS',
         ABOUT_INTRO: "MyEMS — это система управления энергией с открытым исходным кодом, разработанная <strong>Hassoft Beijing Co., Ltd.</strong> (<a href='https://hassoft.cn' target='_blank' style='color:#1ab394;'>hassoft.cn</a>).",
         OFFICIAL_SITE: "Официальный сайт: <a href='https://myems.cn' target='_blank' style='color:#1ab394;'>https://myems.cn</a>",

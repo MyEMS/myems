@@ -2,10 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Alert, Badge, Button, Table } from 'reactstrap';
 import { PUNCTUATION_KIND_LABELS } from '../fullWidthPunctuations';
+import { MAX_ISSUES } from '../jsonUtils';
 
 // Renders the validation verdict, parse error details, the full-width
 // punctuation issue table (with one-click fix) and the format/minify output.
-const ResultPanel = ({ t, checkResult, punctuationIssues, output, autoFixInfo, onAutoFix, onCopy, copied }) => {
+const ResultPanel = ({ t, checkResult, punctuationIssues, truncated, output, autoFixInfo, onAutoFix, onCopy, copied }) => {
   if (!checkResult) {
     return <p className="text-muted fs--1 mb-0">{t('Click Validate to check the JSON data.')}</p>;
   }
@@ -101,7 +102,10 @@ const ResultPanel = ({ t, checkResult, punctuationIssues, output, autoFixInfo, o
             ))}
           </tbody>
         </Table>
-        <div className="text-muted fs--1">{t('Punctuation inside strings is treated as valid text and is not reported.')}</div>
+        <div className="text-muted fs--1">
+          {truncated && <div className="mb-1">{t('Only the first {{max}} issues are shown; the one-click fix still converts all occurrences.', { max: MAX_ISSUES })}</div>}
+          {t('Punctuation inside strings is treated as valid text and is not reported.')}
+        </div>
       </div>
     );
   };
@@ -145,6 +149,7 @@ ResultPanel.propTypes = {
   t: PropTypes.func.isRequired,
   checkResult: PropTypes.object,
   punctuationIssues: PropTypes.array,
+  truncated: PropTypes.bool,
   output: PropTypes.object,
   autoFixInfo: PropTypes.object,
   onAutoFix: PropTypes.func.isRequired,

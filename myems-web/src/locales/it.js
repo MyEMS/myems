@@ -130,6 +130,7 @@ export default {
         'Full-width Space': 'Spazio a larghezza piena',
         'Quotation Mark': 'Virgolette',
         'Unsupported Token': 'Token non supportato',
+        'Only the first {{max}} issues are shown; the one-click fix still converts all occurrences.': 'Vengono mostrati solo i primi {{max}} problemi; la correzione con un clic converte comunque tutte le occorrenze.',
         ABOUT_MYEMS: 'Informazioni su MyEMS',
         ABOUT_INTRO: "MyEMS è un sistema di gestione energetica open source sviluppato da <strong>Hassoft Beijing Co., Ltd.</strong> (<a href='https://hassoft.cn' target='_blank' style='color:#1ab394;'>hassoft.cn</a>).",
         OFFICIAL_SITE: "Sito Ufficiale: <a href='https://myems.cn' target='_blank' style='color:#1ab394;'>https://myems.cn</a>",

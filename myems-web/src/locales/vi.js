@@ -130,6 +130,7 @@ export default {
         'Full-width Space': 'Ký tự khoảng trắng toàn góc',
         'Quotation Mark': 'Dấu ngoặc kép',
         'Unsupported Token': 'Token không được hỗ trợ',
+        'Only the first {{max}} issues are shown; the one-click fix still converts all occurrences.': 'Chỉ hiển thị {{max}} sự cố đầu tiên; sửa một nhấp vẫn chuyển đổi tất cả các xuất hiện.',
         ABOUT_MYEMS: 'Về MyEMS',
         ABOUT_INTRO: "MyEMS là hệ thống quản lý năng lượng mã nguồn mở được phát triển bởi <strong>Hassoft Beijing Co., Ltd.</strong> (<a href='https://hassoft.cn' target='_blank' style='color:#1ab394;'>hassoft.cn</a>).",
         OFFICIAL_SITE: "Trang Chính Thức: <a href='https://myems.cn' target='_blank' style='color:#1ab394;'>https://myems.cn</a>",

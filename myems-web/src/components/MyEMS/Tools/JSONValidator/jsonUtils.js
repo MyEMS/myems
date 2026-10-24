@@ -5,6 +5,11 @@ import { PUNCTUATION_MAP, isChinesePunctuation } from './fullWidthPunctuations';
 // Reject inputs above this size to keep the UI responsive (see dev plan).
 export const MAX_INPUT_SIZE = 2 * 1024 * 1024; // ~2MB
 
+// Cap the issue list handed to the UI: a ~2MB input full of full-width
+// punctuation could otherwise produce tens of thousands of table rows and
+// freeze the browser. The one-click fix below still scans the FULL text.
+export const MAX_ISSUES = 500;
+
 // Number of characters shown before/after the error position in the snippet.
 const SNIPPET_RADIUS = 40;
 
@@ -147,10 +152,12 @@ const collectOutsideStringPunctuation = text => {
 };
 
 // Detect full-width / Chinese punctuation in structural positions.
+// Returns at most MAX_ISSUES items; `truncated` tells the UI to show a notice.
 export const detectFullWidthPunctuation = text => {
   const raw = typeof text === 'string' ? text : '';
-  if (raw.length > MAX_INPUT_SIZE) return { oversized: true, issues: [] };
-  return { oversized: false, issues: collectOutsideStringPunctuation(raw) };
+  if (raw.length > MAX_INPUT_SIZE) return { oversized: true, truncated: false, issues: [] };
+  const all = collectOutsideStringPunctuation(raw);
+  return { oversized: false, truncated: all.length > MAX_ISSUES, issues: all.slice(0, MAX_ISSUES) };
 };
 
 // Replace auto-fixable punctuation found outside strings with its half-width

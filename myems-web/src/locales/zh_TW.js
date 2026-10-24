@@ -130,6 +130,7 @@ export default {
         'Full-width Space': '全角空格',
         'Quotation Mark': '引號',
         'Unsupported Token': '不支援的語法',
+        'Only the first {{max}} issues are shown; the one-click fix still converts all occurrences.': '僅顯示前 {{max}} 條問題；一鍵修復仍會轉換全部符合字元。',
         ABOUT_MYEMS: '關於 MyEMS',
         ABOUT_INTRO: "MyEMS 是一款開源的能源管理系統，由<strong>北京海識軟件有限公司</strong>（<a href='https://hassoft.cn' target='_blank' style='color:#1ab394;'>hassoft.cn</a>）開發。",
         OFFICIAL_SITE: "官網：<a href='https://myems.cn' target='_blank' style='color:#1ab394;'>https://myems.cn</a>",

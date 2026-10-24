@@ -130,6 +130,7 @@ export default {
         'Full-width Space': 'Spasi lebar penuh',
         'Quotation Mark': 'Tanda kutip',
         'Unsupported Token': 'Token yang tidak didukung',
+        'Only the first {{max}} issues are shown; the one-click fix still converts all occurrences.': 'Hanya {{max}} masalah pertama yang ditampilkan; perbaikan sekali klik tetap mengonversi semua kemunculan.',
         ABOUT_MYEMS: 'Tentang MyEMS',
         ABOUT_INTRO: "MyEMS adalah sistem manajemen energi sumber terbuka yang dikembangkan oleh <strong>Hassoft Beijing Co., Ltd.</strong> (<a href='https://hassoft.cn' target='_blank' style='color:#1ab394;'>hassoft.cn</a>).",
         OFFICIAL_SITE: "Situs Resmi: <a href='https://myems.cn' target='_blank' style='color:#1ab394;'>https://myems.cn</a>",
