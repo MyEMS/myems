@@ -131,6 +131,7 @@ export default {
         'Quotation Mark': 'Tırnak işareti',
         'Unsupported Token': 'Desteklenmeyen simge',
         'Only the first {{max}} issues are shown; the one-click fix still converts all occurrences.': 'Yalnızca ilk {{max}} sorun gösterilir; tek tıkla düzeltme yine tüm oluşumları dönüştürür.',
+        'Only the first {{rows}} rows of the issue list are rendered for performance; detection and the one-click fix still cover all occurrences.': 'Performans için sorun listesinin yalnızca ilk {{rows}} satırı oluşturulur; algılama ve tek tıkla düzeltme tüm oluşumları kapsamaya devam eder.',
         ABOUT_MYEMS: 'MyEMS Hakkında',
         ABOUT_INTRO: "MyEMS, <strong>Hassoft Beijing Co., Ltd.</strong> (<a href='https://hassoft.cn' target='_blank' style='color:#1ab394;'>hassoft.cn</a>) tarafından geliştirilen açık kaynaklı bir enerji yönetim sistemidir.",
         OFFICIAL_SITE: "Resmi Site: <a href='https://myems.cn' target='_blank' style='color:#1ab394;'>https://myems.cn</a>",

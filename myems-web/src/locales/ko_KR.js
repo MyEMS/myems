@@ -131,6 +131,7 @@ export default {
         'Quotation Mark': '큰따옴표',
         'Unsupported Token': '지원되지 않는 토큰',
         'Only the first {{max}} issues are shown; the one-click fix still converts all occurrences.': '처음 {{max}}개의 문제만 표시됩니다. 원클릭 수정은 여전히 모든 항목을 변환합니다.',
+        'Only the first {{rows}} rows of the issue list are rendered for performance; detection and the one-click fix still cover all occurrences.': '성능을 위해 문제 목록의 처음 {{rows}}행만 렌더링됩니다. 검출과 원클릭 수정은 여전히 모든 항목을 대상으로 합니다.',
         ABOUT_MYEMS: 'MyEMS 소개',
         ABOUT_INTRO: "MyEMS는 <strong>Hassoft Beijing Co., Ltd.</strong>(<a href='https://hassoft.cn' target='_blank' style='color:#1ab394;'>hassoft.cn</a>)에서 개발한 오픈 소스 에너지 관리 시스템입니다.",
         OFFICIAL_SITE: "공식 사이트: <a href='https://myems.cn' target='_blank' style='color:#1ab394;'>https://myems.cn</a>",

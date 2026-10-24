@@ -131,6 +131,7 @@ export default {
         'Quotation Mark': 'علامة اقتباس',
         'Unsupported Token': 'رمز غير مدعوم',
         'Only the first {{max}} issues are shown; the one-click fix still converts all occurrences.': 'يتم عرض أول {{max}} مشكلة فقط؛ لا يزال الإصلاح بنقرة واحدة يحوّل جميع المواضع.',
+        'Only the first {{rows}} rows of the issue list are rendered for performance; detection and the one-click fix still cover all occurrences.': 'لأسباب تتعلق بالأداء، يتم عرض أول {{rows}} صفاً فقط من قائمة المشاكل؛ يظل الكشف والإصلاح بنقرة واحدة يشملان جميع المواضع.',
         ABOUT_MYEMS: 'حول MyEMS',
         ABOUT_INTRO: "MyEMS هو نظام مفتوح المصدر لإدارة الطاقة طورته <strong>Hassoft Beijing Co., Ltd.</strong> (<a href='https://hassoft.cn' target='_blank' style='color:#1ab394;'>hassoft.cn</a>).",
         OFFICIAL_SITE: "الموقع الرسمي: <a href='https://myems.cn' target='_blank' style='color:#1ab394;'>https://myems.cn</a>",

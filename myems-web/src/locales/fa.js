@@ -131,6 +131,7 @@ export default {
         'Quotation Mark': 'علامت نقل‌قول',
         'Unsupported Token': 'توکن پشتیبانی‌نشده',
         'Only the first {{max}} issues are shown; the one-click fix still converts all occurrences.': 'تنها {{max}} مشکل اول نمایش داده می‌شود؛ اصلاح تک‌کلیک همچنان همه موارد را تبدیل می‌کند.',
+        'Only the first {{rows}} rows of the issue list are rendered for performance; detection and the one-click fix still cover all occurrences.': 'به‌دلیل عملکرد، تنها {{rows}} ردیف اول فهرست مشکلات رندر می‌شود؛ تشخیص و اصلاح تک‌کلیک همچنان همه موارد را پوشش می‌دهد.',
         ABOUT_MYEMS: 'درباره MyEMS',
         ABOUT_INTRO: "MyEMS یک سیستم مدیریت انرژی متن‌باز است که توسط <strong>Hassoft Beijing Co., Ltd.</strong> (<a href='https://hassoft.cn' target='_blank' style='color:#1ab394;'>hassoft.cn</a>) توسعه یافته است.",
         OFFICIAL_SITE: "وب‌سایت رسمی: <a href='https://myems.cn' target='_blank' style='color:#1ab394;'>https://myems.cn</a>",
