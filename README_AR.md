@@ -140,6 +140,18 @@
 
 انظر مقدمة [myems-modbus-tcp](./myems-modbus-tcp/README.md)
 
+### خدمة الحصول على البيانات MyEMS BACnet
+
+انظر مقدمة [myems-bacnet](./myems-bacnet/README.md)
+
+### خدمة الحصول على البيانات MyEMS OPC UA
+
+انظر مقدمة [myems-opc-ua](./myems-opc-ua/README.md)
+
+### خدمة الحصول على البيانات MyEMS S7
+
+انظر مقدمة [myems-s7](./myems-s7/README.md)
+
 ### خدمة تنظيف البيانات MyEMS
 
 انظر مقدمة [myems-cleaning](./myems-cleaning/README.md)

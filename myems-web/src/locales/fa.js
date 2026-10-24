@@ -19,7 +19,7 @@ export default {
         'Advanced Reporting': 'گزارش‌گیری پیشرفته',
         'Knowledge Base': 'پایگاه دانش',
         'Tools': 'ابزارها',
-        'Cable Sizing Tools': 'ابزار انتخاب کابل',
+        'Cable Sizing Tool': 'ابزار انتخاب کابل',
         // Tools - Cable Sizing
         'Standard GB': 'GB/T 16895.15 (استاندارد ملی چین)',
         'Standard GB Full': 'GB/T 16895.15 / GB 50217 (استاندارد ملی چین)',
@@ -1132,6 +1132,7 @@ export default {
         'API.INVALID_PAYLOAD': 'بار محموله نامعتبر',
         'API.INVALID_PEAK_CURRENT': 'جریان پیک نامعتبر',
         'API.INVALID_PEAK_LOAD': 'بار پیک نامعتبر',
+        'API.INVALID_PEAK_TYPE': 'نوع پیک نامعتبر',
         'API.INVALID_PERIOD_TYPE': 'نوع دوره نامعتبر',
         'API.INVALID_PHOTOVOLTAIC_POWER_STATION_ID': 'شناسه نیروگاه فتوولتائیک نامعتبر',
         'API.INVALID_PHOTOVOLTAIC_POWER_STATION_NAME': 'نام نیروگاه فتوولتائیک نامعتبر',

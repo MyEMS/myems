@@ -319,7 +319,28 @@ app.controller('PointController', function(
 				params: function() {
 					return {
 						description: 'SETTING.IMPORT_POINT_DESCRIPTION',
-						description_more: 'SETTING.IMPORT_POINT_DESCRIPTION_MORE'
+						description_more: 'SETTING.IMPORT_POINT_DESCRIPTION_MORE',
+						import_template: JSON.stringify({
+							name: "Point Name",
+							data_source: {
+								id: 1
+							},
+							object_type: "ENERGY_VALUE",
+							units: "kWh",
+							high_limit: 999999,
+							low_limit: 0,
+							higher_limit: null,
+							lower_limit: null,
+							ratio: 1,
+							offset_constant: 0,
+							is_trend: true,
+							is_virtual: false,
+							address: "{\"format\": \"<f\", \"offset\": 0, \"slave_id\": 1, \"byte_swap\": true, \"function_code\": 3, \"number_of_registers\": 2}",
+							description: "Point description",
+							faults: null,
+							definitions: null
+						}, null, 4),
+						import_template_hint: 'SETTING.IMPORT_POINT_FORMAT_HINT'
 					};
 				}
 			}

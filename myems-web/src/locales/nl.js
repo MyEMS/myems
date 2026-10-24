@@ -19,7 +19,7 @@ export default {
         'Advanced Reporting': 'Geavanceerde rapportage',
         'Knowledge Base': 'Kennisbank',
         'Tools': 'Hulpmiddelen',
-        'Cable Sizing Tools': 'Kabelkeuzetool',
+        'Cable Sizing Tool': 'Kabelkeuzetool',
         // Tools - Cable Sizing
         'Standard GB': 'GB/T 16895.15 (Chinese nationale standaard)',
         'Standard GB Full': 'GB/T 16895.15 / GB 50217 (Chinese nationale standaard)',
@@ -1132,6 +1132,7 @@ export default {
         'API.INVALID_PAYLOAD': 'Ongeldige payload',
         'API.INVALID_PEAK_CURRENT': 'Ongeldige piekstroom',
         'API.INVALID_PEAK_LOAD': 'Ongeldige piekbelasting',
+        'API.INVALID_PEAK_TYPE': 'Ongeldig piektype',
         'API.INVALID_PERIOD_TYPE': 'Ongeldig periode type',
         'API.INVALID_PHOTOVOLTAIC_POWER_STATION_ID': 'Ongeldig fotovoltaïsche centrale ID',
         'API.INVALID_PHOTOVOLTAIC_POWER_STATION_NAME': 'Ongeldige fotovoltaïsche centrale naam',

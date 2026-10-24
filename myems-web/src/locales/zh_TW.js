@@ -20,7 +20,7 @@ export default {
         'Knowledge Base': '知識庫',
         // Tools - Cable Sizing
         'Tools': '工具',
-        'Cable Sizing Tools': '電纜選型工具',
+        'Cable Sizing Tool': '電纜選型工具',
         'Standard GB': 'GB/T 16895.15（中國國標）',
         'Standard GB Full': 'GB/T 16895.15 / GB 50217（中國國標）',
         'Copper': '銅',
@@ -1151,6 +1151,7 @@ Please copy it to the input box below.':
         'API.INVALID_PAYLOAD': 'Invalid payload',
         'API.INVALID_PEAK_CURRENT': '無效峰值電流',
         'API.INVALID_PEAK_LOAD': '無效峰值負載',
+        'API.INVALID_PEAK_TYPE': '無效的峰谷平類型',
         'API.INVALID_PERIOD_TYPE': '無效周期類型',
         'API.INVALID_PHOTOVOLTAIC_POWER_STATION_ID': 'Invalid photovoltaic power station ID',
         'API.INVALID_PHOTOVOLTAIC_POWER_STATION_NAME': 'Invalid photovoltaic power station name',

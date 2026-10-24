@@ -215,7 +215,13 @@ app.controller('SensorController', function(
 				params: function() {
 					return {
 						description: 'SETTING.IMPORT_SENSOR_DESCRIPTION',
-						description_more: 'SETTING.IMPORT_SENSOR_DESCRIPTION_MORE'
+						description_more: 'SETTING.IMPORT_SENSOR_DESCRIPTION_MORE',
+						import_template: JSON.stringify({
+							name: "Sensor Name",
+							description: "Sensor description",
+							points: []
+						}, null, 4),
+						import_template_hint: 'SETTING.IMPORT_SENSOR_FORMAT_HINT'
 					};
 				}
 			}

@@ -140,6 +140,18 @@ Xem giới thiệu [myems-admin](myems-admin/README.md)
 
 Xem giới thiệu [myems-modbus-tcp](./myems-modbus-tcp/README.md)
 
+### Dịch vụ thu thập dữ liệu MyEMS BACnet
+
+Xem giới thiệu [myems-bacnet](./myems-bacnet/README.md)
+
+### Dịch vụ thu thập dữ liệu MyEMS OPC UA
+
+Xem giới thiệu [myems-opc-ua](./myems-opc-ua/README.md)
+
+### Dịch vụ thu thập dữ liệu MyEMS S7
+
+Xem giới thiệu [myems-s7](./myems-s7/README.md)
+
 ### Dịch vụ làm sạch dữ liệu MyEMS
 
 Xem giới thiệu [myems-cleaning](./myems-cleaning/README.md)

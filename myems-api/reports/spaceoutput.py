@@ -722,13 +722,13 @@ class Reporting:
             if is_export_excel:
                 result['excel_bytes_base64'] = \
                     excelexporters.spaceoutput.export(result,
-                                                     space['name'],
-                                                     base_period_start_datetime_local,
-                                                     base_period_end_datetime_local,
-                                                     reporting_period_start_datetime_local,
-                                                     reporting_period_end_datetime_local,
-                                                     period_type,
-                                                     language)
+                                                      space['name'],
+                                                      base_period_start_datetime_local,
+                                                      base_period_end_datetime_local,
+                                                      reporting_period_start_datetime_local,
+                                                      reporting_period_end_datetime_local,
+                                                      period_type,
+                                                      language)
             if is_export_pdf:
                 result['pdf_bytes_base64'] = \
                     pdfexporters.spaceoutput.export(result,

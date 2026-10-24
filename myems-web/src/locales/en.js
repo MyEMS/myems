@@ -20,7 +20,7 @@ export default {
         'Knowledge Base': 'Knowledge Base',
         // Tools - Cable Sizing
         'Tools': 'Tools',
-        'Cable Sizing Tools': 'Cable Sizing',
+        'Cable Sizing Tool': 'Cable Sizing Tool',
         'Standard GB': 'GB/T 16895.15 (China National Standard)',
         'Standard GB Full': 'GB/T 16895.15 / GB 50217 (China National Standard)',
         'Copper': 'Copper',

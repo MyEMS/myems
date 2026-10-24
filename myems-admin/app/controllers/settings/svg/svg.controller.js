@@ -222,7 +222,13 @@ app.controller('SVGController', function(
 				params: function() {
 					return {
 						description: 'SETTING.IMPORT_SVG_DESCRIPTION',
-						description_more: 'SETTING.IMPORT_SVG_DESCRIPTION_MORE'
+						description_more: 'SETTING.IMPORT_SVG_DESCRIPTION_MORE',
+						import_template: JSON.stringify({
+							name: "SVG Name",
+							source_code: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><svg></svg>",
+							description: "SVG description"
+						}, null, 4),
+						import_template_hint: 'SETTING.IMPORT_SVG_FORMAT_HINT'
 					};
 				}
 			}

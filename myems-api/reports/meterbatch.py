@@ -346,16 +346,18 @@ class Reporting:
                     meter_id_placeholders = ', '.join(['%s'] * len(meter_ids))
                     daily_query = (
                         " SELECT meter_id, "
-                        "        DATE(DATE_ADD(start_datetime_utc, INTERVAL " + str(timezone_offset) + " MINUTE)) AS local_date, "
-                        "        SUM(actual_value) AS daily_value "
+                        "        DATE(DATE_ADD(start_datetime_utc, INTERVAL " + str(timezone_offset) +
+                        "        MINUTE)) AS local_date, "
+                        " SUM(actual_value) AS daily_value "
                         " FROM tbl_meter_hourly "
                         " WHERE meter_id IN (" + meter_id_placeholders + ") "
-                        "       AND start_datetime_utc >= %s "
-                        "       AND start_datetime_utc < %s "
+                        "        AND start_datetime_utc >= %s "
+                        "        AND start_datetime_utc < %s "
                         " GROUP BY meter_id, local_date "
                         " ORDER BY meter_id, local_date "
                     )
-                    cursor_energy_db.execute(daily_query, meter_ids + [reporting_start_datetime_utc, reporting_end_datetime_utc])
+                    cursor_energy_db.execute(daily_query, meter_ids +
+                                             [reporting_start_datetime_utc, reporting_end_datetime_utc])
                     rows_daily_aggregated = cursor_energy_db.fetchall()
 
                     meter_subtotal_dict = dict()
@@ -367,7 +369,9 @@ class Reporting:
                         if meter_id not in meter_dict:
                             continue
 
-                        date_str = local_date.strftime('%Y-%m-%d') if isinstance(local_date, datetime) else str(local_date)
+                        date_str = local_date.strftime('%Y-%m-%d') \
+                            if isinstance(local_date, datetime) \
+                            else str(local_date)
                         meter_dict[meter_id]['daily_values'][date_str] = daily_value
 
                         if daily_value is None:
@@ -382,7 +386,9 @@ class Reporting:
                         meter_dict[meter_id]['subtotal'] = subtotal
                         for energy_category in energy_category_list:
                             meter_dict[meter_id]['values'].append(
-                                subtotal if energy_category['id'] == meter_dict[meter_id]['energy_category_id'] else None
+                                subtotal
+                                if energy_category['id'] == meter_dict[meter_id]['energy_category_id']
+                                else None
                             )
             finally:
                 if cursor_system_db:

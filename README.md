@@ -62,7 +62,6 @@ The MyEMS open source energy management system refers to the ISO 50001 energy ma
 ![MyEMS Web 26](./docs/images/myems_web_en_26.png)
 ![MyEMS Web 27](./docs/images/myems_web_en_27.png)
 ![MyEMS Web 28](./docs/images/myems_web_en_28.png)
-![MyEMS Web 29](./docs/images/myems_web_en_29.png)
 
 ## MyEMS Admin UI Presentation
 
@@ -144,6 +143,18 @@ See [myems-admin](myems-admin/README.md) Introduction
 ### MyEMS Modbus TCP Acquisition Service (Python)
 
 See [myems-modbus-tcp](./myems-modbus-tcp/README.md) Introduction
+
+### MyEMS BACnet Data Acquisition Service (Python)
+
+See [myems-bacnet](./myems-bacnet/README.md) Introduction
+
+### MyEMS OPC UA Data Acquisition Service (Python)
+
+See [myems-opc-ua](./myems-opc-ua/README.md) Introduction
+
+### MyEMS S7 Data Acquisition Service (Python)
+
+See [myems-s7](./myems-s7/README.md) Introduction
 
 ### MyEMS Cleaning Service (Python)
 

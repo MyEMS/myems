@@ -19,7 +19,7 @@ export default {
         'Advanced Reporting': '고급 보고서',
         'Knowledge Base': '지식 베이스',
         'Tools': '도구',
-        'Cable Sizing Tools': '케이블 선정 도구',
+        'Cable Sizing Tool': '케이블 선정 도구',
         // Tools - Cable Sizing
         'Standard GB': 'GB/T 16895.15 (중국 국가 표준)',
         'Standard GB Full': 'GB/T 16895.15 / GB 50217 (중국 국가 표준)',
@@ -1127,6 +1127,7 @@ Please copy it to the input box below.':
         'API.INVALID_PAYLOAD': 'Invalid payload',
         'API.INVALID_PEAK_CURRENT': 'Invalid peak current',
         'API.INVALID_PEAK_LOAD': 'Invalid peak load',
+        'API.INVALID_PEAK_TYPE': 'Invalid peak type',
         'API.INVALID_PERIOD_TYPE': 'Invalid period type',
         'API.INVALID_PHOTOVOLTAIC_POWER_STATION_ID': 'Invalid photovoltaic power station ID',
         'API.INVALID_PHOTOVOLTAIC_POWER_STATION_NAME': 'Invalid photovoltaic power station name',

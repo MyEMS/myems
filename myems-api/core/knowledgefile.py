@@ -193,7 +193,8 @@ class KnowledgeFileCollection:
                                   'application/vnd.ms-powerpoint',
                                   'application/vnd.openxmlformats-officedocument.presentationml.presentation')
             if content_type and content_type not in allowed_mime_types:
-                if not any(filename.lower().endswith(ext) for ext in ('.pdf', '.doc', '.docx', '.xls', '.xlsx', '.txt', '.csv', '.md', '.ppt', '.pptx')):
+                if not any(filename.lower().endswith(ext) for ext in ('.pdf', '.doc', '.docx', '.xls',
+                                                                      '.xlsx', '.txt', '.csv', '.md', '.ppt', '.pptx')):
                     raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                            description='API.INVALID_MIME_TYPE')
 

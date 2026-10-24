@@ -274,17 +274,19 @@ class EmissionFactorCollection:
                 cnx.commit()
                 # insert time of use factors
                 for timeofuse in new_values['data']['timeofuse']:
-                        if timeofuse['factor'] <= 0:
-                            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                                   description='API.INVALID_EMISSION_FACTOR')
-                        add_timeofuse = (" INSERT INTO tbl_emission_factors_timeofuses "
-                                         " (emission_factor_id, start_time_of_day, end_time_of_day, factor) "
-                                         " VALUES (%s, %s, %s, %s) ")
-                        cursor.execute(add_timeofuse, (new_id,
-                                                       timeofuse['start_time_of_day'],
-                                                       timeofuse['end_time_of_day'],
-                                                       timeofuse['factor']))
-                        cnx.commit()
+                    if timeofuse['factor'] <= 0:
+                        raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                               description='API.INVALID_EMISSION_FACTOR')
+                    add_timeofuse = (
+                        " INSERT INTO tbl_emission_factors_timeofuses "
+                        " (emission_factor_id, start_time_of_day, end_time_of_day, factor) "
+                        " VALUES (%s, %s, %s, %s) "
+                    )
+                    cursor.execute(add_timeofuse, (new_id,
+                                                   timeofuse['start_time_of_day'],
+                                                   timeofuse['end_time_of_day'],
+                                                   timeofuse['factor']))
+                    cnx.commit()
             finally:
                 if cursor:
                     cursor.close()
@@ -566,17 +568,17 @@ class EmissionFactorItem:
                 cnx.commit()
 
                 for timeofuse in new_values['data']['timeofuse']:
-                            if timeofuse['factor'] <= 0:
-                                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                                       description='API.INVALID_EMISSION_FACTOR')
-                            add_timeofuse = (" INSERT INTO tbl_emission_factors_timeofuses "
-                                             " (emission_factor_id, start_time_of_day, end_time_of_day, factor) "
-                                             " VALUES (%s, %s, %s, %s) ")
-                            cursor.execute(add_timeofuse, (id_,
-                                                           timeofuse['start_time_of_day'],
-                                                           timeofuse['end_time_of_day'],
-                                                           timeofuse['factor']))
-                            cnx.commit()
+                    if timeofuse['factor'] <= 0:
+                        raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                               description='API.INVALID_EMISSION_FACTOR')
+                    add_timeofuse = (" INSERT INTO tbl_emission_factors_timeofuses "
+                                     " (emission_factor_id, start_time_of_day, end_time_of_day, factor) "
+                                     " VALUES (%s, %s, %s, %s) ")
+                    cursor.execute(add_timeofuse, (id_,
+                                                   timeofuse['start_time_of_day'],
+                                                   timeofuse['end_time_of_day'],
+                                                   timeofuse['factor']))
+                    cnx.commit()
             finally:
                 if cursor:
                     cursor.close()
@@ -796,17 +798,17 @@ class EmissionFactorImport:
                 cnx.commit()
                 # insert time of use factors
                 for timeofuse in new_values['timeofuse']:
-                        if timeofuse['factor'] <= 0:
-                            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                                   description='API.INVALID_EMISSION_FACTOR')
-                        add_timeofuse = (" INSERT INTO tbl_emission_factors_timeofuses "
-                                         " (emission_factor_id, start_time_of_day, end_time_of_day, factor) "
-                                         " VALUES (%s, %s, %s, %s) ")
-                        cursor.execute(add_timeofuse, (new_id,
-                                                       timeofuse['start_time_of_day'],
-                                                       timeofuse['end_time_of_day'],
-                                                       timeofuse['factor']))
-                        cnx.commit()
+                    if timeofuse['factor'] <= 0:
+                        raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                               description='API.INVALID_EMISSION_FACTOR')
+                    add_timeofuse = (" INSERT INTO tbl_emission_factors_timeofuses "
+                                     " (emission_factor_id, start_time_of_day, end_time_of_day, factor) "
+                                     " VALUES (%s, %s, %s, %s) ")
+                    cursor.execute(add_timeofuse, (new_id,
+                                                   timeofuse['start_time_of_day'],
+                                                   timeofuse['end_time_of_day'],
+                                                   timeofuse['factor']))
+                    cnx.commit()
             finally:
                 if cursor:
                     cursor.close()
@@ -895,14 +897,14 @@ class EmissionFactorClone:
                 cnx.commit()
                 # insert time of use factors
                 for timeofuse in result['timeofuse']:
-                        add_timeofuse = (" INSERT INTO tbl_emission_factors_timeofuses "
-                                         " (emission_factor_id, start_time_of_day, end_time_of_day, factor) "
-                                         " VALUES (%s, %s, %s, %s) ")
-                        cursor.execute(add_timeofuse, (new_id,
-                                                       timeofuse['start_time_of_day'],
-                                                       timeofuse['end_time_of_day'],
-                                                       timeofuse['factor']))
-                        cnx.commit()
+                    add_timeofuse = (" INSERT INTO tbl_emission_factors_timeofuses "
+                                     " (emission_factor_id, start_time_of_day, end_time_of_day, factor) "
+                                     " VALUES (%s, %s, %s, %s) ")
+                    cursor.execute(add_timeofuse, (new_id,
+                                                   timeofuse['start_time_of_day'],
+                                                   timeofuse['end_time_of_day'],
+                                                   timeofuse['factor']))
+                    cnx.commit()
             finally:
                 if cursor:
                     cursor.close()

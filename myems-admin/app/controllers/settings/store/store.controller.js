@@ -300,6 +300,33 @@ app.controller('StoreController', function(
 					return {
 						description: 'SETTING.IMPORT_STORE_DESCRIPTION',
 						description_more: 'SETTING.IMPORT_STORE_DESCRIPTION_MORE',
+						import_template: JSON.stringify({
+							name: "Store Name",
+							address: "Store address",
+							latitude: 39.9,
+							longitude: 116.4,
+							area: 100,
+							store_type: {
+								id: 1
+							},
+							is_input_counted: true,
+							is_enabled: true,
+							contact: {
+								id: 1
+							},
+							cost_center: {
+								id: 1
+							},
+							description: "Store description",
+							commands: [],
+							meters: [],
+							offline_meters: [],
+							virtual_meters: [],
+							points: [],
+							sensors: [],
+							working_calendars: []
+						}, null, 4),
+						import_template_hint: 'SETTING.IMPORT_STORE_FORMAT_HINT'
 					};
 				}
 			}

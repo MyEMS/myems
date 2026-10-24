@@ -343,7 +343,8 @@ class Reporting:
                     for combined_equipment_id in combined_equipment_dict:
                         for energy_category in energy_category_list:
                             subtotal = Decimal(0.0)
-                            if combined_equipment_id in energy_map and energy_category['id'] in energy_map[combined_equipment_id]:
+                            if combined_equipment_id in energy_map and \
+                                    energy_category['id'] in energy_map[combined_equipment_id]:
                                 subtotal = energy_map[combined_equipment_id][energy_category['id']]
                             combined_equipment_dict[combined_equipment_id]['values'].append(subtotal)
 
@@ -377,8 +378,14 @@ class Reporting:
 
                     # Attach cost and carbon to combined_equipment_dict
                     for combined_equipment_id in combined_equipment_dict:
-                        combined_equipment_dict[combined_equipment_id]['cost'] = cost_map.get(combined_equipment_id, 0.0)
-                        combined_equipment_dict[combined_equipment_id]['carbon_emissions'] = carbon_map.get(combined_equipment_id, 0.0)
+                        combined_equipment_dict[combined_equipment_id]['cost'] = cost_map.get(
+                            combined_equipment_id,
+                            0.0,
+                        )
+                        combined_equipment_dict[combined_equipment_id]['carbon_emissions'] = carbon_map.get(
+                            combined_equipment_id,
+                            0.0,
+                        )
         finally:
             if cursor_energy_db is not None:
                 try:
@@ -467,10 +474,10 @@ class Reporting:
                 try:
                     result['pdf_bytes_base64'] = \
                         pdfexporters.combinedequipmentbatch.export(result,
-                                                                     space_name,
-                                                                     reporting_period_start_datetime_local,
-                                                                     reporting_period_end_datetime_local,
-                                                                     language)
+                                                                   space_name,
+                                                                   reporting_period_start_datetime_local,
+                                                                   reporting_period_end_datetime_local,
+                                                                   language)
                 except Exception:
                     logger.error("Failed to export PDF", exc_info=True)
         resp_text = json.dumps(result)

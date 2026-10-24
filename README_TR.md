@@ -140,6 +140,18 @@ Giriş için [myems-admin](myems-admin/README.md) bakın
 
 Giriş için [myems-modbus-tcp](./myems-modbus-tcp/README.md) bakın
 
+### MyEMS BACnet Veri Toplama Hizmeti
+
+Giriş için [myems-bacnet](./myems-bacnet/README.md) bakın
+
+### MyEMS OPC UA Veri Toplama Hizmeti
+
+Giriş için [myems-opc-ua](./myems-opc-ua/README.md) bakın
+
+### MyEMS S7 Veri Toplama Hizmeti
+
+Giriş için [myems-s7](./myems-s7/README.md) bakın
+
 ### MyEMS Veri Temizleme Servisi
 
 Giriş için [myems-cleaning](./myems-cleaning/README.md) bakın

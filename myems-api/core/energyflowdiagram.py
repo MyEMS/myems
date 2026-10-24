@@ -9,6 +9,8 @@ import config
 import logging
 
 logger = logging.getLogger(__name__)
+
+
 def clear_energy_flow_diagram_cache(diagram_id=None):
     """
     Clear energy flow diagram-related cache after data modification

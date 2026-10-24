@@ -41,6 +41,7 @@ import config
 import logging
 logger = logging.getLogger(__name__)
 
+
 class Reporting:
     def __init__(self):
         """Initializes Class"""

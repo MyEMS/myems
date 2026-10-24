@@ -140,6 +140,18 @@ Zie [myems-admin](myems-admin/README.md) introductie
 
 Zie [myems-modbus-tcp](./myems-modbus-tcp/README.md) introductie
 
+### MyEMS BACnet data-acquisitieservice
+
+Zie [myems-bacnet](./myems-bacnet/README.md) introductie
+
+### MyEMS OPC UA data-acquisitieservice
+
+Zie [myems-opc-ua](./myems-opc-ua/README.md) introductie
+
+### MyEMS S7 data-acquisitieservice
+
+Zie [myems-s7](./myems-s7/README.md) introductie
+
 ### MyEMS Data Cleaning Service
 
 Zie [myems-cleaning](./myems-cleaning/README.md) introductie

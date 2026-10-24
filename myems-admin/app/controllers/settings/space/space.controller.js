@@ -368,7 +368,41 @@ app.controller('SpaceController', function (
 				params: function() {
 					return {
 						description: 'SETTING.IMPORT_SPACE_DESCRIPTION',
-						description_more: 'SETTING.IMPORT_SPACE_DESCRIPTION_MORE'
+						description_more: 'SETTING.IMPORT_SPACE_DESCRIPTION_MORE',
+						import_template: JSON.stringify({
+							name: "Space Name",
+							area: 100,
+							timezone: {
+								id: 1
+							},
+							is_input_counted: true,
+							is_output_counted: false,
+							parent_space_id: {
+								id: 1
+							},
+							contact: {
+								id: 1
+							},
+							cost_center: {
+								id: 1
+							},
+							latitude: 39.9,
+							longitude: 116.4,
+							description: "Space description",
+							commands: [],
+							meters: [],
+							offline_meters: [],
+							virtual_meters: [],
+							shopfloors: [],
+							combined_equipments: [],
+							equipments: [],
+							points: [],
+							sensors: [],
+							tenants: [],
+							stores: [],
+							working_calendars: []
+						}, null, 4),
+						import_template_hint: 'SETTING.IMPORT_SPACE_FORMAT_HINT'
 					};
 				}
 			}

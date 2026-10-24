@@ -116,7 +116,7 @@ const MicrogridList = ({ setRedirect, setRedirectUrl, t }) => {
                   title: json[index]['name'],
                   description: json[index]['description'],
                   uuid: json[index]['uuid'],
-                  url: '/microgrid/details'
+                  url: '/singlemicrogrid/details'
                 }
               });
             });

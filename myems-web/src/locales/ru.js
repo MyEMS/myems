@@ -19,7 +19,7 @@ export default {
         'Advanced Reporting': 'Расширенная отчетность',
         'Knowledge Base': 'База знаний',
         'Tools': 'Инструменты',
-        'Cable Sizing Tools': 'Инструмент выбора кабелей',
+        'Cable Sizing Tool': 'Инструмент выбора кабелей',
         // Tools - Cable Sizing
         'Standard GB': 'GB/T 16895.15 (Китайский национальный стандарт)',
         'Standard GB Full': 'GB/T 16895.15 / GB 50217 (Китайский национальный стандарт)',
@@ -1164,6 +1164,7 @@ export default {
         'API.INVALID_PAYLOAD': 'Invalid payload',
         'API.INVALID_PEAK_CURRENT': 'Invalid peak current',
         'API.INVALID_PEAK_LOAD': 'Invalid peak load',
+        'API.INVALID_PEAK_TYPE': 'Invalid peak type',
         'API.INVALID_PERIOD_TYPE': 'Invalid period type',
         'API.INVALID_PHOTOVOLTAIC_POWER_STATION_ID': 'Invalid photovoltaic power station ID',
         'API.INVALID_PHOTOVOLTAIC_POWER_STATION_NAME': 'Invalid photovoltaic power station name',
