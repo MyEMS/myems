@@ -1,7 +1,13 @@
 import sys
-import telnetlib
+import telnetlib3
+import asyncio
 import snap7
 from snap7.snap7types import S7AreaPE, S7AreaMK, S7AreaCT, S7AreaTM
+
+
+async def check_connectivity(host, port, timeout=10):
+    reader, writer = await telnetlib3.open_connection(host, port, connect_timeout=timeout)
+    writer.close()
 
 
 def main():
@@ -13,7 +19,7 @@ def main():
         return
 
     try:
-        telnetlib.Telnet(host, port, 10)
+        asyncio.run(check_connectivity(host, port, 10))
         print("Succeeded to telnet %s:%s in acquisition process ", host, port)
     except Exception as e:
         print("Failed to telnet %s:%s in acquisition process: %s  ", host, port, str(e))

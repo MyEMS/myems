@@ -1,8 +1,9 @@
 import json
 import struct
-import telnetlib
+import telnetlib3
+import asyncio
 import time
-from datetime import datetime
+from datetime import datetime, timezone
 from decimal import Decimal
 import mysql.connector
 import snap7
@@ -17,6 +18,9 @@ import config
 # Step 4: Bulk insert point values and update latest values in historical database
 ########################################################################################################################
 
+async def check_connectivity(host, port, timeout=10):
+    reader, writer = await telnetlib3.open_connection(host, port, connect_timeout=timeout)
+    writer.close()
 
 def process(logger, data_source_id, host, rack, slot, port, interval_in_seconds):
     # todo: update data source last seen datetime
@@ -27,7 +31,7 @@ def process(logger, data_source_id, host, rack, slot, port, interval_in_seconds)
         # Step 1: Telnet the host
         ################################################################################################################
         try:
-            telnetlib.Telnet(host, port, 10)
+            asyncio.run(check_connectivity(host, port, 10))
             print("Succeeded to telnet %s:%s in acquisition process ", host, port)
         except Exception as e:
             logger.error("Failed to telnet %s:%s in acquisition process: %s  ", host, port, str(e))
@@ -257,7 +261,7 @@ def process(logger, data_source_id, host, rack, slot, port, interval_in_seconds)
                     time.sleep(60)
                     continue
 
-            current_datetime_utc = datetime.utcnow()
+            current_datetime_utc = datetime.now(timezone.utc).replace(tzinfo=None)
             # bulk insert values into historical database within a period
             # update latest values in the meanwhile
             if len(analog_value_list) > 0:

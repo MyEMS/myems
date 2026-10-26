@@ -1,7 +1,7 @@
 import json
 import math
 import time
-from datetime import datetime
+from datetime import datetime, timezone
 from decimal import Decimal
 import mysql.connector
 from bacpypes.core import run, deferred, stop, run_once
@@ -348,7 +348,7 @@ def process(logger, ):
                 time.sleep(60)
                 continue  # the outermost while true loop
 
-        current_datetime_utc = datetime.utcnow()
+        current_datetime_utc = datetime.now(timezone.utc).replace(tzinfo=None)
         # bulk insert values into historical database within a period
         # update latest values in the meanwhile
         if len(analog_value_list) > 0:
