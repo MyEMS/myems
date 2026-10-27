@@ -1,9 +1,16 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+### Changed
+### Fixed
+### Removed
+
+## [6.10.0] - 2026-10-27
 ### Added
 - added cable sizing tool to myems-web
 - added templates to import dialogs in myems-admin
@@ -24,15 +31,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - changed pillow version to 13.0.0 in myems-api
 - changed numpy version to 2.4.6 and matplotlib version to 3.11.2 in myems-api
 - changed telnetlib to telnetlib3 in myems-s7
+- changed telnetlib to telnetlib3 in myems-opc-ua
 ### Fixed
 - fixed issue of dockerfile in myems-s7
 - fixed footer issue in myems-admin
 - fixed shopfloor issue in myems-admin
 - fixed pep 8 warnings in myems-api
 ### Removed
+- None
 
-
-## [v6.9.0] - 2026-09-27
+## [6.9.0] - 2026-09-27
 ### Added
 - added docx exporters for space reports in myems-api and myems-web
 - added pdf exporters for equipment reports in myems-api and myems-web
@@ -59,7 +67,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 - None
 
-## [v6.8.0] - 2026-08-29
+## [6.8.0] - 2026-08-29
 ### Added
 - added meter dashboard to myems-api and myems-web
 - added authenticate via API-KEY to webmessage in myems-api
@@ -82,7 +90,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 - None
 
-## [v6.7.0] - 2026-07-26
+## [6.7.0] - 2026-07-26
 ### Added
 - added circle check to energy flow diagram in myems-api and myems-admin
 - added duplicate check for binding meter to space in myems-api and myems-admin
@@ -112,7 +120,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 - removed print(req.params) from myems-api
 
-## [v6.6.0] - 2026-06-26
+## [6.6.0] - 2026-06-26
 ### Added
 - added search box to data point page in myems-admin
 - added deepseek AI analysis to reports in myems-web
@@ -152,7 +160,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - removed unused function from carbon_dioxide_emission_factor in myems-aggregation
 - removed falcon-cors middleware and on_options methods from myems-api
 
-## [v6.5.0] - 2026-05-26
+## [6.5.0] - 2026-05-26
 ### Added
 - added comprehensive and exhaustive explanatory descriptions to myems-admin
 - added equipment prediction report in myems-web
@@ -196,7 +204,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 - None
 
-## [v6.4.0] - 2026-04-26
+## [6.4.0] - 2026-04-26
 ### Added
 - added redis cache to space reports in myems-api
 - added demo data translations in database
@@ -222,7 +230,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 - removed the default interval_in_seconds from config in myems-modbus-tcp
 
-## [v6.3.0] - 2026-03-28
+## [6.3.0] - 2026-03-28
 ### Added
 - added Japanese translations in myems-admin and myems-web
 - added timezones translations in myems-admin
@@ -254,7 +262,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - removed default password from config.py. Please ensure to set environment variables like MYEMS_SYSTEM_DB_PASSWORD explicitly before deployment.
 - removed id and uuid from export data in myems-admin
 
-## [v6.2.0] - 2026-02-08
+## [6.2.0] - 2026-02-08
 ### Added
 - added login by mobile phone number to myems-admin
 - added efficiency_indicator to myems_system_db.tbl_equipments in database
@@ -272,7 +280,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 - None
 
-## [v6.1.0] - 2026-01-28
+## [6.1.0] - 2026-01-28
 ### Added
 - added store type setting to myems-admin
 - added optional redis database to myems-api
@@ -299,7 +307,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 - None
 
-## [v5.12.0] - 2025-12-26
+## [5.12.0] - 2025-12-26
 ### Added
 - added indexes to myems_system_db.tbl_menus in database
 - added more specific exception code in myems-api
@@ -316,7 +324,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - None
 
 
-## [v5.11.0] - 2025-11-30
+## [5.11.0] - 2025-11-30
 ### Added
 - added space cascader to distribution system in myems-web
 - added search function to tariff setting in myems-admin and myems-api
@@ -340,7 +348,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 - None
 
-## [v5.10.0] - 2025-10-26
+## [5.10.0] - 2025-10-26
 ### Added
 - added search function to shopfloor setting in myems-admin and myems-api
 - added search function to user setting in myems-admin and myems-api
@@ -372,7 +380,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 - None
 
-## [v5.9.0] - 2025-09-28
+## [5.9.0] - 2025-09-28
 ### Added
 - added tenant type function in myems-admin
 - added svg preview to myems-admin
@@ -395,7 +403,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 - None
 
-## [v5.8.0] - 2025-08-28
+## [5.8.0] - 2025-08-28
 ### Added
 - added carbon emissions per unit of energy consumption to equipment in myems-web
 - added carbon emissions per unit of energy consumption to combined equipment in myems-web
@@ -412,7 +420,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 - None
 
-## [v5.7.1] - 2025-08-02
+## [5.7.1] - 2025-08-02
 ### Added
 - added binding data source to microgrid in myems-api
 - added binding data source to photovoltaic in myems-api
@@ -421,7 +429,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - fixed energy flow diagram issue in myems-api
 ### Removed
 
-## [v5.7.0] - 2025-07-29
+## [5.7.0] - 2025-07-29
 ### Added
 - added myems-admin.conf and myems-web.conf for nginx
 - added binding microgrid to space in myems-admin
@@ -458,7 +466,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - removed tbl_energy_storage_containers_sensors from myems_system_db in database
 
 
-## [v5.6.0] - 2025-06-22
+## [5.6.0] - 2025-06-22
 ### Added
 - added uuid file name pattern in myems-api/.gitignore
 ### Changed
@@ -470,7 +478,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 - None
 
-## [v5.5.0] - 2025-05-29
+## [5.5.0] - 2025-05-29
 ### Added
 - added column definitions to tbl_points in databse
 - added definitions to points in myems-api and myems-admin
@@ -484,7 +492,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - removed hybrid power station
 
 
-## [v5.4.0] - 2025-04-30
+## [5.4.0] - 2025-04-30
 ### Added
 - added control modes and control times
 - added legend to MultipleLineChart in myems-web
@@ -508,7 +516,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 - removed postal code from power stations
 
-## [v5.3.0] - 2025-03-28
+## [5.3.0] - 2025-03-28
 ### Added
 - added space output data to dashboard in myems-web and myems-api
 - added space prediction report in  myems-web and myems-api
@@ -530,7 +538,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 - None
 
-## [v5.2.0] - 2025-02-25
+## [5.2.0] - 2025-02-25
 ### Added
 - added portuguese language
 - added deep valley to time-of-use tariff
@@ -549,7 +557,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 - removed console.log from myems-web and myems-admin
 
-## [v5.1.0] - 2025-01-29
+## [5.1.0] - 2025-01-29
 ### Added
 - added new property 'faults' to point
 - added `myems_historical_db`.`tbl_text_value` in database
@@ -568,7 +576,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 - None
 
-## [v4.12.0] - 2024-12-21
+## [4.12.0] - 2024-12-21
 ### Added
 - added all in one docker files
 - added associated equipments percentage data to combined equipment reports in myems-web
@@ -582,7 +590,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 - removed myems_billing_baseline_db
 
-## [v4.11.0] - 2024-11-23
+## [4.11.0] - 2024-11-23
 ### Added
 - added tables for photovoltaic power stations in database
 - added per capita data to dashboard and space reports
@@ -606,7 +614,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - removed google maps for picking up longtitude and latitude
 - removed svg_id from energy storage container
 
-## [v4.10.0] - 2024-10-26
+## [4.10.0] - 2024-10-26
 ### Added
 - added ticket actions to myems-api
 - added space production report
@@ -623,7 +631,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 - None
 
-## [v4.9.1] - 2024-10-05
+## [4.9.1] - 2024-10-05
 ### Added
 - added myems_production_db config to example.env in myems-api
 - added offset_constant to point
@@ -635,7 +643,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 - None
 
-## [v4.9.0] - 2024-09-28
+## [4.9.0] - 2024-09-28
 ### Added
 - added config entry to indicate if show TCE data on reports in myems-web
 - added diagram to energy flow diagram excel exporter (need to rerun 'sudo pip install -r requirements.txt' to upgrade)
@@ -664,7 +672,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - removed sensors form energystoragecontainers in myems-api
 - removed sensors from energystoragecontainers in myems-admin
 
-## [v4.8.0] - 2024-08-13
+## [4.8.0] - 2024-08-13
 ### Warning
 - **MUST** replace '/code/.env' with '/app/.env' in docker run commands because WORKDIR in Dockerfile was changed from '/code' to '/app'
 ### Added
@@ -688,7 +696,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 - None
 
-## [v4.7.0] - 2024-07-08
+## [4.7.0] - 2024-07-08
 ### Warning
 - This upgrade will delete svg from some tables, save svg source code to tbl_svgs or text file first
 ### Added
@@ -722,7 +730,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 - None
 
-## [v4.6.0] - 2024-06-09
+## [4.6.0] - 2024-06-09
 ### Added
 - added energy plan files table to database
 - added energy plan files actions to myems-api
@@ -749,7 +757,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - removed charge/discharge points and commands from power conversion system of microgrid
 - removed charge/discharge points and commands from power conversion system of energy storage container
 
-## [v4.5.0] - 2024-05-21
+## [4.5.0] - 2024-05-21
 ### Added
 - added new protocols dtu-rtu, dtu-tcp, dtu-mqtt and mqtt-zhongxian
 - added latest value to data source points table in myems-admin
@@ -766,7 +774,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 - None
 
-## [v4.4.0] - 2024-04-17
+## [4.4.0] - 2024-04-17
 ### Added
 - added hyperlink to meter name of Meter Batch report in myems-web
 - added SectionLineChart into myems-web
@@ -790,7 +798,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 - None
 
-## [v4.3.0] - 2024-03-11
+## [4.3.0] - 2024-03-11
 
 ### Added
 - added protocol list to data source model in myems-admin
@@ -821,7 +829,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 - None
 
-## [v4.2.0] - 2024-02-18
+## [4.2.0] - 2024-02-18
 
 ### Added
 - None
@@ -844,7 +852,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 - None
 
-## [v4.1.0] - 2024-02-08
+## [4.1.0] - 2024-02-08
 
 ### Added
 - added arrow up or arrow down icon to cardsummary in myems-web
@@ -877,7 +885,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 - None
 
-## [v4.0.0] - 2024-01-13
+## [4.0.0] - 2024-01-13
 
 ### Added
 - added tables for energy storage power station in database
@@ -916,7 +924,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -
 
-## [v3.12.0] - 2023-12-08
+## [3.12.0] - 2023-12-08
 
 ### Added
 - added charge time and discharge time settings to power conversion system of microgrid
@@ -937,7 +945,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 - Removed google map api from myems-admin
 
-## [v3.11.0] - 2023-11-03
+## [3.11.0] - 2023-11-03
 ### Added
 - added sensors realtime data to dashboard in myems-web
 - added energy storage power station to database, myems-api, and myems-admin
@@ -968,7 +976,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - removed svg column from list of photovoltaic power station in myems-admin
 - removed svg column from list of wind farm in myems-admin
 
-## [v3.10.0] - 2023-10-08
+## [3.10.0] - 2023-10-08
 ### Added
 - added Vietnamese language to myems-web
 - added sort function to tables in myems-admin
@@ -998,7 +1006,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 -
 ### Removed
 
-## [v3.9.0] - 2023-09-06
+## [3.9.0] - 2023-09-06
 ### Added
 - added SESSION_EXPIRES_IN_SECONDS config to myems-api
 - added virtual power plant to database, myems-api and myems-admin
@@ -1032,7 +1040,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 - removed category and report_code from tbl_reports in myems_reporting_db
 
-## [v3.8.0] - 2023-08-02
+## [3.8.0] - 2023-08-02
 ### Added
 - added is_recursive boolean option to meter tracking report in myems-api (need to upgrade the myesm-api/.env file)
 - added is_recursive boolean option to meter batch report in myems-api (need to upgrade the myesm-api/.env file)
@@ -1065,7 +1073,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - removed shopfloor equipments from monitoring
 - removed store equipments from monitoring
 
-## [v3.7.0] - 2023-07-08
+## [3.7.0] - 2023-07-08
 ### Added
 - added access control to tenant in myems-api, myems-admin and myems-web
 - added point real time report to myems-api
@@ -1088,7 +1096,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - removed unused getXXX services from myems-admin
 
 
-## [v3.6.0] - 2023-06-22
+## [3.6.0] - 2023-06-22
 ### Added
 - added microgrid battery actions to myems-api and myems-admin
 - added microgrid evcharger actions to myems-api and myems-admin
@@ -1118,7 +1126,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 - None
 
-## [v3.5.0] - 2023-06-09
+## [3.5.0] - 2023-06-09
 ### Added
 - added bind command to meter feature to myems-api and myems-admin
 - added bind command to space feature to myems-api and myems-admin
@@ -1143,7 +1151,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 - removed tariff type 'block'(or tiered) from database, myems-api and myems-admin
 -
-## [v3.4.0] - 2023-06-01
+## [3.4.0] - 2023-06-01
 ### Added
 - added tbl_commands to myems_system_db database
 - added tbl_combianed_equipments_commands to myems_system_db database
@@ -1178,7 +1186,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 - None
 
-## [v3.3.0] - 2023-05-21
+## [3.3.0] - 2023-05-21
 ### Added
 - Added captcha to myems-web login form
 - Added captcha to myems-admin login form
@@ -1201,7 +1209,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 - Removed legacy docs for readthedocs, and replaced with https://myems.io
 
-## [v3.2.0] - 2023-03-31
+## [3.2.0] - 2023-03-31
 ### Added
 - added automatic logout action when myems-admin is idle for more than 5 minutes
 - Add Environment Monitor to Space Data
@@ -1215,7 +1223,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 - Removed table `tbl_shopfloor_working_days` from `myems_production_db`
 
-## [v3.1.0] - 2023-03-03
+## [3.1.0] - 2023-03-03
 ### Added
 - added working-days/non-working-days data into tenant energy categroy report
 - added working-days/non-working-days data into store energy categroy report
@@ -1231,7 +1239,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 - None
 -
-## [v3.0.0] - 2023-02-25
+## [3.0.0] - 2023-02-25
 ### Added
 - added tbl_spaces_non_working_days to myems_system_db database
 - added tbl_working_calendars_non_working_days to myems_system_db database
@@ -1258,7 +1266,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 - removed access control from GET action of offlinemeterfile in myems-api
 
-## [v2.11.0] - 2023-01-09
+## [2.11.0] - 2023-01-09
 ### Added
 - added base period data to Combined Equipment reports
 - added read only property to administrator
@@ -1274,7 +1282,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -
 
-## [v2.10.0] - 2022-12-24
+## [2.10.0] - 2022-12-24
 ### Added
 - added offline meter saving report
 - added base period data to Tenant reports
@@ -1297,7 +1305,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -
 
-## [v2.9.0] - 2022-12-19
+## [2.9.0] - 2022-12-19
 ### Added
 - added base period data to Equipment reports
 - added base period data to Meter reports
@@ -1317,7 +1325,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -
 
-## [v2.8.0] - 2022-12-01
+## [2.8.0] - 2022-12-01
 ### Added
 - added DateRangePickerWrapper to myems-web
 - added base period data to Space Energy Category report
@@ -1353,7 +1361,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -
 
-## [v2.7.0] - 2022-11-03
+## [2.7.0] - 2022-11-03
 ### Added
 - added energy categories filter to meter tracking report
 - added meter energy report hyperlink with meter uuid as query string
@@ -1376,7 +1384,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -
 
-## [v2.6.0] - 2022-10-20
+## [2.6.0] - 2022-10-20
 ### Added
 - added API error message for failing to save offline meter file
 - added base period data to meter enegy report excel exporter in myems-api
@@ -1395,7 +1403,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -
 
-## [v2.5.0] - 2022-10-11
+## [2.5.0] - 2022-10-11
 
 ### Added
 - added base period data and change rates to meter energy report in myems-web
@@ -1415,7 +1423,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -
 
-## [v2.4.0] - 2022-09-30
+## [2.4.0] - 2022-09-30
 ### Added
 - added config entry to indicate if the tariff appended to parameters data (NOTE: add IS_TARIFF_APPENDED to myems-api/.env for upgrading)
 
@@ -1432,7 +1440,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 - None
 
-## [v2.3.0] - 2022-09-23
+## [2.3.0] - 2022-09-23
 ### Added
 - added i18n to excel exporters of store
 - added i18n to excel exporters of tenant
@@ -1455,7 +1463,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -
 
-## [v2.2.0] - 2022-09-18
+## [2.2.0] - 2022-09-18
 ### Added
 - added i18n to excel exporters of space
 - added i18n to excel exporters of meter
@@ -1472,7 +1480,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -
 
-## [v2.1.0] - 2022-09-09
+## [2.1.0] - 2022-09-09
 ### Added
 - added MAX/MIN/AVG to parameters line charts
 - added associated equipments trend data to combined equipment input energy category report
@@ -1492,7 +1500,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -
 
-## [v2.0.0] - 2022-08-18
+## [2.0.0] - 2022-08-18
 
 ### Added
 - added combined equipment carbon dioxide emissions report
@@ -1513,7 +1521,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 -
 
 
-## [v1.9.6] - 2022-08-05
+## [1.9.6] - 2022-08-05
 ### Added
 - added data integrity rates to meter tracking report in myems-api & myems-web
 - added piecewise function to virtual point in myems-normalization
@@ -1527,7 +1535,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -
 
-## [v1.9.5] - 2022-07-18
+## [1.9.5] - 2022-07-18
 ### Added
 - added subtotal to meter/offlinemeter/virtualmeter batch report
 - added mqtt to data source protocol in myems-api
@@ -1551,7 +1559,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -
 
-## [v1.9.4] - 2022-06-18
+## [1.9.4] - 2022-06-18
 ### Added
 - Added meter id column to virtual meter editor.
 - Added virtual meter batch analysis report.
@@ -1573,7 +1581,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 - None.
 
-## [v1.9.3] - 2022-06-03
+## [1.9.3] - 2022-06-03
 ### Added
 - Added quick mode to meterenergy report in myems-api.
 - Added quick mode to spaceenergycategory report in myems-api.
@@ -1596,7 +1604,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 - None.
 
-## [v1.9.2] - 2022-05-22
+## [1.9.2] - 2022-05-22
 
 ### Added
 - added bilibili link to README.
@@ -1617,7 +1625,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 - None.
 
-## [v1.9.1] -   2022-05-05
+## [1.9.1] -   2022-05-05
 ### Added
 - added API reverse proxy in Apache conf.
 
@@ -1638,7 +1646,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 - None.
 
-## [v1.9.0] -   2022-04-16
+## [1.9.0] -   2022-04-16
 ### Added
 - added myems_production_db to database.
 - added column to `myems_production_db`.`tbl_teams` in database.
@@ -1674,7 +1682,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 - Removed search box from navbar of web ui.
 
-## [v1.8.2] -   2022-03-16
+## [1.8.2] -   2022-03-16
 ### Added
 - None.
 
@@ -1690,7 +1698,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 - None.
 
-## [v1.8.1] -   2022-03-05
+## [1.8.1] -   2022-03-05
 ### Added
 - added integration testing plan to README
 - added StreamHandler to send logging output to sys.stderr
@@ -1706,7 +1714,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 - None.
 
-## [v1.8.0] -   2022-02-28
+## [1.8.0] -   2022-02-28
 ### Added
 - added Meter Carbon Dioxide Emissions Report to Web UI
 - added Virtual Meter Carbon Dioxide Emissions Report
@@ -1731,7 +1739,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-## [v1.7.2] -   2022-02-19
+## [1.7.2] -   2022-02-19
 ### Added
 - added default character set and collate to database
 - added Mark All As Read action to notification
@@ -1746,7 +1754,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-## [v1.7.1] -   2022-02-11
+## [1.7.1] -   2022-02-11
 ### Added
 - added myems_carbon_db to recalculating script
 
@@ -1767,7 +1775,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-## [v1.7.0] -   2022-01-28
+## [1.7.0] -   2022-01-28
 ### Added
 - added new database myems_carbon_db
 - added alternative uuid parameter to reports of combined equipment, equipment, meter, shopfloor, store and tenant
@@ -1790,7 +1798,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-## [v1.6.1] -   2022-01-18
+## [1.6.1] -   2022-01-18
 ### Added
 - added docker image immigration to readme.
 - added QRCode in String to Space/Meter/Store/Tenant/Equipment/CombinedEquipment in API
@@ -1808,7 +1816,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 -   None.
 
 
-## [v1.6.0] -   2021-12-31
+## [1.6.0] -   2021-12-31
 ### Added
 -   added energy output and input to combined equipment efficiency report
 -   added energy output and input to equipment efficiency report
@@ -1834,7 +1842,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-## [v1.5.1] -   2021-12-18
+## [1.5.1] -   2021-12-18
 ### Added
 -   Added lock/unlock user function if user failed login with wrong password.
 
@@ -1848,7 +1856,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-## [v1.5.0] -   2021-12-12
+## [1.5.0] -   2021-12-12
 ### Added
 -   Added energy model database
 -   Added access control to all core entities in api and admin ui.
@@ -1865,7 +1873,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-## [v1.4.0] -   2021-11-14
+## [1.4.0] -   2021-11-14
 ### Added
 -   added installation on docker to myems-modbus-tcp.
 
@@ -1894,7 +1902,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-## [v1.3.4] -   2021-11-06
+## [1.3.4] -   2021-11-06
 ### Added
 -   added notification drop down list and notification page.
 -   added new period type 'weekly'.
@@ -1910,7 +1918,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-## [v1.3.3] -   2021-10-30
+## [1.3.3] -   2021-10-30
 ### Added
 -   added missing rule_id in myems_fdd_db.
 
@@ -1932,7 +1940,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 -   removed duplicate entry in i18n of Web UI
 -   removed unused import from API.
 
-## [v1.3.2] -   2021-10-22
+## [1.3.2] -   2021-10-22
 ### Added
 -   added associated equipments data to combinedequipmentefficiency report.
 -   added Pie Charts of TCE/TCO2E to excelexporters of equipmentenergycategory, combinedequipmentenergycategory and storeenergycategory.
@@ -1957,7 +1965,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 -   deleted unused comments from excelexporters.
 
 
-## [v1.3.1] -   2021-10-15
+## [1.3.1] -   2021-10-15
 ### Added
 -   added maximum load to tenantbatch report
 
@@ -1976,7 +1984,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-## [v1.3.0] -   2021-09-04
+## [1.3.0] -   2021-09-04
 ### Added
 -   added expiration datetimes to User in Admin UI
 -   added expiration datetimes to user actions in API
@@ -2013,7 +2021,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   removed cookies usages from API
 
-## [v1.2.3] -   2021-09-04
+## [1.2.3] -   2021-09-04
 ### Added
 -   added tbl_reports to myems_reporting_db in database.
 -   added trusted-host to Dockerfiles
@@ -2029,7 +2037,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-## [v1.2.2] -   2021-08-28
+## [1.2.2] -   2021-08-28
 ### Added
 -   added user log to UserLogin, ChangePassword and ResetPassword in API
 -   implemented user_logger decorators in API
@@ -2055,7 +2063,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   removed unnecessary dropzone-amd-module library from Admin UI
 
-## [v1.2.1] -   2021-08-19
+## [1.2.1] -   2021-08-19
 ### Added
 -   Added Missing Error Messages Words of API to Web UI i18n
 -   Added rule_id to messages tables of fdd database
@@ -2099,7 +2107,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 -   removed unnecessary libraries d3, and3, nvd3 and c3 from Admin UI
 -   removed unnecessary library nggrid from Admin UI
 
-## [v1.2.0] -   2021-08-08
+## [1.2.0] -   2021-08-08
 ### Added
 -   Added demo data to database
 
@@ -2114,7 +2122,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   Deleted unnecessary words in translations of Admin UI
 
-## [v1.1.6] -   2021-08-02
+## [1.1.6] -   2021-08-02
 ### Added
 -   Added Meter Batch Analysis Report
 -   Added Child Space Share Pies for SpaceCost in Web UI
@@ -2131,7 +2139,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-## [v1.1.5] -   2021-07-20
+## [1.1.5] -   2021-07-20
 ### Added
 -   None.
 
@@ -2145,7 +2153,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-## [v1.1.4] -   2021-07-19
+## [1.1.4] -   2021-07-19
 ### Added
 -   added tbl_email_messages to myems_reporting_db
 -   added data sort to FDD messages in Admin UI
@@ -2180,7 +2188,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 -   Drop table tbl_sms_recipients from myems_fdd_db
 -   deleted parameters data from Dashboard
 
-## [v1.1.3] -   2021-05-25
+## [1.1.3] -   2021-05-25
 ### Added
 -   added Combined Equipment Batch Analysis Report
 -   added Shopfloor Batch Analysis Report
@@ -2209,7 +2217,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-## [v1.1.2] -   2021-04-23
+## [1.1.2] -   2021-04-23
 ### Added
 -   added associated parameters data to excel exporter of shopfloorstatistics in API
 -   added associated parameters data to excel exporter of shopfloorsaving in API
@@ -2279,7 +2287,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 -   deleted slim-scroll from and added maxheight to panel of views in Admin UI
 
 
-## [v1.1.1] -   2021-03-31
+## [1.1.1] -   2021-03-31
 ### Added
 -   added associated equipment data to CombinedEquipmentCost report in API
 -   added associated equipment data to CombinedEquipmentStatistics report in API
@@ -2318,7 +2326,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 -   None.
 
 
-## [v1.1.0] -   2021-03-18
+## [1.1.0] -   2021-03-18
 ### Added
 -   added excel exporter of equipmentefficiency report.
 -   added excel exporter of conbinedequipmentefficiency report in API.
@@ -2341,7 +2349,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-## [v1.0.8] -   2021-03-11
+## [1.0.8] -   2021-03-11
 ### Added
 -   added excel exporter of combinedequipmentstatistics report
 -   added translation for German
@@ -2359,7 +2367,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-## [v1.0.7] -   2021-03-07
+## [1.0.7] -   2021-03-07
 ### Added
 -   added excel exporter of storeload report
 -   added excel exporter of spaceincome report
@@ -2388,7 +2396,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   removed 'required' property from equipment model in admin.
 
-## [v1.0.6] -   2021-02-26
+## [1.0.6] -   2021-02-26
 ### Added
 -   added store statistics report excel exporter.
 -   added equipment tracking excel exporter.
@@ -2407,7 +2415,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-## [v1.0.5] -   2021-02-23
+## [1.0.5] -   2021-02-23
 ### Added
 -   None.
 
@@ -2420,7 +2428,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Removed
 -   None.
 
-[Unreleased]: https://gitee.com/MyEMS/myems/compare/v6.9.0...HEAD
+[Unreleased]: https://gitee.com/MyEMS/myems/compare/v6.10.0...HEAD
+[6.10.0]: https://gitee.com/MyEMS/myems/compare/v6.9.0...v6.10.0
 [6.9.0]: https://gitee.com/MyEMS/myems/compare/v6.8.0...v6.9.0
 [6.8.0]: https://gitee.com/MyEMS/myems/compare/v6.7.0...v6.8.0
 [6.7.0]: https://gitee.com/MyEMS/myems/compare/v6.6.0...v6.7.0

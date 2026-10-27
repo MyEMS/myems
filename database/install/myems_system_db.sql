@@ -2813,7 +2813,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_versions` (
 INSERT INTO `myems_system_db`.`tbl_versions`
 (`id`, `version`, `release_date`)
 VALUES
-(1, '6.9.0', '2026-09-27');
+(1, '6.10.0', '2026-10-27');
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_wind_farms`
