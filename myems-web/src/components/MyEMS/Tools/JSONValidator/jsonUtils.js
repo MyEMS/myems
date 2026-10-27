@@ -298,3 +298,364 @@ export const convertFullWidthToHalfWidth = text => {
   out += raw.slice(last);
   return { text: out, changedCount: fixable.length };
 };
+
+// ---------------------------------------------------------------------------
+// Syntax repair engine (unquoted key/value, missing comma, trailing content,
+// unterminated string / container). Purely additive: existing validate /
+// format / punctuation APIs keep their behavior. Every candidate fix is
+// trial-applied and only kept when parsing strictly progresses, so a wrong
+// guess can never make the document worse.
+// ---------------------------------------------------------------------------
+
+// Characters that terminate a bare (unquoted) token.
+const DELIMITERS = ',:[]{} \t\r\n';
+
+// Cap repair iterations to bound worst-case work on pathological inputs.
+const MAX_SYNTAX_FIXES = 100;
+
+// Does this character legitimately start a JSON value?
+const isValueStart = c =>
+  c === '"' || c === '{' || c === '[' || c === 't' || c === 'f' || c === 'n' || c === '-' || (c >= '0' && c <= '9');
+
+// Scan the text with a minimal recursive-descent tokenizer and return the
+// first structural error, or null when the whole text tokenizes cleanly.
+// error = { position, type, token, closers? }
+const scanSyntax = text => {
+  const n = text.length;
+  if (n === 0) return { position: 0, type: 'unexpected', token: '' };
+  let i = 0;
+  const stack = [];
+  let err = null;
+  const fail = (position, type, token, ctx) => {
+    if (!err) {
+      err = {
+        position,
+        type,
+        token: token || '',
+        closers: (ctx && ctx.closers) || stack.slice().reverse().join(''),
+        stack: (ctx && ctx.stack) || stack.slice()
+      };
+    }
+    return false;
+  };
+  const skipWs = () => {
+    while (i < n && (text[i] === ' ' || text[i] === '\t' || text[i] === '\n' || text[i] === '\r')) i += 1;
+  };
+  const scanBareToken = () => {
+    const start = i;
+    while (i < n && DELIMITERS.indexOf(text[i]) < 0) i += 1;
+    return text.slice(start, i);
+  };
+  const parseString = () => {
+    const start = i;
+    i += 1; // opening quote
+    while (i < n) {
+      if (text[i] === '\\') {
+        i += 2;
+        continue;
+      }
+      if (text[i] === '"') {
+        i += 1;
+        return true;
+      }
+      i += 1;
+    }
+    i = start; // unterminated: point back at the opening quote
+    return false;
+  };
+  const tryWord = word => {
+    if (!text.startsWith(word, i)) return false;
+    const j = i + word.length;
+    if (j >= n || DELIMITERS.indexOf(text[j]) >= 0) {
+      i = j;
+      return true;
+    }
+    return false;
+  };
+  const parseValue = () => {
+    skipWs();
+    if (i >= n) return fail(n, stack.length ? 'unterminated-container' : 'unexpected', '');
+    const c = text[i];
+    if (c === '"') {
+      if (!parseString()) return fail(i, 'unterminated-string', '', { closers: stack.slice().reverse().join(''), stack });
+      return true;
+    }
+    if (c === '{') return parseObject();
+    if (c === '[') return parseArray();
+    if (c === 't' && tryWord('true')) return true;
+    if (c === 'f' && tryWord('false')) return true;
+    if (c === 'n' && tryWord('null')) return true;
+    const start = i;
+    const token = scanBareToken();
+    if (!token) return fail(start, 'unexpected', c);
+    if (/^-?(0|[1-9][0-9]*)(\.[0-9]+)?([eE][+-]?[0-9]+)?$/.test(token)) return true;
+    return fail(start, 'unquoted-value', token);
+  };
+  const parseObject = () => {
+    i += 1; // {
+    stack.push('}');
+    skipWs();
+    if (i >= n) return fail(n, 'unterminated-container', '');
+    if (text[i] === '}') {
+      stack.pop();
+      i += 1;
+      return true;
+    }
+    for (;;) {
+      skipWs();
+      if (i >= n) return fail(n, 'unterminated-container', '');
+      if (text[i] === '"') {
+        if (!parseString()) return fail(i, 'unterminated-string', '', { closers: stack.slice().reverse().join(''), stack });
+      } else {
+        // Bare token followed by ':' is an unquoted key; anything else is not
+        // safely fixable (e.g. `{ invalid }`).
+        const keyStart = i;
+        const token = scanBareToken();
+        const afterToken = i;
+        skipWs();
+        if (token && text[i] === ':') {
+          i = afterToken;
+          return fail(keyStart, 'unquoted-key', token);
+        }
+        i = keyStart;
+        return fail(keyStart, 'unexpected', token);
+      }
+      skipWs();
+      if (i >= n) return fail(n, 'unterminated-container', '');
+      if (text[i] !== ':') {
+        // A value starting right after the key means the separating colon is
+        // missing, e.g. {"name" "MyEMS"}. Other tokens stay unfixable.
+        if (isValueStart(text[i])) return fail(i, 'missing-colon', text[i]);
+        return fail(i, 'unexpected', text[i]);
+      }
+      i += 1;
+      if (!parseValue()) return false;
+      skipWs();
+      if (i >= n) return fail(n, 'unterminated-container', '');
+      if (text[i] === ',') {
+        i += 1;
+        continue;
+      }
+      if (text[i] === '}') {
+        stack.pop();
+        i += 1;
+        return true;
+      }
+      if (text[i] === '"') return fail(i, 'missing-comma', '"'); // next key starts
+      // `]` cannot close an object: the innermost open container is wrong.
+      if (text[i] === ']') return fail(i, 'mismatched-closer', text[i]);
+      // `}` here: the next member is simply missing its separating comma
+      // (e.g. [1, 2} inside an object) or the text is broken beyond safe
+      // repair; inserting a comma stays neutral — the next scan pass then
+      // sees `}` after a value and reports the real mismatch/mismatched-closer.
+      return fail(i, 'missing-comma', text[i]);
+    }
+  };
+  const parseArray = () => {
+    i += 1; // [
+    stack.push(']');
+    skipWs();
+    if (i >= n) return fail(n, 'unterminated-container', '');
+    if (text[i] === ']') {
+      stack.pop();
+      i += 1;
+      return true;
+    }
+    for (;;) {
+      skipWs();
+      if (text[i] === ']' && stack[stack.length - 1] === ']') {
+        // Empty container or trailing comma before the closer: not safely
+        // fixable (JSON forbids trailing commas), report and let the gate stop.
+        return fail(i, 'unexpected', text[i]);
+      }
+      if (!parseValue()) return false;
+      skipWs();
+      if (i >= n) return fail(n, 'unterminated-container', '');
+      if (text[i] === ',') {
+        i += 1;
+        continue;
+      }
+      if (text[i] === ']') {
+        stack.pop();
+        i += 1;
+        return true;
+      }
+      // Another value begins right here: missing comma (covers [1 2] too).
+      // A closer of the wrong type: close the inner container first instead.
+      // Note: `}` after a value inside an array reaches here and is reported
+      // as missing-comma; the inserted comma lets the next pass convert it
+      // into a precise mismatched-closer repair (`]` before the `}`).
+      if (text[i] === '}' || text[i] === ']') {
+        if (stack[stack.length - 1] !== text[i]) return fail(i, 'mismatched-closer', text[i]);
+      }
+      return fail(i, 'missing-comma', text[i]);
+    }
+  };
+  const finalize = e => {
+    if (e && e.type === 'unterminated-container') e.closers = stack.slice().reverse().join('');
+    return e;
+  };
+  try {
+    if (!parseValue()) return finalize(err);
+    skipWs();
+    if (i < n) return { position: i, type: 'trailing', token: text.slice(i, Math.min(n, i + 40)) };
+    if (stack.length) return finalize({ position: n, type: 'unterminated-container', token: '' });
+    return null;
+  } catch (e) {
+    // e.g. stack overflow on pathologically deep nesting
+    return finalize(err);
+  }
+};
+
+// Wrap a bare token in quotes; reuse a dangling trailing quote as the closer
+// when present (covers the common "missing opening quote" typo). If the raw
+// token swallowed the following } or ] (structural, not part of the value),
+// keep that closer outside the inserted quotes.
+const quoteBareToken = token => {
+  let core = token;
+  let tail = '';
+  if (core.length > 1 && (core.endsWith('}') || core.endsWith(']'))) {
+    tail = core[core.length - 1];
+    core = core.slice(0, -1);
+  }
+  if (core.length > 1 && core.endsWith('"')) {
+    // The dangling trailing quote is reused as the closing quote.
+    if (tail) return `"${core.slice(0, -1)}${tail}`;
+    return `"${core}`;
+  }
+  return `"${core}"${tail}`;
+};
+
+// Turn a scan error into a concrete edit, or null when the type is not
+// safely fixable.
+const buildSyntaxFix = (text, err) => {
+  switch (err.type) {
+    case 'unquoted-key':
+    case 'unquoted-value': {
+      if (!err.token) return null;
+      const quoted = quoteBareToken(err.token);
+      const end = Math.min(err.position + err.token.length, text.length);
+      return { start: err.position, end, replacement: quoted, type: err.type, detail: `${err.token} -> ${quoted}` };
+    }
+    case 'missing-comma':
+      return { start: err.position, end: err.position, replacement: ',', type: err.type, detail: '+ ","' };
+    case 'missing-colon':
+      return { start: err.position, end: err.position, replacement: ':', type: err.type, detail: '+ ":"' };
+    case 'mismatched-closer': {
+      // The stack holds the EXPECTED closers (one per open container).
+      // Insert the innermost expected closer right before the wrong one,
+      // e.g. [1 2}  ->  [1 2]}
+      const closers = err.stack || [];
+      const needed = closers[closers.length - 1] || '';
+      if (needed !== ']' && needed !== '}') return null;
+      return { start: err.position, end: err.position, replacement: needed, type: err.type, detail: '+ "' + needed + '"' };
+    }
+    case 'trailing':
+      return { start: err.position, end: text.length, replacement: '', type: err.type, detail: `- "${err.token}"` };
+    case 'unterminated-string': {
+      // Close the string plus any containers still open around it, e.g.
+      // {"name":"MyEMS}  ->  append "} in one edit.
+      const closers = err.closers || '';
+      const add = '"' + closers;
+      return { start: text.length, end: text.length, replacement: add, type: err.type, detail: '+ "' + add + '"' };
+    }
+    case 'unterminated-container': {
+      const closers = err.closers || '';
+      if (!closers) return null;
+      return { start: text.length, end: text.length, replacement: closers, type: err.type, detail: `+ "${closers}"` };
+    }
+    default:
+      return null;
+  }
+};
+
+// Iteratively apply safe syntax repairs until the text parses, no further
+// progress is possible, or the iteration cap is hit.
+// Returns { text, fixes: [{ line, column, type, detail }], valid }.
+// For an unterminated string whose content swallowed a trailing closer
+// (e.g. {"a":"x}) two candidates are tried: recover the closer, or plain
+// append a quote.
+const candidatesFor = (text, err, fix) => {
+  if (err.type === 'unterminated-string') {
+    const last = text[text.length - 1];
+    const stack = err.stack || [];
+    if ((last === '}' || last === ']') && stack.indexOf(last) >= 0) {
+      const base = text.slice(0, text.length - 1) + '"';
+      const tail = stack[stack.length - 1] === last ? last : '';
+      return [base + tail, base + last];
+    }
+  }
+  return [text.slice(0, fix.start) + fix.replacement + text.slice(fix.end)];
+};
+
+export const repairSyntax = text => {
+  const raw = typeof text === 'string' ? text : '';
+  if (raw.length > MAX_INPUT_SIZE) return { text: raw, fixes: [], oversized: true, valid: false };
+  let current = raw;
+  const fixes = [];
+  for (let guard = 0; guard < MAX_SYNTAX_FIXES; guard += 1) {
+    try {
+      JSON.parse(current);
+      return { text: current, fixes, valid: true };
+    } catch (e) {
+      // fall through to the scanner below
+    }
+    const err = scanSyntax(current);
+    if (!err) return { text: current, fixes, valid: false };
+    const fix = buildSyntaxFix(current, err);
+    if (!fix) return { text: current, fixes, valid: false };
+    const candidates = candidatesFor(current, err, fix);
+    // Progress gate: keep the first candidate that parses cleanly or whose
+    // first error sits strictly further than the one being repaired.
+    let candidate = null;
+    for (let c = 0; c < candidates.length; c += 1) {
+      const cand = candidates[c];
+      let parses = false;
+      try {
+        JSON.parse(cand);
+        parses = true;
+      } catch (e) {
+        // expected while the document is still being repaired
+      }
+      const nextErr = parses ? null : scanSyntax(cand);
+      if (parses || (nextErr && nextErr.position > err.position)) {
+        candidate = cand;
+        break;
+      }
+    }
+    if (!candidate) return { text: current, fixes, valid: false };
+    const { line, column } = lineColAt(current, Math.min(fix.start, current.length));
+    fixes.push({ line, column, type: fix.type, detail: fix.detail });
+    current = candidate;
+  }
+  let ok = false;
+  try {
+    JSON.parse(current);
+    ok = true;
+  } catch (e) {
+    ok = false;
+  }
+  return { text: current, fixes, valid: ok };
+};
+
+// Detect the first repairable structural error for the UI (so the one-click
+// fix button can appear even when there is no full-width punctuation issue).
+// Only conservative types are reported: unquoted key/value, missing comma,
+// trailing content and unterminated string / container.
+export const detectSyntaxIssue = text => {
+  const raw = typeof text === 'string' ? text : '';
+  if (raw.length > MAX_INPUT_SIZE) return { oversized: true, issue: null };
+  if (!raw.trim()) return { oversized: false, issue: null };
+  try {
+    JSON.parse(raw);
+    return { oversized: false, issue: null };
+  } catch (e) {
+    const err = scanSyntax(raw);
+    if (!err) return { oversized: false, issue: null };
+    const fixableTypes = ['unquoted-key', 'unquoted-value', 'missing-comma', 'missing-colon', 'trailing', 'unterminated-string', 'unterminated-container', 'mismatched-closer'];
+    if (fixableTypes.indexOf(err.type) < 0) return { oversized: false, issue: null };
+    if (err.type !== 'unterminated-container' && !buildSyntaxFix(raw, err)) return { oversized: false, issue: null };
+    const { line, column } = lineColAt(raw, Math.min(err.position, raw.length));
+    return { oversized: false, issue: { position: err.position, line, column, type: err.type, token: err.token, closers: err.closers || '' } };
+  }
+};

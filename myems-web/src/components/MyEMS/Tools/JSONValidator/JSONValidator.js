@@ -5,7 +5,7 @@ import { getCookieValue, createCookie, checkEmpty } from '../../../../helpers/ut
 import withRedirect from '../../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import { settings } from '../../../../config';
-import { validate, format, minify, detectFullWidthPunctuation, convertFullWidthToHalfWidth } from './jsonUtils';
+import { validate, format, minify, detectFullWidthPunctuation, convertFullWidthToHalfWidth, detectSyntaxIssue, repairSyntax } from './jsonUtils';
 import JsonInputArea from './components/JsonInputArea';
 import ResultPanel from './components/ResultPanel';
 
@@ -36,6 +36,7 @@ const JSONValidator = ({ setRedirect, setRedirectUrl, t }) => {
   const [checkResult, setCheckResult] = useState(null);
   const [punctuationIssues, setPunctuationIssues] = useState([]);
   const [issuesTruncated, setIssuesTruncated] = useState(false);
+  const [syntaxIssue, setSyntaxIssue] = useState(null);
   const [output, setOutput] = useState(null);
   const [autoFixInfo, setAutoFixInfo] = useState(null);
   const [copied, setCopied] = useState(false);
@@ -66,13 +67,15 @@ const JSONValidator = ({ setRedirect, setRedirectUrl, t }) => {
     };
   }, []);
 
-  // Shared runner: refresh the verdict and the punctuation issue list together.
+  // Shared runner: refresh the verdict, the punctuation list and the first
+  // repairable structural error together.
   const runCheck = text => {
     const check = validate(text);
     setCheckResult(check);
     const detection = detectFullWidthPunctuation(text);
     setPunctuationIssues(detection.issues);
     setIssuesTruncated(detection.truncated);
+    setSyntaxIssue(check.valid ? null : detectSyntaxIssue(text).issue);
     return check;
   };
 
@@ -82,6 +85,7 @@ const JSONValidator = ({ setRedirect, setRedirectUrl, t }) => {
     setCheckResult(null);
     setPunctuationIssues([]);
     setIssuesTruncated(false);
+    setSyntaxIssue(null);
     setOutput(null);
     setAutoFixInfo(null);
   };
@@ -103,6 +107,7 @@ const JSONValidator = ({ setRedirect, setRedirectUrl, t }) => {
       const detection = detectFullWidthPunctuation(inputText);
       setPunctuationIssues(detection.issues);
       setIssuesTruncated(detection.truncated);
+      setSyntaxIssue(detectSyntaxIssue(inputText).issue);
       setOutput(null);
     }
     setAutoFixInfo(null);
@@ -113,6 +118,7 @@ const JSONValidator = ({ setRedirect, setRedirectUrl, t }) => {
     setCheckResult(null);
     setPunctuationIssues([]);
     setIssuesTruncated(false);
+    setSyntaxIssue(null);
     setOutput(null);
     setAutoFixInfo(null);
   };
@@ -124,17 +130,35 @@ const JSONValidator = ({ setRedirect, setRedirectUrl, t }) => {
     setCheckResult(null);
     setPunctuationIssues([]);
     setIssuesTruncated(false);
+    setSyntaxIssue(null);
     setOutput(null);
     setAutoFixInfo(null);
   };
 
-  // One-click fix: replace safe full-width punctuation, then re-validate.
+  // One-click fix: first convert safe full-width punctuation, then apply the
+  // conservative syntax repairs, then re-validate.
   const handleAutoFix = () => {
-    const { text, changedCount } = convertFullWidthToHalfWidth(inputText);
-    if (changedCount === 0) return;
+    const converted = convertFullWidthToHalfWidth(inputText);
+    let text = converted.text;
+    let changedCount = converted.changedCount;
+    let syntaxResult = { text, fixes: [], valid: false };
+    let check = validate(text);
+    if (!check.valid) {
+      syntaxResult = repairSyntax(text);
+      if (syntaxResult.fixes.length > 0) {
+        text = syntaxResult.text;
+        check = validate(text);
+      }
+    }
+    if (changedCount === 0 && syntaxResult.fixes.length === 0) return;
     setInputText(text);
-    const check = runCheck(text);
-    setAutoFixInfo({ changedCount, validAfterFix: check.valid });
+    runCheck(text);
+    setAutoFixInfo({
+      changedCount,
+      syntaxFixes: syntaxResult.fixes,
+      syntaxStoppedEarly: syntaxResult.fixes.length > 0 && !syntaxResult.valid,
+      validAfterFix: check.valid
+    });
     setOutput(null);
   };
 
@@ -196,6 +220,7 @@ const JSONValidator = ({ setRedirect, setRedirectUrl, t }) => {
                 checkResult={checkResult}
                 punctuationIssues={punctuationIssues}
                 truncated={issuesTruncated}
+                syntaxIssue={syntaxIssue}
                 output={output}
                 autoFixInfo={autoFixInfo}
                 onAutoFix={handleAutoFix}
