@@ -9,28 +9,28 @@ RESTful API service for [MyEMS](https://github.com/MyEMS/myems) components and t
 Quick run on Linux (NOT for production use):
 ```bash
 cd myems/myems-api
-sudo pip install -r requirements.txt
+pip install -r requirements.txt
 cp example.env .env
 sudo chmod +x run.sh
 ./run.sh
 ```
 
-How to run on Windows (NOT for production usage):
+How to run on Windows:
 
-Install python 3.11, or 3.12
+Install python
 
 Find python path in Command Prompt:
 ```bash
 where python
 ```
-Assume the result is 'C:\Users\johnson\AppData\Local\Programs\Python\Python310\python.exe'
+Assume the result is 'C:\Users\johnson\AppData\Local\Programs\Python\Python311\python.exe'
 
 Install and run with waitress:
 ```bash
 pip install waitress
 cd myems\myems-api
 waitress-serve --listen=0.0.0.0:8000 app:api
-``` 
+```
 
 
 ## Installation

@@ -36,7 +36,6 @@ import logging
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
-import numpy as np
 
 from docx import Document
 from docx.shared import Inches, Pt

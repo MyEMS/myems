@@ -22,6 +22,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - changed pdf exporters in myems-api
 - changed the minimum version from Python 3.10 to Python 3.11
 - changed pillow version to 13.0.0 in myems-api
+- changed numpy version to 2.4.6 and matplotlib version to 3.11.2 in myems-api
 - changed telnetlib to telnetlib3 in myems-s7
 ### Fixed
 - fixed issue of dockerfile in myems-s7

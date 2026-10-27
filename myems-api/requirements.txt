@@ -15,6 +15,6 @@ kaleido==0.2.1
 requests==2.33.0
 redis==5.2.1
 bleach==6.1.0
-numpy==1.24.4
-matplotlib==3.7.5
+numpy==2.4.6
+matplotlib==3.11.2
 python-docx==1.1.2
