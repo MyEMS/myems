@@ -17,7 +17,7 @@ sudo chmod +x run.sh
 
 How to run on Windows (NOT for production usage):
 
-Install python 3.10, 3.11, or 3.12
+Install python 3.11, or 3.12
 
 Find python path in Command Prompt:
 ```bash

@@ -3,22 +3,11 @@ import logging
 import time
 from logging.handlers import RotatingFileHandler
 from multiprocessing import Process
-
 import mysql.connector
-
 import acquisition
 import config
 import gateway
 
-
-########################################################################################################################
-# BEGIN imports for Enterprise Version
-########################################################################################################################
-# {PyArmor Plugins}
-# PyArmor Plugin: check_docker()
-########################################################################################################################
-# END imports for Enterprise Version
-########################################################################################################################
 
 def main():
     """main"""

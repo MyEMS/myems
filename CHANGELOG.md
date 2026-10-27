@@ -19,6 +19,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - changed docx exporters in myems-api
 - changed combined equipment reports in myems-web
 - changed pdf exporters in myems-api
+- changed the minimum version from Python 3.10 to Python 3.11
+- changed pillow version to 13.0.0 in myems-api
+- changed telnetlib to telnetlib3 in myems-s7
 ### Fixed
 - fixed issue of dockerfile in myems-s7
 - fixed footer issue in myems-admin

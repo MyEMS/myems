@@ -7,15 +7,11 @@ This service is one of components of MyEMS to acquire data from S7 devices.
 
 ### Prerequisites
 
-Snap7
-
-python-snap7
-
 mysql-connector-python
-
+python-snap7
 schedule
-
 python-decouple
+telnetlib3
 
 ### Quick Run for Development
 
