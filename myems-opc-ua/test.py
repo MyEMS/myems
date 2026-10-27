@@ -1,7 +1,13 @@
 import asyncio
-import telnetlib
+import telnetlib3
 from urllib.parse import urlparse
 from asyncua import Client
+
+
+async def check_connectivity(host, port):
+    reader, writer = await telnetlib3.open_connection(host, port)
+    # Close the connection immediately after establishing it
+    writer.close()
 
 
 async def main():
@@ -9,7 +15,7 @@ async def main():
     # url = "opc.tcp://olivier:olivierpass@localhost:53530/OPCUA/SimulationServer/"
     try:
         server_url = urlparse(url)
-        telnetlib.Telnet(server_url.hostname, server_url.port, 10)
+        await check_connectivity(server_url.hostname, server_url.port)
         print("Succeeded to telnet %s:%s in acquisition process ", server_url.hostname, server_url.port)
     except Exception as e:
         print("Failed to telnet %s:%s in acquisition process: %s  ", server_url.hostname, server_url.port, str(e))

@@ -78,14 +78,14 @@ docker save --output myems-opc-ua.tar myems-opc-ua
 docker load --input .\myems-opc-ua.tar
 ```
 
-* Run a Docker container on Linux with dummy license file (run as superuser)
+* Run a Docker container on Linux
 ```bash
-docker run -d -v /myems-opc-ua/.env:/code/.env:ro -v /myems-opc-ua/license.lic:/code/license.lic:ro --log-opt max-size=1m --log-opt max-file=2 --restart always --name myems-opc-ua myems-opc-ua
+docker run -d -v /myems-opc-ua/.env:/code/.env:ro --log-opt max-size=1m --log-opt max-file=2 --restart always --name myems-opc-ua myems-opc-ua
 ```
 
-* Run a Docker container on Windows with dummy license file (Run as Administrator)
+* Run a Docker container on Windows
 ```bash
-docker run -d -v c:\myems-opc-ua\.env:/code/.env:ro -v c:\myems-opc-ua\license.lic:/code/license.lic:ro --log-opt max-size=1m --log-opt max-file=2 --restart always --name myems-opc-ua myems-opc-ua
+docker run -d -v c:\myems-opc-ua\.env:/code/.env:ro --log-opt max-size=1m --log-opt max-file=2 --restart always --name myems-opc-ua myems-opc-ua
 ```
 
 * -d Run container in background and print container ID
@@ -107,15 +107,6 @@ The absolute path after colon is for path on container and that CANNOT be change
 By passing .env as bind-mount parameter, you can change the configuration values later.
 If you changed .env file, restart the container to make the change effective.
 
-Find and send the full container ID to MyEMS sales to obtain a valid license.lic file
-```bash
-docker ps --all --no-trunc
-```
-
-Replace the dummy license.lic with the true license.lic file and restart the container
-```bash
-docker restart COMTAINER-ID
-```
 
 ### Installation Option 2: Online install on Ubuntu server with internet access
 
@@ -194,6 +185,7 @@ COMMIT;
 ```
 
 ### References
+
 [1]. https://myems.cn
 
 [2]. https://github.com/myems/myems
