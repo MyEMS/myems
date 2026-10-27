@@ -4,6 +4,11 @@ import { Alert, Badge, Button, Table } from 'reactstrap';
 import { PUNCTUATION_KIND_LABELS } from '../fullWidthPunctuations';
 import { MAX_ISSUES } from '../jsonUtils';
 
+// Defensive render cap for the issue table: bounds the number of DOM rows
+// even if a longer list ever reaches this component. Detection (MAX_ISSUES)
+// and the one-click fix (full text scan) are intentionally unaffected.
+const MAX_RENDER_ROWS = 100;
+
 // Renders the validation verdict, parse error details, the full-width
 // punctuation issue table (with one-click fix) and the format/minify output.
 const ResultPanel = ({ t, checkResult, punctuationIssues, truncated, output, autoFixInfo, onAutoFix, onCopy, copied }) => {
@@ -56,8 +61,11 @@ const ResultPanel = ({ t, checkResult, punctuationIssues, truncated, output, aut
   };
 
   const renderPunctuationTable = () => {
-    if (!punctuationIssues || punctuationIssues.length === 0) return null;
-    const fixableCount = punctuationIssues.filter(item => item.autoFixable).length;
+    const issues = Array.isArray(punctuationIssues) ? punctuationIssues : [];
+    if (issues.length === 0) return null;
+    const visibleIssues = issues.slice(0, MAX_RENDER_ROWS);
+    const rowsHidden = issues.length > MAX_RENDER_ROWS;
+    const fixableCount = issues.filter(item => item.autoFixable).length;
     return (
       <div className="mb-3">
         <div className="d-flex align-items-center justify-content-between mb-2">
@@ -81,7 +89,7 @@ const ResultPanel = ({ t, checkResult, punctuationIssues, truncated, output, aut
             </tr>
           </thead>
           <tbody>
-            {punctuationIssues.map(item => (
+            {visibleIssues.map(item => (
               <tr key={`${item.index}-${item.char}`}>
                 <td>{item.line}</td>
                 <td>{item.column}</td>
@@ -104,6 +112,7 @@ const ResultPanel = ({ t, checkResult, punctuationIssues, truncated, output, aut
         </Table>
         <div className="text-muted fs--1">
           {truncated && <div className="mb-1">{t('Only the first {{max}} issues are shown; the one-click fix still converts all occurrences.', { max: MAX_ISSUES })}</div>}
+          {rowsHidden && <div className="mb-1">{t('Only the first {{rows}} rows of the issue list are rendered for performance; detection and the one-click fix still cover all occurrences.', { rows: MAX_RENDER_ROWS })}</div>}
           {t('Punctuation inside strings is treated as valid text and is not reported.')}
         </div>
       </div>

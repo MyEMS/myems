@@ -74,6 +74,119 @@ const extractErrorLocation = (message, text) => {
   return null;
 };
 
+// Deterministic fallback scanner. Newer V8 drops the offset for
+// "Unexpected token 'X', ..." messages, so locate the first syntax error
+// with a minimal recursive-descent JSON tokenizer instead.
+// Returns a 0-based position, or null when the text tokenizes cleanly or the
+// scanner overflows on pathologically deep input (never crash the UI).
+const findSyntaxErrorPosition = text => {
+  let i = 0;
+  const n = text.length;
+  const skipWs = () => {
+    while (i < n && (text[i] === ' ' || text[i] === '\t' || text[i] === '\n' || text[i] === '\r')) i += 1;
+  };
+  const parseString = () => {
+    const start = i;
+    i += 1; // opening quote
+    while (i < n) {
+      if (text[i] === '\\') {
+        i += 2;
+        continue;
+      }
+      if (text[i] === '"') {
+        i += 1;
+        return true;
+      }
+      i += 1;
+    }
+    i = start; // unterminated string: point at the opening quote
+    return false;
+  };
+  const parseNumber = () => {
+    const start = i;
+    while (i < n && '0123456789eE+-.'.indexOf(text[i]) >= 0) i += 1;
+    return i > start;
+  };
+  const parseWord = word => {
+    if (text.startsWith(word, i)) {
+      i += word.length;
+      return true;
+    }
+    return false;
+  };
+  const parseValue = () => {
+    skipWs();
+    if (i >= n) return false;
+    const c = text[i];
+    if (c === '"') return parseString();
+    if (c === '{') return parseObject();
+    if (c === '[') return parseArray();
+    if (c === '-' || (c >= '0' && c <= '9')) return parseNumber();
+    if (c === 't') return parseWord('true');
+    if (c === 'f') return parseWord('false');
+    if (c === 'n') return parseWord('null');
+    return false; // unexpected token at i
+  };
+  const parseObject = () => {
+    i += 1; // {
+    skipWs();
+    if (text[i] === '}') {
+      i += 1;
+      return true;
+    }
+    while (i < n) {
+      skipWs();
+      if (text[i] !== '"') return false; // keys must be double quoted
+      if (!parseString()) return false;
+      skipWs();
+      if (text[i] !== ':') return false;
+      i += 1;
+      if (!parseValue()) return false;
+      skipWs();
+      if (text[i] === ',') {
+        i += 1;
+        continue;
+      }
+      if (text[i] === '}') {
+        i += 1;
+        return true;
+      }
+      return false;
+    }
+    return false; // unterminated object
+  };
+  const parseArray = () => {
+    i += 1; // [
+    skipWs();
+    if (text[i] === ']') {
+      i += 1;
+      return true;
+    }
+    while (i < n) {
+      if (!parseValue()) return false;
+      skipWs();
+      if (text[i] === ',') {
+        i += 1;
+        continue;
+      }
+      if (text[i] === ']') {
+        i += 1;
+        return true;
+      }
+      return false;
+    }
+    return false; // unterminated array
+  };
+  try {
+    if (!parseValue()) return Math.min(i, n);
+    skipWs();
+    if (i < n) return i; // trailing non-whitespace content
+    return null;
+  } catch (e) {
+    return null;
+  }
+};
+
 // Validate a JSON text. Result:
 // { valid: true }
 // { valid: false, empty: true }
@@ -88,7 +201,16 @@ export const validate = text => {
     return { valid: true };
   } catch (e) {
     const message = e && e.message ? e.message : String(e);
-    const location = extractErrorLocation(message, raw);
+    // Prefer the engine-reported location; when the message format exposes no
+    // offset (newer V8 "Unexpected token" errors), fall back to our scanner.
+    let location = extractErrorLocation(message, raw);
+    if (!location) {
+      const position = findSyntaxErrorPosition(raw);
+      if (position !== null) {
+        const { line, column } = lineColAt(raw, position);
+        location = { line, column, position };
+      }
+    }
     const snippet = location ? snippetAt(raw, location.position) : null;
     return { valid: false, error: { message, location, snippet } };
   }
