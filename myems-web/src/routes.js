@@ -205,7 +205,10 @@ export const toolsRoutes = {
   to: '/tools',
   icon: 'tools',
   alwaysVisible: true,
-  children: [{ to: '/tools/cablesizing', name: 'Cable Sizing Tool' }]
+  children: [
+    { to: '/tools/cablesizing', name: 'Cable Sizing Tool' },
+    { to: '/tools/jsonvalidator', name: 'JSON Validator Tool' }
+  ]
 };
 
 export default [
