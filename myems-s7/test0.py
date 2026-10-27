@@ -6,8 +6,8 @@ import snap7
 from snap7.snap7types import S7AreaDB
 
 
-async def check_connectivity(host, port, timeout=10):
-    reader, writer = await telnetlib3.open_connection(host, port, connect_timeout=timeout)
+async def check_connectivity(host, port):
+    reader, writer = await telnetlib3.open_connection(host, port)
     writer.close()
 
 
@@ -21,7 +21,7 @@ def main():
         return
 
     try:
-        asyncio.run(check_connectivity(host, port, 10))
+        asyncio.run(check_connectivity(host, port))
         print("Succeeded to telnet %s:%s in acquisition process ", host, port)
     except Exception as e:
         print("Failed to telnet %s:%s in acquisition process: %s  ", host, port, str(e))
