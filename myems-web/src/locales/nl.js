@@ -138,6 +138,7 @@ export default {
         'Unquoted Value': 'Waarde zonder aanhalingstekens',
         'Missing Comma': 'Komma ontbreekt',
         'Missing Colon': 'Dubbelpunt ontbreekt',
+        'Colon Inside Quotes': 'Dubbelpunt binnen aanhalingstekens',
         'Trailing Content': 'Overtollige inhoud aan het einde',
         'Unterminated String': 'Niet-afgesloten tekenreeks',
         'Unterminated Container': 'Niet-gesloten haak',

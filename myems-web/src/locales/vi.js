@@ -138,6 +138,7 @@ export default {
         'Unquoted Value': 'Giá trị thiếu dấu nháy',
         'Missing Comma': 'Thiếu dấu phẩy',
         'Missing Colon': 'Thiếu dấu hai chấm',
+        'Colon Inside Quotes': 'Dấu hai chấm nằm trong dấu nháy',
         'Trailing Content': 'Nội dung thừa ở cuối',
         'Unterminated String': 'Chuỗi chưa đóng',
         'Unterminated Container': 'Ngặc chưa đóng',

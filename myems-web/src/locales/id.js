@@ -138,6 +138,7 @@ export default {
         'Unquoted Value': 'Nilai tanpa tanda kutip',
         'Missing Comma': 'Koma hilang',
         'Missing Colon': 'Titik dua hilang',
+        'Colon Inside Quotes': 'Titik dua di dalam tanda kutip',
         'Trailing Content': 'Konten berlebih di akhir',
         'Unterminated String': 'String tidak ditutup',
         'Unterminated Container': 'Kurung tidak ditutup',

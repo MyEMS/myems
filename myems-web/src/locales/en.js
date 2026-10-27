@@ -138,6 +138,7 @@ export default {
         'Unquoted Value': 'Unquoted Value',
         'Missing Comma': 'Missing Comma',
         'Missing Colon': 'Missing Colon',
+        'Colon Inside Quotes': 'Colon Inside Quotes',
         'Trailing Content': 'Trailing Content',
         'Unterminated String': 'Unterminated String',
         'Unterminated Container': 'Unterminated Container',

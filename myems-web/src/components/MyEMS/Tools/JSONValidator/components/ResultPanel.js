@@ -17,6 +17,7 @@ const SYNTAX_TYPE_KEYS = {
   'unquoted-value': 'Unquoted Value',
   'missing-comma': 'Missing Comma',
   'missing-colon': 'Missing Colon',
+  'colon-in-quotes': 'Colon Inside Quotes',
   trailing: 'Trailing Content',
   'unterminated-string': 'Unterminated String',
   'unterminated-container': 'Unterminated Container',

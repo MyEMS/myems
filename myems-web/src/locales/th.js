@@ -138,6 +138,7 @@ export default {
         'Unquoted Value': 'ค่าไม่ใส่เครื่องหมายคำพูด',
         'Missing Comma': 'ขาดจุลภาค',
         'Missing Colon': 'ขาดเครื่องหมายทวิภาค',
+        'Colon Inside Quotes': 'เครื่องหมายทวิภาคอยู่ในเครื่องหมายคำพูด',
         'Trailing Content': 'เนื้อหาส่วนเกินท้ายข้อความ',
         'Unterminated String': 'สตริงยังไม่ปิด',
         'Unterminated Container': 'วงเล็บยังไม่ปิด',

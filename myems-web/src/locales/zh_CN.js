@@ -138,6 +138,7 @@ export default {
         'Unquoted Value': '值未加引号',
         'Missing Comma': '缺少逗号',
         'Missing Colon': '缺少冒号',
+        'Colon Inside Quotes': '冒号写在引号内',
         'Trailing Content': '尾部多余内容',
         'Unterminated String': '字符串未闭合',
         'Unterminated Container': '括号未闭合',

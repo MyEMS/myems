@@ -138,6 +138,7 @@ export default {
         'Unquoted Value': 'Valor sin comillas',
         'Missing Comma': 'Coma faltante',
         'Missing Colon': 'Dos puntos faltantes',
+        'Colon Inside Quotes': 'Dos puntos dentro de las comillas',
         'Trailing Content': 'Contenido adicional al final',
         'Unterminated String': 'Cadena sin cerrar',
         'Unterminated Container': 'Corchete/llave sin cerrar',

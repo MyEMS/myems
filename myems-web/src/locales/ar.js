@@ -138,6 +138,7 @@ export default {
         'Unquoted Value': 'قيمة بدون علامات اقتباس',
         'Missing Comma': 'فاصلة مفقودة',
         'Missing Colon': 'نقطتان رأسيتان مفقودتان',
+        'Colon Inside Quotes': 'النقطتان الرأسيتان داخل علامات الاقتباس',
         'Trailing Content': 'محتوى زائد في النهاية',
         'Unterminated String': 'نص غير مغلق',
         'Unterminated Container': 'قوس غير مغلق',

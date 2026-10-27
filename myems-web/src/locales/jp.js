@@ -138,6 +138,7 @@ export default {
         'Unquoted Value': 'クォーテーションなしの値',
         'Missing Comma': 'カンマの欠落',
         'Missing Colon': 'コロン欠落',
+        'Colon Inside Quotes': 'クォーテーション内のコロン',
         'Trailing Content': '末尾の余分な内容',
         'Unterminated String': '閉じられていない文字列',
         'Unterminated Container': '閉じられていない括弧',

@@ -138,6 +138,7 @@ export default {
         'Unquoted Value': 'Valeur sans guillemets',
         'Missing Comma': 'Virgule manquante',
         'Missing Colon': 'Deux-points manquants',
+        'Colon Inside Quotes': 'Deux-points à l\'intérieur des guillemets',
         'Trailing Content': 'Contenu superflu à la fin',
         'Unterminated String': 'Chaîne non terminée',
         'Unterminated Container': 'Parenthèse/accolade non fermée',

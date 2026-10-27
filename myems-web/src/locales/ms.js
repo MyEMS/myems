@@ -138,6 +138,7 @@ export default {
         'Unquoted Value': 'Nilai tanpa petikan',
         'Missing Comma': 'Koma hilang',
         'Missing Colon': 'Kolon hilang',
+        'Colon Inside Quotes': 'Kolon dalam petikan',
         'Trailing Content': 'Kandungan tambahan di hujung',
         'Unterminated String': 'String tidak ditutup',
         'Unterminated Container': 'Kurungan tidak ditutup',

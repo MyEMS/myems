@@ -138,6 +138,7 @@ export default {
         'Unquoted Value': 'Tırnak işareti eksik değer',
         'Missing Comma': 'Virgül eksik',
         'Missing Colon': 'İki nokta eksik',
+        'Colon Inside Quotes': 'İki nokta tırnak içinde',
         'Trailing Content': 'Sonda fazladan içerik',
         'Unterminated String': 'Kapatılmamış dize',
         'Unterminated Container': 'Kapatılmamış parantez',

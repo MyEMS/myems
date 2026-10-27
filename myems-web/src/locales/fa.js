@@ -138,6 +138,7 @@ export default {
         'Unquoted Value': 'مقدار بدون علامت نقل‌قول',
         'Missing Comma': 'فاصله (کاما) غایب',
         'Missing Colon': 'دون‌نقطه غایب',
+        'Colon Inside Quotes': 'دون‌نقطه داخل علامت نقل‌قول',
         'Trailing Content': 'محتاضاف در انتها',
         'Unterminated String': 'رشته بسته نشده',
         'Unterminated Container': 'پرانتز بسته نشده',

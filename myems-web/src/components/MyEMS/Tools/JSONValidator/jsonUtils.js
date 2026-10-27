@@ -333,7 +333,9 @@ const scanSyntax = text => {
         type,
         token: token || '',
         closers: (ctx && ctx.closers) || stack.slice().reverse().join(''),
-        stack: (ctx && ctx.stack) || stack.slice()
+        stack: (ctx && ctx.stack) || stack.slice(),
+        keyStart: ctx && ctx.keyStart,
+        keyEnd: ctx && ctx.keyEnd
       };
     }
     return false;
@@ -404,8 +406,12 @@ const scanSyntax = text => {
     for (;;) {
       skipWs();
       if (i >= n) return fail(n, 'unterminated-container', '');
+      let keyStart = -1;
+      let keyEnd = -1;
       if (text[i] === '"') {
+        keyStart = i;
         if (!parseString()) return fail(i, 'unterminated-string', '', { closers: stack.slice().reverse().join(''), stack });
+        keyEnd = i;
       } else {
         // Bare token followed by ':' is an unquoted key; anything else is not
         // safely fixable (e.g. `{ invalid }`).
@@ -426,6 +432,15 @@ const scanSyntax = text => {
         // A value starting right after the key means the separating colon is
         // missing, e.g. {"name" "MyEMS"}. Other tokens stay unfixable.
         if (isValueStart(text[i])) return fail(i, 'missing-colon', text[i]);
+        // The closing quote was typed too late so the colon ended up INSIDE
+        // the key, e.g. {"space: "BuildingA"} (meant: "space": "BuildingA").
+        // Only handle it right after a quoted key whose text ends with ':'.
+        if (keyStart >= 0 && text[i] !== ',' && text[i] !== '}' && text[i] !== ']') {
+          const keyContent = text.slice(keyStart + 1, keyEnd - 1).replace(/\s+$/, '');
+          if (keyContent.endsWith(':')) {
+            return fail(i, 'colon-in-quotes', text.slice(i, Math.min(n, i + 20)), { keyStart, keyEnd });
+          }
+        }
         return fail(i, 'unexpected', text[i]);
       }
       i += 1;
@@ -541,6 +556,19 @@ const buildSyntaxFix = (text, err) => {
       return { start: err.position, end: err.position, replacement: ',', type: err.type, detail: '+ ","' };
     case 'missing-colon':
       return { start: err.position, end: err.position, replacement: ':', type: err.type, detail: '+ ":"' };
+    case 'colon-in-quotes': {
+      // Move the trailing colon out of the key and open the value quote:
+      // "space: "  ->  "space": "
+      const { keyStart, keyEnd } = err;
+      if (typeof keyStart !== 'number' || typeof keyEnd !== 'number' || keyEnd <= keyStart + 2) return null;
+      const keyContent = text.slice(keyStart + 1, keyEnd - 1).replace(/\s+$/, '');
+      if (!keyContent.endsWith(':')) return null;
+      const core = keyContent.slice(0, -1).replace(/\s+$/, '');
+      if (!core) return null;
+      const quoted = `"${core}"`;
+      const replacement = `${quoted}: "`;
+      return { start: keyStart, end: keyEnd, replacement, type: err.type, detail: `${text.slice(keyStart, keyEnd)} -> ${replacement}` };
+    }
     case 'mismatched-closer': {
       // The stack holds the EXPECTED closers (one per open container).
       // Insert the innermost expected closer right before the wrong one,
@@ -652,7 +680,7 @@ export const detectSyntaxIssue = text => {
   } catch (e) {
     const err = scanSyntax(raw);
     if (!err) return { oversized: false, issue: null };
-    const fixableTypes = ['unquoted-key', 'unquoted-value', 'missing-comma', 'missing-colon', 'trailing', 'unterminated-string', 'unterminated-container', 'mismatched-closer'];
+    const fixableTypes = ['unquoted-key', 'unquoted-value', 'missing-comma', 'missing-colon', 'colon-in-quotes', 'trailing', 'unterminated-string', 'unterminated-container', 'mismatched-closer'];
     if (fixableTypes.indexOf(err.type) < 0) return { oversized: false, issue: null };
     if (err.type !== 'unterminated-container' && !buildSyntaxFix(raw, err)) return { oversized: false, issue: null };
     const { line, column } = lineColAt(raw, Math.min(err.position, raw.length));

@@ -138,6 +138,7 @@ export default {
         'Unquoted Value': 'Wartość bez cudzysłowu',
         'Missing Comma': 'Brak przecinka',
         'Missing Colon': 'Brak dwukropka',
+        'Colon Inside Quotes': 'Dwukropek w cudzysłowie',
         'Trailing Content': 'Dodatkowa treść na końcu',
         'Unterminated String': 'Niezakończony tekst',
         'Unterminated Container': 'Niezamknięty nawias',

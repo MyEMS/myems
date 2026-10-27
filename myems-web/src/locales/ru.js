@@ -138,6 +138,7 @@ export default {
         'Unquoted Value': 'Значение без кавычек',
         'Missing Comma': 'Отсутствует запятая',
         'Missing Colon': 'Отсутствует двоеточие',
+        'Colon Inside Quotes': 'Двоеточие внутри кавычек',
         'Trailing Content': 'Лишнее содержимое в конце',
         'Unterminated String': 'Незакрытая строка',
         'Unterminated Container': 'Незакрытая скобка',

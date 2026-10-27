@@ -138,6 +138,7 @@ export default {
         'Unquoted Value': '인용문이 없는 값',
         'Missing Comma': '쉼표 누락',
         'Missing Colon': '콜론 누락',
+        'Colon Inside Quotes': '콜론이 인용문 안에 있음',
         'Trailing Content': '끝부분의 추가 내용',
         'Unterminated String': '닫지 않은 문자열',
         'Unterminated Container': '닫지 않은 괄호',
