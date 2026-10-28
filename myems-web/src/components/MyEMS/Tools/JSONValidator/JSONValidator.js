@@ -150,13 +150,14 @@ const JSONValidator = ({ setRedirect, setRedirectUrl, t }) => {
         check = validate(text);
       }
     }
-    if (changedCount === 0 && syntaxResult.fixes.length === 0) return;
     setInputText(text);
     runCheck(text);
+    // Always report what happened, even when no edit could be applied, so the
+    // button never looks dead (the panel then shows the manual-review notice).
     setAutoFixInfo({
       changedCount,
       syntaxFixes: syntaxResult.fixes,
-      syntaxStoppedEarly: syntaxResult.fixes.length > 0 && !syntaxResult.valid,
+      syntaxStoppedEarly: !check.valid,
       validAfterFix: check.valid
     });
     setOutput(null);

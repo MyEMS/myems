@@ -197,9 +197,9 @@ const ResultPanel = ({ t, checkResult, punctuationIssues, truncated, syntaxIssue
                   </li>
                 ))}
               </ul>
-              {autoFixInfo.syntaxStoppedEarly && <div className="mt-1">{t('Auto-repair stopped: the remaining errors need manual review.')}</div>}
             </div>
           )}
+          {autoFixInfo.syntaxStoppedEarly && <div className="mt-1">{t('Auto-repair stopped: the remaining errors need manual review.')}</div>}
         </Alert>
       )}
       {renderErrorDetails()}

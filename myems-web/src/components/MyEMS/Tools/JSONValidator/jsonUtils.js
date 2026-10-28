@@ -541,6 +541,15 @@ const quoteBareToken = token => {
   return `"${core}"${tail}`;
 };
 
+// Index of the last non-whitespace character, or -1 for a blank text.
+const lastNonWhitespaceIndex = text => {
+  for (let i = text.length - 1; i >= 0; i -= 1) {
+    const ch = text[i];
+    if (ch !== ' ' && ch !== '\t' && ch !== '\n' && ch !== '\r') return i;
+  }
+  return -1;
+};
+
 // Turn a scan error into a concrete edit, or null when the type is not
 // safely fixable.
 const buildSyntaxFix = (text, err) => {
@@ -588,6 +597,13 @@ const buildSyntaxFix = (text, err) => {
       return { start: text.length, end: text.length, replacement: add, type: err.type, detail: '+ "' + add + '"' };
     }
     case 'unterminated-container': {
+      // `{"a": 1,` cannot be repaired by appending closers: that just trades
+      // the error for a trailing comma. Drop the dangling comma first, the
+      // closers follow on the next pass.
+      const last = lastNonWhitespaceIndex(text);
+      if (err.position >= text.length && last >= 0 && text[last] === ',') {
+        return { start: last, end: last + 1, replacement: '', type: err.type, detail: '- ","' };
+      }
       const closers = err.closers || '';
       if (!closers) return null;
       return { start: text.length, end: text.length, replacement: closers, type: err.type, detail: `+ "${closers}"` };
@@ -597,12 +613,9 @@ const buildSyntaxFix = (text, err) => {
   }
 };
 
-// Iteratively apply safe syntax repairs until the text parses, no further
-// progress is possible, or the iteration cap is hit.
-// Returns { text, fixes: [{ line, column, type, detail }], valid }.
-// For an unterminated string whose content swallowed a trailing closer
-// (e.g. {"a":"x}) two candidates are tried: recover the closer, or plain
-// append a quote.
+// Candidate texts for one scan error. For an unterminated string whose
+// content swallowed a trailing closer (e.g. {"a":"x}) two candidates are
+// tried: recover the closer, or plain append a quote.
 const candidatesFor = (text, err, fix) => {
   if (err.type === 'unterminated-string') {
     const last = text[text.length - 1];
@@ -616,74 +629,87 @@ const candidatesFor = (text, err, fix) => {
   return [text.slice(0, fix.start) + fix.replacement + text.slice(fix.end)];
 };
 
+// Text length up to which accepted candidates are remembered for cycle
+// detection; keeps the guard cheap for the large inputs allowed above.
+const MAX_TRACKED_TEXT = 64 * 1024;
+
+const parsesStrict = text => {
+  try {
+    JSON.parse(text);
+    return true;
+  } catch (e) {
+    return false;
+  }
+};
+
+// Progress gate: does the candidate's first error actually sit after the
+// repaired region? The edit shifts positions, so the old error position is
+// mapped into the candidate text before comparing. A length-changing edit is
+// also accepted when the scanner no longer stops before the edit point, which
+// covers deletions such as dropping `{"a": 1,`'s dangling comma.
+const movesForward = (err, fix, nextErr) => {
+  const delta = fix.replacement.length - (fix.end - fix.start);
+  const mapped = err.position > fix.end ? err.position + delta : fix.start + fix.replacement.length;
+  if (nextErr.position > mapped) return true;
+  return delta !== 0 && nextErr.position >= fix.start;
+};
+
+// Work out the next repair step: the scan error, its concrete edit and the
+// candidate text that survives the progress gate. Returns null when nothing
+// can be safely applied. detectSyntaxIssue() and repairSyntax() both go
+// through here, so the UI never offers a fix that the engine refuses to apply.
+const planSyntaxFix = (text, seen) => {
+  const err = scanSyntax(text);
+  if (!err) return null;
+  const fix = buildSyntaxFix(text, err);
+  if (!fix) return null;
+  if (fix.start === fix.end && !fix.replacement) return null;
+  const candidates = candidatesFor(text, err, fix);
+  for (let c = 0; c < candidates.length; c += 1) {
+    const cand = candidates[c];
+    if (cand === text) continue;
+    if (seen && seen.has(cand)) continue;
+    if (parsesStrict(cand)) return { err, fix, candidate: cand };
+    const nextErr = scanSyntax(cand);
+    if (nextErr && movesForward(err, fix, nextErr)) return { err, fix, candidate: cand };
+  }
+  return null;
+};
+
+// Iteratively apply safe syntax repairs until the text parses, no further
+// progress is possible, or the iteration cap is hit.
+// Returns { text, fixes: [{ line, column, type, detail }], valid }.
 export const repairSyntax = text => {
   const raw = typeof text === 'string' ? text : '';
   if (raw.length > MAX_INPUT_SIZE) return { text: raw, fixes: [], oversized: true, valid: false };
   let current = raw;
   const fixes = [];
+  const seen = current.length <= MAX_TRACKED_TEXT ? new Set([current]) : null;
   for (let guard = 0; guard < MAX_SYNTAX_FIXES; guard += 1) {
-    try {
-      JSON.parse(current);
-      return { text: current, fixes, valid: true };
-    } catch (e) {
-      // fall through to the scanner below
-    }
-    const err = scanSyntax(current);
-    if (!err) return { text: current, fixes, valid: false };
-    const fix = buildSyntaxFix(current, err);
-    if (!fix) return { text: current, fixes, valid: false };
-    const candidates = candidatesFor(current, err, fix);
-    // Progress gate: keep the first candidate that parses cleanly or whose
-    // first error sits strictly further than the one being repaired.
-    let candidate = null;
-    for (let c = 0; c < candidates.length; c += 1) {
-      const cand = candidates[c];
-      let parses = false;
-      try {
-        JSON.parse(cand);
-        parses = true;
-      } catch (e) {
-        // expected while the document is still being repaired
-      }
-      const nextErr = parses ? null : scanSyntax(cand);
-      if (parses || (nextErr && nextErr.position > err.position)) {
-        candidate = cand;
-        break;
-      }
-    }
-    if (!candidate) return { text: current, fixes, valid: false };
+    if (parsesStrict(current)) return { text: current, fixes, valid: true };
+    const plan = planSyntaxFix(current, seen);
+    if (!plan) return { text: current, fixes, valid: false };
+    const { fix, candidate } = plan;
     const { line, column } = lineColAt(current, Math.min(fix.start, current.length));
     fixes.push({ line, column, type: fix.type, detail: fix.detail });
     current = candidate;
+    if (seen && current.length <= MAX_TRACKED_TEXT) seen.add(current);
   }
-  let ok = false;
-  try {
-    JSON.parse(current);
-    ok = true;
-  } catch (e) {
-    ok = false;
-  }
-  return { text: current, fixes, valid: ok };
+  return { text: current, fixes, valid: parsesStrict(current) };
 };
 
 // Detect the first repairable structural error for the UI (so the one-click
 // fix button can appear even when there is no full-width punctuation issue).
-// Only conservative types are reported: unquoted key/value, missing comma,
-// trailing content and unterminated string / container.
+// Shares planSyntaxFix() with repairSyntax(), so an issue is only reported when
+// the one-click fix really has a candidate to apply.
 export const detectSyntaxIssue = text => {
   const raw = typeof text === 'string' ? text : '';
   if (raw.length > MAX_INPUT_SIZE) return { oversized: true, issue: null };
   if (!raw.trim()) return { oversized: false, issue: null };
-  try {
-    JSON.parse(raw);
-    return { oversized: false, issue: null };
-  } catch (e) {
-    const err = scanSyntax(raw);
-    if (!err) return { oversized: false, issue: null };
-    const fixableTypes = ['unquoted-key', 'unquoted-value', 'missing-comma', 'missing-colon', 'colon-in-quotes', 'trailing', 'unterminated-string', 'unterminated-container', 'mismatched-closer'];
-    if (fixableTypes.indexOf(err.type) < 0) return { oversized: false, issue: null };
-    if (err.type !== 'unterminated-container' && !buildSyntaxFix(raw, err)) return { oversized: false, issue: null };
-    const { line, column } = lineColAt(raw, Math.min(err.position, raw.length));
-    return { oversized: false, issue: { position: err.position, line, column, type: err.type, token: err.token, closers: err.closers || '' } };
-  }
+  if (parsesStrict(raw)) return { oversized: false, issue: null };
+  const plan = planSyntaxFix(raw);
+  if (!plan) return { oversized: false, issue: null };
+  const { err } = plan;
+  const { line, column } = lineColAt(raw, Math.min(err.position, raw.length));
+  return { oversized: false, issue: { position: err.position, line, column, type: err.type, token: err.token, closers: err.closers || '' } };
 };
