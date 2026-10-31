@@ -925,7 +925,8 @@
                     CONNECTION: 'Связь',
                     LAST_SEEN_DATETIME: 'Дата и время последнего посещения',
                     INPUT_PROTOCOL: 'Пожалуйста, введите протокол',
-                    INPUT_CONNECTION: 'Пожалуйста, введите соединение'
+                    INPUT_CONNECTION: 'Пожалуйста, введите соединение',
+                    INVALID_CONNECTION_JSON: 'Неверный формат содержимого JSON'
                 },
                 POINT: {
                     OBJECT_TYPE: 'Тип объекта',

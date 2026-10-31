@@ -925,7 +925,8 @@
                     CONNECTION: 'Sambungan',
                     LAST_SEEN_DATETIME: 'Waktu Tanggal Terakhir Terlihat',
                     INPUT_PROTOCOL: 'Silakan masukan protokol',
-                    INPUT_CONNECTION: 'Silakan masukkan koneksi'
+                    INPUT_CONNECTION: 'Silakan masukkan koneksi',
+                    INVALID_CONNECTION_JSON: 'Format konten JSON tidak valid'
                 },
                 POINT: {
                     OBJECT_TYPE: 'Tipe Objek',

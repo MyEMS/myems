@@ -925,7 +925,8 @@
                     CONNECTION: 'اتصال',
                     LAST_SEEN_DATETIME: 'تاريخ آخر ظهور',
                     INPUT_PROTOCOL: 'يرجى إدخال بروتوكول',
-                    INPUT_CONNECTION: 'يرجى إدخال اتصال'
+                    INPUT_CONNECTION: 'يرجى إدخال اتصال',
+                    INVALID_CONNECTION_JSON: 'تنسيق محتوى JSON غير صالح'
                 },
                 POINT: {
                     OBJECT_TYPE: 'نوع الكائن',

@@ -893,7 +893,8 @@
                     CONNECTION: '接続',
                     LAST_SEEN_DATETIME: '最終オンライン時間',
                     INPUT_PROTOCOL: 'プロトコルタイプを入力してください',
-                    INPUT_CONNECTION: '接続アドレスを入力してください'
+                    INPUT_CONNECTION: '接続アドレスを入力してください',
+                    INVALID_CONNECTION_JSON: 'JSONの内容形式が無効です'
                 },
                 POINT: {
                     OBJECT_TYPE: 'オブジェクトタイプ',

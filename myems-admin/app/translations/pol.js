@@ -893,7 +893,8 @@
                     CONNECTION: 'Połączenie',
                     LAST_SEEN_DATETIME: 'Ostatni czas online',
                     INPUT_PROTOCOL: 'Wprowadź typ protokołu',
-                    INPUT_CONNECTION: 'Wprowadź adres połączenia'
+                    INPUT_CONNECTION: 'Wprowadź adres połączenia',
+                    INVALID_CONNECTION_JSON: 'Nieprawidłowy format zawartości JSON'
                 },
                 POINT: {
                     OBJECT_TYPE: 'Typ obiektu',

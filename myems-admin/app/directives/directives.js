@@ -427,6 +427,31 @@ function customValid(){
 
 
 /**
+ * jsonSyntax - Directive for validating JSON syntax only (not schema/attributes)
+ */
+function jsonSyntax() {
+    return {
+        restrict: 'A',
+        require: 'ngModel',
+        link: function(scope, element, attrs, ngModelCtrl) {
+            ngModelCtrl.$validators.jsonSyntax = function(modelValue, viewValue) {
+                var value = angular.isString(viewValue) ? viewValue : modelValue;
+                // Empty value is handled by the required validator
+                if (value === null || angular.isUndefined(value) || String(value).trim() === '') {
+                    return true;
+                }
+                try {
+                    JSON.parse(value);
+                    return true;
+                } catch (e) {
+                    return false;
+                }
+            };
+        }
+    }
+}
+
+/**
  * fullScroll - Directive for slimScroll with 100%
  */
 function fullScroll($timeout){
@@ -630,6 +655,7 @@ app
     .directive('responsiveVideo', responsiveVideo)
     .directive('chatSlimScroll', chatSlimScroll)
     .directive('customValid', customValid)
+    .directive('jsonSyntax', jsonSyntax)
     .directive('fullScroll', fullScroll)
     .directive('closeOffCanvas', closeOffCanvas)
     .directive('clockPicker', clockPicker)
