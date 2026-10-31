@@ -1,0 +1,34 @@
+# Local secrets. Pass database and gateway settings at runtime.
+.env
+.env.*
+
+# Version control and editor metadata
+.git
+.gitattributes
+.gitignore
+.github
+.idea
+.vscode
+*.swp
+.DS_Store
+
+# Python environments and caches
+.venv
+venv
+env
+__pycache__
+*.py[cod]
+*.egg-info
+.pytest_cache
+.mypy_cache
+.coverage
+htmlcov
+
+# Runtime artifacts and files the image does not need
+*.log
+run.sh
+myems-modbus-tcp.service
+README.md
+Dockerfile
+docker-compose*.yml
+.dockerignore

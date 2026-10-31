@@ -114,9 +114,9 @@ myems_mqtt_broker = {
 
 myems_workflow = {
     'base_url': config('MYEMS_WORKFLOW_BASE_URL', default='http://192.168.1.8/api/v1.0/'),
-    'token': config('MYEMS_WORKFLOW_TOKEN', default='3d1ccf4c-83f2-11ef-a5fd-29e7d25a1ee6'),
+    'token': config('MYEMS_WORKFLOW_TOKEN', default=''),
     'app_name': config('MYEMS_WORKFLOW_APP_NAME', default='myems'),
-    'user_name': config('MYEMS_WORKFLOW_USER_NAME', default='admin'),
+    'user_name': config('MYEMS_WORKFLOW_USER_NAME', default=''),
 }
 
 # indicated in how many minutes to calculate meter energy consumption
