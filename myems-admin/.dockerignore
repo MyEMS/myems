@@ -1,0 +1,30 @@
+# Local secrets. Pass API and proxy settings at runtime.
+.env
+.env.*
+
+# Version control and editor metadata
+.git
+.gitattributes
+.gitignore
+.github
+.idea
+.vscode
+*.swp
+.DS_Store
+
+# Frontend dependencies and build caches
+node_modules
+bower_components
+tmp
+coverage
+.sass-cache
+*.map
+npm-debug.log
+
+# Runtime artifacts and files the image does not need
+*.log
+myems-admin.conf
+Dockerfile
+README.md
+docker-compose*.yml
+.dockerignore

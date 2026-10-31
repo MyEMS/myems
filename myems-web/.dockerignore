@@ -1,0 +1,39 @@
+# Local secrets. Pass API settings at runtime.
+.env
+.env.*
+
+# Version control and editor metadata
+.git
+.gitattributes
+.gitignore
+.github
+.gitlab-ci.yml
+.idea
+.vscode
+*.swp
+.DS_Store
+
+# Frontend dependencies and build caches
+node_modules
+.pnp
+.pnp.js
+bower_components
+tmp
+coverage
+.sass-cache
+*.map
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+build.log
+
+# Local production output. The image runs npm run build.
+build
+
+# Runtime artifacts and files the image does not need
+*.log
+myems-web.conf
+README.md
+Dockerfile
+docker-compose*.yml
+.dockerignore
