@@ -4,9 +4,27 @@ import { Alert, Badge, Button, Table } from 'reactstrap';
 import { PUNCTUATION_KIND_LABELS } from '../fullWidthPunctuations';
 import { MAX_ISSUES } from '../jsonUtils';
 
+// Defensive render cap for the issue table: bounds the number of DOM rows
+// even if a longer list ever reaches this component. Detection (MAX_ISSUES)
+// and the one-click fix (full text scan) are intentionally unaffected.
+const MAX_RENDER_ROWS = 100;
+
 // Renders the validation verdict, parse error details, the full-width
-// punctuation issue table (with one-click fix) and the format/minify output.
-const ResultPanel = ({ t, checkResult, punctuationIssues, truncated, output, autoFixInfo, onAutoFix, onCopy, copied }) => {
+// punctuation issue table (with one-click fix), the repairable structural
+// error hint and the format/minify output.
+const SYNTAX_TYPE_KEYS = {
+  'unquoted-key': 'Unquoted Key',
+  'unquoted-value': 'Unquoted Value',
+  'missing-comma': 'Missing Comma',
+  'missing-colon': 'Missing Colon',
+  'colon-in-quotes': 'Colon Inside Quotes',
+  trailing: 'Trailing Content',
+  'unterminated-string': 'Unterminated String',
+  'unterminated-container': 'Unterminated Container',
+  'mismatched-closer': 'Mismatched Bracket'
+};
+
+const ResultPanel = ({ t, checkResult, punctuationIssues, truncated, syntaxIssue, output, autoFixInfo, onAutoFix, onCopy, copied }) => {
   if (!checkResult) {
     return <p className="text-muted fs--1 mb-0">{t('Click Validate to check the JSON data.')}</p>;
   }
@@ -56,8 +74,11 @@ const ResultPanel = ({ t, checkResult, punctuationIssues, truncated, output, aut
   };
 
   const renderPunctuationTable = () => {
-    if (!punctuationIssues || punctuationIssues.length === 0) return null;
-    const fixableCount = punctuationIssues.filter(item => item.autoFixable).length;
+    const issues = Array.isArray(punctuationIssues) ? punctuationIssues : [];
+    if (issues.length === 0) return null;
+    const visibleIssues = issues.slice(0, MAX_RENDER_ROWS);
+    const rowsHidden = issues.length > MAX_RENDER_ROWS;
+    const fixableCount = issues.filter(item => item.autoFixable).length;
     return (
       <div className="mb-3">
         <div className="d-flex align-items-center justify-content-between mb-2">
@@ -81,7 +102,7 @@ const ResultPanel = ({ t, checkResult, punctuationIssues, truncated, output, aut
             </tr>
           </thead>
           <tbody>
-            {punctuationIssues.map(item => (
+            {visibleIssues.map(item => (
               <tr key={`${item.index}-${item.char}`}>
                 <td>{item.line}</td>
                 <td>{item.column}</td>
@@ -104,7 +125,34 @@ const ResultPanel = ({ t, checkResult, punctuationIssues, truncated, output, aut
         </Table>
         <div className="text-muted fs--1">
           {truncated && <div className="mb-1">{t('Only the first {{max}} issues are shown; the one-click fix still converts all occurrences.', { max: MAX_ISSUES })}</div>}
+          {rowsHidden && <div className="mb-1">{t('Only the first {{rows}} rows of the issue list are rendered for performance; detection and the one-click fix still cover all occurrences.', { rows: MAX_RENDER_ROWS })}</div>}
           {t('Punctuation inside strings is treated as valid text and is not reported.')}
+        </div>
+      </div>
+    );
+  };
+
+  // Hint for the first repairable structural error plus the one-click fix
+  // entry point when there is no fixable punctuation to show.
+  const renderSyntaxHint = () => {
+    if (!syntaxIssue) return null;
+    const hasFixablePunctuation = Array.isArray(punctuationIssues) && punctuationIssues.some(item => item.autoFixable);
+    return (
+      <div className="mb-3">
+        <div className="d-flex align-items-center justify-content-between mb-2">
+          <div className="text-800 fs--1 text-uppercase">{t('Structural Issue Detection')}</div>
+          {!hasFixablePunctuation && (
+            <Button color="primary" size="sm" onClick={onAutoFix}>
+              {t('Fix and Re-validate')}
+            </Button>
+          )}
+        </div>
+        <div className="fs--1 text-muted">
+          <Badge color="warning" className="mr-2">
+            {t('Line')} {syntaxIssue.line} / {t('Column')} {syntaxIssue.column}
+          </Badge>
+          {t(SYNTAX_TYPE_KEYS[syntaxIssue.type] || 'Unexpected Token')}
+          {syntaxIssue.token ? <span>: <code>{syntaxIssue.token}</code></span> : null}
         </div>
       </div>
     );
@@ -135,11 +183,28 @@ const ResultPanel = ({ t, checkResult, punctuationIssues, truncated, output, aut
       {renderVerdict()}
       {autoFixInfo && (
         <Alert color="info" className="mb-3">
-          {t('Converted characters')}: {autoFixInfo.changedCount} - {autoFixInfo.validAfterFix ? t('Re-validated: Valid JSON') : t('Re-validated: still invalid, see details below')}
+          <div>
+            {t('Converted characters')}: {autoFixInfo.changedCount} - {autoFixInfo.validAfterFix ? t('Re-validated: Valid JSON') : t('Re-validated: still invalid, see details below')}
+          </div>
+          {autoFixInfo.syntaxFixes && autoFixInfo.syntaxFixes.length > 0 && (
+            <div className="mt-1">
+              <div>{t('Syntax fixes applied')}: {autoFixInfo.syntaxFixes.length}</div>
+              <ul className="pl-3 mb-0">
+                {autoFixInfo.syntaxFixes.slice(0, MAX_RENDER_ROWS).map((fix, idx) => (
+                  <li key={`${fix.line}-${fix.column}-${idx}`}>
+                    {t('Line')} {fix.line} / {t('Column')} {fix.column} - {t(SYNTAX_TYPE_KEYS[fix.type] || 'Unexpected Token')}:{' '}
+                    <code>{fix.detail}</code>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+          {autoFixInfo.syntaxStoppedEarly && <div className="mt-1">{t('Auto-repair stopped: the remaining errors need manual review.')}</div>}
         </Alert>
       )}
       {renderErrorDetails()}
       {renderPunctuationTable()}
+      {renderSyntaxHint()}
       {renderOutput()}
     </div>
   );
@@ -150,6 +215,7 @@ ResultPanel.propTypes = {
   checkResult: PropTypes.object,
   punctuationIssues: PropTypes.array,
   truncated: PropTypes.bool,
+  syntaxIssue: PropTypes.object,
   output: PropTypes.object,
   autoFixInfo: PropTypes.object,
   onAutoFix: PropTypes.func.isRequired,

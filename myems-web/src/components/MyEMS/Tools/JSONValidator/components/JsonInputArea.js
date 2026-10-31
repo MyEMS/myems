@@ -12,7 +12,7 @@ const JsonInputArea = ({ t, value, onChange, indent, onIndentChange, onValidate,
       id="json-input"
       rows={18}
       spellCheck={false}
-      className="mb-3 font-monospace"
+      className="mb-2 font-monospace"
       style={{ fontFamily: 'SFMono-Regular, Menlo, Consolas, monospace', whiteSpace: 'pre' }}
       value={value}
       onChange={e => onChange(e.target.value)}
@@ -27,26 +27,28 @@ const JsonInputArea = ({ t, value, onChange, indent, onIndentChange, onValidate,
           <option value="tab">{t('Tab')}</option>
         </Input>
       </InputGroup>
-    </div>
-    <ButtonGroup className="w-100 mb-1">
-      <Button color="primary" size="sm" onClick={onValidate}>
+      {/* One compact toolbar: primary action left, secondary groups following,
+          sample/clear pushed to the right edge; wraps on narrow screens. */}
+      <Button color="primary" size="sm" onClick={onValidate} className="mr-2">
         {t('Validate')}
       </Button>
-      <Button color="soft-primary" size="sm" onClick={onFormat}>
-        {t('Format')}
-      </Button>
-      <Button color="soft-primary" size="sm" onClick={onMinify}>
-        {t('Minify')}
-      </Button>
-    </ButtonGroup>
-    <ButtonGroup className="w-100">
-      <Button color="soft-secondary" size="sm" onClick={onLoadSample}>
-        {t('Load Sample')}
-      </Button>
-      <Button color="soft-secondary" size="sm" onClick={onClear}>
-        {t('Clear')}
-      </Button>
-    </ButtonGroup>
+      <ButtonGroup size="sm" className="mr-2">
+        <Button color="soft-primary" onClick={onFormat}>
+          {t('Format')}
+        </Button>
+        <Button color="soft-primary" onClick={onMinify}>
+          {t('Minify')}
+        </Button>
+      </ButtonGroup>
+      <ButtonGroup size="sm" className="ml-auto">
+        <Button color="soft-secondary" onClick={onLoadSample}>
+          {t('Load Sample')}
+        </Button>
+        <Button color="soft-secondary" onClick={onClear}>
+          {t('Clear')}
+        </Button>
+      </ButtonGroup>
+    </div>
   </div>
 );
 
