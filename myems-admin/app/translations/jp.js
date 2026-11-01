@@ -194,7 +194,8 @@
                     READ: '既読',
                     ACKNOWLEDGED: '確認済み',
                     ARCHIVE: 'アーカイブ',
-                    MARK_ALL_AS_READ: '全て既読にする'
+                    MARK_ALL_AS_READ: '全て既読にする',
+                    INVALID_EXPRESSION_JSON: '式の内容が不正な JSON 形式です'
                 },
                 MENU: {
                     SETTINGS: {
@@ -852,7 +853,8 @@
                     INPUT_PAYLOAD: 'ペイロードを入力してください',
                     INPUT_SET_VALUE: '設定値を入力してください',
                     SEND: '送信',
-                    SEND_SUCCESS: '送信成功'
+                    SEND_SUCCESS: '送信成功',
+                    INVALID_PAYLOAD_JSON: 'ペイロードの内容が不正な JSON 形式です'
                 },
                 GATEWAY: {
                     GATEWAY: 'ゲートウェイ',
@@ -927,7 +929,10 @@
                     ENERGY_VALUE: 'エネルギー値',
                     ANALOG_VALUE: 'アナログ値',
                     DIGITAL_VALUE: 'デジタル値',
-                    TEXT_VALUE: 'テキスト値'
+                    TEXT_VALUE: 'テキスト値',
+                    INVALID_ADDRESS_JSON: 'アドレスの内容が不正な JSON 形式です',
+                    INVALID_FAULTS_JSON: '障害定義の内容が不正な JSON 形式です',
+                    INVALID_DEFINITIONS_JSON: '定義の内容が不正な JSON 形式です'
                 },
                 DISTRIBUTION_SYSTEM: {
                     ADD_DISTRIBUTION_SYSTEM: '配電システムを追加',
@@ -1805,7 +1810,8 @@
                     NEXT_RUN_DATETIME: '次回実行時間',
                     IS_RUN_IMMEDIATELY: '即時実行',
                     EDIT_ADVANCED_REPORT: '高度なレポートを編集',
-                    RUN_SUBMITTED: '実行が送信されました'
+                    RUN_SUBMITTED: '実行が送信されました',
+                    INVALID_EXPRESSION_JSON: '式の内容が不正な JSON 形式です'
                 },
                 TOASTER: {
                     SUCCESS_TITLE: '成功',

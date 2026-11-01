@@ -194,7 +194,8 @@
                     READ: '읽음',
                     ACKNOWLEDGED: '확인됨',
                     ARCHIVE: '보관',
-                    MARK_ALL_AS_READ: '모두 읽음으로 표시'
+                    MARK_ALL_AS_READ: '모두 읽음으로 표시',
+                    INVALID_EXPRESSION_JSON: '식의 JSON 형식이 올바르지 않습니다'
                 },
                 MENU: {
                     SETTINGS: {
@@ -852,7 +853,8 @@
                     INPUT_PAYLOAD: '페이로드를 입력하세요',
                     INPUT_SET_VALUE: '설정 값을 입력하세요',
                     SEND: '전송',
-                    SEND_SUCCESS: '전송 성공'
+                    SEND_SUCCESS: '전송 성공',
+                    INVALID_PAYLOAD_JSON: '페이로드의 JSON 형식이 올바르지 않습니다'
                 },
                 GATEWAY: {
                     GATEWAY: '게이트웨이',
@@ -927,7 +929,10 @@
                     ENERGY_VALUE: '에너지 값',
                     ANALOG_VALUE: '아날로그 값',
                     DIGITAL_VALUE: '디지털 값',
-                    TEXT_VALUE: '텍스트 값'
+                    TEXT_VALUE: '텍스트 값',
+                    INVALID_ADDRESS_JSON: '주소의 JSON 형식이 올바르지 않습니다',
+                    INVALID_FAULTS_JSON: '고장 정의의 JSON 형식이 올바르지 않습니다',
+                    INVALID_DEFINITIONS_JSON: '정의의 JSON 형식이 올바르지 않습니다'
                 },
                 DISTRIBUTION_SYSTEM: {
                     ADD_DISTRIBUTION_SYSTEM: '배전 시스템 추가',
@@ -1805,7 +1810,8 @@
                     NEXT_RUN_DATETIME: '다음 실행 시간',
                     IS_RUN_IMMEDIATELY: '즉시 실행',
                     EDIT_ADVANCED_REPORT: '고급 보고서 편집',
-                    RUN_SUBMITTED: '실행 제출됨'
+                    RUN_SUBMITTED: '실행 제출됨',
+                    INVALID_EXPRESSION_JSON: '식의 JSON 형식이 올바르지 않습니다'
                 },
                 TOASTER: {
                     SUCCESS_TITLE: '성공',

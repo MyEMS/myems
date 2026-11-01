@@ -324,6 +324,10 @@ app.controller('ModalAddRuleCtrl', function($scope, $uibModalInstance, params) {
 	};
 
 	$scope.ok = function() {
+		// Block submission when the form is invalid, e.g. expression is not valid JSON
+		if ($scope.form_rule && $scope.form_rule.$invalid) {
+			return;
+		}
 		$uibModalInstance.close($scope.rule);
 	};
 
@@ -368,6 +372,10 @@ app.controller('ModalEditRuleCtrl', function($scope, $uibModalInstance, params) 
 	// init
 	$scope.updateFddCodeOptions();
 	$scope.ok = function() {
+		// Block submission when the form is invalid, e.g. expression is not valid JSON
+		if ($scope.form_rule && $scope.form_rule.$invalid) {
+			return;
+		}
 		$uibModalInstance.close($scope.rule);
 	};
 

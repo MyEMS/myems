@@ -194,7 +194,8 @@
                     READ: 'Đọc',
                     ACKNOWLEDGED: 'Thừa nhận',
                     ARCHIVE: 'Lưu trữ',
-                    MARK_ALL_AS_READ: 'Đánh dấu tất cả là đã đọc'
+                    MARK_ALL_AS_READ: 'Đánh dấu tất cả là đã đọc',
+                    INVALID_EXPRESSION_JSON: 'Định dạng JSON của biểu thức không hợp lệ'
                 },
                 MENU: {
                     SETTINGS: {
@@ -852,7 +853,8 @@
                     INPUT_PAYLOAD: 'Vui lòng nhập trọng tải',
                     INPUT_SET_VALUE: 'Vui lòng nhập Set Value',
                     SEND: 'Gửi',
-                    SEND_SUCCESS: 'Gửi thành công'
+                    SEND_SUCCESS: 'Gửi thành công',
+                    INVALID_PAYLOAD_JSON: 'Định dạng JSON của dữ liệu tải không hợp lệ'
                 },
                 ENERGY_FLOW_DIAGRAM: {
                     ADD_ENERGY_FLOW_DIAGRAM: 'Thêm sơ đồ dòng năng lượng',
@@ -959,7 +961,10 @@
                     ENERGY_VALUE: 'Giá trị năng lượng',
                     ANALOG_VALUE: 'Giá trị tương tự',
                     DIGITAL_VALUE: 'Giá trị số',
-                    TEXT_VALUE: 'Giá trị văn bản'
+                    TEXT_VALUE: 'Giá trị văn bản',
+                    INVALID_ADDRESS_JSON: 'Định dạng JSON của địa chỉ không hợp lệ',
+                    INVALID_FAULTS_JSON: 'Định dạng JSON của định nghĩa lỗi không hợp lệ',
+                    INVALID_DEFINITIONS_JSON: 'Định dạng JSON của định nghĩa không hợp lệ'
                 },
                 DISTRIBUTION_SYSTEM: {
                     ADD_DISTRIBUTION_SYSTEM: 'Thêm hệ thống phân phối',
@@ -1805,7 +1810,8 @@
                     NEXT_RUN_DATETIME: 'Ngày giờ chạy tiếp theo',
                     IS_RUN_IMMEDIATELY: 'Chạy ngay',
                     EDIT_ADVANCED_REPORT: 'Chỉnh sửa báo cáo nâng cao',
-                    RUN_SUBMITTED: 'Chạy đã cam kết'
+                    RUN_SUBMITTED: 'Chạy đã cam kết',
+                    INVALID_EXPRESSION_JSON: 'Định dạng JSON của biểu thức không hợp lệ'
                 },
                 TOASTER: {
                     SUCCESS_TITLE: 'Sự thành công',

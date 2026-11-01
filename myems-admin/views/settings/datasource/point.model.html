@@ -114,11 +114,12 @@
                 </div>
             </div>
 
-            <div class="form-group"><label class="col-sm-4 control-label">{{'POINT.ADDRESS' | translate}}<span class="text-danger">*</span></label>
+            <div class="form-group" ng-class="{'has-error': form_point.pointaddress.$invalid && form_point.pointaddress.$dirty}"><label class="col-sm-4 control-label">{{'POINT.ADDRESS' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-8">
-                    <textarea rows="3" ng-model="point.address" type="text" name="pointaddress" class="form-control" required="" placeholder="{{'SETTING.INPUT_POINT_ADDRESS_PLACEHOLDER' | translate}}"></textarea>
+                    <textarea json-syntax rows="3" ng-model="point.address" type="text" name="pointaddress" class="form-control" required="" placeholder="{{'SETTING.INPUT_POINT_ADDRESS_PLACEHOLDER' | translate}}"></textarea>
                     <div class="m-t-xs" ng-show="form_point.pointaddress.$invalid && form_point.pointaddress.$dirty">
                         <small class="text-danger" ng-show="form_point.pointaddress.$error.required">{{'POINT.INPUT_ADDRESS' | translate}}</small>
+                        <small class="text-danger" ng-show="form_point.pointaddress.$error.jsonSyntax">{{'POINT.INVALID_ADDRESS_JSON' | translate}}</small>
                     </div>
                 </div>
             </div>
@@ -145,14 +146,20 @@
                     </div>
                 </div>
             </div>
-            <div class="form-group"><label class="col-sm-4 control-label">{{'POINT.FAULTS' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+            <div class="form-group" ng-class="{'has-error': form_point.pointfaults.$invalid && form_point.pointfaults.$dirty}"><label class="col-sm-4 control-label">{{'POINT.FAULTS' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
                 <div class="col-sm-8">
-                    <textarea rows="3" ng-model="point.faults" type="text" name="pointfaults" class="form-control" placeholder="{{'SETTING.INPUT_POINT_FAULTS_PLACEHOLDER' | translate}}"></textarea>
+                    <textarea json-syntax rows="3" ng-model="point.faults" type="text" name="pointfaults" class="form-control" placeholder="{{'SETTING.INPUT_POINT_FAULTS_PLACEHOLDER' | translate}}"></textarea>
+                    <div class="m-t-xs" ng-show="form_point.pointfaults.$invalid && form_point.pointfaults.$dirty">
+                        <small class="text-danger" ng-show="form_point.pointfaults.$error.jsonSyntax">{{'POINT.INVALID_FAULTS_JSON' | translate}}</small>
+                    </div>
                 </div>
             </div>
-            <div class="form-group"><label class="col-sm-4 control-label">{{'POINT.DEFINITIONS' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
+            <div class="form-group" ng-class="{'has-error': form_point.pointdefinitions.$invalid && form_point.pointdefinitions.$dirty}"><label class="col-sm-4 control-label">{{'POINT.DEFINITIONS' | translate}} ({{'SETTING.OPTIONAL' | translate}})</label>
                 <div class="col-sm-8">
-                    <textarea rows="3" ng-model="point.definitions" type="text" name="pointdefinitions" class="form-control" placeholder="{{'SETTING.INPUT_POINT_DEFINITIONS_PLACEHOLDER' | translate}}"></textarea>
+                    <textarea json-syntax rows="3" ng-model="point.definitions" type="text" name="pointdefinitions" class="form-control" placeholder="{{'SETTING.INPUT_POINT_DEFINITIONS_PLACEHOLDER' | translate}}"></textarea>
+                    <div class="m-t-xs" ng-show="form_point.pointdefinitions.$invalid && form_point.pointdefinitions.$dirty">
+                        <small class="text-danger" ng-show="form_point.pointdefinitions.$error.jsonSyntax">{{'POINT.INVALID_DEFINITIONS_JSON' | translate}}</small>
+                    </div>
                 </div>
             </div>
         </form>

@@ -194,7 +194,8 @@
                     READ: 'قرأ',
                     ACKNOWLEDGED: 'اعترف',
                     ARCHIVE: 'أرشيف',
-                    MARK_ALL_AS_READ: 'وضع علامة مقروءة على الكل'
+                    MARK_ALL_AS_READ: 'وضع علامة مقروءة على الكل',
+                    INVALID_EXPRESSION_JSON: 'تنسيق JSON غير صالح للتعبير'
                 },
                 MENU: {
                     SETTINGS: {
@@ -852,7 +853,8 @@
                     INPUT_PAYLOAD: 'يرجى إدخال الحمولة',
                     INPUT_SET_VALUE: 'يرجى إدخال قيمة المجموعة',
                     SEND: 'ارسل',
-                    SEND_SUCCESS: 'إرسال النجاح'
+                    SEND_SUCCESS: 'إرسال النجاح',
+                    INVALID_PAYLOAD_JSON: 'تنسيق JSON غير صالح للحمولة'
                 },
                 ENERGY_FLOW_DIAGRAM: {
                     ADD_ENERGY_FLOW_DIAGRAM: 'إضافة مخطط تدفق الطاقة',
@@ -959,7 +961,10 @@
                     ENERGY_VALUE: 'قيمة الطاقة',
                     ANALOG_VALUE: 'قيمة تناظرية',
                     DIGITAL_VALUE: 'قيمة رقمية',
-                    TEXT_VALUE: 'قيمة نصية'
+                    TEXT_VALUE: 'قيمة نصية',
+                    INVALID_ADDRESS_JSON: 'تنسيق JSON غير صالح للعنوان',
+                    INVALID_FAULTS_JSON: 'تنسيق JSON غير صالح لتعريفات الأعطال',
+                    INVALID_DEFINITIONS_JSON: 'تنسيق JSON غير صالح للتعريفات'
                 },
                 DISTRIBUTION_SYSTEM: {
                     ADD_DISTRIBUTION_SYSTEM: 'إضافة نظام توزيع',
@@ -1805,7 +1810,8 @@
                     NEXT_RUN_DATETIME: 'تاريخ التشغيل التالي',
                     IS_RUN_IMMEDIATELY: 'تشغيل على الفور',
                     EDIT_ADVANCED_REPORT: 'تحرير التقرير المتقدم',
-                    RUN_SUBMITTED: 'تشغيل ارتكبت'
+                    RUN_SUBMITTED: 'تشغيل ارتكبت',
+                    INVALID_EXPRESSION_JSON: 'تنسيق JSON غير صالح للتعبير'
                 },
                 TOASTER: {
                     SUCCESS_TITLE: 'نجاح',

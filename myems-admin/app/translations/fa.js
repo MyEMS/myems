@@ -194,7 +194,8 @@
                     READ: 'خوانده شده',
                     ACKNOWLEDGED: 'تأیید شده',
                     ARCHIVE: 'بایگانی',
-                    MARK_ALL_AS_READ: 'علامت‌گذاری همه به عنوان خوانده شده'
+                    MARK_ALL_AS_READ: 'علامت‌گذاری همه به عنوان خوانده شده',
+                    INVALID_EXPRESSION_JSON: 'قالب JSON عبارت نامعتبر است'
                 },
                 MENU: {
                     SETTINGS: {
@@ -852,7 +853,8 @@
                     INPUT_PAYLOAD: 'لطفاً بار را وارد کنید',
                     INPUT_SET_VALUE: 'لطفاً مقدار تنظیم را وارد کنید',
                     SEND: 'ارسال',
-                    SEND_SUCCESS: 'ارسال موفقیت‌آمیز بود'
+                    SEND_SUCCESS: 'ارسال موفقیت‌آمیز بود',
+                    INVALID_PAYLOAD_JSON: 'قالب JSON محموله نامعتبر است'
                 },
                 GATEWAY: {
                     GATEWAY: 'درگاه',
@@ -927,7 +929,10 @@
                     ENERGY_VALUE: 'مقدار انرژی',
                     ANALOG_VALUE: 'مقدار آنالوگ',
                     DIGITAL_VALUE: 'مقدار دیجیتال',
-                    TEXT_VALUE: 'مقدار متنی'
+                    TEXT_VALUE: 'مقدار متنی',
+                    INVALID_ADDRESS_JSON: 'قالب JSON نشانی نامعتبر است',
+                    INVALID_FAULTS_JSON: 'قالب JSON تعریف خطاها نامعتبر است',
+                    INVALID_DEFINITIONS_JSON: 'قالب JSON تعاریف نامعتبر است'
                 },
                 DISTRIBUTION_SYSTEM: {
                     ADD_DISTRIBUTION_SYSTEM: 'افزودن سیستم توزیع',
@@ -1805,7 +1810,8 @@
                     NEXT_RUN_DATETIME: 'زمان اجرای بعدی',
                     IS_RUN_IMMEDIATELY: 'اجرای فوری',
                     EDIT_ADVANCED_REPORT: 'ویرایش گزارش پیشرفته',
-                    RUN_SUBMITTED: 'اجرا ثبت شد'
+                    RUN_SUBMITTED: 'اجرا ثبت شد',
+                    INVALID_EXPRESSION_JSON: 'قالب JSON عبارت نامعتبر است'
                 },
                 TOASTER: {
                     SUCCESS_TITLE: 'موفق',

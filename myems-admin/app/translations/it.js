@@ -194,7 +194,8 @@
                     READ: 'Letto',
                     ACKNOWLEDGED: 'Confermato',
                     ARCHIVE: 'Archivia',
-                    MARK_ALL_AS_READ: 'Segna Tutti Come Letti'
+                    MARK_ALL_AS_READ: 'Segna Tutti Come Letti',
+                    INVALID_EXPRESSION_JSON: 'Espressione: formato JSON non valido'
                 },
                 MENU: {
                     SETTINGS: {
@@ -851,7 +852,8 @@
                     INPUT_PAYLOAD: 'Inserisci payload',
                     INPUT_SET_VALUE: 'Inserisci valore impostato',
                     SEND: 'Invia',
-                    SEND_SUCCESS: 'Invio riuscito'
+                    SEND_SUCCESS: 'Invio riuscito',
+                    INVALID_PAYLOAD_JSON: 'Payload: formato JSON non valido'
                 },
                 GATEWAY: {
                     GATEWAY: 'Gateway',
@@ -926,7 +928,10 @@
                     ENERGY_VALUE: 'Valore Energia',
                     ANALOG_VALUE: 'Valore Analogico',
                     DIGITAL_VALUE: 'Valore Digitale',
-                    TEXT_VALUE: 'Valore Testuale'
+                    TEXT_VALUE: 'Valore Testuale',
+                    INVALID_ADDRESS_JSON: 'Indirizzo: formato JSON non valido',
+                    INVALID_FAULTS_JSON: 'Guasti: formato JSON non valido',
+                    INVALID_DEFINITIONS_JSON: 'Definizioni: formato JSON non valido'
                 },
                 DISTRIBUTION_SYSTEM: {
                     ADD_DISTRIBUTION_SYSTEM: 'Aggiungi Sistema di Distribuzione',
@@ -1804,7 +1809,8 @@
                     NEXT_RUN_DATETIME: 'Prossima Esecuzione',
                     IS_RUN_IMMEDIATELY: 'Esegui Immediatamente',
                     EDIT_ADVANCED_REPORT: 'Modifica Report Avanzato',
-                    RUN_SUBMITTED: 'Esecuzione Inviata'
+                    RUN_SUBMITTED: 'Esecuzione Inviata',
+                    INVALID_EXPRESSION_JSON: 'Espressione: formato JSON non valido'
                 },
                 TOASTER: {
                     SUCCESS_TITLE: 'Successo',

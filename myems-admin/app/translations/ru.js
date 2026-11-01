@@ -194,7 +194,8 @@
                     READ: 'Читать',
                     ACKNOWLEDGED: 'Признанный',
                     ARCHIVE: 'Архив',
-                    MARK_ALL_AS_READ: 'Пометить все как прочитанное'
+                    MARK_ALL_AS_READ: 'Пометить все как прочитанное',
+                    INVALID_EXPRESSION_JSON: 'Неверный формат JSON выражения'
                 },
                 MENU: {
                     SETTINGS: {
@@ -852,7 +853,8 @@
                     INPUT_PAYLOAD: 'Пожалуйста, введите полезную нагрузку',
                     INPUT_SET_VALUE: 'Пожалуйста, введите установленное значение',
                     SEND: 'Отправить',
-                    SEND_SUCCESS: 'Отправить успех'
+                    SEND_SUCCESS: 'Отправить успех',
+                    INVALID_PAYLOAD_JSON: 'Неверный формат JSON полезной нагрузки'
                 },
                 ENERGY_FLOW_DIAGRAM: {
                     ADD_ENERGY_FLOW_DIAGRAM: 'Добавить диаграмму потоков энергии',
@@ -959,7 +961,10 @@
                     ENERGY_VALUE: 'Энергетическое значение',
                     ANALOG_VALUE: 'Аналоговое значение',
                     DIGITAL_VALUE: 'Цифровое значение',
-                    TEXT_VALUE: 'Текстовое значение'
+                    TEXT_VALUE: 'Текстовое значение',
+                    INVALID_ADDRESS_JSON: 'Неверный формат JSON адреса',
+                    INVALID_FAULTS_JSON: 'Неверный формат JSON перечня неисправностей',
+                    INVALID_DEFINITIONS_JSON: 'Неверный формат JSON определений'
                 },
                 DISTRIBUTION_SYSTEM: {
                     ADD_DISTRIBUTION_SYSTEM: 'Добавить систему дистрибуции',
@@ -1805,7 +1810,8 @@
                     NEXT_RUN_DATETIME: 'Дата и время следующего запуска',
                     IS_RUN_IMMEDIATELY: 'Немедленно!',
                     EDIT_ADVANCED_REPORT: 'Редактировать расширенный отчет',
-                    RUN_SUBMITTED: 'Запуск представлен'
+                    RUN_SUBMITTED: 'Запуск представлен',
+                    INVALID_EXPRESSION_JSON: 'Неверный формат JSON выражения'
                 },
                 TOASTER: {
                     SUCCESS_TITLE: 'Успех',
