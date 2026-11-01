@@ -135,6 +135,7 @@ const KnowledgeBase = loadable(() => import('../components/MyEMS/KnowledgeBase/K
 
 const CableSizing = loadable(() => import('../components/MyEMS/Tools/CableSizing/CableSizing'), { fallback: loadingFallback });
 const JSONValidator = loadable(() => import('../components/MyEMS/Tools/JSONValidator/JSONValidator'), { fallback: loadingFallback });
+const ModbusParser = loadable(() => import('../components/MyEMS/Tools/ModbusParser/ModbusParser'), { fallback: loadingFallback });
 
 const Notification = loadable(() => import('../components/MyEMS/Notification/Notification'), { fallback: loadingFallback });
 
@@ -287,6 +288,7 @@ const MyEMSRoutes = () => (
         {/*Tools*/}
         <Route path="/tools/cablesizing" exact component={CableSizing} />
         <Route path="/tools/jsonvalidator" exact component={JSONValidator} />
+        <Route path="/tools/modbusparser" exact component={ModbusParser} />
 
         {/* Notification */}
         <Route path="/notification" exact component={Notification} />
