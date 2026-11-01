@@ -927,6 +927,7 @@
         LAST_SEEN_DATETIME: "最後在線時間",
         INPUT_PROTOCOL: "請輸入協議類型",
         INPUT_CONNECTION: "請輸入連接地址",
+        INVALID_CONNECTION_JSON: "JSON內容格式不合法",
       },
       POINT: {
         OBJECT_TYPE: "對象類型",

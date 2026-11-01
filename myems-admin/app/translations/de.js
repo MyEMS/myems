@@ -892,7 +892,8 @@
                     CONNECTION: 'Verbindung',
                     LAST_SEEN_DATETIME: 'Zuletzt gesehen datetime',
                     INPUT_PROTOCOL: 'Bitte geben Sie den Protokolltyp ein',
-                    INPUT_CONNECTION: 'Bitte geben Sie die Verbindungsadresse ein'
+                    INPUT_CONNECTION: 'Bitte geben Sie die Verbindungsadresse ein',
+                    INVALID_CONNECTION_JSON: 'Ungültiges JSON-Inhaltsformat'
                 },
                 POINT: {
                     OBJECT_TYPE: 'Objekttyp',

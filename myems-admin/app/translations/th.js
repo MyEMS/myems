@@ -925,7 +925,8 @@
                     CONNECTION: 'การเชื่อมต่อ',
                     LAST_SEEN_DATETIME: 'วันที่เห็นล่าสุด',
                     INPUT_PROTOCOL: 'กรุณาป้อนโปรโตคอล',
-                    INPUT_CONNECTION: 'กรุณาใส่การเชื่อมต่อ'
+                    INPUT_CONNECTION: 'กรุณาใส่การเชื่อมต่อ',
+                    INVALID_CONNECTION_JSON: 'รูปแบบเนื้อหา JSON ไม่ถูกต้อง'
                 },
                 POINT: {
                     OBJECT_TYPE: 'ประเภทวัตถุ',

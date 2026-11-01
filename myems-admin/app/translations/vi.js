@@ -925,7 +925,8 @@
                     CONNECTION: 'Kết nối',
                     LAST_SEEN_DATETIME: 'Ngày giờ được nhìn thấy lần cuối',
                     INPUT_PROTOCOL: 'Vui lòng nhập giao thức',
-                    INPUT_CONNECTION: 'Vui lòng nhập kết nối'
+                    INPUT_CONNECTION: 'Vui lòng nhập kết nối',
+                    INVALID_CONNECTION_JSON: 'Định dạng nội dung JSON không hợp lệ'
                 },
                 POINT: {
                     OBJECT_TYPE: 'Loại đối tượng',

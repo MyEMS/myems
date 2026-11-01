@@ -893,7 +893,8 @@
                     CONNECTION: 'Verbinding',
                     LAST_SEEN_DATETIME: 'Laatst online tijd',
                     INPUT_PROTOCOL: 'Voer protocoltype in',
-                    INPUT_CONNECTION: 'Voer verbindingsadres in'
+                    INPUT_CONNECTION: 'Voer verbindingsadres in',
+                    INVALID_CONNECTION_JSON: 'Ongeldige JSON-inhoudindeling'
                 },
                 POINT: {
                     OBJECT_TYPE: 'Objecttype',

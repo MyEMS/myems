@@ -925,7 +925,8 @@
                     CONNECTION: 'Bağlantı',
                     LAST_SEEN_DATETIME: 'Son Görülme Datetime',
                     INPUT_PROTOCOL: 'Lütfen Giriş Protokolü',
-                    INPUT_CONNECTION: 'Lütfen Giriş Bağlantısı'
+                    INPUT_CONNECTION: 'Lütfen Giriş Bağlantısı',
+                    INVALID_CONNECTION_JSON: 'JSON içerik biçimi geçersiz'
                 },
                 POINT: {
                     OBJECT_TYPE: 'Nesne Türü',
