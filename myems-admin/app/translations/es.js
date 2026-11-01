@@ -925,7 +925,8 @@
                     CONNECTION: 'Conexión',
                     LAST_SEEN_DATETIME: 'Fecha y hora de la última vista',
                     INPUT_PROTOCOL: 'Por favor, introduzca el protocolo',
-                    INPUT_CONNECTION: 'Por favor, introduzca la conexión'
+                    INPUT_CONNECTION: 'Por favor, introduzca la conexión',
+                    INVALID_CONNECTION_JSON: 'Formato de contenido JSON no válido'
                 },
                 POINT: {
                     OBJECT_TYPE: 'Tipo de objeto',

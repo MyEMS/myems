@@ -927,6 +927,7 @@
         LAST_SEEN_DATETIME: "最后在线时间",
         INPUT_PROTOCOL: "请输入协议类型",
         INPUT_CONNECTION: "请输入连接地址",
+        INVALID_CONNECTION_JSON: "JSON内容格式不合法",
       },
       POINT: {
         OBJECT_TYPE: "对象类型",

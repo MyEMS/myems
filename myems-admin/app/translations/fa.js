@@ -893,7 +893,8 @@
                     CONNECTION: 'اتصال',
                     LAST_SEEN_DATETIME: 'آخرین زمان آنلاین',
                     INPUT_PROTOCOL: 'لطفاً نوع پروتکل را وارد کنید',
-                    INPUT_CONNECTION: 'لطفاً آدرس اتصال را وارد کنید'
+                    INPUT_CONNECTION: 'لطفاً آدرس اتصال را وارد کنید',
+                    INVALID_CONNECTION_JSON: 'قالب محتوای JSON نامعتبر است'
                 },
                 POINT: {
                     OBJECT_TYPE: 'نوع شیء',

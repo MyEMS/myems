@@ -924,7 +924,8 @@
                     CONNECTION: 'Connection',
                     LAST_SEEN_DATETIME: 'Last Seen Datetime',
                     INPUT_PROTOCOL: 'Please Input Protocol',
-                    INPUT_CONNECTION: 'Please Input Connection'
+                    INPUT_CONNECTION: 'Please Input Connection',
+                    INVALID_CONNECTION_JSON: 'Invalid JSON content format'
                 },
                 POINT: {
                     OBJECT_TYPE: 'Object Type',

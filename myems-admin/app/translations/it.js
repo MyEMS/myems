@@ -892,7 +892,8 @@
                     CONNECTION: 'Connessione',
                     LAST_SEEN_DATETIME: 'Ultimo visto online',
                     INPUT_PROTOCOL: 'Inserisci tipo protocollo',
-                    INPUT_CONNECTION: 'Inserisci indirizzo connessione'
+                    INPUT_CONNECTION: 'Inserisci indirizzo connessione',
+                    INVALID_CONNECTION_JSON: 'Formato del contenuto JSON non valido'
                 },
                 POINT: {
                     OBJECT_TYPE: 'Tipo Oggetto',

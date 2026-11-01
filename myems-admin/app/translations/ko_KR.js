@@ -893,7 +893,8 @@
                     CONNECTION: '연결',
                     LAST_SEEN_DATETIME: '마지막 접속 시간',
                     INPUT_PROTOCOL: '프로토콜 유형을 입력하세요',
-                    INPUT_CONNECTION: '연결 주소를 입력하세요'
+                    INPUT_CONNECTION: '연결 주소를 입력하세요',
+                    INVALID_CONNECTION_JSON: 'JSON 콘텐츠 형식이 올바르지 않습니다'
                 },
                 POINT: {
                     OBJECT_TYPE: '객체 유형',

@@ -361,6 +361,10 @@ app.controller('ModalAddDataSourceCtrl', function($scope, $uibModalInstance, par
 	$scope.protocols = params.protocols;
 	$scope.disable = false;
 	$scope.ok = function() {
+		// Block submission when the form is invalid, e.g. connection is not valid JSON
+		if ($scope.form_datasource && $scope.form_datasource.$invalid) {
+			return;
+		}
 		$uibModalInstance.close($scope.datasource);
 	};
 
@@ -378,6 +382,10 @@ app.controller('ModalEditDataSourceCtrl', function($scope, $uibModalInstance, pa
 	$scope.datasource = params.datasource;
 
 	$scope.ok = function() {
+		// Block submission when the form is invalid, e.g. connection is not valid JSON
+		if ($scope.form_datasource && $scope.form_datasource.$invalid) {
+			return;
+		}
 		$uibModalInstance.close($scope.datasource);
 	};
 
