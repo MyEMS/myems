@@ -224,7 +224,8 @@ class CombinedEquipmentComparisonDOCXExporter:
         if report is None:
             return None
         start_time = time.time()
-        logger.info(f"Starting DOCX generation for CombinedEquipmentComparison: {combined_equipment1_name} vs {combined_equipment2_name}")
+        logger.info(f"Starting DOCX generation for CombinedEquipmentComparison: "
+                    f"{combined_equipment1_name} vs {combined_equipment2_name}")
 
         docx_filename = self.generate_docx(
             report, combined_equipment1_name, combined_equipment2_name, energy_category_name,
@@ -451,7 +452,8 @@ class CombinedEquipmentComparisonDOCXExporter:
         body_section.right_margin = Inches(0.5)
         body_section.top_margin = Inches(0.5)
         body_section.bottom_margin = Inches(0.5)
-        header_title = f"{_('Combined Equipment')} - {_('Equipment Comparison')}  |  {self.combined_equipment1_name} vs {self.combined_equipment2_name}"
+        header_title = (f"{_('Combined Equipment')} - {_('Equipment Comparison')}  |  {self.combined_equipment1_name} "
+                        f"vs {self.combined_equipment2_name}")
         configure_body_section(body_section, header_title=header_title)
 
         self._add_heading_styled(doc, self.combined_equipment1_name + ' ' + _('compare') + ' ' +

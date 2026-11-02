@@ -233,7 +233,6 @@ class CombinedEquipmentEfficiencyPDFExporter:
             # Detailed data table pages (paginated)
             self._create_detailed_data_page(pdf)
 
-
             # Parameters (batched)
             self._create_parameters_page(pdf)
 
@@ -283,16 +282,16 @@ class CombinedEquipmentEfficiencyPDFExporter:
                 img_h_inch = img.shape[0] / self.dpi
                 page_w, page_h = self.page_size
                 ax_img = fig.add_axes([0.5 - img_w_inch / page_w / 2,
-                                        0.62,
-                                        img_w_inch / page_w,
-                                        img_h_inch / page_h])
+                                      0.62,
+                                      img_w_inch / page_w,
+                                      img_h_inch / page_h])
                 ax_img.imshow(img)
                 ax_img.axis('off')
             except Exception as e:
                 logger.warning(f"Failed to load logo image: {e}")
 
         # Title
-        fig.text(0.5, 0.50, _('Combined Equipment Data') + ' - ' +_('Efficiency'),
+        fig.text(0.5, 0.50, _('Combined Equipment Data') + ' - ' + _('Efficiency'),
                  fontsize=24, weight='bold', ha='center', va='center')
 
         # Info list
@@ -310,7 +309,7 @@ class CombinedEquipmentEfficiencyPDFExporter:
         ax_table.axis('off')
 
         table = ax_table.table(cellText=info_data, loc='center',
-                                cellLoc='center', colWidths=[0.35, 0.65])
+                               cellLoc='center', colWidths=[0.35, 0.65])
         table.auto_set_font_size(False)
         table.set_fontsize(12)
 
@@ -385,7 +384,7 @@ class CombinedEquipmentEfficiencyPDFExporter:
         rp_col_widths = [w / rp_total_w for w in rp_col_widths]
 
         tbl_rp = ax_rp.table(cellText=rp_table_data, loc='center',
-                              cellLoc='center', colWidths=rp_col_widths)
+                             cellLoc='center', colWidths=rp_col_widths)
         tbl_rp.auto_set_font_size(False)
         tbl_rp.set_fontsize(7)
         for j in range(rp_num_cols):
@@ -492,7 +491,8 @@ class CombinedEquipmentEfficiencyPDFExporter:
 
                 subtotal_row = [_('Subtotal')]
                 for i in range(ca_len):
-                    subtotal_row.append(str(round2(cumulations[i], 2)) if i < len(cumulations) and cumulations[i] is not None else '')
+                    subtotal_row.append(str(round2(cumulations[i], 2))
+                                        if i < len(cumulations) and cumulations[i] is not None else '')
                 table_data.append(subtotal_row)
 
                 num_cols = len(col_headers)
@@ -570,7 +570,8 @@ class CombinedEquipmentEfficiencyPDFExporter:
                             [reporting_times[t][:10] if t < len(reporting_times) else ''
                              for t in range(0, len(cdata), cstep)],
                             rotation=45, ha='right', fontsize=6)
-                        ax_chart.set_title(_('Base Period Cumulative Efficiency') + ' / ' + _('Reporting Period Cumulative Efficiency') + ' - ' + names[i],
+                        ax_chart.set_title(_('Base Period Cumulative Efficiency') + ' / ' +
+                                           _('Reporting Period Cumulative Efficiency') + ' - ' + names[i],
                                            fontsize=7, weight='bold')
                         ax_chart.legend(fontsize=6)
                         ax_chart.grid(True, alpha=0.3)
@@ -605,10 +606,12 @@ class CombinedEquipmentEfficiencyPDFExporter:
 
                 subtotal_row = [_('Subtotal')]
                 for i in range(base_ca_len):
-                    subtotal_row.append(str(round2(base_cumulations[i], 2)) if i < len(base_cumulations) and base_cumulations[i] is not None else '')
+                    subtotal_row.append(str(round2(base_cumulations[i], 2))
+                                        if i < len(base_cumulations) and base_cumulations[i] is not None else '')
                 subtotal_row.append(_('Subtotal'))
                 for i in range(reporting_ca_len):
-                    subtotal_row.append(str(round2(cumulations[i], 2)) if i < len(cumulations) and cumulations[i] is not None else '')
+                    subtotal_row.append(str(round2(cumulations[i], 2))
+                                        if i < len(cumulations) and cumulations[i] is not None else '')
                 table_data.append(subtotal_row)
 
                 num_cols = len(col_headers)
@@ -628,7 +631,6 @@ class CombinedEquipmentEfficiencyPDFExporter:
                 _style_table_borders(table, len(table_data), num_cols)
 
                 self._save_body_page(pdf, fig)
-
 
     def _create_detailed_data_charts(self, pdf: PdfPages):
         """Create separate line charts for each fraction (value, numerator, denominator),

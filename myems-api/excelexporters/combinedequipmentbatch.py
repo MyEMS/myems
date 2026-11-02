@@ -232,7 +232,8 @@ def generate_excel(report, space_name, reporting_start_datetime_local, reporting
         ws[carbon_col + str(current_row_number)].font = data_font
         ws[carbon_col + str(current_row_number)].border = f_border
         ws[carbon_col + str(current_row_number)].alignment = c_c_alignment
-        ws[carbon_col + str(current_row_number)] = round2(report['combined_equipments'][i].get('carbon_emissions', 0.0), 2)
+        ws[carbon_col + str(current_row_number)] = round2(
+            report['combined_equipments'][i].get('carbon_emissions', 0.0), 2)
 
         # Cost data
         cost_col = chr(ord('E') + ca_len + 1)
