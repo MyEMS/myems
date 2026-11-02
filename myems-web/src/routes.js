@@ -207,7 +207,8 @@ export const toolsRoutes = {
   alwaysVisible: true,
   children: [
     { to: '/tools/cablesizing', name: 'Cable Sizing Tool' },
-    { to: '/tools/jsonvalidator', name: 'JSON Validator Tool' }
+    { to: '/tools/jsonvalidator', name: 'JSON Validator Tool' },
+    { to: '/tools/modbusparser', name: 'Modbus Parser Tool' }
   ]
 };
 
