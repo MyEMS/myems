@@ -496,7 +496,8 @@ class CombinedEquipmentEfficiencyDOCXExporter:
             _style_table_cell(cell_cum_num)
 
             cell_cum_den = table.cell(1, base_col + 2)
-            val_den = denominator_cumulations[i] if denominator_cumulations and i < len(denominator_cumulations) else None
+            val_den = denominator_cumulations[i] \
+                if denominator_cumulations and i < len(denominator_cumulations) else None
             cell_cum_den.text = str(round2(val_den, 2)) if val_den is not None else ''
             _style_table_cell(cell_cum_den)
 
@@ -583,16 +584,22 @@ class CombinedEquipmentEfficiencyDOCXExporter:
             table_items.append({
                 'col_name': names[i] + '-' + num_name_i + ((' (' + num_unit_i + ')') if num_unit_i else ''),
                 'r_data': numerator_values[i] if i < len(numerator_values) else [],
-                'r_subtotal': numerator_cumulations[i] if (numerator_cumulations and i < len(numerator_cumulations)) else None,
-                'b_data': base_numerator_values[i] if (base_numerator_values and i < len(base_numerator_values)) else [],
-                'b_subtotal': base_numerator_cumulations[i] if (base_numerator_cumulations and i < len(base_numerator_cumulations)) else None,
+                'r_subtotal': numerator_cumulations[i]
+                if (numerator_cumulations and i < len(numerator_cumulations)) else None,
+                'b_data': base_numerator_values[i]
+                if (base_numerator_values and i < len(base_numerator_values)) else [],
+                'b_subtotal': base_numerator_cumulations[i]
+                if (base_numerator_cumulations and i < len(base_numerator_cumulations)) else None,
             })
             table_items.append({
                 'col_name': names[i] + '-' + den_name_i + ((' (' + den_unit_i + ')') if den_unit_i else ''),
                 'r_data': denominator_values[i] if i < len(denominator_values) else [],
-                'r_subtotal': denominator_cumulations[i] if (denominator_cumulations and i < len(denominator_cumulations)) else None,
-                'b_data': base_denominator_values[i] if (base_denominator_values and i < len(base_denominator_values)) else [],
-                'b_subtotal': base_denominator_cumulations[i] if (base_denominator_cumulations and i < len(base_denominator_cumulations)) else None,
+                'r_subtotal': denominator_cumulations[i]
+                if (denominator_cumulations and i < len(denominator_cumulations)) else None,
+                'b_data': base_denominator_values[i]
+                if (base_denominator_values and i < len(base_denominator_values)) else [],
+                'b_subtotal': base_denominator_cumulations[i]
+                if (base_denominator_cumulations and i < len(base_denominator_cumulations)) else None,
             })
 
         first_table_page = True
@@ -736,19 +743,19 @@ class CombinedEquipmentEfficiencyDOCXExporter:
                 chart_items.append({
                     'data': values[i] if i < len(values) else [],
                     'title': _('Reporting Period Cumulative Efficiency') + ' - ' +
-                             names[i] + ((' (' + unit_i + ')') if unit_i else ''),
+                    names[i] + ((' (' + unit_i + ')') if unit_i else ''),
                     'color_idx': i
                 })
                 chart_items.append({
                     'data': numerator_values[i] if i < len(numerator_values) else [],
                     'title': _('Reporting Period Cumulative Efficiency') + ' - ' +
-                             names[i] + '-' + num_name_i + ((' (' + num_unit_i + ')') if num_unit_i else ''),
+                    names[i] + '-' + num_name_i + ((' (' + num_unit_i + ')') if num_unit_i else ''),
                     'color_idx': i
                 })
                 chart_items.append({
                     'data': denominator_values[i] if i < len(denominator_values) else [],
                     'title': _('Reporting Period Cumulative Efficiency') + ' - ' +
-                             names[i] + '-' + den_name_i + ((' (' + den_unit_i + ')') if den_unit_i else ''),
+                    names[i] + '-' + den_name_i + ((' (' + den_unit_i + ')') if den_unit_i else ''),
                     'color_idx': i
                 })
             for item in chart_items:
@@ -790,18 +797,22 @@ class CombinedEquipmentEfficiencyDOCXExporter:
                 den_name_i = denominator_names[i] if (denominator_names and i < len(denominator_names)) else ''
                 den_unit_i = denominator_units[i] if (denominator_units and i < len(denominator_units)) else ''
                 b_unit_i = base_units[i] if (base_units and i < len(base_units)) else ''
-                b_num_name_i = base_numerator_names[i] if (base_numerator_names and i < len(base_numerator_names)) else ''
-                b_num_unit_i = base_numerator_units[i] if (base_numerator_units and i < len(base_numerator_units)) else ''
-                b_den_name_i = base_denominator_names[i] if (base_denominator_names and i < len(base_denominator_names)) else ''
-                b_den_unit_i = base_denominator_units[i] if (base_denominator_units and i < len(base_denominator_units)) else ''
+                b_num_name_i = base_numerator_names[i] \
+                    if (base_numerator_names and i < len(base_numerator_names)) else ''
+                b_num_unit_i = base_numerator_units[i] \
+                    if (base_numerator_units and i < len(base_numerator_units)) else ''
+                b_den_name_i = base_denominator_names[i] \
+                    if (base_denominator_names and i < len(base_denominator_names)) else ''
+                b_den_unit_i = base_denominator_units[i] \
+                    if (base_denominator_units and i < len(base_denominator_units)) else ''
                 chart_items.append({
                     'r_data': values[i] if i < len(values) else [],
                     'b_data': base_values[i] if (base_values and i < len(base_values)) else None,
                     'r_name': names[i],
                     'b_name': (base_names[i] if base_names and i < len(base_names) else names[i]),
                     'title': _('Base Period Efficiency') + ' / ' +
-                             _('Reporting Period Efficiency') + ' - ' +
-                             names[i] + ((' (' + unit_i + ')') if unit_i else ''),
+                    _('Reporting Period Efficiency') + ' - ' +
+                    names[i] + ((' (' + unit_i + ')') if unit_i else ''),
                     'color_idx': i
                 })
                 chart_items.append({
@@ -810,8 +821,8 @@ class CombinedEquipmentEfficiencyDOCXExporter:
                     'r_name': names[i] + '-' + num_name_i,
                     'b_name': (base_names[i] if base_names and i < len(base_names) else names[i]) + '-' + b_num_name_i,
                     'title': _('Base Period Efficiency') + ' / ' +
-                             _('Reporting Period Efficiency') + ' - ' +
-                             names[i] + '-' + num_name_i + ((' (' + num_unit_i + ')') if num_unit_i else ''),
+                    _('Reporting Period Efficiency') + ' - ' +
+                    names[i] + '-' + num_name_i + ((' (' + num_unit_i + ')') if num_unit_i else ''),
                     'color_idx': i
                 })
                 chart_items.append({
@@ -820,8 +831,8 @@ class CombinedEquipmentEfficiencyDOCXExporter:
                     'r_name': names[i] + '-' + den_name_i,
                     'b_name': (base_names[i] if base_names and i < len(base_names) else names[i]) + '-' + b_den_name_i,
                     'title': _('Base Period Efficiency') + ' / ' +
-                             _('Reporting Period Efficiency') + ' - ' +
-                             names[i] + '-' + den_name_i + ((' (' + den_unit_i + ')') if den_unit_i else ''),
+                    _('Reporting Period Efficiency') + ' - ' +
+                    names[i] + '-' + den_name_i + ((' (' + den_unit_i + ')') if den_unit_i else ''),
                     'color_idx': i
                 })
             for item in chart_items:
@@ -998,9 +1009,9 @@ def export(report,
     """
     exporter = CombinedEquipmentEfficiencyDOCXExporter(language)
     return exporter.export(report, name,
-                        base_period_start_datetime_local,
-                        base_period_end_datetime_local,
-                        reporting_start_datetime_local,
-                        reporting_end_datetime_local,
-                        period_type,
-                        language)
+                           base_period_start_datetime_local,
+                           base_period_end_datetime_local,
+                           reporting_start_datetime_local,
+                           reporting_end_datetime_local,
+                           period_type,
+                           language)
