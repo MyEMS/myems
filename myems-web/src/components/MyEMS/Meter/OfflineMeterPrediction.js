@@ -122,6 +122,8 @@ const OfflineMeterPrediction = ({ setRedirect, setRedirectUrl, t }) => {
   const [resultDataHidden, setResultDataHidden] = useState(true);
   const [smartAnalysisOpen, setSmartAnalysisOpen] = useState(false);
   const [smartAnalysisContext, setSmartAnalysisContext] = useState(null);
+  const [exportExcel, setExportExcel] = useState(false);
+  const [exportPdf, setExportPdf] = useState(false);
   const [exportDocx, setExportDocx] = useState(false);
   //Results
   const [offlineMeterPrediction, setOfflineMeterPrediction] = useState({ name: '', unit: '' });
@@ -152,6 +154,7 @@ const OfflineMeterPrediction = ({ setRedirect, setRedirectUrl, t }) => {
   ]);
   const [detailedDataTableData, setDetailedDataTableData] = useState([]);
   const [excelBytesBase64, setExcelBytesBase64] = useState(undefined);
+  const [pdfBytesBase64, setPdfBytesBase64] = useState(undefined);
   const [docxBytesBase64, setDocxBytesBase64] = useState(undefined);
 
   useEffect(() => {
@@ -507,6 +510,8 @@ const OfflineMeterPrediction = ({ setRedirect, setRedirectUrl, t }) => {
     setExportButtonHidden(true);
     // hide result data
     setResultDataHidden(true);
+    setExcelBytesBase64(undefined);
+    setPdfBytesBase64(undefined);
     setDocxBytesBase64(undefined);
     // Reinitialize tables
     setDetailedDataTableData([]);
@@ -519,6 +524,8 @@ const OfflineMeterPrediction = ({ setRedirect, setRedirectUrl, t }) => {
       reportingperiodstartdatetime: moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss'),
       reportingperiodenddatetime: moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss'),
       language: language,
+      exportexcel: exportExcel,
+      exportpdf: exportPdf,
       exportdocx: exportDocx
     });
     const url = `${APIBaseURL}/reports/offlinemeterprediction?${params.toString()}`;
@@ -746,6 +753,7 @@ const OfflineMeterPrediction = ({ setRedirect, setRedirectUrl, t }) => {
           }
 
           setExcelBytesBase64(json['excel_bytes_base64']);
+          setPdfBytesBase64(json['pdf_bytes_base64']);
           setDocxBytesBase64(json['docx_bytes_base64']);
 
           // enable submit button
@@ -753,7 +761,7 @@ const OfflineMeterPrediction = ({ setRedirect, setRedirectUrl, t }) => {
           // hide spinner
           setSpinnerHidden(true);
           // show export button
-          setExportButtonHidden(!(json['excel_bytes_base64'] || json['docx_bytes_base64']));
+          setExportButtonHidden(!(json['excel_bytes_base64'] || json['pdf_bytes_base64'] || json['docx_bytes_base64']));
           // show result data
           setResultDataHidden(false);
         } else {
@@ -774,6 +782,22 @@ const OfflineMeterPrediction = ({ setRedirect, setRedirectUrl, t }) => {
       const mimeType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
       const fileName = 'offlinemeterprediction.xlsx';
       const fileUrl = 'data:' + mimeType + ';base64,' + excelBytesBase64;
+      fetch(fileUrl)
+        .then(response => response.blob())
+        .then(blob => {
+          const blobUrl = window.URL.createObjectURL(blob, { type: mimeType });
+          const link = window.document.createElement('a');
+          link.href = blobUrl;
+          link.download = fileName;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          setTimeout(() => window.URL.revokeObjectURL(blobUrl), 100);
+        });
+    } else if (type === 'pdf' && pdfBytesBase64) {
+      const mimeType = 'application/pdf';
+      const fileName = 'offlinemeterprediction.pdf';
+      const fileUrl = 'data:' + mimeType + ';base64,' + pdfBytesBase64;
       fetch(fileUrl)
         .then(response => response.blob())
         .then(blob => {
@@ -1051,6 +1075,26 @@ const OfflineMeterPrediction = ({ setRedirect, setRedirectUrl, t }) => {
                   <div>
                     <CustomInput
                       type="checkbox"
+                      id="exportExcel"
+                      name="exportExcel"
+                      label="Excel"
+                      bsSize="sm"
+                      inline
+                      checked={exportExcel}
+                      onChange={({ target }) => setExportExcel(target.checked)}
+                    />
+                    <CustomInput
+                      type="checkbox"
+                      id="exportPdf"
+                      name="exportPdf"
+                      label="PDF"
+                      bsSize="sm"
+                      inline
+                      checked={exportPdf}
+                      onChange={({ target }) => setExportPdf(target.checked)}
+                    />
+                    <CustomInput
+                      type="checkbox"
                       id="exportDocx"
                       name="exportDocx"
                       label="DOCX"
@@ -1092,6 +1136,11 @@ const OfflineMeterPrediction = ({ setRedirect, setRedirectUrl, t }) => {
                     {excelBytesBase64 ? (
                       <DropdownItem onClick={e => handleExport(e, 'excel')}>
                         EXCEL
+                      </DropdownItem>
+                    ) : null}
+                    {pdfBytesBase64 ? (
+                      <DropdownItem onClick={e => handleExport(e, 'pdf')}>
+                        PDF
                       </DropdownItem>
                     ) : null}
                     {docxBytesBase64 ? (

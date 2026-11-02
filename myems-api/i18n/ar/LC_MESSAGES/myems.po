@@ -595,3 +595,12 @@ msgstr "بيانات المساحة"
 
 msgid "compare"
 msgstr "مقارنة"
+
+msgid "Offline Meter Prediction"
+msgstr "تنبؤ العداد غير المتصل"
+
+msgid "Auxiliary System"
+msgstr "النظام المساعد"
+
+msgid "Energy Flow Diagram"
+msgstr "مخطط تدفق الطاقة"

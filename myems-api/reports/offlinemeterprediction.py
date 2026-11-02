@@ -21,6 +21,7 @@ import redis
 import simplejson as json
 import config
 import excelexporters.offlinemeterprediction
+import pdfexporters.offlinemeterprediction
 import docxexporters.offlinemeterprediction
 from core import utilities
 from core.useractivity import access_control, api_key_control
@@ -444,6 +445,17 @@ class Reporting:
         if not is_quick_mode:
             if is_export_excel:
                 result['excel_bytes_base64'] = excelexporters.offlinemeterprediction.export(
+                    result,
+                    offline_meter['name'],
+                    base_period_start_datetime_local,
+                    base_period_end_datetime_local,
+                    reporting_period_start_datetime,
+                    reporting_period_end_datetime,
+                    period_type,
+                    language
+                )
+            if is_export_pdf:
+                result['pdf_bytes_base64'] = pdfexporters.offlinemeterprediction.export(
                     result,
                     offline_meter['name'],
                     base_period_start_datetime_local,

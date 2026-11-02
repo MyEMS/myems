@@ -594,3 +594,12 @@ msgstr "ข้อมูลพื้นที่"
 
 msgid "compare"
 msgstr "เปรียบเทียบ"
+
+msgid "Offline Meter Prediction"
+msgstr "การคาดการณ์มิเตอร์ออฟไลน์"
+
+msgid "Auxiliary System"
+msgstr "ระบบเสริม"
+
+msgid "Energy Flow Diagram"
+msgstr "แผนภาพการไหลของพลังงาน"

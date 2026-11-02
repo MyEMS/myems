@@ -595,3 +595,12 @@ msgstr "Dữ liệu Không gian"
 
 msgid "compare"
 msgstr "so sánh"
+
+msgid "Offline Meter Prediction"
+msgstr "Dự đoán đồng hồ ngoại tuyến"
+
+msgid "Auxiliary System"
+msgstr "Hệ thống phụ trợ"
+
+msgid "Energy Flow Diagram"
+msgstr "Sơ đồ dòng năng lượng"

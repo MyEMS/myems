@@ -591,3 +591,12 @@ msgstr "공간 데이터"
 
 msgid "compare"
 msgstr "비교"
+
+msgid "Offline Meter Prediction"
+msgstr "오프라인 계량기 예측"
+
+msgid "Auxiliary System"
+msgstr "보조 시스템"
+
+msgid "Energy Flow Diagram"
+msgstr "에너지 흐름도"
