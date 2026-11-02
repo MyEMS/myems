@@ -270,7 +270,7 @@ class CombinedEquipmentCarbonDOCXExporter:
         fig, ax = plt.subplots(figsize=(3.2, 2.6))
         if colors is None:
             colors = self.chart_colors[:len(labels)]
-        filtered = [(l, v, c) for l, v, c in zip(labels, values, colors) if (v or 0) > 0]
+        filtered = [(label, v, c) for label, v, c in zip(labels, values, colors) if (v or 0) > 0]
         if not filtered:
             plt.close(fig)
             return None
@@ -279,7 +279,7 @@ class CombinedEquipmentCarbonDOCXExporter:
             sorted_data = sorted(zip(f_labels, f_values, f_colors), key=lambda x: x[1], reverse=True)
             top_data = sorted_data[:7]
             other_sum = sum(v for _, v, _ in sorted_data[7:])
-            f_labels = [l for l, _, _ in top_data] + [self._('Others')]
+            f_labels = [label for label, _, _ in top_data] + [self._('Others')]
             f_values = [v for _, v, _ in top_data] + [other_sum]
             f_colors = [c for _, _, c in top_data] + ['#999999']
         ax.pie(f_values, labels=f_labels, autopct='%1.1f%%', colors=f_colors, startangle=90)
@@ -655,7 +655,8 @@ class CombinedEquipmentCarbonDOCXExporter:
                     _style_table_cell(c_sub)
 
                     c_area = bp_table.cell(2, col)
-                    va = bp_subtotals_per_area[i] if (bp_subtotals_per_area and i < len(bp_subtotals_per_area)) else None
+                    va = bp_subtotals_per_area[i] \
+                        if (bp_subtotals_per_area and i < len(bp_subtotals_per_area)) else None
                     c_area.text = str(round2(va, 2)) if va is not None else ''
                     _style_table_cell(c_area)
 
@@ -965,7 +966,7 @@ class CombinedEquipmentCarbonDOCXExporter:
                             color=color, linestyle='--', marker='s', markersize=3,
                             markevery=max(1, len(safe_r) // 30),
                             label=_('Base Period') + ' - ' +
-                                  (base_names[i] if i < len(base_names) else ''))
+                                   (base_names[i] if i < len(base_names) else ''))
                     has_base_line = True
 
                 _set_ticks(ax, len(r_data))

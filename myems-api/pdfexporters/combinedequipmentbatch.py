@@ -236,16 +236,16 @@ class CombinedEquipmentBatchPDFExporter:
                 img_h_inch = img.shape[0] / self.dpi
                 page_w, page_h = self.page_size
                 ax_img = fig.add_axes([0.5 - img_w_inch / page_w / 2,
-                                        0.62,
-                                        img_w_inch / page_w,
-                                        img_h_inch / page_h])
+                                      0.62,
+                                      img_w_inch / page_w,
+                                      img_h_inch / page_h])
                 ax_img.imshow(img)
                 ax_img.axis('off')
             except Exception as e:
                 logger.warning(f"Failed to load logo image: {e}")
 
         # Title - _('Batch Analysis') translates to "批量分析" in zh_CN
-        fig.text(0.5, 0.50, _('Combined Equipment Data') + ' - ' +_('Batch Analysis'),
+        fig.text(0.5, 0.50, _('Combined Equipment Data') + ' - ' + _('Batch Analysis'),
                  fontsize=24, weight='bold', ha='center', va='center')
 
         # Info list
@@ -259,7 +259,7 @@ class CombinedEquipmentBatchPDFExporter:
         ax_table.axis('off')
 
         table = ax_table.table(cellText=info_data, loc='center',
-                                cellLoc='center', colWidths=[0.35, 0.65])
+                               cellLoc='center', colWidths=[0.35, 0.65])
         table.auto_set_font_size(False)
         table.set_fontsize(12)
 
