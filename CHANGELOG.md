@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - added json validtor to myems-admin
 - added dockerignore files
+- added modbus parser tool to myems-web
 ### Changed
 ### Fixed
 - fixed pep 8 warnings in myems-api
