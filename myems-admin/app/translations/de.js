@@ -194,7 +194,8 @@
                     READ: 'Lesen',
                     ACKNOWLEDGED: 'Anerkannt',
                     ARCHIVE: 'Archiv',
-                    MARK_ALL_AS_READ: 'Markiere alle als gelesen'
+                    MARK_ALL_AS_READ: 'Markiere alle als gelesen',
+                    INVALID_EXPRESSION_JSON: 'Ungültiges JSON-Format des Ausdrucks'
                 },
                 MENU: {
                     SETTINGS: {
@@ -847,7 +848,8 @@
                     INPUT_PAYLOAD: 'Bitte Nutzlast eingeben',
                     INPUT_SET_VALUE: 'Bitte geben Sie den eingestellten Wert ein',
                     SEND: 'Senden',
-                    SEND_SUCCESS: 'Erfolg senden'
+                    SEND_SUCCESS: 'Erfolg senden',
+                    INVALID_PAYLOAD_JSON: 'Ungültiges JSON-Format der Nutzdaten'
                 },
                 COSTCENTER: {
                     EXTERNAL_ID: 'Externe ID',
@@ -926,7 +928,10 @@
                     ENERGY_VALUE: 'Energie Wert',
                     ANALOG_VALUE: 'Analog Wert',
                     DIGITAL_VALUE: 'Digital Wert',
-                    TEXT_VALUE: 'Text Wert'
+                    TEXT_VALUE: 'Text Wert',
+                    INVALID_ADDRESS_JSON: 'Ungültiges JSON-Format der Adresse',
+                    INVALID_FAULTS_JSON: 'Ungültiges JSON-Format der Fehlerdefinitionen',
+                    INVALID_DEFINITIONS_JSON: 'Ungültiges JSON-Format der Definitionen'
                 },
                 DISTRIBUTION_SYSTEM: {
                     ADD_DISTRIBUTION_SYSTEM: 'Distribution System hinzufügen',
@@ -1804,7 +1809,8 @@
                     NEXT_RUN_DATETIME: 'Datum und Uhrzeit der nächsten Ausführung',
                     IS_RUN_IMMEDIATELY: 'Wird sofort ausgeführt',
                     EDIT_ADVANCED_REPORT: 'Erweiterten Bericht bearbeiten',
-                    RUN_SUBMITTED: 'Ausführen Abgeschickt'
+                    RUN_SUBMITTED: 'Ausführen Abgeschickt',
+                    INVALID_EXPRESSION_JSON: 'Ungültiges JSON-Format des Ausdrucks'
                 },
                 TOASTER: {
                     SUCCESS_TITLE: 'Erfolg',

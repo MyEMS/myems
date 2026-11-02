@@ -398,6 +398,10 @@ app.controller('ModalAddPointCtrl', function($scope, $uibModalInstance) {
 	$scope.point.is_trend = true;
 	$scope.point.is_virtual = false;
 	$scope.ok = function() {
+		// Block submission when the form is invalid, e.g. address/faults/definitions is not valid JSON
+		if ($scope.form_point && $scope.form_point.$invalid) {
+			return;
+		}
 		$uibModalInstance.close($scope.point);
 	};
 
@@ -416,6 +420,10 @@ app.controller('ModalEditPointCtrl', function($scope, $uibModalInstance, params)
 	$scope.point = params.point;
 	$scope.is_edit = true;
 	$scope.ok = function() {
+		// Block submission when the form is invalid, e.g. address/faults/definitions is not valid JSON
+		if ($scope.form_point && $scope.form_point.$invalid) {
+			return;
+		}
 		$uibModalInstance.close($scope.point);
 	};
 

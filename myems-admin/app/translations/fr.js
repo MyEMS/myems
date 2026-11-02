@@ -194,7 +194,8 @@
                     READ: 'Lire',
                     ACKNOWLEDGED: 'Reconnu',
                     ARCHIVE: 'Archiver',
-                    MARK_ALL_AS_READ: 'Marquer tout comme lu'
+                    MARK_ALL_AS_READ: 'Marquer tout comme lu',
+                    INVALID_EXPRESSION_JSON: 'Expression: format JSON invalide'
                 },
                 MENU: {
                     SETTINGS: {
@@ -851,7 +852,8 @@
                     INPUT_PAYLOAD: 'Veuillez saisir la charge utile',
                     INPUT_SET_VALUE: 'Veuillez saisir la valeur définie',
                     SEND: 'Envoyer',
-                    SEND_SUCCESS: 'Envoyer le succès'
+                    SEND_SUCCESS: 'Envoyer le succès',
+                    INVALID_PAYLOAD_JSON: 'Charge utile: format JSON invalide'
                 },
                 ENERGY_FLOW_DIAGRAM: {
                     ADD_ENERGY_FLOW_DIAGRAM: 'Ajouter un diagramme de flux d’énergie',
@@ -958,7 +960,10 @@
                     ENERGY_VALUE: 'Valeur énergétique',
                     ANALOG_VALUE: 'Valeur analogique',
                     DIGITAL_VALUE: 'Valeur numérique',
-                    TEXT_VALUE: 'Valeur textuelle'
+                    TEXT_VALUE: 'Valeur textuelle',
+                    INVALID_ADDRESS_JSON: 'Adresse: format JSON invalide',
+                    INVALID_FAULTS_JSON: 'Défauts: format JSON invalide',
+                    INVALID_DEFINITIONS_JSON: 'Définitions: format JSON invalide'
                 },
                 DISTRIBUTION_SYSTEM: {
                     ADD_DISTRIBUTION_SYSTEM: 'Ajouter un système de distribution',
@@ -1804,7 +1809,8 @@
                     NEXT_RUN_DATETIME: 'Date/heure de la prochaine exécution',
                     IS_RUN_IMMEDIATELY: 'Fonctionnement immédiat',
                     EDIT_ADVANCED_REPORT: 'Modifier le rapport avancé',
-                    RUN_SUBMITTED: 'Run a été soumis'
+                    RUN_SUBMITTED: 'Run a été soumis',
+                    INVALID_EXPRESSION_JSON: 'Expression: format JSON invalide'
                 },
                 TOASTER: {
                     SUCCESS_TITLE: 'Succès',

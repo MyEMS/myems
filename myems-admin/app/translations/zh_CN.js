@@ -199,6 +199,7 @@
         ACKNOWLEDGED: "已确认",
         ARCHIVE: "存档",
         MARK_ALL_AS_READ: "全部设为已读",
+        INVALID_EXPRESSION_JSON: "表达式内容不是合法的 JSON 格式",
       },
       MENU: {
         SETTINGS: {
@@ -886,6 +887,7 @@
         INPUT_SET_VALUE: "请输入设定值",
         SEND: "发送",
         SEND_SUCCESS: "发送成功",
+        INVALID_PAYLOAD_JSON: "载荷内容不是合法的 JSON 格式",
       },
       GATEWAY: {
         GATEWAY: "网关",
@@ -961,6 +963,9 @@
         ANALOG_VALUE: "模拟量",
         DIGITAL_VALUE: "数字量",
         TEXT_VALUE: "文本量",
+        INVALID_ADDRESS_JSON: "地址内容不是合法的 JSON 格式",
+        INVALID_FAULTS_JSON: "故障定义内容不是合法的 JSON 格式",
+        INVALID_DEFINITIONS_JSON: "自定义定义内容不是合法的 JSON 格式",
       },
       DISTRIBUTION_SYSTEM: {
         ADD_DISTRIBUTION_SYSTEM: "添加配电系统",
@@ -1854,6 +1859,7 @@
         IS_RUN_IMMEDIATELY: "立即运行",
         EDIT_ADVANCED_REPORT: "编辑高级报表",
         RUN_SUBMITTED: "运行已提交",
+        INVALID_EXPRESSION_JSON: "表达式内容不是合法的 JSON 格式",
       },
       TOASTER: {
         SUCCESS_TITLE: "成功",

@@ -30,9 +30,12 @@
                     placeholder="{{'SETTING.SELECT_DATE' | translate}}" readonly="" />
                 </div>
             </div>
-            <div class="form-group"><label class="col-sm-3 control-label">{{'ADVANCED_REPORT.EXPRESSION' | translate}}<span class="text-danger">*</span></label>
+            <div class="form-group" ng-class="{'has-error': form_advancedreport.reportexpression.$invalid && form_advancedreport.reportexpression.$dirty}"><label class="col-sm-3 control-label">{{'ADVANCED_REPORT.EXPRESSION' | translate}}<span class="text-danger">*</span></label>
                 <div class="col-sm-9">
-                    <textarea rows="4" ng-model="advancedReport.expression" type="text" name="reportexpression" class="form-control"></textarea>
+                    <textarea json-syntax rows="4" ng-model="advancedReport.expression" type="text" name="reportexpression" class="form-control"></textarea>
+                    <div class="m-t-xs" ng-show="form_advancedreport.reportexpression.$invalid && form_advancedreport.reportexpression.$dirty">
+                        <small class="text-danger" ng-show="form_advancedreport.reportexpression.$error.jsonSyntax">{{'ADVANCED_REPORT.INVALID_EXPRESSION_JSON' | translate}}</small>
+                    </div>
                 </div>
             </div>
             <div class="form-group"><label class="col-sm-3 control-label">{{'ADVANCED_REPORT.IS_RUN_IMMEDIATELY' | translate}}</label>

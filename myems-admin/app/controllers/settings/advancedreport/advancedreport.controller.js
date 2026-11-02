@@ -305,6 +305,10 @@ app.controller('ModalAddAdvancedReportCtrl', function($scope, $uibModalInstance,
 	};
 
 	$scope.ok = function() {
+		// Block submission when the form is invalid, e.g. expression is not valid JSON
+		if ($scope.form_advancedreport && $scope.form_advancedreport.$invalid) {
+			return;
+		}
 		$scope.advancedReport.next_run_datetime=moment($scope.advancedReport.next_run_datetime).format().slice(0,19);
 		$uibModalInstance.close($scope.advancedReport);
 	};
@@ -334,6 +338,10 @@ app.controller('ModalEditAdvancedReportCtrl', function($scope, $uibModalInstance
 	};
 
 	$scope.ok = function() {
+		// Block submission when the form is invalid, e.g. expression is not valid JSON
+		if ($scope.form_advancedreport && $scope.form_advancedreport.$invalid) {
+			return;
+		}
 		$scope.advancedReport.next_run_datetime=moment($scope.advancedReport.next_run_datetime).format().slice(0,19);
 		$uibModalInstance.close($scope.advancedReport);
 	};

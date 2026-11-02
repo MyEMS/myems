@@ -309,6 +309,10 @@ app.controller('CommandController', function(
 app.controller('ModalAddCommandCtrl', function ($scope, $uibModalInstance) {
     $scope.operation="SETTING.ADD_COMMAND";
     $scope.ok = function () {
+        // Block submission when the form is invalid, e.g. payload is not valid JSON
+        if ($scope.form_command && $scope.form_command.$invalid) {
+            return;
+        }
         $uibModalInstance.close($scope.command);
     };
 
@@ -324,6 +328,10 @@ app.controller('ModalEditCommandCtrl', function ($scope, $uibModalInstance, para
     $scope.commands=params.commands;
 
     $scope.ok = function() {
+        // Block submission when the form is invalid, e.g. payload is not valid JSON
+        if ($scope.form_command && $scope.form_command.$invalid) {
+            return;
+        }
         $uibModalInstance.close($scope.command);
     };
 

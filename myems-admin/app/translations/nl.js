@@ -194,7 +194,8 @@
                     READ: 'Gelezen',
                     ACKNOWLEDGED: 'Bevestigd',
                     ARCHIVE: 'Archiveren',
-                    MARK_ALL_AS_READ: 'Alles als gelezen markeren'
+                    MARK_ALL_AS_READ: 'Alles als gelezen markeren',
+                    INVALID_EXPRESSION_JSON: 'Ongeldige JSON-indeling voor de expressie'
                 },
                 MENU: {
                     SETTINGS: {
@@ -852,7 +853,8 @@
                     INPUT_PAYLOAD: 'Voer payload in',
                     INPUT_SET_VALUE: 'Voer ingestelde waarde in',
                     SEND: 'Verzenden',
-                    SEND_SUCCESS: 'Verzending geslaagd'
+                    SEND_SUCCESS: 'Verzending geslaagd',
+                    INVALID_PAYLOAD_JSON: 'Ongeldige JSON-indeling voor de payload'
                 },
                 GATEWAY: {
                     GATEWAY: 'Gateway',
@@ -927,7 +929,10 @@
                     ENERGY_VALUE: 'Energiewaarde',
                     ANALOG_VALUE: 'Analoge waarde',
                     DIGITAL_VALUE: 'Digitale waarde',
-                    TEXT_VALUE: 'Tekstwaarde'
+                    TEXT_VALUE: 'Tekstwaarde',
+                    INVALID_ADDRESS_JSON: 'Ongeldige JSON-indeling voor het adres',
+                    INVALID_FAULTS_JSON: 'Ongeldige JSON-indeling voor de storingsdefinities',
+                    INVALID_DEFINITIONS_JSON: 'Ongeldige JSON-indeling voor de definities'
                 },
                 DISTRIBUTION_SYSTEM: {
                     ADD_DISTRIBUTION_SYSTEM: 'Distributiesysteem toevoegen',
@@ -1805,7 +1810,8 @@
                     NEXT_RUN_DATETIME: 'Volgende uitvoeringstijd',
                     IS_RUN_IMMEDIATELY: 'Onmiddellijk uitvoeren',
                     EDIT_ADVANCED_REPORT: 'Geavanceerd rapport bewerken',
-                    RUN_SUBMITTED: 'Uitvoering ingediend'
+                    RUN_SUBMITTED: 'Uitvoering ingediend',
+                    INVALID_EXPRESSION_JSON: 'Ongeldige JSON-indeling voor de expressie'
                 },
                 TOASTER: {
                     SUCCESS_TITLE: 'Geslaagd',

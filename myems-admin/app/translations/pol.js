@@ -194,7 +194,8 @@
                     READ: 'Przeczytane',
                     ACKNOWLEDGED: 'Potwierdzone',
                     ARCHIVE: 'Archiwizuj',
-                    MARK_ALL_AS_READ: 'Oznacz wszystkie jako przeczytane'
+                    MARK_ALL_AS_READ: 'Oznacz wszystkie jako przeczytane',
+                    INVALID_EXPRESSION_JSON: 'Nieprawidłowy format JSON wyrażenia'
                 },
                 MENU: {
                     SETTINGS: {
@@ -852,7 +853,8 @@
                     INPUT_PAYLOAD: 'Wprowadź ładunek',
                     INPUT_SET_VALUE: 'Wprowadź wartość zadaną',
                     SEND: 'Wyślij',
-                    SEND_SUCCESS: 'Wysłano pomyślnie'
+                    SEND_SUCCESS: 'Wysłano pomyślnie',
+                    INVALID_PAYLOAD_JSON: 'Nieprawidłowy format JSON ładunku'
                 },
                 GATEWAY: {
                     GATEWAY: 'Brama',
@@ -927,7 +929,10 @@
                     ENERGY_VALUE: 'Wartość energii',
                     ANALOG_VALUE: 'Wartość analogowa',
                     DIGITAL_VALUE: 'Wartość cyfrowa',
-                    TEXT_VALUE: 'Wartość tekstowa'
+                    TEXT_VALUE: 'Wartość tekstowa',
+                    INVALID_ADDRESS_JSON: 'Nieprawidłowy format JSON adresu',
+                    INVALID_FAULTS_JSON: 'Nieprawidłowy format JSON definicji usterek',
+                    INVALID_DEFINITIONS_JSON: 'Nieprawidłowy format JSON definicji'
                 },
                 DISTRIBUTION_SYSTEM: {
                     ADD_DISTRIBUTION_SYSTEM: 'Dodaj system rozdziału energii',
@@ -1805,7 +1810,8 @@
                     NEXT_RUN_DATETIME: 'Czas następnego uruchomienia',
                     IS_RUN_IMMEDIATELY: 'Uruchom natychmiast',
                     EDIT_ADVANCED_REPORT: 'Edytuj zaawansowany raport',
-                    RUN_SUBMITTED: 'Uruchomienie przesłane'
+                    RUN_SUBMITTED: 'Uruchomienie przesłane',
+                    INVALID_EXPRESSION_JSON: 'Nieprawidłowy format JSON wyrażenia'
                 },
                 TOASTER: {
                     SUCCESS_TITLE: 'Sukces',

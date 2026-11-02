@@ -194,7 +194,8 @@
                     READ: 'Leia',
                     ACKNOWLEDGED: 'Reconhecido',
                     ARCHIVE: 'Arquivo',
-                    MARK_ALL_AS_READ: 'Marcar tudo como lido'
+                    MARK_ALL_AS_READ: 'Marcar tudo como lido',
+                    INVALID_EXPRESSION_JSON: 'Formato JSON inválido para a expressão'
                 },
                 MENU: {
                     SETTINGS: {
@@ -852,7 +853,8 @@
                     INPUT_PAYLOAD: 'Por favor, insira a carga útil',
                     INPUT_SET_VALUE: 'Por favor, insira o valor definido',
                     SEND: 'Enviar',
-                    SEND_SUCCESS: 'Enviar o Sucesso'
+                    SEND_SUCCESS: 'Enviar o Sucesso',
+                    INVALID_PAYLOAD_JSON: 'Formato JSON inválido para a carga útil'
                 },
                 ENERGY_FLOW_DIAGRAM: {
                     ADD_ENERGY_FLOW_DIAGRAM: 'Adicionar Diagrama de Fluxo de Energia',
@@ -959,7 +961,10 @@
                     ENERGY_VALUE: 'Valor de energia',
                     ANALOG_VALUE: 'Valor analógico',
                     DIGITAL_VALUE: 'Valor digital',
-                    TEXT_VALUE: 'Valor de texto'
+                    TEXT_VALUE: 'Valor de texto',
+                    INVALID_ADDRESS_JSON: 'Formato JSON inválido para o endereço',
+                    INVALID_FAULTS_JSON: 'Formato JSON inválido para as definições de falhas',
+                    INVALID_DEFINITIONS_JSON: 'Formato JSON inválido para as definições'
                 },
                 DISTRIBUTION_SYSTEM: {
                     ADD_DISTRIBUTION_SYSTEM: 'Adicionar Sistema de Distribuição',
@@ -1805,7 +1810,8 @@
                     NEXT_RUN_DATETIME: 'Próxima Execução (Data e Hora)',
                     IS_RUN_IMMEDIATELY: 'Executar Imediatamente',
                     EDIT_ADVANCED_REPORT: 'Editar Relatório Avançado',
-                    RUN_SUBMITTED: 'Execução Submetida'
+                    RUN_SUBMITTED: 'Execução Submetida',
+                    INVALID_EXPRESSION_JSON: 'Formato JSON inválido para a expressão'
                 },
                 TOASTER: {
                     SUCCESS_TITLE: 'Sucesso',

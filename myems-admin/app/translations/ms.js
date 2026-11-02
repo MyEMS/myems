@@ -194,7 +194,8 @@
                     READ: 'Membaca',
                     ACKNOWLEDGED: 'Diiktiraf',
                     ARCHIVE: 'Arkib',
-                    MARK_ALL_AS_READ: 'Tandakan semua sebagai dibaca'
+                    MARK_ALL_AS_READ: 'Tandakan semua sebagai dibaca',
+                    INVALID_EXPRESSION_JSON: 'Format JSON tidak sah untuk ungkapan'
                 },
                 MENU: {
                     SETTINGS: {
@@ -852,7 +853,8 @@
                     INPUT_PAYLOAD: 'Sila masukkan muatan',
                     INPUT_SET_VALUE: 'Sila masukkan nilai set',
                     SEND: 'Menghantar',
-                    SEND_SUCCESS: 'Hantar Kejayaan'
+                    SEND_SUCCESS: 'Hantar Kejayaan',
+                    INVALID_PAYLOAD_JSON: 'Format JSON tidak sah untuk muatan'
                 },
                 ENERGY_FLOW_DIAGRAM: {
                     ADD_ENERGY_FLOW_DIAGRAM: 'Tambah Gambar Rajah Aliran Tenaga',
@@ -959,7 +961,10 @@
                     ENERGY_VALUE: 'Nilai Tenaga',
                     ANALOG_VALUE: 'Nilai Analog',
                     DIGITAL_VALUE: 'Nilai Digital',
-                    TEXT_VALUE: 'Nilai Teks'
+                    TEXT_VALUE: 'Nilai Teks',
+                    INVALID_ADDRESS_JSON: 'Format JSON tidak sah untuk alamat',
+                    INVALID_FAULTS_JSON: 'Format JSON tidak sah untuk takrifan kerosakan',
+                    INVALID_DEFINITIONS_JSON: 'Format JSON tidak sah untuk takrifan'
                 },
                 DISTRIBUTION_SYSTEM: {
                     ADD_DISTRIBUTION_SYSTEM: 'Tambah Sistem Pengedaran',
@@ -1805,7 +1810,8 @@
                     NEXT_RUN_DATETIME: 'Tarikh Jalankan Berikutnya',
                     IS_RUN_IMMEDIATELY: 'Jalankan Segera',
                     EDIT_ADVANCED_REPORT: 'Edit Laporan Lanjutan',
-                    RUN_SUBMITTED: 'Jalankan Dihantar'
+                    RUN_SUBMITTED: 'Jalankan Dihantar',
+                    INVALID_EXPRESSION_JSON: 'Format JSON tidak sah untuk ungkapan'
                 },
                 TOASTER: {
                     SUCCESS_TITLE: 'Kejayaan',
