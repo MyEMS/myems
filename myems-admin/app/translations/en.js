@@ -194,7 +194,8 @@
                     READ: 'Read',
                     ACKNOWLEDGED: 'Acknowledged',
                     ARCHIVE: 'Archive',
-                    MARK_ALL_AS_READ: 'Mark all as read'
+                    MARK_ALL_AS_READ: 'Mark all as read',
+                    INVALID_EXPRESSION_JSON: 'Invalid JSON content format for expression'
                 },
                 MENU: {
                     SETTINGS: {
@@ -851,7 +852,8 @@
                     INPUT_PAYLOAD: 'Please Input Payload',
                     INPUT_SET_VALUE: 'Please Input Set Value',
                     SEND: 'Send',
-                    SEND_SUCCESS: 'Send Success'
+                    SEND_SUCCESS: 'Send Success',
+                    INVALID_PAYLOAD_JSON: 'Invalid JSON content format for payload'
                 },
                 ENERGY_FLOW_DIAGRAM: {
                     ADD_ENERGY_FLOW_DIAGRAM: 'Add Energy Flow Diagram',
@@ -958,7 +960,10 @@
                     ENERGY_VALUE: 'Energy Value',
                     ANALOG_VALUE: 'Analog Value',
                     DIGITAL_VALUE: 'Digital Value',
-                    TEXT_VALUE: 'Text Value'
+                    TEXT_VALUE: 'Text Value',
+                    INVALID_ADDRESS_JSON: 'Invalid JSON content format for address',
+                    INVALID_FAULTS_JSON: 'Invalid JSON content format for faults',
+                    INVALID_DEFINITIONS_JSON: 'Invalid JSON content format for definitions'
                 },
                 DISTRIBUTION_SYSTEM: {
                     ADD_DISTRIBUTION_SYSTEM: 'Add Distribution System',
@@ -1804,7 +1809,8 @@
                     NEXT_RUN_DATETIME: 'Next Run Datetime',
                     IS_RUN_IMMEDIATELY: 'Is Run Immediately',
                     EDIT_ADVANCED_REPORT: 'Edit Advanced Report',
-                    RUN_SUBMITTED: 'Run Submitted'
+                    RUN_SUBMITTED: 'Run Submitted',
+                    INVALID_EXPRESSION_JSON: 'Invalid JSON content format for expression'
                 },
                 TOASTER: {
                     SUCCESS_TITLE: 'Success',

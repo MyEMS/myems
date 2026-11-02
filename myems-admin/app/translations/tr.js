@@ -194,7 +194,8 @@
                     READ: 'Okumak',
                     ACKNOWLEDGED: 'Kabul',
                     ARCHIVE: 'Arşiv',
-                    MARK_ALL_AS_READ: 'Tümünü okundu olarak işaretle'
+                    MARK_ALL_AS_READ: 'Tümünü okundu olarak işaretle',
+                    INVALID_EXPRESSION_JSON: 'İfade için geçersiz JSON biçimi'
                 },
                 MENU: {
                     SETTINGS: {
@@ -852,7 +853,8 @@
                     INPUT_PAYLOAD: 'Lütfen Giriş Yükü',
                     INPUT_SET_VALUE: 'Lütfen Ayarlanan Değeri Girin',
                     SEND: 'Gönder',
-                    SEND_SUCCESS: 'Gönderme Başarısı'
+                    SEND_SUCCESS: 'Gönderme Başarısı',
+                    INVALID_PAYLOAD_JSON: 'Yük için geçersiz JSON biçimi'
                 },
                 ENERGY_FLOW_DIAGRAM: {
                     ADD_ENERGY_FLOW_DIAGRAM: 'Enerji Akış Diyagramı Ekle',
@@ -959,7 +961,10 @@
                     ENERGY_VALUE: 'Enerji Değeri',
                     ANALOG_VALUE: 'Analog Değer',
                     DIGITAL_VALUE: 'Dijital Değer',
-                    TEXT_VALUE: 'Metin Değeri'
+                    TEXT_VALUE: 'Metin Değeri',
+                    INVALID_ADDRESS_JSON: 'Adres için geçersiz JSON biçimi',
+                    INVALID_FAULTS_JSON: 'Arıza tanımları için geçersiz JSON biçimi',
+                    INVALID_DEFINITIONS_JSON: 'Tanımlar için geçersiz JSON biçimi'
                 },
                 DISTRIBUTION_SYSTEM: {
                     ADD_DISTRIBUTION_SYSTEM: 'Dağıtım Sistemi Ekle',
@@ -1805,7 +1810,8 @@
                     NEXT_RUN_DATETIME: 'Sonraki Çalıştırma TarihiSaat',
                     IS_RUN_IMMEDIATELY: 'Hemen çalışır.',
                     EDIT_ADVANCED_REPORT: 'Gelişmiş Raporu Düzenle',
-                    RUN_SUBMITTED: 'Gönderilen çalıştır'
+                    RUN_SUBMITTED: 'Gönderilen çalıştır',
+                    INVALID_EXPRESSION_JSON: 'İfade için geçersiz JSON biçimi'
                 },
                 TOASTER: {
                     SUCCESS_TITLE: 'Başarı',

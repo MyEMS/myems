@@ -194,7 +194,8 @@
                     READ: 'อ่าน',
                     ACKNOWLEDGED: 'ยอม รับ',
                     ARCHIVE: 'หอจดหมายเหตุ',
-                    MARK_ALL_AS_READ: 'ทําเครื่องหมายทั้งหมดว่าอ่านแล้ว'
+                    MARK_ALL_AS_READ: 'ทําเครื่องหมายทั้งหมดว่าอ่านแล้ว',
+                    INVALID_EXPRESSION_JSON: 'รูปแบบ JSON ของนิพจน์ไม่ถูกต้อง'
                 },
                 MENU: {
                     SETTINGS: {
@@ -852,7 +853,8 @@
                     INPUT_PAYLOAD: 'กรุณาใส่เพย์โหลด',
                     INPUT_SET_VALUE: 'กรุณาใส่ค่าที่ตั้งไว้',
                     SEND: 'ส่ง',
-                    SEND_SUCCESS: 'ส่งความสําเร็จ'
+                    SEND_SUCCESS: 'ส่งความสําเร็จ',
+                    INVALID_PAYLOAD_JSON: 'รูปแบบ JSON ของข้อมูลลำเลียงไม่ถูกต้อง'
                 },
                 ENERGY_FLOW_DIAGRAM: {
                     ADD_ENERGY_FLOW_DIAGRAM: 'เพิ่มแผนภาพการไหลของพลังงาน',
@@ -959,7 +961,10 @@
                     ENERGY_VALUE: 'ค่าพลังงาน',
                     ANALOG_VALUE: 'ค่าอนาล็อก',
                     DIGITAL_VALUE: 'ค่าดิจิทัล',
-                    TEXT_VALUE: 'ค่าข้อความ'
+                    TEXT_VALUE: 'ค่าข้อความ',
+                    INVALID_ADDRESS_JSON: 'รูปแบบ JSON ของที่อยู่ไม่ถูกต้อง',
+                    INVALID_FAULTS_JSON: 'รูปแบบ JSON ของคำจำกัดความข้อผิดพลาดไม่ถูกต้อง',
+                    INVALID_DEFINITIONS_JSON: 'รูปแบบ JSON ของคำจำกัดความไม่ถูกต้อง'
                 },
                 DISTRIBUTION_SYSTEM: {
                     ADD_DISTRIBUTION_SYSTEM: 'เพิ่มระบบการจัดจําหน่าย',
@@ -1805,7 +1810,8 @@
                     NEXT_RUN_DATETIME: 'วันที่และเวลาเรียกใช้ครั้งถัดไป',
                     IS_RUN_IMMEDIATELY: 'เรียกใช้ตอนนี้',
                     EDIT_ADVANCED_REPORT: 'แก้ไขรายงานขั้นสูง',
-                    RUN_SUBMITTED: 'ดำเนินการส่งแล้ว'
+                    RUN_SUBMITTED: 'ดำเนินการส่งแล้ว',
+                    INVALID_EXPRESSION_JSON: 'รูปแบบ JSON ของนิพจน์ไม่ถูกต้อง'
                 },
                 TOASTER: {
                     SUCCESS_TITLE: 'ความสําเร็จ',
