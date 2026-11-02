@@ -595,3 +595,12 @@ msgstr "داده‌های فضا"
 
 msgid "compare"
 msgstr "مقایسه"
+
+msgid "Offline Meter Prediction"
+msgstr "تحلیل پیش‌بینی کنتور آفلاین"
+
+msgid "Auxiliary System"
+msgstr "سیستم کمکی"
+
+msgid "Energy Flow Diagram"
+msgstr "نمودار جریان انرژی"

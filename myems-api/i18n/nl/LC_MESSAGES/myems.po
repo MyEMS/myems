@@ -595,3 +595,12 @@ msgstr "Ruimtegegevens"
 
 msgid "compare"
 msgstr "vergelijken"
+
+msgid "Offline Meter Prediction"
+msgstr "Offline Meter Voorspellingsanalyse"
+
+msgid "Auxiliary System"
+msgstr "Hulpsysteem"
+
+msgid "Energy Flow Diagram"
+msgstr "Energieflowdiagram"

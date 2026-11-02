@@ -595,3 +595,12 @@ msgstr "Data Ruang"
 
 msgid "compare"
 msgstr "bandingkan"
+
+msgid "Offline Meter Prediction"
+msgstr "Prediksi Meter Offline"
+
+msgid "Auxiliary System"
+msgstr "Sistem Bantuan"
+
+msgid "Energy Flow Diagram"
+msgstr "Diagram Aliran Energi"

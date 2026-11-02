@@ -595,3 +595,12 @@ msgstr "Space Data"
 
 msgid "compare"
 msgstr "compare"
+
+msgid "Offline Meter Prediction"
+msgstr "Offline Meter Prediction"
+
+msgid "Auxiliary System"
+msgstr "Auxiliary System"
+
+msgid "Energy Flow Diagram"
+msgstr "Energy Flow Diagram"

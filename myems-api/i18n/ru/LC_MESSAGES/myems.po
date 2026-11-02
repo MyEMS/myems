@@ -595,3 +595,12 @@ msgstr "Пространственные данные"
 
 msgid "compare"
 msgstr "сравнить"
+
+msgid "Offline Meter Prediction"
+msgstr "Прогноз офлайн-счетчика"
+
+msgid "Auxiliary System"
+msgstr "Вспомогательная система"
+
+msgid "Energy Flow Diagram"
+msgstr "Диаграмма потоков энергии"

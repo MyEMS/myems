@@ -13,7 +13,11 @@ import {
   Input,
   Label,
   CustomInput,
-  Spinner
+  Spinner,
+  UncontrolledDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem
 } from 'reactstrap';
 import moment from 'moment';
 import Cascader from 'rc-cascader';
@@ -28,7 +32,6 @@ import { toast } from 'react-toastify';
 import { APIBaseURL, settings } from '../../../config';
 import DateRangePickerWrapper from '../common/DateRangePickerWrapper';
 import { endOfDay } from 'date-fns';
-import ButtonIcon from '../../common/ButtonIcon';
 import blankPage from '../../../assets/img/generic/blank-page.png';
 
 echarts.use([SankeyChart]);
@@ -95,16 +98,21 @@ const EnergyFlowDiagram = ({ setRedirect, setRedirectUrl, t }) => {
     formattedMonthPattern: 'yyyy-MM-dd'
   };
   const dateRangePickerStyle = { display: 'block', zIndex: 10 };
-  const { isDark } = useContext(AppContext);
+  const { isDark, language } = useContext(AppContext);
 
   // buttons
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(true);
   const [spinnerHidden, setSpinnerHidden] = useState(true);
   const [exportButtonHidden, setExportButtonHidden] = useState(true);
   const [resultDataHidden, setResultDataHidden] = useState(true);
+  const [exportExcel, setExportExcel] = useState(false);
+  const [exportPdf, setExportPdf] = useState(false);
+  const [exportDocx, setExportDocx] = useState(false);
   //Results
   const [energyFlowDiagramData, setEnergyFlowDiagramData] = useState({ nodes: [], links: [] });
   const [excelBytesBase64, setExcelBytesBase64] = useState(undefined);
+  const [pdfBytesBase64, setPdfBytesBase64] = useState(undefined);
+  const [docxBytesBase64, setDocxBytesBase64] = useState(undefined);
 
   useEffect(() => {
     let isResponseOK = false;
@@ -364,27 +372,31 @@ const EnergyFlowDiagram = ({ setRedirect, setRedirectUrl, t }) => {
     setExportButtonHidden(true);
     // hide result data
     setResultDataHidden(true);
+    setExcelBytesBase64(undefined);
+    setPdfBytesBase64(undefined);
+    setDocxBytesBase64(undefined);
+
+    const params = new URLSearchParams({
+      energyflowdiagramid: selectedEnergyFlowDiagram,
+      reportingperiodstartdatetime: moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss'),
+      reportingperiodenddatetime: moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss'),
+      language: language,
+      exportexcel: exportExcel,
+      exportpdf: exportPdf,
+      exportdocx: exportDocx
+    });
+    const url = `${APIBaseURL}/reports/energyflowdiagram?${params.toString()}`;
 
     let isResponseOK = false;
-    fetch(
-      APIBaseURL +
-        '/reports/energyflowdiagram?' +
-        'energyflowdiagramid=' +
-        selectedEnergyFlowDiagram +
-        '&reportingperiodstartdatetime=' +
-        moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
-        '&reportingperiodenddatetime=' +
-        moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss'),
-      {
-        method: 'GET',
-        headers: {
-          'Content-type': 'application/json',
-          'User-UUID': getCookieValue('user_uuid'),
-          Token: getCookieValue('token')
-        },
-        body: null
-      }
-    )
+    fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-type': 'application/json',
+        'User-UUID': getCookieValue('user_uuid'),
+        Token: getCookieValue('token')
+      },
+      body: null
+    })
       .then(response => {
         if (response.ok) {
           isResponseOK = true;
@@ -424,13 +436,15 @@ const EnergyFlowDiagram = ({ setRedirect, setRedirectUrl, t }) => {
           }
 
           setExcelBytesBase64(json['excel_bytes_base64']);
+          setPdfBytesBase64(json['pdf_bytes_base64']);
+          setDocxBytesBase64(json['docx_bytes_base64']);
 
           // enable submit button
           setSubmitButtonDisabled(false);
           // hide spinner
           setSpinnerHidden(true);
           // show export button
-          setExportButtonHidden(false);
+          setExportButtonHidden(!(json['excel_bytes_base64'] || json['pdf_bytes_base64'] || json['docx_bytes_base64']));
           // show result data
           setResultDataHidden(false);
         } else {
@@ -442,21 +456,57 @@ const EnergyFlowDiagram = ({ setRedirect, setRedirectUrl, t }) => {
       });
   };
 
-  const handleExport = e => {
+  const handleExport = (e, type) => {
     e.preventDefault();
-    const mimeType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
-    const fileName = 'energyflowdiagram.xlsx';
-    var fileUrl = 'data:' + mimeType + ';base64,' + excelBytesBase64;
-    fetch(fileUrl)
-      .then(response => response.blob())
-      .then(blob => {
-        var link = window.document.createElement('a');
-        link.href = window.URL.createObjectURL(blob, { type: mimeType });
-        link.download = fileName;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-      });
+    if (type === 'excel' && excelBytesBase64) {
+      const mimeType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+      const fileName = 'energyflowdiagram.xlsx';
+      const fileUrl = 'data:' + mimeType + ';base64,' + excelBytesBase64;
+      fetch(fileUrl)
+        .then(response => response.blob())
+        .then(blob => {
+          const blobUrl = window.URL.createObjectURL(blob, { type: mimeType });
+          const link = window.document.createElement('a');
+          link.href = blobUrl;
+          link.download = fileName;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          setTimeout(() => window.URL.revokeObjectURL(blobUrl), 100);
+        });
+    } else if (type === 'pdf' && pdfBytesBase64) {
+      const mimeType = 'application/pdf';
+      const fileName = 'energyflowdiagram.pdf';
+      const fileUrl = 'data:' + mimeType + ';base64,' + pdfBytesBase64;
+      fetch(fileUrl)
+        .then(response => response.blob())
+        .then(blob => {
+          const blobUrl = window.URL.createObjectURL(blob, { type: mimeType });
+          const link = window.document.createElement('a');
+          link.href = blobUrl;
+          link.download = fileName;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          setTimeout(() => window.URL.revokeObjectURL(blobUrl), 100);
+        });
+    } else if (type === 'docx' && docxBytesBase64) {
+      const mimeType = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+      const fileName = 'energyflowdiagram.docx';
+      const fileUrl = 'data:' + mimeType + ';base64,' + docxBytesBase64;
+      fetch(fileUrl)
+        .then(response => response.blob())
+        .then(blob => {
+          const blobUrl = window.URL.createObjectURL(blob, { type: mimeType });
+          const link = window.document.createElement('a');
+          link.href = blobUrl;
+          link.download = fileName;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          setTimeout(() => window.URL.revokeObjectURL(blobUrl), 100);
+        });
+    }
   };
 
   return (
@@ -529,6 +579,46 @@ const EnergyFlowDiagram = ({ setRedirect, setRedirectUrl, t }) => {
               </Col>
               <Col xs="auto">
                 <FormGroup>
+                  <Label className={labelClasses}>
+                    {t('Export')}
+                    {t('(Optional)')}
+                  </Label>
+                  <div>
+                    <CustomInput
+                      type="checkbox"
+                      id="exportExcel"
+                      name="exportExcel"
+                      label="Excel"
+                      bsSize="sm"
+                      inline
+                      checked={exportExcel}
+                      onChange={({ target }) => setExportExcel(target.checked)}
+                    />
+                    <CustomInput
+                      type="checkbox"
+                      id="exportPdf"
+                      name="exportPdf"
+                      label="PDF"
+                      bsSize="sm"
+                      inline
+                      checked={exportPdf}
+                      onChange={({ target }) => setExportPdf(target.checked)}
+                    />
+                    <CustomInput
+                      type="checkbox"
+                      id="exportDocx"
+                      name="exportDocx"
+                      label="DOCX"
+                      bsSize="sm"
+                      inline
+                      checked={exportDocx}
+                      onChange={({ target }) => setExportDocx(target.checked)}
+                    />
+                  </div>
+                </FormGroup>
+              </Col>
+              <Col xs="auto">
+                <FormGroup>
                   <br />
                   <ButtonGroup id="submit">
                     <Button size="sm" color="success" disabled={submitButtonDisabled}>
@@ -545,16 +635,32 @@ const EnergyFlowDiagram = ({ setRedirect, setRedirectUrl, t }) => {
               </Col>
               <Col xs="auto">
                 <br />
-                <ButtonIcon
-                  icon="external-link-alt"
-                  transform="shrink-3 down-2"
-                  color="falcon-default"
-                  size="sm"
-                  hidden={exportButtonHidden}
-                  onClick={handleExport}
-                >
-                  {t('Export')}
-                </ButtonIcon>
+                <UncontrolledDropdown hidden={exportButtonHidden} inNavbar>
+                  <DropdownToggle
+                    size="sm"
+                    color="falcon-default"
+                    caret
+                  >
+                    {t('Export')}
+                  </DropdownToggle>
+                  <DropdownMenu style={{ left: 0, right: 'auto', top: '100%' }}>
+                    {excelBytesBase64 ? (
+                      <DropdownItem onClick={e => handleExport(e, 'excel')}>
+                        EXCEL
+                      </DropdownItem>
+                    ) : null}
+                    {pdfBytesBase64 ? (
+                      <DropdownItem onClick={e => handleExport(e, 'pdf')}>
+                        PDF
+                      </DropdownItem>
+                    ) : null}
+                    {docxBytesBase64 ? (
+                      <DropdownItem onClick={e => handleExport(e, 'docx')}>
+                        DOCX
+                      </DropdownItem>
+                    ) : null}
+                  </DropdownMenu>
+                </UncontrolledDropdown>
               </Col>
             </Row>
           </Form>

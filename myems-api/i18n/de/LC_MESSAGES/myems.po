@@ -595,3 +595,12 @@ msgstr "Raumdaten"
 
 msgid "compare"
 msgstr "Vergleich"
+
+msgid "Offline Meter Prediction"
+msgstr "Offline-Zählerprognose"
+
+msgid "Auxiliary System"
+msgstr "Hilfssystem"
+
+msgid "Energy Flow Diagram"
+msgstr "Energieflussdiagramm"

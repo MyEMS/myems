@@ -214,10 +214,10 @@ class OfflineMeterPredictionDOCXExporter:
     def export(self,
                report: Dict[str, Any],
                name: str,
-               reporting_start_datetime_local: str,
-               reporting_end_datetime_local: str,
                base_period_start_datetime_local: str,
                base_period_end_datetime_local: str,
+               reporting_start_datetime_local: str,
+               reporting_end_datetime_local: str,
                period_type: str,
                language: str) -> Optional[str]:
         if report is None:
@@ -227,10 +227,10 @@ class OfflineMeterPredictionDOCXExporter:
 
         docx_filename = self.generate_docx(
             report, name,
-            reporting_start_datetime_local,
-            reporting_end_datetime_local,
             base_period_start_datetime_local,
             base_period_end_datetime_local,
+            reporting_start_datetime_local,
+            reporting_end_datetime_local,
             period_type,
             language
         )
@@ -276,10 +276,10 @@ class OfflineMeterPredictionDOCXExporter:
     def generate_docx(self,
                       report: Dict[str, Any],
                       name: str,
-                      reporting_start_datetime_local: str,
-                      reporting_end_datetime_local: str,
                       base_period_start_datetime_local: str,
                       base_period_end_datetime_local: str,
+                      reporting_start_datetime_local: str,
+                      reporting_end_datetime_local: str,
                       period_type: str,
                       language: str) -> Optional[str]:
         _ = self._
@@ -489,6 +489,9 @@ class OfflineMeterPredictionDOCXExporter:
         if len(reporting_times) == 0:
             return
 
+        doc.add_page_break()
+        self._add_heading_styled(doc, self.name + ' ' + _('Detailed Data'), level=1)
+
         category_label = self.energy_category_name + " (" + self.unit_of_measure + ")"
 
         rows_per_table_page = 70
@@ -510,9 +513,6 @@ class OfflineMeterPredictionDOCXExporter:
             if not first_table_page:
                 doc.add_page_break()
             first_table_page = False
-
-            if page == 0:
-                self._add_heading_styled(doc, self.name + ' ' + _('Detailed Data'), level=1)
 
             table_data = [col_headers]
             for t_idx in range(start_row, end_row):
@@ -728,22 +728,22 @@ class OfflineMeterPredictionDOCXExporter:
 
 def export(report,
            name,
-           reporting_start_datetime_local,
-           reporting_end_datetime_local,
            base_period_start_datetime_local,
            base_period_end_datetime_local,
+           reporting_start_datetime_local,
+           reporting_end_datetime_local,
            period_type,
            language):
     """
     Export offline meter report data to DOCX and return base64 encoded string.
-    This function maintains the same interface as the PDF exporter.
-    Note: parameter order places reporting period BEFORE base period, matching prediction exporter.
+    This function maintains the same interface as the PDF and Excel exporters.
+    Note: parameter order places base period BEFORE reporting period, matching the other exporters.
     """
     exporter = OfflineMeterPredictionDOCXExporter(language)
     return exporter.export(report, name,
-                           reporting_start_datetime_local,
-                           reporting_end_datetime_local,
                            base_period_start_datetime_local,
                            base_period_end_datetime_local,
+                           reporting_start_datetime_local,
+                           reporting_end_datetime_local,
                            period_type,
                            language)

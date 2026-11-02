@@ -595,3 +595,12 @@ msgstr "Données Spatiales"
 
 msgid "compare"
 msgstr "comparer"
+
+msgid "Offline Meter Prediction"
+msgstr "Prédiction du compteur hors ligne"
+
+msgid "Auxiliary System"
+msgstr "Système auxiliaire"
+
+msgid "Energy Flow Diagram"
+msgstr "Diagramme de flux d’énergie"
