@@ -1368,7 +1368,8 @@ class CombinedEquipmentEnergyCategoryDOCXExporter:
                     xlabels.append(
                         reporting_times[t][:10] if t < len(reporting_times) else '')
                 ax.set_xticklabels(xlabels, rotation=45, ha='right', fontsize=7)
-                title = _('Reporting Period Consumption') + ' - ' + name_i + ((' (' + unit_i + ')') if unit_i else '')
+                title = (_('Reporting Period Consumption') + ' - ' +
+                         name_i + ((' (' + unit_i + ')') if unit_i else ''))
                 ax.set_title(title, fontsize=9, fontweight='bold')
                 ax.grid(True, alpha=0.3)
                 plt.tight_layout(pad=1.0)
