@@ -595,3 +595,12 @@ msgstr "空间数据"
 
 msgid "compare"
 msgstr "对比"
+
+msgid "Offline Meter Prediction"
+msgstr "离线表预测分析"
+
+msgid "Auxiliary System"
+msgstr "辅助系统"
+
+msgid "Energy Flow Diagram"
+msgstr "能流图"

@@ -35,6 +35,8 @@ import falcon
 import mysql.connector
 import simplejson as json
 import excelexporters.energyflowdiagram
+import pdfexporters.energyflowdiagram
+import docxexporters.energyflowdiagram
 from core.useractivity import access_control, api_key_control
 import config
 
@@ -68,6 +70,9 @@ class Reporting:
         reporting_period_end_datetime_local = req.params.get('reportingperiodenddatetime')
         language = req.params.get('language')
         quick_mode = req.params.get('quickmode')
+        export_excel = req.params.get('exportexcel')
+        export_pdf = req.params.get('exportpdf')
+        export_docx = req.params.get('exportdocx')
 
         ################################################################################################################
         # Step 1: valid parameters
@@ -129,6 +134,24 @@ class Reporting:
                 len(str.strip(quick_mode)) > 0 and \
                 str.lower(str.strip(quick_mode)) in ('true', 't', 'on', 'yes', 'y'):
             is_quick_mode = True
+
+        is_export_excel = False
+        if export_excel is not None and \
+                len(str.strip(export_excel)) > 0 and \
+                str.lower(str.strip(export_excel)) in ('true', 't', 'on', 'yes', 'y'):
+            is_export_excel = True
+
+        is_export_pdf = False
+        if export_pdf is not None and \
+                len(str.strip(export_pdf)) > 0 and \
+                str.lower(str.strip(export_pdf)) in ('true', 't', 'on', 'yes', 'y'):
+            is_export_pdf = True
+
+        is_export_docx = False
+        if export_docx is not None and \
+                len(str.strip(export_docx)) > 0 and \
+                str.lower(str.strip(export_docx)) in ('true', 't', 'on', 'yes', 'y'):
+            is_export_docx = True
         ################################################################################################################
         # Step 2: query the energy flow diagram
         ################################################################################################################
@@ -305,7 +328,9 @@ class Reporting:
 
         result = {'nodes': list(),
                   'links': list(),
-                  'excel_bytes_base64': None}
+                  'excel_bytes_base64': None,
+                  'pdf_bytes_base64': None,
+                  'docx_bytes_base64': None}
         if meta_result['nodes'] is not None and len(meta_result['nodes']) > 0:
             for node in meta_result['nodes']:
                 result['nodes'].append({'name': node['name']})
@@ -315,11 +340,26 @@ class Reporting:
                                         'target': link['target_node']['name'],
                                         'value': link['value']})
         if not is_quick_mode:
-            result['excel_bytes_base64'] = \
-                excelexporters.energyflowdiagram.export(result,
-                                                        meta_result['name'],
-                                                        reporting_period_start_datetime_local,
-                                                        reporting_period_end_datetime_local,
-                                                        language)
+            if is_export_excel:
+                result['excel_bytes_base64'] = \
+                    excelexporters.energyflowdiagram.export(result,
+                                                            meta_result['name'],
+                                                            reporting_period_start_datetime_local,
+                                                            reporting_period_end_datetime_local,
+                                                            language)
+            if is_export_pdf:
+                result['pdf_bytes_base64'] = \
+                    pdfexporters.energyflowdiagram.export(result,
+                                                          meta_result['name'],
+                                                          reporting_period_start_datetime_local,
+                                                          reporting_period_end_datetime_local,
+                                                          language)
+            if is_export_docx:
+                result['docx_bytes_base64'] = \
+                    docxexporters.energyflowdiagram.export(result,
+                                                           meta_result['name'],
+                                                           reporting_period_start_datetime_local,
+                                                           reporting_period_end_datetime_local,
+                                                           language)
 
         resp.text = json.dumps(result)

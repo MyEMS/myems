@@ -595,3 +595,12 @@ msgstr "Alan Verileri"
 
 msgid "compare"
 msgstr "karşılaştır"
+
+msgid "Offline Meter Prediction"
+msgstr "Çevrimdışı Sayaç Tahmini"
+
+msgid "Auxiliary System"
+msgstr "Yardımcı Sistem"
+
+msgid "Energy Flow Diagram"
+msgstr "Enerji Akış Diyagramı"
