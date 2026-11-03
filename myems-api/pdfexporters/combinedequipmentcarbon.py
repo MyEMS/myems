@@ -593,7 +593,8 @@ class CombinedEquipmentCarbonPDFExporter:
                             [times[t][:10] if t < len(times) else ''
                              for t in range(0, len(cdata), cstep)],
                             rotation=45, ha='right', fontsize=6)
-                        ax_chart.set_title(_('Reporting Period Carbon Dioxide Emissions') + ' - ' + names[i] + ' (' + units[i] + ')',
+                        ax_chart.set_title(_('Reporting Period Carbon Dioxide Emissions') +
+                                           ' - ' + names[i] + ' (' + units[i] + ')',
                                            fontsize=7, weight='bold')
                         ax_chart.grid(True, alpha=0.3)
 

@@ -817,7 +817,8 @@ class CombinedEquipmentEfficiencyDOCXExporter:
                 })
                 chart_items.append({
                     'r_data': numerator_values[i] if i < len(numerator_values) else [],
-                    'b_data': base_numerator_values[i] if (base_numerator_values and i < len(base_numerator_values)) else None,
+                    'b_data': base_numerator_values[i]
+                    if (base_numerator_values and i < len(base_numerator_values)) else None,
                     'r_name': names[i] + '-' + num_name_i,
                     'b_name': (base_names[i] if base_names and i < len(base_names) else names[i]) + '-' + b_num_name_i,
                     'title': _('Base Period Efficiency') + ' / ' +
@@ -827,7 +828,8 @@ class CombinedEquipmentEfficiencyDOCXExporter:
                 })
                 chart_items.append({
                     'r_data': denominator_values[i] if i < len(denominator_values) else [],
-                    'b_data': base_denominator_values[i] if (base_denominator_values and i < len(base_denominator_values)) else None,
+                    'b_data': base_denominator_values[i]
+                    if (base_denominator_values and i < len(base_denominator_values)) else None,
                     'r_name': names[i] + '-' + den_name_i,
                     'b_name': (base_names[i] if base_names and i < len(base_names) else names[i]) + '-' + b_den_name_i,
                     'title': _('Base Period Efficiency') + ' / ' +
