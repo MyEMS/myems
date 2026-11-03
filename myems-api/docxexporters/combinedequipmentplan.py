@@ -266,7 +266,7 @@ class CombinedEquipmentPlanDOCXExporter:
         fig, ax = plt.subplots(figsize=(3.2, 2.6))
         if colors is None:
             colors = self.chart_colors[:len(labels)]
-        filtered = [(l, v, c) for l, v, c in zip(labels, values, colors) if abs(v or 0) > 0]
+        filtered = [(lable, v, c) for lable, v, c in zip(labels, values, colors) if abs(v or 0) > 0]
         if not filtered:
             plt.close(fig)
             return None
@@ -276,7 +276,7 @@ class CombinedEquipmentPlanDOCXExporter:
             sorted_data = sorted(zip(f_labels, abs_values, f_colors), key=lambda x: x[1], reverse=True)
             top_data = sorted_data[:7]
             other_sum = sum(v for _, v, _ in sorted_data[7:])
-            f_labels = [l for l, _, _ in top_data] + [self._('Others')]
+            f_labels = [lable for lable, _, _ in top_data] + [self._('Others')]
             abs_values = [v for _, v, _ in top_data] + [other_sum]
             f_colors = [c for _, _, c in top_data] + ['#999999']
         ax.pie(abs_values, labels=f_labels, autopct='%1.1f%%', colors=f_colors, startangle=90)
@@ -498,7 +498,8 @@ class CombinedEquipmentPlanDOCXExporter:
             _style_table_cell(cell_plan, font_size=8)
 
             cell_area = table.cell(2, col)
-            val = subtotals_per_unit_area_saving[i] if (subtotals_per_unit_area_saving and i < len(subtotals_per_unit_area_saving)) else None
+            val = subtotals_per_unit_area_saving[i] \
+                if (subtotals_per_unit_area_saving and i < len(subtotals_per_unit_area_saving)) else None
             cell_area.text = str(round2(val, 2)) if val is not None else ''
             _style_table_cell(cell_area, font_size=8)
 

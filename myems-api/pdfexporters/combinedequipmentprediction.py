@@ -291,16 +291,16 @@ class CombinedEquipmentPredictionPDFExporter:
                 img_h_inch = img.shape[0] / self.dpi
                 page_w, page_h = self.page_size
                 ax_img = fig.add_axes([0.5 - img_w_inch / page_w / 2,
-                                        0.62,
-                                        img_w_inch / page_w,
-                                        img_h_inch / page_h])
+                                      0.62,
+                                      img_w_inch / page_w,
+                                      img_h_inch / page_h])
                 ax_img.imshow(img)
                 ax_img.axis('off')
             except Exception as e:
                 logger.warning(f"Failed to load logo image: {e}")
 
         # Title
-        fig.text(0.5, 0.50, _('Combined Equipment Data') + ' - ' +_('Energy Prediction Analysis'),
+        fig.text(0.5, 0.50, _('Combined Equipment Data') + ' - ' + _('Energy Prediction Analysis'),
                  fontsize=24, weight='bold', ha='center', va='center')
 
         # Info list
@@ -318,7 +318,7 @@ class CombinedEquipmentPredictionPDFExporter:
         ax_table.axis('off')
 
         table = ax_table.table(cellText=info_data, loc='center',
-                                cellLoc='center', colWidths=[0.35, 0.65])
+                               cellLoc='center', colWidths=[0.35, 0.65])
         table.auto_set_font_size(False)
         table.set_fontsize(12)
 
@@ -401,7 +401,7 @@ class CombinedEquipmentPredictionPDFExporter:
 
         # ===== TCO2E breakdown data =====
         kgco2e_sum = sum(subtotals_in_kgco2e) if subtotals_in_kgco2e else 0
-        co2e_table_data = [[_('Energy Category'), _('Ton of Carbon Dioxide Emissions(TCO2E) by Energy Category') ]]
+        co2e_table_data = [[_('Energy Category'), _('Ton of Carbon Dioxide Emissions(TCO2E) by Energy Category')]]
         for i in range(ca_len):
             co2e_val = round2(subtotals_in_kgco2e[i] / 1000, 3) if i < len(subtotals_in_kgco2e) else 0
             co2e_table_data.append([names[i], str(co2e_val)])
@@ -412,7 +412,13 @@ class CombinedEquipmentPredictionPDFExporter:
                      fontsize=14, weight='bold', y=0.94)
 
         # Main layout: top = summary table, bottom = TOU + TCE/TCO2E
-        gs_main = gridspec.GridSpec(2, 1, height_ratios=[0.25, 0.75], hspace=0.25, top=0.90, bottom=0.05, left=0.04, right=0.96)
+        gs_main = gridspec.GridSpec(2, 1,
+                                    height_ratios=[0.25, 0.75],
+                                    hspace=0.25,
+                                    top=0.90,
+                                    bottom=0.05,
+                                    left=0.04,
+                                    right=0.96)
 
         # ===== Top: Reporting Period Prediction table =====
         ax_rp = fig.add_subplot(gs_main[0])
@@ -445,14 +451,14 @@ class CombinedEquipmentPredictionPDFExporter:
         ax_tou_tbl = fig.add_subplot(gs_bottom[0, 0])
         ax_tou_tbl.axis('off')
         tou_table_data = [
-            [_('Energy Category'),_('Electricity Consumption by Time-Of-Use')],
+            [_('Energy Category'), _('Electricity Consumption by Time-Of-Use')],
             [_('TopPeak'), str(tou_values[0]) if tou_exists else ''],
             [_('OnPeak'), str(tou_values[1]) if tou_exists else ''],
             [_('MidPeak'), str(tou_values[2]) if tou_exists else ''],
             [_('OffPeak'), str(tou_values[3]) if tou_exists else ''],
         ]
         tbl_tou = ax_tou_tbl.table(cellText=tou_table_data, loc='center',
-                                    cellLoc='center', colWidths=[0.4, 0.6])
+                                   cellLoc='center', colWidths=[0.4, 0.6])
         tbl_tou.auto_set_font_size(False)
         tbl_tou.set_fontsize(8)
         tbl_tou[0, 0].set_facecolor('#90EE90')
@@ -686,7 +692,8 @@ class CombinedEquipmentPredictionPDFExporter:
                             [reporting_times[t][:10] if t < len(reporting_times) else ''
                              for t in range(0, len(cdata), cstep)],
                             rotation=45, ha='right', fontsize=6)
-                        ax_chart.set_title(_('Base Period Prediction') + ' / ' + _('Reporting Period Prediction') + ' - ' + names[i] + ' (' + units[i] + ')',
+                        ax_chart.set_title(_('Base Period Prediction') + ' / ' +
+                                           _('Reporting Period Prediction') + ' - ' + names[i] + ' (' + units[i] + ')',
                                            fontsize=7, weight='bold')
                         ax_chart.legend(fontsize=6)
                         ax_chart.grid(True, alpha=0.3)
