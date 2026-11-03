@@ -333,9 +333,9 @@ class EquipmentEnergyPDFExporter:
                 page_w, page_h = self.page_size
                 # Convert inches to figure-relative coordinates
                 ax_img = fig.add_axes([0.5 - img_w_inch / page_w / 2,
-                                        0.62,
-                                        img_w_inch / page_w,
-                                        img_h_inch / page_h])
+                                      0.62,
+                                      img_w_inch / page_w,
+                                      img_h_inch / page_h])
                 ax_img.imshow(img)
                 ax_img.axis('off')
             except Exception as e:
@@ -360,7 +360,7 @@ class EquipmentEnergyPDFExporter:
         ax_table.axis('off')
 
         table = ax_table.table(cellText=info_data, loc='center',
-                                cellLoc='center', colWidths=[0.35, 0.65])
+                               cellLoc='center', colWidths=[0.35, 0.65])
         table.auto_set_font_size(False)
         table.set_fontsize(12)
 
@@ -456,7 +456,13 @@ class EquipmentEnergyPDFExporter:
 
         # Layout: top row = Reporting Period table (full width)
         #         bottom area = 3 columns x 2 sub-rows (tables + pie charts)
-        gs_main = gridspec.GridSpec(2, 1, height_ratios=[0.25, 0.75], hspace=0.30, top=0.90, bottom=0.05, left=0.04, right=0.96)
+        gs_main = gridspec.GridSpec(2, 1,
+                                    height_ratios=[0.25, 0.75],
+                                    hspace=0.30,
+                                    top=0.90,
+                                    bottom=0.05,
+                                    left=0.04,
+                                    right=0.96)
 
         # ===== Top row: Reporting Period Consumption table (full width) =====
         ax_rp = fig.add_subplot(gs_main[0])
@@ -469,7 +475,7 @@ class EquipmentEnergyPDFExporter:
 
         if has_rp_data:
             tbl_rp = ax_rp.table(cellText=rp_table_data, loc='center',
-                                  cellLoc='center', colWidths=rp_col_widths)
+                                 cellLoc='center', colWidths=rp_col_widths)
             tbl_rp.auto_set_font_size(False)
             tbl_rp.set_fontsize(7)
             for j in range(rp_num_cols):
@@ -498,7 +504,7 @@ class EquipmentEnergyPDFExporter:
             [_('OffPeak'), str(tou_values[3]) if tou_exists else ''],
         ]
         tbl1 = ax_table1.table(cellText=tou_table_data, loc='center',
-                                cellLoc='center', colWidths=[0.4, 0.6])
+                               cellLoc='center', colWidths=[0.4, 0.6])
         tbl1.auto_set_font_size(False)
         tbl1.set_fontsize(9)
         tbl1[0, 0].set_facecolor('#90EE90')
@@ -512,12 +518,12 @@ class EquipmentEnergyPDFExporter:
             tou_total = sum(tou_values)
             if tou_total > 0:
                 ax_chart1.pie(tou_values, labels=tou_categories, autopct='%1.1f%%',
-                               colors=tou_colors, startangle=90)
+                              colors=tou_colors, startangle=90)
             ax_chart1.set_title(_('Electricity Consumption by Time-Of-Use'),
-                                 fontsize=9, weight='bold')
+                                fontsize=9, weight='bold')
         else:
             ax_chart1.text(0.5, 0.5, _('No data'), fontsize=12,
-                            ha='center', va='center', transform=ax_chart1.transAxes)
+                           ha='center', va='center', transform=ax_chart1.transAxes)
             ax_chart1.axis('off')
 
         # ===== Column 2: TCE by category =====
@@ -530,7 +536,7 @@ class EquipmentEnergyPDFExporter:
             for i in range(len(names)):
                 tce_table_data.append([names[i], str(tce_values[i])])
         tbl2 = ax_table2.table(cellText=tce_table_data, loc='center',
-                                cellLoc='center', colWidths=[0.4, 0.6])
+                               cellLoc='center', colWidths=[0.4, 0.6])
         tbl2.auto_set_font_size(False)
         tbl2.set_fontsize(8)
         tbl2[0, 0].set_facecolor('#90EE90')
@@ -546,10 +552,10 @@ class EquipmentEnergyPDFExporter:
                 tce_colors = self.colors['chart_colors'][:len(tce_fn)]
                 ax_chart2.pie(tce_fv, labels=tce_fn, autopct='%1.1f%%', colors=tce_colors)
             ax_chart2.set_title(_('Ton of Standard Coal(TCE) by Energy Category'),
-                                 fontsize=9, weight='bold')
+                                fontsize=9, weight='bold')
         else:
             ax_chart2.text(0.5, 0.5, _('No data'), fontsize=12,
-                            ha='center', va='center', transform=ax_chart2.transAxes)
+                           ha='center', va='center', transform=ax_chart2.transAxes)
             ax_chart2.axis('off')
 
         # ===== Column 3: CO2E by category =====
@@ -562,7 +568,7 @@ class EquipmentEnergyPDFExporter:
             for i in range(len(names)):
                 co2e_table_data.append([names[i], str(co2e_values[i])])
         tbl3 = ax_table3.table(cellText=co2e_table_data, loc='center',
-                                cellLoc='center', colWidths=[0.4, 0.6])
+                               cellLoc='center', colWidths=[0.4, 0.6])
         tbl3.auto_set_font_size(False)
         tbl3.set_fontsize(8)
         tbl3[0, 0].set_facecolor('#90EE90')
@@ -578,10 +584,10 @@ class EquipmentEnergyPDFExporter:
                 co2e_colors = self.colors['chart_colors'][:len(co2e_fn)]
                 ax_chart3.pie(co2e_fv, labels=co2e_fn, autopct='%1.1f%%', colors=co2e_colors)
             ax_chart3.set_title(_('Ton of Carbon Dioxide Emissions(TCO2E) by Energy Category'),
-                                 fontsize=9, weight='bold')
+                                fontsize=9, weight='bold')
         else:
             ax_chart3.text(0.5, 0.5, _('No data'), fontsize=12,
-                            ha='center', va='center', transform=ax_chart3.transAxes)
+                           ha='center', va='center', transform=ax_chart3.transAxes)
             ax_chart3.axis('off')
 
         self._save_body_page(pdf, fig)
