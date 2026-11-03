@@ -165,9 +165,9 @@ class EnergyFlowDiagramDOCXExporter:
         logger.info(f"Starting DOCX generation for {name}")
 
         docx_filename = self.generate_docx(report, name,
-                                            reporting_start_datetime_local,
-                                            reporting_end_datetime_local,
-                                            language)
+                                           reporting_start_datetime_local,
+                                           reporting_end_datetime_local,
+                                           language)
 
         result = ''
         if docx_filename and os.path.exists(docx_filename):
