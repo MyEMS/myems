@@ -497,7 +497,8 @@ class EquipmentEfficiencyDOCXExporter:
             _style_table_cell(cell_cum_num)
 
             cell_cum_den = table.cell(1, base_col + 2)
-            val_den = denominator_cumulations[i] if denominator_cumulations and i < len(denominator_cumulations) else None
+            val_den = denominator_cumulations[i] \
+                if denominator_cumulations and i < len(denominator_cumulations) else None
             cell_cum_den.text = str(round2(val_den, 2)) if val_den is not None else ''
             _style_table_cell(cell_cum_den)
 
@@ -593,8 +594,10 @@ class EquipmentEfficiencyDOCXExporter:
             r_num_data = numerator_values[i] if i < len(numerator_values) else []
             r_den_data = denominator_values[i] if i < len(denominator_values) else []
             r_total = cumulations[i] if (cumulations and i < len(cumulations)) else None
-            r_num_total = numerator_cumulations[i] if (numerator_cumulations and i < len(numerator_cumulations)) else None
-            r_den_total = denominator_cumulations[i] if (denominator_cumulations and i < len(denominator_cumulations)) else None
+            r_num_total = numerator_cumulations[i] \
+                if (numerator_cumulations and i < len(numerator_cumulations)) else None
+            r_den_total = denominator_cumulations[i] \
+                if (denominator_cumulations and i < len(denominator_cumulations)) else None
 
             if not is_base:
                 sub_items = [
@@ -648,14 +651,20 @@ class EquipmentEfficiencyDOCXExporter:
                 b_num_data = base_numerator_values[i] if i < len(base_numerator_values) else []
                 b_den_data = base_denominator_values[i] if i < len(base_denominator_values) else []
                 b_total = base_cumulations[i] if (base_cumulations and i < len(base_cumulations)) else None
-                b_num_total = base_numerator_cumulations[i] if (base_numerator_cumulations and i < len(base_numerator_cumulations)) else None
-                b_den_total = base_denominator_cumulations[i] if (base_denominator_cumulations and i < len(base_denominator_cumulations)) else None
+                b_num_total = base_numerator_cumulations[i] \
+                    if (base_numerator_cumulations and i < len(base_numerator_cumulations)) else None
+                b_den_total = base_denominator_cumulations[i] \
+                    if (base_denominator_cumulations and i < len(base_denominator_cumulations)) else None
                 b_name_i = base_names[i] if (base_names and i < len(base_names)) else names[i]
                 b_unit_i = base_units[i] if (base_units and i < len(base_units)) else ''
-                b_num_name_i = base_numerator_names[i] if (base_numerator_names and i < len(base_numerator_names)) else num_name_i
-                b_num_unit_i = base_numerator_units[i] if (base_numerator_units and i < len(base_numerator_units)) else ''
-                b_den_name_i = base_denominator_names[i] if (base_denominator_names and i < len(base_denominator_names)) else den_name_i
-                b_den_unit_i = base_denominator_units[i] if (base_denominator_units and i < len(base_denominator_units)) else ''
+                b_num_name_i = base_numerator_names[i] \
+                    if (base_numerator_names and i < len(base_numerator_names)) else num_name_i
+                b_num_unit_i = base_numerator_units[i] \
+                    if (base_numerator_units and i < len(base_numerator_units)) else ''
+                b_den_name_i = base_denominator_names[i] \
+                    if (base_denominator_names and i < len(base_denominator_names)) else den_name_i
+                b_den_unit_i = base_denominator_units[i] \
+                    if (base_denominator_units and i < len(base_denominator_units)) else ''
 
                 sub_items = [
                     (names[i] + ((' (' + unit_i + ')') if unit_i else ''),
@@ -751,9 +760,12 @@ class EquipmentEfficiencyDOCXExporter:
                 denominator_values[i] if i < len(denominator_values) else []
             ]
             titles_no_base = [
-                _('Reporting Period Cumulative Efficiency') + ' - ' + names[i] + ((' (' + unit_i + ')') if unit_i else ''),
-                _('Reporting Period Cumulative Efficiency') + ' - ' + names[i] + '-' + num_name_i + ((' (' + num_unit_i + ')') if num_unit_i else ''),
-                _('Reporting Period Cumulative Efficiency') + ' - ' + names[i] + '-' + den_name_i + ((' (' + den_unit_i + ')') if den_unit_i else ''),
+                _('Reporting Period Cumulative Efficiency') + ' - ' +
+                names[i] + ((' (' + unit_i + ')') if unit_i else ''),
+                _('Reporting Period Cumulative Efficiency') + ' - ' +
+                names[i] + '-' + num_name_i + ((' (' + num_unit_i + ')') if num_unit_i else ''),
+                _('Reporting Period Cumulative Efficiency') + ' - ' +
+                names[i] + '-' + den_name_i + ((' (' + den_unit_i + ')') if den_unit_i else ''),
             ]
             r_name_list = [names[i], names[i] + '-' + num_name_i, names[i] + '-' + den_name_i]
 
@@ -780,13 +792,18 @@ class EquipmentEfficiencyDOCXExporter:
                     base_denominator_values[i] if i < len(base_denominator_values) else None,
                 ]
                 b_name_i = base_names[i] if (base_names and i < len(base_names)) else names[i]
-                b_num_name_i = base_numerator_names[i] if (base_numerator_names and i < len(base_numerator_names)) else num_name_i
-                b_den_name_i = base_denominator_names[i] if (base_denominator_names and i < len(base_denominator_names)) else den_name_i
+                b_num_name_i = base_numerator_names[i] \
+                    if (base_numerator_names and i < len(base_numerator_names)) else num_name_i
+                b_den_name_i = base_denominator_names[i] \
+                    if (base_denominator_names and i < len(base_denominator_names)) else den_name_i
                 b_name_list = [b_name_i, b_name_i + '-' + b_num_name_i, b_name_i + '-' + b_den_name_i]
                 titles_with_base = [
-                    _('Base Period Efficiency') + ' / ' + _('Reporting Period Efficiency') + ' - ' + names[i] + ((' (' + unit_i + ')') if unit_i else ''),
-                    _('Base Period Efficiency') + ' / ' + _('Reporting Period Efficiency') + ' - ' + names[i] + '-' + num_name_i + ((' (' + num_unit_i + ')') if num_unit_i else ''),
-                    _('Base Period Efficiency') + ' / ' + _('Reporting Period Efficiency') + ' - ' + names[i] + '-' + den_name_i + ((' (' + den_unit_i + ')') if den_unit_i else ''),
+                    _('Base Period Efficiency') + ' / ' + _('Reporting Period Efficiency') +
+                    ' - ' + names[i] + ((' (' + unit_i + ')') if unit_i else ''),
+                    _('Base Period Efficiency') + ' / ' + _('Reporting Period Efficiency') +
+                    ' - ' + names[i] + '-' + num_name_i + ((' (' + num_unit_i + ')') if num_unit_i else ''),
+                    _('Base Period Efficiency') + ' / ' + _('Reporting Period Efficiency') +
+                    ' - ' + names[i] + '-' + den_name_i + ((' (' + den_unit_i + ')') if den_unit_i else ''),
                 ]
                 for si in range(3):
                     r_raw = r_data_list[si]
@@ -969,9 +986,9 @@ def export(report,
     """
     exporter = EquipmentEfficiencyDOCXExporter(language)
     return exporter.export(report, name,
-                        base_period_start_datetime_local,
-                        base_period_end_datetime_local,
-                        reporting_start_datetime_local,
-                        reporting_end_datetime_local,
-                        period_type,
-                        language)
+                           base_period_start_datetime_local,
+                           base_period_end_datetime_local,
+                           reporting_start_datetime_local,
+                           reporting_end_datetime_local,
+                           period_type,
+                           language)

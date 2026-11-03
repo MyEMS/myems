@@ -266,7 +266,7 @@ class CombinedEquipmentSavingDOCXExporter:
         fig, ax = plt.subplots(figsize=(3.2, 2.6))
         if colors is None:
             colors = self.chart_colors[:len(labels)]
-        filtered = [(l, v, c) for l, v, c in zip(labels, values, colors) if (v or 0) > 0]
+        filtered = [(label, v, c) for label, v, c in zip(labels, values, colors) if (v or 0) > 0]
         if not filtered:
             plt.close(fig)
             return None
@@ -275,7 +275,7 @@ class CombinedEquipmentSavingDOCXExporter:
             sorted_data = sorted(zip(f_labels, f_values, f_colors), key=lambda x: x[1], reverse=True)
             top_data = sorted_data[:7]
             other_sum = sum(v for _, v, _ in sorted_data[7:])
-            f_labels = [l for l, _, _ in top_data] + [self._('Others')]
+            f_labels = [label for label, _, _ in top_data] + [self._('Others')]
             f_values = [v for _, v, _ in top_data] + [other_sum]
             f_colors = [c for _, _, c in top_data] + ['#999999']
         ax.pie(f_values, labels=f_labels, autopct='%1.1f%%', colors=f_colors, startangle=90)
@@ -497,7 +497,8 @@ class CombinedEquipmentSavingDOCXExporter:
             _style_table_cell(cell_saving, font_size=8)
 
             cell_area = table.cell(2, col)
-            val = subtotals_per_unit_area_saving[i] if (subtotals_per_unit_area_saving and i < len(subtotals_per_unit_area_saving)) else None
+            val = subtotals_per_unit_area_saving[i] \
+                if (subtotals_per_unit_area_saving and i < len(subtotals_per_unit_area_saving)) else None
             cell_area.text = str(round2(val, 2)) if val is not None else ''
             _style_table_cell(cell_area, font_size=8)
 
@@ -534,7 +535,6 @@ class CombinedEquipmentSavingDOCXExporter:
 
         self._add_tce_breakdown(doc, names, subtotals_in_kgce_saving, _('Saving'))
         self._add_tco2e_breakdown(doc, names, subtotals_in_kgco2e_saving, _('Saving'))
-
 
     def _add_tce_breakdown(self, doc, names, subtotals_in_kgce_saving, row_label_prefix):
         """Add TCE breakdown table + pie chart side-by-side."""
