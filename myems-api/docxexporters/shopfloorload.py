@@ -15,7 +15,8 @@ Key Features:
 
 The exported DOCX file includes:
 - Cover page with logo and report metadata
-- Shopfloor Data analysis page (5 tables: average load, maximum load, load factor, average per unit area, maximum per unit area)
+- Shopfloor Data analysis page
+-(5 tables: average load, maximum load, load factor, average per unit area, maximum per unit area)
 - Detailed data charts (each category has average + maximum load charts)
 - Parameter data pages
 """

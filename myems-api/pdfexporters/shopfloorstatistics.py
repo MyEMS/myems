@@ -273,9 +273,9 @@ class ShopfloorStatisticsPDFExporter:
                 img_h_inch = img.shape[0] / self.dpi
                 page_w, page_h = self.page_size
                 ax_img = fig.add_axes([0.5 - img_w_inch / page_w / 2,
-                                        0.62,
-                                        img_w_inch / page_w,
-                                        img_h_inch / page_h])
+                                      0.62,
+                                      img_w_inch / page_w,
+                                      img_h_inch / page_h])
                 ax_img.imshow(img)
                 ax_img.axis('off')
             except Exception as e:
@@ -300,7 +300,7 @@ class ShopfloorStatisticsPDFExporter:
         ax_table.axis('off')
 
         table = ax_table.table(cellText=info_data, loc='center',
-                                cellLoc='center', colWidths=[0.35, 0.65])
+                               cellLoc='center', colWidths=[0.35, 0.65])
         table.auto_set_font_size(False)
         table.set_fontsize(12)
 
@@ -373,7 +373,7 @@ class ShopfloorStatisticsPDFExporter:
             table_data.append(rate_row)
 
         tbl1 = ax1.table(cellText=table_data, loc='center',
-                          cellLoc='center', colWidths=col_widths)
+                         cellLoc='center', colWidths=col_widths)
         tbl1.auto_set_font_size(False)
         tbl1.set_fontsize(8)
         num_cols = len(col_headers)
@@ -423,7 +423,7 @@ class ShopfloorStatisticsPDFExporter:
             per_area_table_data.append(value_row)
 
         tbl2 = ax2.table(cellText=per_area_table_data, loc='center',
-                          cellLoc='center', colWidths=col_widths)
+                         cellLoc='center', colWidths=col_widths)
         tbl2.auto_set_font_size(False)
         tbl2.set_fontsize(8)
         for j in range(num_cols):
@@ -612,7 +612,8 @@ class ShopfloorStatisticsPDFExporter:
                             [reporting_times[t][:10] if t < len(reporting_times) else ''
                              for t in range(0, len(r_data), cstep)],
                             rotation=45, ha='right', fontsize=6)
-                        ax_chart.set_title(_('Base Period Consumption') + ' / ' + _('Reporting Period Consumption') + ' - ' + names[i] + ' (' + units[i] + ')',
+                        ax_chart.set_title(_('Base Period Consumption') + ' / ' +
+                                           _('Reporting Period Consumption') + ' - ' + names[i] + ' (' + units[i] + ')',
                                            fontsize=7, weight='bold')
                         ax_chart.legend(fontsize=6)
                         ax_chart.grid(True, alpha=0.3)
@@ -670,7 +671,6 @@ class ShopfloorStatisticsPDFExporter:
                 _style_table_borders(table, len(table_data), num_cols)
 
                 self._save_body_page(pdf, fig)
-
 
     def _create_detailed_data_charts(self, pdf: PdfPages):
         """Create line charts for each energy category, up to 4 per page in 2x2 grid.

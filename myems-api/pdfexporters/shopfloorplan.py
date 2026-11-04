@@ -273,9 +273,9 @@ class ShopfloorPlanPDFExporter:
                 img_h_inch = img.shape[0] / self.dpi
                 page_w, page_h = self.page_size
                 ax_img = fig.add_axes([0.5 - img_w_inch / page_w / 2,
-                                        0.62,
-                                        img_w_inch / page_w,
-                                        img_h_inch / page_h])
+                                      0.62,
+                                      img_w_inch / page_w,
+                                      img_h_inch / page_h])
                 ax_img.imshow(img)
                 ax_img.axis('off')
             except Exception as e:
@@ -300,7 +300,7 @@ class ShopfloorPlanPDFExporter:
         ax_table.axis('off')
 
         table = ax_table.table(cellText=info_data, loc='center',
-                                cellLoc='center', colWidths=[0.35, 0.65])
+                               cellLoc='center', colWidths=[0.35, 0.65])
         table.auto_set_font_size(False)
         table.set_fontsize(12)
 
@@ -335,7 +335,8 @@ class ShopfloorPlanPDFExporter:
         for i in range(ca_len):
             col_headers.append(names[i] + '   (' + _('Baseline') + ' - ' + _('Actual') + ')(' + units[i] + ')')
         col_headers.append(_('Ton of Standard Coal') + '  (' + _('Baseline') + ' - ' + _('Actual') + ') (TCE)')
-        col_headers.append(_('Ton of Carbon Dioxide Emissions') + '  (' + _('Baseline') + ' - ' + _('Actual') + ') (TCO2E)')
+        col_headers.append(_('Ton of Carbon Dioxide Emissions') +
+                           '  (' + _('Baseline') + ' - ' + _('Actual') + ') (TCO2E)')
 
         plan_row = [_('Plan')]
         for i in range(ca_len):
@@ -393,7 +394,13 @@ class ShopfloorPlanPDFExporter:
                      fontsize=14, weight='bold', y=0.94)
 
         # Main layout: top = summary table, bottom = TCE/TCO2E breakdown
-        gs_main = gridspec.GridSpec(2, 1, height_ratios=[0.30, 0.70], hspace=0.25, top=0.90, bottom=0.05, left=0.04, right=0.96)
+        gs_main = gridspec.GridSpec(2, 1,
+                                    height_ratios=[0.30, 0.70],
+                                    hspace=0.25,
+                                    top=0.90,
+                                    bottom=0.05,
+                                    left=0.04,
+                                    right=0.96)
 
         # ===== Top: Reporting Period Plan table (full width) =====
         ax_rp = fig.add_subplot(gs_main[0])
@@ -551,7 +558,8 @@ class ShopfloorPlanPDFExporter:
                 for t_idx in range(start_row, end_row):
                     row = [times[t_idx]]
                     for j in range(ca_len):
-                        val = values_saving[j][t_idx] if j < len(values_saving) and t_idx < len(values_saving[j]) else None
+                        val = values_saving[j][t_idx] \
+                            if j < len(values_saving) and t_idx < len(values_saving[j]) else None
                         row.append(str(round2(val, 2)) if val is not None else '')
                     table_data.append(row)
 
@@ -637,7 +645,8 @@ class ShopfloorPlanPDFExporter:
                             [reporting_times[t][:10] if t < len(reporting_times) else ''
                              for t in range(0, len(r_data), cstep)],
                             rotation=45, ha='right', fontsize=6)
-                        ax_chart.set_title(_('Base Period Plan') + ' / ' + _('Reporting Period Plan') + ' - ' + names[i] + ' (' + units[i] + ')',
+                        ax_chart.set_title(_('Base Period Plan') + ' / ' +
+                                           _('Reporting Period Plan') + ' - ' + names[i] + ' (' + units[i] + ')',
                                            fontsize=7, weight='bold')
                         ax_chart.legend(fontsize=6)
                         ax_chart.grid(True, alpha=0.3)
@@ -672,7 +681,8 @@ class ShopfloorPlanPDFExporter:
 
                 subtotal_row = [_('Subtotal')]
                 for i in range(base_ca_len):
-                    subtotal_row.append(str(round2(base_subtotals_saving[i], 2)) if i < len(base_subtotals_saving) else '')
+                    subtotal_row.append(str(round2(base_subtotals_saving[i], 2))
+                                        if i < len(base_subtotals_saving) else '')
                 subtotal_row.append(_('Subtotal'))
                 for i in range(reporting_ca_len):
                     subtotal_row.append(str(round2(subtotals_saving[i], 2)) if i < len(subtotals_saving) else '')
