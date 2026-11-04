@@ -29,7 +29,7 @@ import Badge from 'reactstrap/es/Badge';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import FalconCardHeader from '../../common/FalconCardHeader';
 import { getPaginationArray } from '../../../helpers/utils';
-import { getCookieValue, createCookie } from '../../../helpers/utils';
+import { getCookieValue, createCookie, handleAPIError } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import moment from 'moment';
