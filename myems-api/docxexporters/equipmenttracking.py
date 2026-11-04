@@ -380,7 +380,7 @@ class EquipmentTrackingDOCXExporter:
                 self._add_heading_styled(doc, self.space_name + ' - ' + _('Equipment Tracking'), level=1)
             else:
                 self._add_heading_styled(doc, self.space_name + ' - ' + _('Equipment Tracking') +
-                                     ' (' + str(page + 1) + '/' + str(num_pages) + ')', level=1)
+                                         ' (' + str(page + 1) + '/' + str(num_pages) + ')', level=1)
 
             table = doc.add_table(rows=num_rows_on_page + 1, cols=total_cols)
             table.alignment = WD_TABLE_ALIGNMENT.CENTER
@@ -391,26 +391,26 @@ class EquipmentTrackingDOCXExporter:
                 _style_table_cell(c, is_header=True, bold=True, font_size=9)
 
             for i, eq in enumerate(page_equipments):
-                    r_idx = i + 1
-                    c_id = table.cell(r_idx, 0)
-                    c_id.text = str(eq.get('id', ''))
-                    _style_table_cell(c_id, is_green=True, bold=True, font_size=8)
+                r_idx = i + 1
+                c_id = table.cell(r_idx, 0)
+                c_id.text = str(eq.get('id', ''))
+                _style_table_cell(c_id, is_green=True, bold=True, font_size=8)
 
-                    c_name = table.cell(r_idx, 1)
-                    c_name.text = str(eq.get('equipment_name', ''))
-                    _style_table_cell(c_name, font_size=8)
+                c_name = table.cell(r_idx, 1)
+                c_name.text = str(eq.get('equipment_name', ''))
+                _style_table_cell(c_name, font_size=8)
 
-                    c_space = table.cell(r_idx, 2)
-                    c_space.text = str(eq.get('space_name', ''))
-                    _style_table_cell(c_space, font_size=8)
+                c_space = table.cell(r_idx, 2)
+                c_space.text = str(eq.get('space_name', ''))
+                _style_table_cell(c_space, font_size=8)
 
-                    c_cc = table.cell(r_idx, 3)
-                    c_cc.text = str(eq.get('cost_center_name', ''))
-                    _style_table_cell(c_cc, font_size=8)
+                c_cc = table.cell(r_idx, 3)
+                c_cc.text = str(eq.get('cost_center_name', ''))
+                _style_table_cell(c_cc, font_size=8)
 
-                    c_desc = table.cell(r_idx, 4)
-                    c_desc.text = str(eq.get('description', ''))
-                    _style_table_cell(c_desc, font_size=8)
+                c_desc = table.cell(r_idx, 4)
+                c_desc.text = str(eq.get('description', ''))
+                _style_table_cell(c_desc, font_size=8)
 
             if page < num_pages - 1:
                 doc.add_page_break()
