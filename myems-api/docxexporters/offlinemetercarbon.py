@@ -702,7 +702,7 @@ class OfflineMeterCarbonDOCXExporter:
                         label=_('Base Period') + ' - ' + category_label)
             _set_ticks(ax, raw_len, reporting_times)
             title = _('Base Period Carbon Dioxide Emissions') + ' / ' + \
-                    _('Reporting Period Carbon Dioxide Emissions') + ' - ' + category_label
+                _('Reporting Period Carbon Dioxide Emissions') + ' - ' + category_label
             ax.set_title(title, fontsize=9, fontweight='bold')
             ax.legend(fontsize=7)
             ax.grid(True, alpha=0.3)
