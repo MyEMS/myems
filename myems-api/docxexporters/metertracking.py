@@ -413,7 +413,7 @@ class MeterTrackingDOCXExporter:
                 self._add_heading_styled(doc, self.space_name + ' - ' + _('Meter Tracking'), level=1)
             else:
                 self._add_heading_styled(doc, self.space_name + ' - ' + _('Meter Tracking') +
-                                     ' (' + str(page + 1) + '/' + str(num_pages) + ')', level=1)
+                                         ' (' + str(page + 1) + '/' + str(num_pages) + ')', level=1)
 
             table = doc.add_table(rows=num_rows_on_page + 1, cols=total_cols)
             table.alignment = WD_TABLE_ALIGNMENT.CENTER
@@ -424,46 +424,46 @@ class MeterTrackingDOCXExporter:
                 _style_table_cell(c, is_header=True, bold=True, font_size=9)
 
             for i, meter in enumerate(page_meters):
-                    r_idx = i + 1
-                    start_value = meter.get('start_value')
-                    end_value = meter.get('end_value')
-                    difference_value = meter.get('difference_value')
+                r_idx = i + 1
+                start_value = meter.get('start_value')
+                end_value = meter.get('end_value')
+                difference_value = meter.get('difference_value')
 
-                    c_id = table.cell(r_idx, 0)
-                    c_id.text = str(meter.get('id', ''))
-                    _style_table_cell(c_id, is_green=True, bold=True, font_size=8)
+                c_id = table.cell(r_idx, 0)
+                c_id.text = str(meter.get('id', ''))
+                _style_table_cell(c_id, is_green=True, bold=True, font_size=8)
 
-                    c_name = table.cell(r_idx, 1)
-                    c_name.text = str(meter.get('meter_name', ''))
-                    _style_table_cell(c_name, font_size=8)
+                c_name = table.cell(r_idx, 1)
+                c_name.text = str(meter.get('meter_name', ''))
+                _style_table_cell(c_name, font_size=8)
 
-                    c_space = table.cell(r_idx, 2)
-                    c_space.text = str(meter.get('space_name', ''))
-                    _style_table_cell(c_space, font_size=8)
+                c_space = table.cell(r_idx, 2)
+                c_space.text = str(meter.get('space_name', ''))
+                _style_table_cell(c_space, font_size=8)
 
-                    c_cc = table.cell(r_idx, 3)
-                    c_cc.text = str(meter.get('cost_center_name', ''))
-                    _style_table_cell(c_cc, font_size=8)
+                c_cc = table.cell(r_idx, 3)
+                c_cc.text = str(meter.get('cost_center_name', ''))
+                _style_table_cell(c_cc, font_size=8)
 
-                    c_ec = table.cell(r_idx, 4)
-                    c_ec.text = str(meter.get('energy_category_name', ''))
-                    _style_table_cell(c_ec, font_size=8)
+                c_ec = table.cell(r_idx, 4)
+                c_ec.text = str(meter.get('energy_category_name', ''))
+                _style_table_cell(c_ec, font_size=8)
 
-                    c_desc = table.cell(r_idx, 5)
-                    c_desc.text = str(meter.get('description', ''))
-                    _style_table_cell(c_desc, font_size=8)
+                c_desc = table.cell(r_idx, 5)
+                c_desc.text = str(meter.get('description', ''))
+                _style_table_cell(c_desc, font_size=8)
 
-                    c_start = table.cell(r_idx, 6)
-                    c_start.text = str(round2(start_value, 2)) if start_value is not None else ''
-                    _style_table_cell(c_start, font_size=8)
+                c_start = table.cell(r_idx, 6)
+                c_start.text = str(round2(start_value, 2)) if start_value is not None else ''
+                _style_table_cell(c_start, font_size=8)
 
-                    c_end = table.cell(r_idx, 7)
-                    c_end.text = str(round2(end_value, 2)) if end_value is not None else ''
-                    _style_table_cell(c_end, font_size=8)
+                c_end = table.cell(r_idx, 7)
+                c_end.text = str(round2(end_value, 2)) if end_value is not None else ''
+                _style_table_cell(c_end, font_size=8)
 
-                    c_diff = table.cell(r_idx, 8)
-                    c_diff.text = str(round2(difference_value, 2)) if difference_value is not None else ''
-                    _style_table_cell(c_diff, font_size=8)
+                c_diff = table.cell(r_idx, 8)
+                c_diff.text = str(round2(difference_value, 2)) if difference_value is not None else ''
+                _style_table_cell(c_diff, font_size=8)
 
             if page < num_pages - 1:
                 doc.add_page_break()
