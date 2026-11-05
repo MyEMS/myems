@@ -270,7 +270,7 @@ class TenantEnergyCategoryDOCXExporter:
         fig, ax = plt.subplots(figsize=(2.4, 2.7))
         if colors is None:
             colors = self.chart_colors[:len(labels)]
-        filtered = [(l, v, c) for l, v, c in zip(labels, values, colors) if (v or 0) > 0]
+        filtered = [(label, v, c) for label, v, c in zip(labels, values, colors) if (v or 0) > 0]
         if not filtered:
             plt.close(fig)
             return None
@@ -279,7 +279,7 @@ class TenantEnergyCategoryDOCXExporter:
             sorted_data = sorted(zip(f_labels, f_values, f_colors), key=lambda x: x[1], reverse=True)
             top_data = sorted_data[:7]
             other_sum = sum(v for _, v, _ in sorted_data[7:])
-            f_labels = [l for l, _, _ in top_data] + [self._('Others')]
+            f_labels = [label for label, _, _ in top_data] + [self._('Others')]
             f_values = [v for _, v, _ in top_data] + [other_sum]
             f_colors = [c for _, _, c in top_data] + ['#999999']
         ax.pie(f_values, labels=f_labels, autopct='%1.1f%%', colors=f_colors, startangle=90)
@@ -678,7 +678,7 @@ class TenantEnergyCategoryDOCXExporter:
         doc.add_page_break()
 
     def _draw_working_days_table(self, doc, section_title, names, units,
-                                  non_working, working, tenant_working_calendars):
+                                 non_working, working, tenant_working_calendars):
         _ = self._
         ca_len = len(names)
         if ca_len == 0:
@@ -741,8 +741,8 @@ class TenantEnergyCategoryDOCXExporter:
             base_w = base_period.get('working_days_subtotals', [])
             if base_names:
                 self._draw_working_days_table(doc, _('Base Period Consumption'),
-                                            base_names, base_units,
-                                            base_nw, base_w, tenant_working_calendars)
+                                              base_names, base_units,
+                                              base_nw, base_w, tenant_working_calendars)
 
         reporting_period = self.report.get('reporting_period', {})
         r_names = reporting_period.get('names', [])
@@ -751,8 +751,8 @@ class TenantEnergyCategoryDOCXExporter:
         r_w = reporting_period.get('working_days_subtotals', [])
         if r_names:
             self._draw_working_days_table(doc, _('Reporting Period Consumption'),
-                                        r_names, r_units,
-                                        r_nw, r_w, tenant_working_calendars)
+                                          r_names, r_units,
+                                          r_nw, r_w, tenant_working_calendars)
 
     @staticmethod
     def _filter_valid_data(data):

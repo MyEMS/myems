@@ -338,11 +338,11 @@ class VirtualMeterEnergyDOCXExporter:
         has_params = self._has_valid_parameters(self.report.get('parameters', {}))
 
         self._add_cover_page(doc, name, period_type,
-                           reporting_start_datetime_local,
-                           reporting_end_datetime_local,
-                           base_period_start_datetime_local,
-                           base_period_end_datetime_local,
-                           self.is_base_period_exists)
+                             reporting_start_datetime_local,
+                             reporting_end_datetime_local,
+                             base_period_start_datetime_local,
+                             base_period_end_datetime_local,
+                             self.is_base_period_exists)
 
         configure_cover_section(doc.sections[0])
 

@@ -399,7 +399,7 @@ class TenantBatchDOCXExporter:
             else:
                 self._add_heading_styled(
                     doc, self.space_name + ' - ' + _('Batch Analysis') +
-                         ' (' + str(page_idx + 1) + '/' + str(num_pages) + ')',
+                    ' (' + str(page_idx + 1) + '/' + str(num_pages) + ')',
                     level=1
                 )
 
@@ -458,7 +458,7 @@ def export(report,
     """
     exporter = TenantBatchDOCXExporter(language)
     return exporter.export(report,
-                         space_name,
-                         reporting_start_datetime_local,
-                         reporting_end_datetime_local,
-                         language)
+                           space_name,
+                           reporting_start_datetime_local,
+                           reporting_end_datetime_local,
+                           language)

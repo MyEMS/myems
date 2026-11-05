@@ -869,9 +869,9 @@ def export(report,
     """
     exporter = VirtualMeterSavingDOCXExporter(language)
     return exporter.export(report, name,
-                        base_period_start_datetime_local,
-                        base_period_end_datetime_local,
-                        reporting_start_datetime_local,
-                        reporting_end_datetime_local,
-                        period_type,
-                        language)
+                           base_period_start_datetime_local,
+                           base_period_end_datetime_local,
+                           reporting_start_datetime_local,
+                           reporting_end_datetime_local,
+                           period_type,
+                           language)
