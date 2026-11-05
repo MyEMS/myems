@@ -223,7 +223,6 @@ class StoreLoadPDFExporter:
             # Detailed data table pages (paginated)
             self._create_detailed_data_page(pdf)
 
-
             # Parameters (batched)
             self._create_parameters_page(pdf)
 
@@ -273,9 +272,9 @@ class StoreLoadPDFExporter:
                 img_h_inch = img.shape[0] / self.dpi
                 page_w, page_h = self.page_size
                 ax_img = fig.add_axes([0.5 - img_w_inch / page_w / 2,
-                                        0.62,
-                                        img_w_inch / page_w,
-                                        img_h_inch / page_h])
+                                      0.62,
+                                      img_w_inch / page_w,
+                                      img_h_inch / page_h])
                 ax_img.imshow(img)
                 ax_img.axis('off')
             except Exception as e:
@@ -300,7 +299,7 @@ class StoreLoadPDFExporter:
         ax_table.axis('off')
 
         table = ax_table.table(cellText=info_data, loc='center',
-                                cellLoc='center', colWidths=[0.35, 0.65])
+                               cellLoc='center', colWidths=[0.35, 0.65])
         table.auto_set_font_size(False)
         table.set_fontsize(12)
 
@@ -476,9 +475,11 @@ class StoreLoadPDFExporter:
                 chart_specs = []
                 for i in range(len(names)):
                     if i < len(sub_averages):
-                        chart_specs.append((i, sub_averages[i], _('Reporting Period Average Load') + ' - ' + names[i] + ' ' + _('Average Load') + ' (' + units[i] + '/H)'))
+                        chart_specs.append((i, sub_averages[i], _('Reporting Period Average Load') + ' - ' +
+                                            names[i] + ' ' + _('Average Load') + ' (' + units[i] + '/H)'))
                     if i < len(sub_maximums):
-                        chart_specs.append((i, sub_maximums[i], _('Reporting Period Maximum Load') + ' - ' + names[i] + ' ' + _('Maximum Load') + ' (' + units[i] + '/H)'))
+                        chart_specs.append((i, sub_maximums[i], _('Reporting Period Maximum Load') + ' - ' +
+                                            names[i] + ' ' + _('Maximum Load') + ' (' + units[i] + '/H)'))
                 n_charts = len(chart_specs)
                 if n_charts > 0:
                     if n_charts <= 3:
@@ -517,8 +518,10 @@ class StoreLoadPDFExporter:
                 for t_idx in range(start_row, end_row):
                     row = [times[t_idx]]
                     for j in range(ca_len):
-                        avg_val = sub_averages[j][t_idx] if j < len(sub_averages) and t_idx < len(sub_averages[j]) else None
-                        max_val = sub_maximums[j][t_idx] if j < len(sub_maximums) and t_idx < len(sub_maximums[j]) else None
+                        avg_val = sub_averages[j][t_idx] \
+                            if j < len(sub_averages) and t_idx < len(sub_averages[j]) else None
+                        max_val = sub_maximums[j][t_idx] \
+                            if j < len(sub_maximums) and t_idx < len(sub_maximums[j]) else None
                         row.append(str(round2(avg_val, 2)) if avg_val is not None else '')
                         row.append(str(round2(max_val, 2)) if max_val is not None else '')
                     table_data.append(row)
@@ -568,9 +571,15 @@ class StoreLoadPDFExporter:
                 chart_specs = []
                 for i in range(len(names)):
                     if i < len(sub_averages):
-                        chart_specs.append((i, sub_averages[i], base_sub_averages, _('Base Period Average Load') + ' / ' + _('Reporting Period Average Load') + ' - ' + names[i] + ' ' + _('Average Load') + ' (' + units[i] + '/H)'))
+                        chart_specs.append((i, sub_averages[i], base_sub_averages,
+                                            _('Base Period Average Load') + ' / ' +
+                                            _('Reporting Period Average Load') + ' - ' +
+                                            names[i] + ' ' + _('Average Load') + ' (' + units[i] + '/H)'))
                     if i < len(sub_maximums):
-                        chart_specs.append((i, sub_maximums[i], base_sub_maximums, _('Base Period Maximum Load') + ' / ' + _('Reporting Period Maximum Load') + ' - ' + names[i] + ' ' + _('Maximum Load') + ' (' + units[i] + '/H)'))
+                        chart_specs.append((i, sub_maximums[i], base_sub_maximums,
+                                            _('Base Period Maximum Load') + ' / ' +
+                                            _('Reporting Period Maximum Load') + ' - ' +
+                                            names[i] + ' ' + _('Maximum Load') + ' (' + units[i] + '/H)'))
                 n_charts = len(chart_specs)
                 if n_charts > 0:
                     if n_charts <= 3:
@@ -611,26 +620,34 @@ class StoreLoadPDFExporter:
 
                 col_headers = [_('Base Period') + ' - ' + _('Datetime')]
                 for i in range(base_ca_len):
-                    col_headers.append(_('Base Period') + ' - ' + base_names[i] + ' ' + _('Average Load') + ' (' + base_units[i] + '/H)')
-                    col_headers.append(_('Base Period') + ' - ' + base_names[i] + ' ' + _('Maximum Load') + ' (' + base_units[i] + '/H)')
+                    col_headers.append(_('Base Period') + ' - ' + base_names[i] + ' ' +
+                                       _('Average Load') + ' (' + base_units[i] + '/H)')
+                    col_headers.append(_('Base Period') + ' - ' + base_names[i] + ' ' +
+                                       _('Maximum Load') + ' (' + base_units[i] + '/H)')
                 col_headers.append(_('Reporting Period') + ' - ' + _('Datetime'))
                 for i in range(reporting_ca_len):
-                    col_headers.append(_('Reporting Period') + ' - ' + names[i] + ' ' + _('Average Load') + ' (' + units[i] + '/H)')
-                    col_headers.append(_('Reporting Period') + ' - ' + names[i] + ' ' + _('Maximum Load') + ' (' + units[i] + '/H)')
+                    col_headers.append(_('Reporting Period') + ' - ' + names[i] + ' ' +
+                                       _('Average Load') + ' (' + units[i] + '/H)')
+                    col_headers.append(_('Reporting Period') + ' - ' + names[i] + ' ' +
+                                       _('Maximum Load') + ' (' + units[i] + '/H)')
 
                 table_data = [col_headers]
                 for t_idx in range(start_row, end_row):
                     row = []
                     row.append(base_times[t_idx] if t_idx < len(base_times) else '')
                     for j in range(base_ca_len):
-                        avg_val = base_sub_averages[j][t_idx] if j < len(base_sub_averages) and t_idx < len(base_sub_averages[j]) else None
-                        max_val = base_sub_maximums[j][t_idx] if j < len(base_sub_maximums) and t_idx < len(base_sub_maximums[j]) else None
+                        avg_val = base_sub_averages[j][t_idx] \
+                            if j < len(base_sub_averages) and t_idx < len(base_sub_averages[j]) else None
+                        max_val = base_sub_maximums[j][t_idx] \
+                            if j < len(base_sub_maximums) and t_idx < len(base_sub_maximums[j]) else None
                         row.append(str(round2(avg_val, 2)) if avg_val is not None else '')
                         row.append(str(round2(max_val, 2)) if max_val is not None else '')
                     row.append(reporting_times[t_idx] if t_idx < len(reporting_times) else '')
                     for j in range(reporting_ca_len):
-                        avg_val = sub_averages[j][t_idx] if j < len(sub_averages) and t_idx < len(sub_averages[j]) else None
-                        max_val = sub_maximums[j][t_idx] if j < len(sub_maximums) and t_idx < len(sub_maximums[j]) else None
+                        avg_val = sub_averages[j][t_idx] \
+                            if j < len(sub_averages) and t_idx < len(sub_averages[j]) else None
+                        max_val = sub_maximums[j][t_idx] \
+                            if j < len(sub_maximums) and t_idx < len(sub_maximums[j]) else None
                         row.append(str(round2(avg_val, 2)) if avg_val is not None else '')
                         row.append(str(round2(max_val, 2)) if max_val is not None else '')
                     table_data.append(row)
@@ -648,7 +665,6 @@ class StoreLoadPDFExporter:
                 _style_table_borders(table, len(table_data), num_cols)
 
                 self._save_body_page(pdf, fig)
-
 
     def _create_detailed_data_charts(self, pdf: PdfPages):
         """Create line charts for each energy category showing average load and maximum load.
@@ -686,7 +702,12 @@ class StoreLoadPDFExporter:
                 fig.suptitle(self.name + ' ' + _('Detailed Data'),
                              fontsize=16, weight='bold', y=0.94)
 
-                gs = gridspec.GridSpec(charts_per_category, 1, hspace=0.35, top=0.90, bottom=0.05, left=0.04, right=0.96)
+                gs = gridspec.GridSpec(charts_per_category, 1,
+                                       hspace=0.35,
+                                       top=0.90,
+                                       bottom=0.05,
+                                       left=0.04,
+                                       right=0.96)
                 chart_row = 0
 
                 # Average Load chart
@@ -745,7 +766,12 @@ class StoreLoadPDFExporter:
                 fig.suptitle(self.name + ' ' + _('Detailed Data'),
                              fontsize=16, weight='bold', y=0.94)
 
-                gs = gridspec.GridSpec(charts_per_category, 1, hspace=0.35, top=0.90, bottom=0.05, left=0.04, right=0.96)
+                gs = gridspec.GridSpec(charts_per_category, 1,
+                                       hspace=0.35,
+                                       top=0.90,
+                                       bottom=0.05,
+                                       left=0.04,
+                                       right=0.96)
                 chart_row = 0
 
                 # Average Load chart (base period vs reporting period)

@@ -802,7 +802,6 @@ def generate_excel(report,
         ws['B' + str(current_row_number)].border = f_border
         ws['B' + str(current_row_number)] = _('ID')
 
-
         ws['C' + str(current_row_number)].fill = table_fill
         ws['C' + str(current_row_number)].font = name_font
         ws['C' + str(current_row_number)].alignment = c_c_alignment
@@ -823,7 +822,6 @@ def generate_excel(report,
         current_row_number += 1
         ca_child_len = len(child_space_data['child_space_names_array'][0])
 
-
         for i in range(0, ca_child_len):
             ws['B' + str(current_row_number)].font = title_font
             ws['B' + str(current_row_number)].alignment = c_c_alignment
@@ -833,14 +831,12 @@ def generate_excel(report,
 
         current_row_number -= ca_child_len
 
-
         for i in range(0, ca_child_len):
 
             ws['C' + str(current_row_number)].font = title_font
             ws['C' + str(current_row_number)].alignment = c_c_alignment
             ws['C' + str(current_row_number)].border = f_border
             ws['C' + str(current_row_number)] = child_space_data['child_space_names_array'][0][i]
-            
 
             col = 'D'
             for j in range(0, ca_len):

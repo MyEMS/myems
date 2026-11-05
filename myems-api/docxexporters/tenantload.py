@@ -688,14 +688,18 @@ class TenantLoadDOCXExporter:
                     if len(base_times) > 0:
                         col_headers.append(_('Base Period') + ' - ' + _('Datetime'))
                         if has_sub_averages:
-                            col_headers.append(_('Base Period') + ' - ' + names[i] + ' ' + _('Average Load') + value_unit)
+                            col_headers.append(_('Base Period') + ' - ' + names[i] + ' ' +
+                                               _('Average Load') + value_unit)
                         if has_sub_maximums:
-                            col_headers.append(_('Base Period') + ' - ' + names[i] + ' ' + _('Maximum Load') + value_unit)
+                            col_headers.append(_('Base Period') + ' - ' + names[i] + ' ' +
+                                               _('Maximum Load') + value_unit)
                     col_headers.append(_('Reporting Period') + ' - ' + _('Datetime'))
                     if has_sub_averages:
-                        col_headers.append(_('Reporting Period') + ' - ' + names[i] + ' ' + _('Average Load') + value_unit)
+                        col_headers.append(_('Reporting Period') + ' - ' + names[i] + ' ' +
+                                           _('Average Load') + value_unit)
                     if has_sub_maximums:
-                        col_headers.append(_('Reporting Period') + ' - ' + names[i] + ' ' + _('Maximum Load') + value_unit)
+                        col_headers.append(_('Reporting Period') + ' - ' + names[i] + ' ' +
+                                           _('Maximum Load') + value_unit)
                     table_data = [col_headers]
                     for t_idx in range(start_row, end_row):
                         row_vals = []
