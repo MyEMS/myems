@@ -277,7 +277,6 @@ class SpaceEnergyItemPDFExporter:
             # Detailed data table pages (paginated)
             self._create_detailed_data_page(pdf)
 
-
             # Child spaces data table and pie charts
             self._create_child_spaces_page(pdf)
 
@@ -330,9 +329,9 @@ class SpaceEnergyItemPDFExporter:
                 img_h_inch = img.shape[0] / self.dpi
                 page_w, page_h = self.page_size
                 ax_img = fig.add_axes([0.5 - img_w_inch / page_w / 2,
-                                        0.62,
-                                        img_w_inch / page_w,
-                                        img_h_inch / page_h])
+                                      0.62,
+                                      img_w_inch / page_w,
+                                      img_h_inch / page_h])
                 ax_img.imshow(img)
                 ax_img.axis('off')
             except Exception as e:
@@ -357,7 +356,7 @@ class SpaceEnergyItemPDFExporter:
         ax_table.axis('off')
 
         table = ax_table.table(cellText=info_data, loc='center',
-                                cellLoc='center', colWidths=[0.35, 0.65])
+                               cellLoc='center', colWidths=[0.35, 0.65])
         table.auto_set_font_size(False)
         table.set_fontsize(12)
 
@@ -417,7 +416,7 @@ class SpaceEnergyItemPDFExporter:
         rp_col_widths = [w / rp_total_w for w in rp_col_widths]
 
         tbl_rp = ax_rp.table(cellText=rp_table_data, loc='center',
-                              cellLoc='center', colWidths=rp_col_widths)
+                             cellLoc='center', colWidths=rp_col_widths)
         tbl_rp.auto_set_font_size(False)
         tbl_rp.set_fontsize(max(5, min(9, 80 // ca_len)))
         for j in range(rp_num_cols):
@@ -646,7 +645,8 @@ class SpaceEnergyItemPDFExporter:
                             [reporting_times[t][:10] if t < len(reporting_times) else ''
                              for t in range(0, len(cdata), cstep)],
                             rotation=45, ha='right', fontsize=6)
-                        ax_chart.set_title(_('Base Period Consumption') + ' / ' + _('Reporting Period Consumption') + ' - ' + names[i] + ' (' + units[i] + ')',
+                        ax_chart.set_title(_('Base Period Consumption') + ' / ' +
+                                           _('Reporting Period Consumption') + ' - ' + names[i] + ' (' + units[i] + ')',
                                            fontsize=7, weight='bold')
                         ax_chart.legend(fontsize=6)
                         ax_chart.grid(True, alpha=0.3)
@@ -704,7 +704,6 @@ class SpaceEnergyItemPDFExporter:
                 _style_table_borders(table, len(table_data), num_cols)
 
                 self._save_body_page(pdf, fig)
-
 
     def _create_detailed_data_charts(self, pdf: PdfPages):
         """Create separate line charts for each energy item, matching Excel behavior.

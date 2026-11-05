@@ -517,7 +517,6 @@ class SpaceComparisonDOCXExporter:
             run = p.add_run()
             run.add_picture(chart_buf, width=Inches(7.27))
 
-
     def _add_detailed_data_section(self, doc):
         """Add detailed time-series data tables ."""
         _ = self._
@@ -619,7 +618,7 @@ class SpaceComparisonDOCXExporter:
         _ = self._
 
         for param_key, space_name in [('parameters1', self.space1_name),
-                                       ('parameters2', self.space2_name)]:
+                                      ('parameters2', self.space2_name)]:
             params = self.report.get(param_key, {})
             if not params or not params.get('names') or not params.get('timestamps'):
                 continue

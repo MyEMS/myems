@@ -292,7 +292,7 @@ class SpaceEnergyItemDOCXExporter:
         fig, ax = plt.subplots(figsize=(3.2, 2.6))
         if colors is None:
             colors = self.chart_colors[:len(labels)]
-        filtered = [(l, v, c) for l, v, c in zip(labels, values, colors) if (v or 0) > 0]
+        filtered = [(label, v, c) for label, v, c in zip(labels, values, colors) if (v or 0) > 0]
         if not filtered:
             plt.close(fig)
             return None
@@ -301,7 +301,7 @@ class SpaceEnergyItemDOCXExporter:
             sorted_data = sorted(zip(f_labels, f_values, f_colors), key=lambda x: x[1], reverse=True)
             top_data = sorted_data[:7]
             other_sum = sum(v for _, v, _ in sorted_data[7:])
-            f_labels = [l for l, _, _ in top_data] + [self._('Others')]
+            f_labels = [label for label, _, _ in top_data] + [self._('Others')]
             f_values = [v for _, v, _ in top_data] + [other_sum]
             f_colors = [c for _, _, c in top_data] + ['#999999']
         ax.pie(f_values, labels=f_labels, autopct='%1.1f%%', colors=f_colors, startangle=90)
@@ -328,7 +328,7 @@ class SpaceEnergyItemDOCXExporter:
                 continue
             if colors is None:
                 colors = self.chart_colors[:len(labels)]
-            filtered = [(l, v, c) for l, v, c in zip(labels, values, colors) if (v or 0) > 0]
+            filtered = [(label, v, c) for label, v, c in zip(labels, values, colors) if (v or 0) > 0]
             if not filtered:
                 ax.axis('off')
                 continue
@@ -337,7 +337,7 @@ class SpaceEnergyItemDOCXExporter:
                 sorted_data = sorted(zip(f_labels, f_values, f_colors), key=lambda x: x[1], reverse=True)
                 top_data = sorted_data[:7]
                 other_sum = sum(v for _, v, _ in sorted_data[7:])
-                f_labels = [l for l, _, _ in top_data] + [self._('Others')]
+                f_labels = [label for label, _, _ in top_data] + [self._('Others')]
                 f_values = [v for _, v, _ in top_data] + [other_sum]
                 f_colors = [c for _, _, c in top_data] + ['#999999']
             ax.pie(f_values, labels=f_labels, autopct='%1.1f%%', colors=f_colors, startangle=90)
@@ -913,7 +913,8 @@ class SpaceEnergyItemDOCXExporter:
         _style_table_cell(c1, is_header=True, bold=True)
         for j in range(item_len):
             col = 2 + j
-            unit_j = reporting_data['units'][j] if (reporting_data.get('units') and j < len(reporting_data['units'])) else ''
+            unit_j = reporting_data['units'][j] \
+                if (reporting_data.get('units') and j < len(reporting_data['units'])) else ''
             hdr = table.cell(0, col)
             hdr.text = reporting_data['names'][j] + ((' (' + unit_j + ')') if unit_j else '')
             _style_table_cell(hdr, is_header=True, bold=True, font_size=8)
@@ -928,7 +929,8 @@ class SpaceEnergyItemDOCXExporter:
             _style_table_cell(c_name, font_size=8)
             for j in range(item_len):
                 col = 2 + j
-                val = round2(subtotals_array[j][i], 2) if (j < len(subtotals_array) and i < len(subtotals_array[j])) else 0
+                val = round2(subtotals_array[j][i], 2) \
+                    if (j < len(subtotals_array) and i < len(subtotals_array[j])) else 0
                 c_val = table.cell(r_idx, col)
                 c_val.text = str(val)
                 _style_table_cell(c_val, font_size=8)
@@ -942,7 +944,8 @@ class SpaceEnergyItemDOCXExporter:
                 v = subtotals_array[j][s] if (j < len(subtotals_array) and s < len(subtotals_array[j])) else 0
                 values.append(v or 0)
             labels = child_names[:len(values)]
-            unit_j = reporting_data['units'][j] if (reporting_data.get('units') and j < len(reporting_data['units'])) else ''
+            unit_j = reporting_data['units'][j] \
+                if (reporting_data.get('units') and j < len(reporting_data['units'])) else ''
             chart_title = reporting_data['names'][j] + ((' (' + unit_j + ')') if unit_j else '')
             charts_data.append({'values': values, 'labels': labels, 'title': chart_title})
 
