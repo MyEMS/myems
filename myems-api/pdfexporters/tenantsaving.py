@@ -568,7 +568,7 @@ class TenantSavingPDFExporter:
                 for t_idx in range(start_row, end_row):
                     row = [times[t_idx]]
                     for j in range(ca_len):
-                        val = values_saving[j][t_idx]\
+                        val = values_saving[j][t_idx] \
                             if j < len(values_saving) and t_idx < len(values_saving[j]) else None
                         row.append(str(round2(val, 2)) if val is not None else '')
                     table_data.append(row)
