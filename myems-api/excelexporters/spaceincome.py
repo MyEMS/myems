@@ -770,7 +770,6 @@ def generate_excel(report,
         ws['B' + str(current_row_number)].border = f_border
         ws['B' + str(current_row_number)] = _('ID')
 
-
         ws['C' + str(current_row_number)].fill = table_fill
         ws['C' + str(current_row_number)].font = name_font
         ws['C' + str(current_row_number)].alignment = c_c_alignment
@@ -779,7 +778,6 @@ def generate_excel(report,
         ca_len = len(child['energy_category_names'])
 
         col = ''
-
 
         for i in range(0, ca_len):
 
@@ -802,12 +800,10 @@ def generate_excel(report,
             current_row_number += 1
             row = str(current_row_number)
 
-
             ws['B' + row].font = title_font
             ws['B' + row].alignment = c_c_alignment
 
             ws['B' + row].border = f_border
-
 
             ws['C' + row].font = title_font
             ws['C' + row].alignment = c_c_alignment
@@ -817,7 +813,6 @@ def generate_excel(report,
             col = ''
             periodic_sum = Decimal(0.0)
 
-
             for j in range(0, ca_len):
 
                 ws[col + row].font = name_font
@@ -825,7 +820,6 @@ def generate_excel(report,
                 periodic_sum += child['subtotals_array'][j][i]
                 ws[col + row] = round2(child['subtotals_array'][j][i], 2)
                 ws[col + row].border = f_border
-
 
             col = chr(ord(col) + 1)
             ws[col + row].font = name_font
