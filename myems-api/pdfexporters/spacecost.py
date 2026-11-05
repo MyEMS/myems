@@ -504,7 +504,7 @@ class SpaceCostPDFExporter:
                                 fontsize=9, weight='bold')
         else:
             ax_chart2.text(0.5, 0.5, _('No data'), fontsize=12,
-                          ha='center', va='center', transform=ax_chart2.transAxes)
+                           ha='center', va='center', transform=ax_chart2.transAxes)
             ax_chart2.axis('off')
 
         self._save_body_page(pdf, fig)

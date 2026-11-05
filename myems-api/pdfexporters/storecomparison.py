@@ -272,9 +272,9 @@ class StoreComparisonPDFExporter:
                 img_h_inch = img.shape[0] / self.dpi
                 page_w, page_h = self.page_size
                 ax_img = fig.add_axes([0.5 - img_w_inch / page_w / 2,
-                                        0.62,
-                                        img_w_inch / page_w,
-                                        img_h_inch / page_h])
+                                      0.62,
+                                      img_w_inch / page_w,
+                                      img_h_inch / page_h])
                 ax_img.imshow(img)
                 ax_img.axis('off')
             except Exception as e:
@@ -298,7 +298,7 @@ class StoreComparisonPDFExporter:
         ax_table.axis('off')
 
         table = ax_table.table(cellText=info_data, loc='center',
-                                cellLoc='center', colWidths=[0.35, 0.65])
+                               cellLoc='center', colWidths=[0.35, 0.65])
         table.auto_set_font_size(False)
         table.set_fontsize(12)
 
@@ -333,7 +333,13 @@ class StoreComparisonPDFExporter:
                      fontsize=14, weight='bold', y=0.94)
 
         # Main layout: top = summary table, bottom = comparison chart
-        gs_main = gridspec.GridSpec(2, 1, height_ratios=[0.25, 0.75], hspace=0.25, top=0.90, bottom=0.05, left=0.04, right=0.96)
+        gs_main = gridspec.GridSpec(2, 1,
+                                    height_ratios=[0.25, 0.75],
+                                    hspace=0.25,
+                                    top=0.90,
+                                    bottom=0.05,
+                                    left=0.04,
+                                    right=0.96)
 
         # ===== Top: Consumption summary table =====
         ax_summary = fig.add_subplot(gs_main[0])
@@ -438,7 +444,8 @@ class StoreComparisonPDFExporter:
                 row = [timestamps[t_idx]]
                 v1 = round2(values1[t_idx], 2) if t_idx < len(values1) and values1[t_idx] is not None else ''
                 v2 = round2(values2[t_idx], 2) if t_idx < len(values2) and values2[t_idx] is not None else ''
-                vd = round2(diff_values[t_idx], 2) if t_idx < len(diff_values) and diff_values[t_idx] is not None else ''
+                vd = round2(diff_values[t_idx], 2) \
+                    if t_idx < len(diff_values) and diff_values[t_idx] is not None else ''
                 row.append(str(v1))
                 row.append(str(v2))
                 row.append(str(vd))
@@ -473,7 +480,7 @@ class StoreComparisonPDFExporter:
         _ = self._
 
         for param_key, store_name in [('parameters1', self.store1_name),
-                                       ('parameters2', self.store2_name)]:
+                                      ('parameters2', self.store2_name)]:
             params = self.report.get(param_key, {})
             if not params or not params.get('names') or not params.get('timestamps'):
                 continue

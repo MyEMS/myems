@@ -268,7 +268,7 @@ class StoreCostDOCXExporter:
         fig, ax = plt.subplots(figsize=(3.2, 2.6))
         if colors is None:
             colors = self.chart_colors[:len(labels)]
-        filtered = [(l, v, c) for l, v, c in zip(labels, values, colors) if (v or 0) > 0]
+        filtered = [(label, v, c) for label, v, c in zip(labels, values, colors) if (v or 0) > 0]
         if not filtered:
             plt.close(fig)
             return None
@@ -277,7 +277,7 @@ class StoreCostDOCXExporter:
             sorted_data = sorted(zip(f_labels, f_values, f_colors), key=lambda x: x[1], reverse=True)
             top_data = sorted_data[:7]
             other_sum = sum(v for _, v, _ in sorted_data[7:])
-            f_labels = [l for l, _, _ in top_data] + [self._('Others')]
+            f_labels = [label for label, _, _ in top_data] + [self._('Others')]
             f_values = [v for _, v, _ in top_data] + [other_sum]
             f_colors = [c for _, _, c in top_data] + ['#999999']
         ax.pie(f_values, labels=f_labels, autopct='%1.1f%%', colors=f_colors, startangle=90)
@@ -498,7 +498,8 @@ class StoreCostDOCXExporter:
             _style_table_cell(cell_cost)
 
             cell_per_area = table.cell(2, col)
-            val_pa = subtotals_per_unit_area[i] if (subtotals_per_unit_area and i < len(subtotals_per_unit_area)) else None
+            val_pa = subtotals_per_unit_area[i] \
+                if (subtotals_per_unit_area and i < len(subtotals_per_unit_area)) else None
             cell_per_area.text = str(round2(val_pa, 2)) if val_pa is not None else ''
             _style_table_cell(cell_per_area)
 
@@ -575,7 +576,7 @@ class StoreCostDOCXExporter:
 
         if tou_exists and sum(tou_values) > 0:
             tou_chart_file = self._make_pie_chart(tou_values, tou_categories,
-                                                   _('Electricity Cost by Time-Of-Use'), colors=tou_colors)
+                                                  _('Electricity Cost by Time-Of-Use'), colors=tou_colors)
             if tou_chart_file:
                 p = tou_chart_cell.paragraphs[0]
                 p.alignment = WD_ALIGN_PARAGRAPH.CENTER
