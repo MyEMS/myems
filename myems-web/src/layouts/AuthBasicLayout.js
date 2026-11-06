@@ -9,9 +9,9 @@ const AuthBasicLayout = () => (
   <Section className="py-0 overflow-hidden" image={bg1} position="center bottom" overlay>
     <Row className="flex-center min-vh-100 py-6">
       <Col sm={10} md={8} lg={6} xl={5} className="col-xxl-4">
-        <Logo />
-        <Card>
-          <CardBody className="fs--1 font-weight-normal p-5">
+        <Logo className="text-white" />
+        <Card className="shadow-lg overflow-hidden">
+          <CardBody className="fs--1 font-weight-normal p-4 p-sm-5">
             <AuthBasicRoutes />
           </CardBody>
         </Card>
