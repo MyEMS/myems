@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState, useContext } from 'react';
+import React, { Fragment, useEffect, useRef, useState, useContext } from 'react';
 import {
   Row,
   Col,
@@ -296,6 +296,7 @@ const EnergyStoragePowerStationReportingParameters = ({ setRedirect, setRedirect
   const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
 
   let onSpaceCascaderChange = (value, selectedOptions) => {
+    queryEditedRef.current = true;
     setSelectedSpaceName(selectedOptions.map(o => o.label).join('/'));
     let selectedSpaceID = value[value.length - 1];
     let isResponseOK = false;
@@ -372,6 +373,7 @@ const EnergyStoragePowerStationReportingParameters = ({ setRedirect, setRedirect
 
   // Callback fired when value changed
   let onEnergyStoragePowerStationChange = stationID => {
+    queryEditedRef.current = true;
     setSelectedEnergyStoragePowerStation(stationID);
     let isResponseOK = false;
     fetch(APIBaseURL + '/energystoragepowerstations/' + stationID + '/datasourcepoints', {
@@ -407,6 +409,7 @@ const EnergyStoragePowerStationReportingParameters = ({ setRedirect, setRedirect
 
   // Callback fired when value changed
   let onPointsChange = event => {
+    queryEditedRef.current = true;
     const options = Array.from(event.target.selectedOptions);
     const values = options.map(option => option.value);
     if (values.length > 0) {
@@ -422,6 +425,7 @@ const EnergyStoragePowerStationReportingParameters = ({ setRedirect, setRedirect
 
   // Callback fired when value changed
   let onReportingPeriodChange = DateRange => {
+    queryEditedRef.current = true;
     if (DateRange == null) {
       setReportingPeriodDateRange([null, null]);
     } else {
@@ -435,8 +439,30 @@ const EnergyStoragePowerStationReportingParameters = ({ setRedirect, setRedirect
 
   // Callback fired when value clean
   let onReportingPeriodClean = event => {
+    queryEditedRef.current = true;
     setReportingPeriodDateRange([null, null]);
   };
+  const queryEditedRef = useRef(false);
+  const autoSubmittedRef = useRef(false);
+  const submitButtonRef = useRef(null);
+
+  useEffect(() => {
+    if (!settings.enableAutoSubmit || autoSubmittedRef.current || queryEditedRef.current || submitButtonDisabled) {
+      return;
+    }
+    if (selectedPointList === undefined || selectedPointList === null || selectedPointList === '') {
+      return;
+    }
+    if (!reportingPeriodDateRange[0] || !reportingPeriodDateRange[1]) {
+      return;
+    }
+    if (!submitButtonRef.current) {
+      return;
+    }
+    autoSubmittedRef.current = true;
+    submitButtonRef.current.click();
+  }, [submitButtonDisabled, selectedPointList, reportingPeriodDateRange]);
+
   // Handler
   const handleSubmit = e => {
     e.preventDefault();
@@ -563,7 +589,7 @@ const EnergyStoragePowerStationReportingParameters = ({ setRedirect, setRedirect
                 <FormGroup>
                   <br />
                   <ButtonGroup id="submit">
-                    <Button size="sm" color="success" disabled={submitButtonDisabled}>
+                    <Button size="sm" color="success" disabled={submitButtonDisabled} innerRef={submitButtonRef}>
                       {t('Submit')}
                     </Button>
                   </ButtonGroup>

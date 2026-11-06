@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState, useContext } from 'react';
+import React, { Fragment, useEffect, useRef, useState, useContext } from 'react';
 import {
   Row,
   Col,
@@ -198,21 +198,6 @@ const EnergyStoragePowerStationReportingRevenue = ({ setRedirect, setRedirectUrl
                   setSelectedEnergyStoragePowerStation(stationID);
                   // enable submit button
                   setSubmitButtonDisabled(false);
-                  // automatically submit with the first station
-                  let url =
-                    APIBaseURL +
-                    '/reports/energystoragepowerstationreportingrevenue?' +
-                    'id=' +
-                    stationID +
-                    '&periodtype=' +
-                    periodType +
-                    '&reportingperiodstartdatetime=' +
-                    moment(reportingPeriodDateRange[0]).format('YYYY-MM-DDTHH:mm:ss') +
-                    '&reportingperiodenddatetime=' +
-                    moment(reportingPeriodDateRange[1]).format('YYYY-MM-DDTHH:mm:ss') +
-                    '&language=' +
-                    language;
-                  loadData(url);
                 } else {
                   setSelectedEnergyStoragePowerStation(undefined);
                   // disable submit button
@@ -455,6 +440,7 @@ const EnergyStoragePowerStationReportingRevenue = ({ setRedirect, setRedirectUrl
   const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
 
   let onSpaceCascaderChange = (value, selectedOptions) => {
+    queryEditedRef.current = true;
     setSelectedSpaceName(selectedOptions.map(o => o.label).join('/'));
     let selectedSpaceID = value[value.length - 1];
     let isResponseOK = false;
@@ -523,6 +509,7 @@ const EnergyStoragePowerStationReportingRevenue = ({ setRedirect, setRedirectUrl
 
   // Callback fired when value changed
   let onReportingPeriodChange = DateRange => {
+    queryEditedRef.current = true;
     if (DateRange == null) {
       setReportingPeriodDateRange([null, null]);
     } else {
@@ -568,8 +555,30 @@ const EnergyStoragePowerStationReportingRevenue = ({ setRedirect, setRedirectUrl
 
   // Callback fired when value clean
   let onReportingPeriodClean = event => {
+    queryEditedRef.current = true;
     setReportingPeriodDateRange([null, null]);
   };
+
+  const queryEditedRef = useRef(false);
+  const autoSubmittedRef = useRef(false);
+  const submitButtonRef = useRef(null);
+
+  useEffect(() => {
+    if (!settings.enableAutoSubmit || autoSubmittedRef.current || queryEditedRef.current || submitButtonDisabled) {
+      return;
+    }
+    if (selectedEnergyStoragePowerStation === undefined || selectedEnergyStoragePowerStation === null || selectedEnergyStoragePowerStation === '') {
+      return;
+    }
+    if (!reportingPeriodDateRange[0] || !reportingPeriodDateRange[1]) {
+      return;
+    }
+    if (!submitButtonRef.current) {
+      return;
+    }
+    autoSubmittedRef.current = true;
+    submitButtonRef.current.click();
+  }, [submitButtonDisabled, selectedEnergyStoragePowerStation, reportingPeriodDateRange]);
 
   // Handler
   const handleSubmit = e => {
@@ -641,7 +650,10 @@ const EnergyStoragePowerStationReportingRevenue = ({ setRedirect, setRedirectUrl
                       id="energyStoragePowerStationSelect"
                       name="energyStoragePowerStationSelect"
                       bsSize="sm"
-                      onChange={({ target }) => setSelectedEnergyStoragePowerStation(target.value)}
+                      onChange={({ target }) => {
+                        queryEditedRef.current = true;
+                        setSelectedEnergyStoragePowerStation(target.value);
+                      }}
                     >
                       {filteredEnergyStoragePowerStationList.map((energyStoragePowerStation, index) => (
                         <option value={energyStoragePowerStation.value} key={energyStoragePowerStation.value}>
@@ -663,7 +675,10 @@ const EnergyStoragePowerStationReportingRevenue = ({ setRedirect, setRedirectUrl
                     name="periodType"
                     bsSize="sm"
                     defaultValue="daily"
-                    onChange={({ target }) => setPeriodType(target.value)}
+                    onChange={({ target }) => {
+                      queryEditedRef.current = true;
+                      setPeriodType(target.value);
+                    }}
                   >
                     {periodTypeOptions.map((periodType, index) => (
                       <option value={periodType.value} key={periodType.value}>
@@ -696,7 +711,7 @@ const EnergyStoragePowerStationReportingRevenue = ({ setRedirect, setRedirectUrl
                 <FormGroup>
                   <br />
                   <ButtonGroup id="submit">
-                    <Button size="sm" color="success" disabled={submitButtonDisabled}>
+                    <Button size="sm" color="success" disabled={submitButtonDisabled} innerRef={submitButtonRef}>
                       {t('Submit')}
                     </Button>
                   </ButtonGroup>

@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState, useContext, useCallback } from 'react';
+import React, { Fragment, useEffect, useRef, useState, useContext, useCallback } from 'react';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -292,6 +292,7 @@ const EquipmentComparison = ({ setRedirect, setRedirectUrl, t }) => {
   const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
 
   let onSpaceCascaderChange1 = (value, selectedOptions) => {
+    queryEditedRef.current = true;
     setSelectedSpaceName1(selectedOptions.map(o => o.label).join('/'));
     let selectedSpaceID = value[value.length - 1];
     let isResponseOK = false;
@@ -347,6 +348,7 @@ const EquipmentComparison = ({ setRedirect, setRedirectUrl, t }) => {
   };
 
   let onSpaceCascaderChange2 = (value, selectedOptions) => {
+    queryEditedRef.current = true;
     setSelectedSpaceName2(selectedOptions.map(o => o.label).join('/'));
     let selectedSpaceID = value[value.length - 1];
     let isResponseOK = false;
@@ -449,6 +451,7 @@ const EquipmentComparison = ({ setRedirect, setRedirectUrl, t }) => {
 
   // Callback fired when value changed
   let onReportingPeriodChange = DateRange => {
+    queryEditedRef.current = true;
     if (DateRange == null) {
       setReportingPeriodDateRange([null, null]);
     } else {
@@ -494,8 +497,36 @@ const EquipmentComparison = ({ setRedirect, setRedirectUrl, t }) => {
 
   // Callback fired when value clean
   let onReportingPeriodClean = event => {
+    queryEditedRef.current = true;
     setReportingPeriodDateRange([null, null]);
   };
+
+  const queryEditedRef = useRef(false);
+  const autoSubmittedRef = useRef(false);
+  const submitButtonRef = useRef(null);
+
+  useEffect(() => {
+    if (!settings.enableAutoSubmit || autoSubmittedRef.current || queryEditedRef.current || submitButtonDisabled) {
+      return;
+    }
+    if (selectedEquipment1 === undefined || selectedEquipment1 === null || selectedEquipment1 === '') {
+      return;
+    }
+    if (selectedEquipment2 === undefined || selectedEquipment2 === null || selectedEquipment2 === '') {
+      return;
+    }
+    if (selectedEnergyCategory === undefined || selectedEnergyCategory === null || selectedEnergyCategory === '') {
+      return;
+    }
+    if (!reportingPeriodDateRange[0] || !reportingPeriodDateRange[1]) {
+      return;
+    }
+    if (!submitButtonRef.current) {
+      return;
+    }
+    autoSubmittedRef.current = true;
+    submitButtonRef.current.click();
+  }, [submitButtonDisabled, selectedEquipment1, selectedEquipment2, selectedEnergyCategory, reportingPeriodDateRange]);
 
   // Handler
   const handleSubmit = e => {
@@ -878,7 +909,10 @@ const EquipmentComparison = ({ setRedirect, setRedirectUrl, t }) => {
                       id="equipmentSelect1"
                       name="equipmentSelect1"
                       bsSize="sm"
-                      onChange={({ target }) => setSelectedEquipment1(target.value)}
+                      onChange={({ target }) => {
+                        queryEditedRef.current = true;
+                        setSelectedEquipment1(target.value);
+                      }}
                     >
                       {filteredEquipmentList1.map((equipment, index) => (
                         <option value={equipment.value} key={equipment.value}>
@@ -920,7 +954,10 @@ const EquipmentComparison = ({ setRedirect, setRedirectUrl, t }) => {
                       id="equipmentSelect2"
                       name="equipmentSelect2"
                       bsSize="sm"
-                      onChange={({ target }) => setSelectedEquipment2(target.value)}
+                      onChange={({ target }) => {
+                        queryEditedRef.current = true;
+                        setSelectedEquipment2(target.value);
+                      }}
                     >
                       {filteredEquipmentList2.map((equipment, index) => (
                         <option value={equipment.value} key={equipment.value}>
@@ -943,7 +980,10 @@ const EquipmentComparison = ({ setRedirect, setRedirectUrl, t }) => {
                     id="energyCategorySelect"
                     name="energyCategorySelect"
                     bsSize="sm"
-                    onChange={({ target }) => setSelectedEnergyCategory(target.value)}
+                    onChange={({ target }) => {
+                      queryEditedRef.current = true;
+                      setSelectedEnergyCategory(target.value);
+                    }}
                   >
                     {energyCategoryList.map((energyCategory, index) => (
                       <option value={energyCategory.value} key={energyCategory.value}>
@@ -964,7 +1004,10 @@ const EquipmentComparison = ({ setRedirect, setRedirectUrl, t }) => {
                     name="periodType"
                     bsSize="sm"
                     defaultValue="daily"
-                    onChange={({ target }) => setPeriodType(target.value)}
+                    onChange={({ target }) => {
+                      queryEditedRef.current = true;
+                      setPeriodType(target.value);
+                    }}
                   >
                     {periodTypeOptions.map((periodType, index) => (
                       <option value={periodType.value} key={periodType.value}>
@@ -1040,7 +1083,7 @@ const EquipmentComparison = ({ setRedirect, setRedirectUrl, t }) => {
                 <FormGroup>
                   <br />
                   <ButtonGroup id="submit">
-                    <Button size="sm" color="success" disabled={submitButtonDisabled}>
+                    <Button size="sm" color="success" disabled={submitButtonDisabled} innerRef={submitButtonRef}>
                       {t('Submit')}
                     </Button>
                   </ButtonGroup>

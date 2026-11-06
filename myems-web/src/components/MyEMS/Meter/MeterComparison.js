@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState, useContext, useCallback } from 'react';
+import React, { Fragment, useEffect, useRef, useState, useContext, useCallback } from 'react';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -248,6 +248,7 @@ const MeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
   const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
 
   let onSpaceCascaderChange1 = (value, selectedOptions) => {
+    queryEditedRef.current = true;
     setSelectedSpaceName1(selectedOptions.map(o => o.label).join('/'));
     let selectedSpaceID = value[value.length - 1];
     let isResponseOK = false;
@@ -303,6 +304,7 @@ const MeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
   };
 
   let onSpaceCascaderChange2 = (value, selectedOptions) => {
+    queryEditedRef.current = true;
     setSelectedSpaceName2(selectedOptions.map(o => o.label).join('/'));
     let selectedSpaceID = value[value.length - 1];
     let isResponseOK = false;
@@ -408,6 +410,7 @@ const MeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
 
   // Callback fired when value changed
   let onReportingPeriodChange = DateRange => {
+    queryEditedRef.current = true;
     if (DateRange == null) {
       setReportingPeriodDateRange([null, null]);
     } else {
@@ -453,8 +456,33 @@ const MeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
 
   // Callback fired when value clean
   let onReportingPeriodClean = event => {
+    queryEditedRef.current = true;
     setReportingPeriodDateRange([null, null]);
   };
+
+  const queryEditedRef = useRef(false);
+  const autoSubmittedRef = useRef(false);
+  const submitButtonRef = useRef(null);
+
+  useEffect(() => {
+    if (!settings.enableAutoSubmit || autoSubmittedRef.current || queryEditedRef.current || submitButtonDisabled) {
+      return;
+    }
+    if (selectedMeter1 === undefined || selectedMeter1 === null || selectedMeter1 === '') {
+      return;
+    }
+    if (selectedMeter2 === undefined || selectedMeter2 === null || selectedMeter2 === '') {
+      return;
+    }
+    if (!reportingPeriodDateRange[0] || !reportingPeriodDateRange[1]) {
+      return;
+    }
+    if (!submitButtonRef.current) {
+      return;
+    }
+    autoSubmittedRef.current = true;
+    submitButtonRef.current.click();
+  }, [submitButtonDisabled, selectedMeter1, selectedMeter2, reportingPeriodDateRange]);
 
   // Handler
   const handleSubmit = e => {
@@ -826,7 +854,10 @@ const MeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
                       id="meterSelect1"
                       name="meterSelect1"
                       bsSize="sm"
-                      onChange={({ target }) => setSelectedMeter1(target.value)}
+                      onChange={({ target }) => {
+                        queryEditedRef.current = true;
+                        setSelectedMeter1(target.value);
+                      }}
                     >
                       {filteredMeterList1.map((meter, index) => (
                         <option value={meter.value} key={meter.value}>
@@ -868,7 +899,10 @@ const MeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
                       id="meterSelect2"
                       name="meterSelect2"
                       bsSize="sm"
-                      onChange={({ target }) => setSelectedMeter2(target.value)}
+                      onChange={({ target }) => {
+                        queryEditedRef.current = true;
+                        setSelectedMeter2(target.value);
+                      }}
                     >
                       {filteredMeterList2.map((meter, index) => (
                         <option value={meter.value} key={meter.value}>
@@ -892,7 +926,10 @@ const MeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
                     name="periodType"
                     bsSize="sm"
                     defaultValue="hourly"
-                    onChange={({ target }) => setPeriodType(target.value)}
+                    onChange={({ target }) => {
+                      queryEditedRef.current = true;
+                      setPeriodType(target.value);
+                    }}
                   >
                     {periodTypeOptions.map((periodType, index) => (
                       <option value={periodType.value} key={periodType.value}>
@@ -968,7 +1005,7 @@ const MeterComparison = ({ setRedirect, setRedirectUrl, t }) => {
                 <FormGroup>
                   <br />
                   <ButtonGroup id="submit">
-                    <Button size="sm" color="success" disabled={submitButtonDisabled}>
+                    <Button size="sm" color="success" disabled={submitButtonDisabled} innerRef={submitButtonRef}>
                       {t('Submit')}
                     </Button>
                   </ButtonGroup>

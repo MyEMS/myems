@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState, useContext, useCallback } from 'react';
+import React, { Fragment, useEffect, useState, useContext, useCallback, useRef } from 'react';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -121,6 +121,8 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
 
   // buttons
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(true);
+  const queryEditedRef = useRef(false);
+  const autoSubmittedRef = useRef(false);
   const [spinnerHidden, setSpinnerHidden] = useState(true);
   const [exportButtonHidden, setExportButtonHidden] = useState(true);
   const [resultDataHidden, setResultDataHidden] = useState(true);
@@ -927,10 +929,18 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
   );
 
   useEffect(() => {
-    if (cascaderOptions && cascaderOptions.length > 0) {
-      loadWithSpaceTree(cascaderOptions[0]);
+    if (!settings.enableAutoSubmit || autoSubmittedRef.current || queryEditedRef.current || submitButtonDisabled) {
+      return;
     }
-  }, [cascaderOptions, loadWithSpaceTree]);
+    if (!cascaderOptions || cascaderOptions.length === 0) {
+      return;
+    }
+    if (!reportingPeriodDateRange[0] || !reportingPeriodDateRange[1]) {
+      return;
+    }
+    autoSubmittedRef.current = true;
+    loadWithSpaceTree(cascaderOptions);
+  }, [submitButtonDisabled, cascaderOptions, reportingPeriodDateRange, loadWithSpaceTree]);
 
   useEffect(() => {
     let isResponseOK = false;
@@ -979,11 +989,13 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
   const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
 
   let onSpaceCascaderChange = (value, selectedOptions) => {
+    queryEditedRef.current = true;
     setSelectedSpaceName(selectedOptions.map(o => o.label).join('/'));
     setSelectedSpaceID(value[value.length - 1]);
   };
 
   let onComparisonTypeChange = ({ target }) => {
+    queryEditedRef.current = true;
     setComparisonType(target.value);
     if (target.value === 'year-over-year') {
       setBasePeriodDateRangePickerDisabled(true);
@@ -1023,6 +1035,7 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
 
   // Callback fired when value changed
   let onBasePeriodChange = DateRange => {
+    queryEditedRef.current = true;
     if (DateRange == null) {
       setBasePeriodDateRange([null, null]);
     } else {
@@ -1036,6 +1049,7 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
 
   // Callback fired when value changed
   let onReportingPeriodChange = DateRange => {
+    queryEditedRef.current = true;
     if (DateRange == null) {
       setReportingPeriodDateRange([null, null]);
     } else {
@@ -1104,11 +1118,13 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
 
   // Callback fired when value clean
   let onBasePeriodClean = event => {
+    queryEditedRef.current = true;
     setBasePeriodDateRange([null, null]);
   };
 
   // Callback fired when value clean
   let onReportingPeriodClean = event => {
+    queryEditedRef.current = true;
     setReportingPeriodDateRange([null, null]);
   };
 
@@ -1350,7 +1366,10 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
                     name="periodType"
                     bsSize="sm"
                     defaultValue="daily"
-                    onChange={({ target }) => setPeriodType(target.value)}
+                    onChange={({ target }) => {
+                      queryEditedRef.current = true;
+                      setPeriodType(target.value);
+                    }}
                   >
                     {periodTypeOptions.map((periodType, index) => (
                       <option value={periodType.value} key={periodType.value}>

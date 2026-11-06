@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState, useContext } from 'react';
+import React, { Fragment, useEffect, useRef, useState, useContext } from 'react';
 import CountUp from 'react-countup';
 import {
   Button,
@@ -139,14 +139,6 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
                   setSelectedStation(stationID);
                   // enable submit button
                   setSubmitButtonDisabled(false);
-
-                  // show spinner
-                  setSpinnerHidden(false);
-                  // automatically submit with station
-                  loadData(stationID);
-                  loadEnergyData(stationID);
-                  loadBillingData(stationID);
-                  loadCarbonData(stationID);
                 } else {
                   setSelectedStation(undefined);
                   // disable submit button
@@ -419,6 +411,7 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
   };
 
   let onSpaceCascaderChange = (value, selectedOptions) => {
+    queryEditedRef.current = true;
     setSelectedSpaceName(selectedOptions.map(o => o.label).join('/'));
     let selectedSpaceID = value[value.length - 1];
     let isResponseOK = false;
@@ -455,14 +448,6 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
             setSelectedStation(stationID);
             // enable submit button
             setSubmitButtonDisabled(false);
-
-            // show spinner
-            setSpinnerHidden(false);
-            // automatically submit with station
-            loadData(stationID);
-            loadEnergyData(stationID);
-            loadBillingData(stationID);
-            loadCarbonData(stationID);
           } else {
             setSelectedStation(undefined);
             // disable submit button
@@ -476,6 +461,24 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
         console.log(err);
       });
   };
+
+  const queryEditedRef = useRef(false);
+  const autoSubmittedRef = useRef(false);
+  const submitButtonRef = useRef(null);
+
+  useEffect(() => {
+    if (!settings.enableAutoSubmit || autoSubmittedRef.current || queryEditedRef.current || submitButtonDisabled) {
+      return;
+    }
+    if (selectedStation === undefined || selectedStation === null || selectedStation === '') {
+      return;
+    }
+    if (!submitButtonRef.current) {
+      return;
+    }
+    autoSubmittedRef.current = true;
+    submitButtonRef.current.click();
+  }, [submitButtonDisabled, selectedStation]);
 
   // Handler
   const handleSubmit = e => {
@@ -522,7 +525,10 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
                   id="stationSelect"
                   name="stationSelect"
                   bsSize="sm"
-                  onChange={({ target }) => setSelectedStation(target.value)}
+                  onChange={({ target }) => {
+                    queryEditedRef.current = true;
+                    setSelectedStation(target.value);
+                  }}
                 >
                   {filteredStationList.map((station, index) => (
                     <option value={station.value} key={station.value}>
@@ -536,7 +542,7 @@ const ItemDashboard = ({ setRedirect, setRedirectUrl, t }) => {
           <Col xs="auto">
             <FormGroup>
               <ButtonGroup id="submit">
-                <Button size="sm" color="success" disabled={submitButtonDisabled}>
+                <Button size="sm" color="success" disabled={submitButtonDisabled} innerRef={submitButtonRef}>
                   {t('Submit')}
                 </Button>
               </ButtonGroup>

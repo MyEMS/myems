@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState, useContext, useMemo, useCallback } from 'react';
+import React, { Fragment, useEffect, useRef, useState, useContext, useMemo, useCallback } from 'react';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -499,6 +499,27 @@ const OfflineMeterPrediction = ({ setRedirect, setRedirectUrl, t }) => {
     return false;
   };
 
+  const queryEditedRef = useRef(false);
+  const autoSubmittedRef = useRef(false);
+  const submitButtonRef = useRef(null);
+
+  useEffect(() => {
+    if (!settings.enableAutoSubmit || autoSubmittedRef.current || queryEditedRef.current || submitButtonDisabled) {
+      return;
+    }
+    if (selectedOfflineMeter === undefined || selectedOfflineMeter === null || selectedOfflineMeter === '') {
+      return;
+    }
+    if (!reportingPeriodDateRange[0] || !reportingPeriodDateRange[1]) {
+      return;
+    }
+    if (!submitButtonRef.current) {
+      return;
+    }
+    autoSubmittedRef.current = true;
+    submitButtonRef.current.click();
+  }, [submitButtonDisabled, selectedOfflineMeter, reportingPeriodDateRange]);
+
   // Handler
   const handleSubmit = e => {
     e.preventDefault();
@@ -975,7 +996,10 @@ const OfflineMeterPrediction = ({ setRedirect, setRedirectUrl, t }) => {
                     name="offlineMeterSelect"
                     bsSize="sm"
                     value={selectedOfflineMeter ?? ''}
-                    onChange={({ target }) => setSelectedOfflineMeter(target.value)}
+                    onChange={({ target }) => {
+                      queryEditedRef.current = true;
+                      setSelectedOfflineMeter(target.value);
+                    }}
                   >
                     {offlineMeterList.map((offlineMeter, index) => (
                       <option value={offlineMeter.value} key={offlineMeter.value}>
@@ -1017,7 +1041,10 @@ const OfflineMeterPrediction = ({ setRedirect, setRedirectUrl, t }) => {
                     name="periodType"
                     bsSize="sm"
                     value={periodType}
-                    onChange={({ target }) => setPeriodType(target.value)}
+                    onChange={({ target }) => {
+                      queryEditedRef.current = true;
+                      setPeriodType(target.value);
+                    }}
                   >
                     {periodTypeOptions.map((periodType, index) => (
                       <option value={periodType.value} key={periodType.value}>
@@ -1110,7 +1137,7 @@ const OfflineMeterPrediction = ({ setRedirect, setRedirectUrl, t }) => {
                 <FormGroup>
                   <br />
                   <ButtonGroup id="submit">
-                    <Button size="sm" color="success" disabled={submitButtonDisabled}>
+                    <Button size="sm" color="success" disabled={submitButtonDisabled} innerRef={submitButtonRef}>
                       {t('Submit')}
                     </Button>
                   </ButtonGroup>

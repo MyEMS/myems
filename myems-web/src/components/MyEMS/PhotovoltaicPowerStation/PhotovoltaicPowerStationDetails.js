@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect, useContext } from 'react';
+import React, { Fragment, useState, useEffect, useRef, useContext } from 'react';
 import {
   Button,
   ButtonGroup,
@@ -216,7 +216,10 @@ const PhotovoltaicPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => 
         });
     } else {
       setSpaceCascaderHidden(true);
-      loadData(APIBaseURL + '/reports/photovoltaicpowerstationdetails?uuid=' + photovoltaicPowerStationUUID);
+      if (settings.enableAutoSubmit && !queryEditedRef.current && !autoSubmittedRef.current) {
+        autoSubmittedRef.current = true;
+        loadData(APIBaseURL + '/reports/photovoltaicpowerstationdetails?uuid=' + photovoltaicPowerStationUUID);
+      }
     }
   }, [photovoltaicPowerStationUUID]);
 
@@ -318,6 +321,7 @@ const PhotovoltaicPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => 
   const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
 
   let onSpaceCascaderChange = (value, selectedOptions) => {
+    queryEditedRef.current = true;
     setSelectedSpaceName(selectedOptions.map(o => o.label).join('/'));
     let selectedSpaceID = value[value.length - 1];
     let isResponseOK = false;
@@ -367,6 +371,24 @@ const PhotovoltaicPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => 
         console.log(err);
       });
   };
+
+  const queryEditedRef = useRef(false);
+  const autoSubmittedRef = useRef(false);
+  const submitButtonRef = useRef(null);
+
+  useEffect(() => {
+    if (!settings.enableAutoSubmit || autoSubmittedRef.current || queryEditedRef.current || submitButtonDisabled) {
+      return;
+    }
+    if (selectedStation === undefined || selectedStation === null || selectedStation === '') {
+      return;
+    }
+    if (!submitButtonRef.current) {
+      return;
+    }
+    autoSubmittedRef.current = true;
+    submitButtonRef.current.click();
+  }, [submitButtonDisabled, selectedStation]);
 
   // Handler
   const handleSubmit = e => {
@@ -582,7 +604,10 @@ const PhotovoltaicPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => 
                   id="stationSelect"
                   name="stationSelect"
                   bsSize="sm"
-                  onChange={({ target }) => setSelectedStation(target.value)}
+                  onChange={({ target }) => {
+                    queryEditedRef.current = true;
+                    setSelectedStation(target.value);
+                  }}
                 >
                   {filteredStationList.map((station, index) => (
                     <option value={station.value} key={station.value}>
@@ -596,7 +621,7 @@ const PhotovoltaicPowerStationDetails = ({ setRedirect, setRedirectUrl, t }) => 
           <Col xs="auto">
             <FormGroup>
               <ButtonGroup id="submit">
-                <Button size="sm" color="success" hidden={submitButtonHidden} disabled={submitButtonDisabled}>
+                <Button size="sm" color="success" hidden={submitButtonHidden} disabled={submitButtonDisabled} innerRef={submitButtonRef}>
                   {t('Submit')}
                 </Button>
               </ButtonGroup>

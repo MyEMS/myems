@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState, useContext, useCallback } from 'react';
+import React, { Fragment, useEffect, useRef, useState, useContext, useCallback } from 'react';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -567,11 +567,13 @@ const SpaceEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
   const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
 
   let onSpaceCascaderChange = (value, selectedOptions) => {
+    queryEditedRef.current = true;
     setSelectedSpaceName(selectedOptions.map(o => o.label).join('/'));
     setSelectedSpaceID(value[value.length - 1]);
   };
 
   let onComparisonTypeChange = ({ target }) => {
+    queryEditedRef.current = true;
     setComparisonType(target.value);
     if (target.value === 'year-over-year') {
       setBasePeriodDateRangePickerDisabled(true);
@@ -611,6 +613,7 @@ const SpaceEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
 
   // Callback fired when value changed
   let onBasePeriodChange = DateRange => {
+    queryEditedRef.current = true;
     if (DateRange == null) {
       setBasePeriodDateRange([null, null]);
     } else {
@@ -624,6 +627,7 @@ const SpaceEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
 
   // Callback fired when value changed
   let onReportingPeriodChange = DateRange => {
+    queryEditedRef.current = true;
     if (DateRange == null) {
       setReportingPeriodDateRange([null, null]);
     } else {
@@ -692,11 +696,13 @@ const SpaceEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
 
   // Callback fired when value clean
   let onBasePeriodClean = event => {
+    queryEditedRef.current = true;
     setBasePeriodDateRange([null, null]);
   };
 
   // Callback fired when value clean
   let onReportingPeriodClean = event => {
+    queryEditedRef.current = true;
     setReportingPeriodDateRange([null, null]);
   };
 
@@ -714,6 +720,24 @@ const SpaceEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
     }
     return false;
   };
+
+  const queryEditedRef = useRef(false);
+  const autoSubmittedRef = useRef(false);
+  const submitButtonRef = useRef(null);
+
+  useEffect(() => {
+    if (!settings.enableAutoSubmit || autoSubmittedRef.current || queryEditedRef.current || submitButtonDisabled) {
+      return;
+    }
+    if (selectedSpaceID === undefined || selectedSpaceID === null || selectedSpaceID === '') {
+      return;
+    }
+    if (!submitButtonRef.current) {
+      return;
+    }
+    autoSubmittedRef.current = true;
+    submitButtonRef.current.click();
+  }, [submitButtonDisabled, selectedSpaceID]);
 
   // Handler
   const handleSubmit = e => {
@@ -905,7 +929,10 @@ const SpaceEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
                     name="periodType"
                     bsSize="sm"
                     defaultValue="daily"
-                    onChange={({ target }) => setPeriodType(target.value)}
+                    onChange={({ target }) => {
+                      queryEditedRef.current = true;
+                      setPeriodType(target.value);
+                    }}
                   >
                     {periodTypeOptions.map((periodType, index) => (
                       <option value={periodType.value} key={periodType.value}>
@@ -998,7 +1025,7 @@ const SpaceEfficiency = ({ setRedirect, setRedirectUrl, t }) => {
                 <FormGroup>
                   <br />
                   <ButtonGroup id="submit">
-                    <Button size="sm" color="success" disabled={submitButtonDisabled}>
+                    <Button size="sm" color="success" disabled={submitButtonDisabled} innerRef={submitButtonRef}>
                       {t('Submit')}
                     </Button>
                   </ButtonGroup>

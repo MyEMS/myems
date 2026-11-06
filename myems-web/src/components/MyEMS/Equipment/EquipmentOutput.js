@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState, useContext, useCallback } from 'react';
+import React, { Fragment, useEffect, useRef, useState, useContext, useCallback } from 'react';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -237,6 +237,7 @@ const EquipmentOutput = ({ setRedirect, setRedirectUrl, t }) => {
   const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
 
   let onSpaceCascaderChange = (value, selectedOptions) => {
+    queryEditedRef.current = true;
     setSelectedSpaceName(selectedOptions.map(o => o.label).join('/'));
     let selectedSpaceID = value[value.length - 1];
     let isResponseOK = false;
@@ -285,6 +286,7 @@ const EquipmentOutput = ({ setRedirect, setRedirectUrl, t }) => {
   };
 
   let onComparisonTypeChange = ({ target }) => {
+    queryEditedRef.current = true;
     setComparisonType(target.value);
     if (target.value === 'year-over-year') {
       setBasePeriodDateRangePickerDisabled(true);
@@ -324,6 +326,7 @@ const EquipmentOutput = ({ setRedirect, setRedirectUrl, t }) => {
 
   // Callback fired when value changed
   let onBasePeriodChange = DateRange => {
+    queryEditedRef.current = true;
     if (DateRange == null) {
       setBasePeriodDateRange([null, null]);
     } else {
@@ -337,6 +340,7 @@ const EquipmentOutput = ({ setRedirect, setRedirectUrl, t }) => {
 
   // Callback fired when value changed
   let onReportingPeriodChange = DateRange => {
+    queryEditedRef.current = true;
     if (DateRange == null) {
       setReportingPeriodDateRange([null, null]);
     } else {
@@ -405,11 +409,13 @@ const EquipmentOutput = ({ setRedirect, setRedirectUrl, t }) => {
 
   // Callback fired when value clean
   let onBasePeriodClean = event => {
+    queryEditedRef.current = true;
     setBasePeriodDateRange([null, null]);
   };
 
   // Callback fired when value clean
   let onReportingPeriodClean = event => {
+    queryEditedRef.current = true;
     setReportingPeriodDateRange([null, null]);
   };
 
@@ -427,6 +433,27 @@ const EquipmentOutput = ({ setRedirect, setRedirectUrl, t }) => {
     }
     return false;
   };
+
+  const queryEditedRef = useRef(false);
+  const autoSubmittedRef = useRef(false);
+  const submitButtonRef = useRef(null);
+
+  useEffect(() => {
+    if (!settings.enableAutoSubmit || autoSubmittedRef.current || queryEditedRef.current || submitButtonDisabled) {
+      return;
+    }
+    if (selectedEquipment === undefined || selectedEquipment === null || selectedEquipment === '') {
+      return;
+    }
+    if (!reportingPeriodDateRange[0] || !reportingPeriodDateRange[1]) {
+      return;
+    }
+    if (!submitButtonRef.current) {
+      return;
+    }
+    autoSubmittedRef.current = true;
+    submitButtonRef.current.click();
+  }, [submitButtonDisabled, selectedEquipment, reportingPeriodDateRange]);
 
   // Handler
   const handleSubmit = e => {
@@ -951,7 +978,10 @@ const EquipmentOutput = ({ setRedirect, setRedirectUrl, t }) => {
                     id="equipmentSelect"
                     name="equipmentSelect"
                     bsSize="sm"
-                    onChange={({ target }) => setSelectedEquipment(target.value)}
+                    onChange={({ target }) => {
+                      queryEditedRef.current = true;
+                      setSelectedEquipment(target.value);
+                    }}
                   >
                     {equipmentList.map((equipment, index) => (
                       <option value={equipment.value} key={equipment.value}>
@@ -993,7 +1023,10 @@ const EquipmentOutput = ({ setRedirect, setRedirectUrl, t }) => {
                     name="periodType"
                     bsSize="sm"
                     defaultValue="daily"
-                    onChange={({ target }) => setPeriodType(target.value)}
+                    onChange={({ target }) => {
+                      queryEditedRef.current = true;
+                      setPeriodType(target.value);
+                    }}
                   >
                     {periodTypeOptions.map((periodType, index) => (
                       <option value={periodType.value} key={periodType.value}>
@@ -1086,7 +1119,7 @@ const EquipmentOutput = ({ setRedirect, setRedirectUrl, t }) => {
                 <FormGroup>
                   <br />
                   <ButtonGroup id="submit">
-                    <Button size="sm" color="success" disabled={submitButtonDisabled}>
+                    <Button size="sm" color="success" disabled={submitButtonDisabled} innerRef={submitButtonRef}>
                       {t('Submit')}
                     </Button>
                   </ButtonGroup>

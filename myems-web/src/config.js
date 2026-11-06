@@ -22,6 +22,7 @@ export const settings = {
   cookieExpireTime: 1000 * 60 * 60, //cookie expires time in milliseconds
   showTCEData: true, // indicates if show Tonne of Coal Equivalent data on dashboard and reports
   enableAIAnalysis: false, // indicates if show AI analysis buttons on reports, also set DEEPSEEK_API_KEY in myems-api/.env
+  enableAutoSubmit: false // indicates if auto submit when a report page opens and the submit button is enabled
 };
 
 const config = { version, navbarBreakPoint, topNavbarBreakpoint, settings, APIBaseURL };

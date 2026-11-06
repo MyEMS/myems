@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState, useContext, useCallback } from 'react';
+import React, { Fragment, useEffect, useRef, useState, useContext, useCallback } from 'react';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -290,6 +290,7 @@ const TenantComparison = ({ setRedirect, setRedirectUrl, t }) => {
   const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
 
   let onSpaceCascaderChange1 = (value, selectedOptions) => {
+    queryEditedRef.current = true;
     setSelectedSpaceName1(selectedOptions.map(o => o.label).join('/'));
     let selectedSpaceID = value[value.length - 1];
     let isResponseOK = false;
@@ -345,6 +346,7 @@ const TenantComparison = ({ setRedirect, setRedirectUrl, t }) => {
   };
 
   let onSpaceCascaderChange2 = (value, selectedOptions) => {
+    queryEditedRef.current = true;
     setSelectedSpaceName2(selectedOptions.map(o => o.label).join('/'));
     let selectedSpaceID = value[value.length - 1];
     let isResponseOK = false;
@@ -447,6 +449,7 @@ const TenantComparison = ({ setRedirect, setRedirectUrl, t }) => {
 
   // Callback fired when value changed
   let onReportingPeriodChange = DateRange => {
+    queryEditedRef.current = true;
     if (DateRange == null) {
       setReportingPeriodDateRange([null, null]);
     } else {
@@ -492,8 +495,36 @@ const TenantComparison = ({ setRedirect, setRedirectUrl, t }) => {
 
   // Callback fired when value clean
   let onReportingPeriodClean = event => {
+    queryEditedRef.current = true;
     setReportingPeriodDateRange([null, null]);
   };
+
+  const queryEditedRef = useRef(false);
+  const autoSubmittedRef = useRef(false);
+  const submitButtonRef = useRef(null);
+
+  useEffect(() => {
+    if (!settings.enableAutoSubmit || autoSubmittedRef.current || queryEditedRef.current || submitButtonDisabled) {
+      return;
+    }
+    if (selectedTenant1 === undefined || selectedTenant1 === null || selectedTenant1 === '') {
+      return;
+    }
+    if (selectedTenant2 === undefined || selectedTenant2 === null || selectedTenant2 === '') {
+      return;
+    }
+    if (selectedEnergyCategory === undefined || selectedEnergyCategory === null || selectedEnergyCategory === '') {
+      return;
+    }
+    if (!reportingPeriodDateRange[0] || !reportingPeriodDateRange[1]) {
+      return;
+    }
+    if (!submitButtonRef.current) {
+      return;
+    }
+    autoSubmittedRef.current = true;
+    submitButtonRef.current.click();
+  }, [submitButtonDisabled, selectedTenant1, selectedTenant2, selectedEnergyCategory, reportingPeriodDateRange]);
 
   // Handler
   const handleSubmit = e => {
@@ -881,7 +912,10 @@ const TenantComparison = ({ setRedirect, setRedirectUrl, t }) => {
                       id="tenantSelect1"
                       name="tenantSelect1"
                       bsSize="sm"
-                      onChange={({ target }) => setSelectedTenant1(target.value)}
+                      onChange={({ target }) => {
+                        queryEditedRef.current = true;
+                        setSelectedTenant1(target.value);
+                      }}
                     >
                       {filteredTenantList1.map((tenant, index) => (
                         <option value={tenant.value} key={tenant.value}>
@@ -923,7 +957,10 @@ const TenantComparison = ({ setRedirect, setRedirectUrl, t }) => {
                       id="tenantSelect2"
                       name="tenantSelect2"
                       bsSize="sm"
-                      onChange={({ target }) => setSelectedTenant2(target.value)}
+                      onChange={({ target }) => {
+                        queryEditedRef.current = true;
+                        setSelectedTenant2(target.value);
+                      }}
                     >
                       {filteredTenantList2.map((tenant, index) => (
                         <option value={tenant.value} key={tenant.value}>
@@ -946,7 +983,10 @@ const TenantComparison = ({ setRedirect, setRedirectUrl, t }) => {
                     id="energyCategorySelect"
                     name="energyCategorySelect"
                     bsSize="sm"
-                    onChange={({ target }) => setSelectedEnergyCategory(target.value)}
+                    onChange={({ target }) => {
+                      queryEditedRef.current = true;
+                      setSelectedEnergyCategory(target.value);
+                    }}
                   >
                     {energyCategoryList.map((energyCategory, index) => (
                       <option value={energyCategory.value} key={energyCategory.value}>
@@ -967,7 +1007,10 @@ const TenantComparison = ({ setRedirect, setRedirectUrl, t }) => {
                     name="periodType"
                     bsSize="sm"
                     defaultValue="daily"
-                    onChange={({ target }) => setPeriodType(target.value)}
+                    onChange={({ target }) => {
+                      queryEditedRef.current = true;
+                      setPeriodType(target.value);
+                    }}
                   >
                     {periodTypeOptions.map((periodType, index) => (
                       <option value={periodType.value} key={periodType.value}>
@@ -1043,7 +1086,7 @@ const TenantComparison = ({ setRedirect, setRedirectUrl, t }) => {
                 <FormGroup>
                   <br />
                   <ButtonGroup id="submit">
-                    <Button size="sm" color="success" disabled={submitButtonDisabled}>
+                    <Button size="sm" color="success" disabled={submitButtonDisabled} innerRef={submitButtonRef}>
                       {t('Submit')}
                     </Button>
                   </ButtonGroup>
