@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - added modbus parser tool to myems-web
 - added docx and pdf exporters to energyflow diagram in myems-api and myems-web
 - added pdf exporter to offlinemeter prediction in myems-api and myems-web
+- added config to indicate if auto submit when a report page opens and the submit button is enabled in myems-web
 ### Changed
 ### Fixed
 - fixed pep 8 warnings in myems-api

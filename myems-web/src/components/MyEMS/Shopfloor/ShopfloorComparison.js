@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState, useContext, useCallback } from 'react';
+import React, { Fragment, useEffect, useRef, useState, useContext, useCallback } from 'react';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -291,6 +291,7 @@ const ShopfloorComparison = ({ setRedirect, setRedirectUrl, t }) => {
   const labelClasses = 'ls text-uppercase text-600 font-weight-semi-bold mb-0';
 
   let onSpaceCascaderChange1 = (value, selectedOptions) => {
+    queryEditedRef.current = true;
     setSelectedSpaceName1(selectedOptions.map(o => o.label).join('/'));
     let selectedSpaceID = value[value.length - 1];
     let isResponseOK = false;
@@ -346,6 +347,7 @@ const ShopfloorComparison = ({ setRedirect, setRedirectUrl, t }) => {
   };
 
   let onSpaceCascaderChange2 = (value, selectedOptions) => {
+    queryEditedRef.current = true;
     setSelectedSpaceName2(selectedOptions.map(o => o.label).join('/'));
     let selectedSpaceID = value[value.length - 1];
     let isResponseOK = false;
@@ -448,6 +450,7 @@ const ShopfloorComparison = ({ setRedirect, setRedirectUrl, t }) => {
 
   // Callback fired when value changed
   let onReportingPeriodChange = DateRange => {
+    queryEditedRef.current = true;
     if (DateRange == null) {
       setReportingPeriodDateRange([null, null]);
     } else {
@@ -493,8 +496,36 @@ const ShopfloorComparison = ({ setRedirect, setRedirectUrl, t }) => {
 
   // Callback fired when value clean
   let onReportingPeriodClean = event => {
+    queryEditedRef.current = true;
     setReportingPeriodDateRange([null, null]);
   };
+
+  const queryEditedRef = useRef(false);
+  const autoSubmittedRef = useRef(false);
+  const submitButtonRef = useRef(null);
+
+  useEffect(() => {
+    if (!settings.enableAutoSubmit || autoSubmittedRef.current || queryEditedRef.current || submitButtonDisabled) {
+      return;
+    }
+    if (selectedShopfloor1 === undefined || selectedShopfloor1 === null || selectedShopfloor1 === '') {
+      return;
+    }
+    if (selectedShopfloor2 === undefined || selectedShopfloor2 === null || selectedShopfloor2 === '') {
+      return;
+    }
+    if (selectedEnergyCategory === undefined || selectedEnergyCategory === null || selectedEnergyCategory === '') {
+      return;
+    }
+    if (!reportingPeriodDateRange[0] || !reportingPeriodDateRange[1]) {
+      return;
+    }
+    if (!submitButtonRef.current) {
+      return;
+    }
+    autoSubmittedRef.current = true;
+    submitButtonRef.current.click();
+  }, [submitButtonDisabled, selectedShopfloor1, selectedShopfloor2, selectedEnergyCategory, reportingPeriodDateRange]);
 
   // Handler
   const handleSubmit = e => {
@@ -888,7 +919,10 @@ const ShopfloorComparison = ({ setRedirect, setRedirectUrl, t }) => {
                       id="shopfloorSelect1"
                       name="shopfloorSelect1"
                       bsSize="sm"
-                      onChange={({ target }) => setSelectedShopfloor1(target.value)}
+                      onChange={({ target }) => {
+                        queryEditedRef.current = true;
+                        setSelectedShopfloor1(target.value);
+                      }}
                     >
                       {filteredShopfloorList1.map((shopfloor, index) => (
                         <option value={shopfloor.value} key={shopfloor.value}>
@@ -930,7 +964,10 @@ const ShopfloorComparison = ({ setRedirect, setRedirectUrl, t }) => {
                       id="shopfloorSelect2"
                       name="shopfloorSelect2"
                       bsSize="sm"
-                      onChange={({ target }) => setSelectedShopfloor2(target.value)}
+                      onChange={({ target }) => {
+                        queryEditedRef.current = true;
+                        setSelectedShopfloor2(target.value);
+                      }}
                     >
                       {filteredShopfloorList2.map((shopfloor, index) => (
                         <option value={shopfloor.value} key={shopfloor.value}>
@@ -953,7 +990,10 @@ const ShopfloorComparison = ({ setRedirect, setRedirectUrl, t }) => {
                     id="energyCategorySelect"
                     name="energyCategorySelect"
                     bsSize="sm"
-                    onChange={({ target }) => setSelectedEnergyCategory(target.value)}
+                    onChange={({ target }) => {
+                      queryEditedRef.current = true;
+                      setSelectedEnergyCategory(target.value);
+                    }}
                   >
                     {energyCategoryList.map((energyCategory, index) => (
                       <option value={energyCategory.value} key={energyCategory.value}>
@@ -974,7 +1014,10 @@ const ShopfloorComparison = ({ setRedirect, setRedirectUrl, t }) => {
                     name="periodType"
                     bsSize="sm"
                     defaultValue="daily"
-                    onChange={({ target }) => setPeriodType(target.value)}
+                    onChange={({ target }) => {
+                      queryEditedRef.current = true;
+                      setPeriodType(target.value);
+                    }}
                   >
                     {periodTypeOptions.map((periodType, index) => (
                       <option value={periodType.value} key={periodType.value}>
@@ -1049,7 +1092,7 @@ const ShopfloorComparison = ({ setRedirect, setRedirectUrl, t }) => {
                 <FormGroup>
                   <br />
                   <ButtonGroup id="submit">
-                    <Button size="sm" color="success" disabled={submitButtonDisabled}>
+                    <Button size="sm" color="success" disabled={submitButtonDisabled} innerRef={submitButtonRef}>
                       {t('Submit')}
                     </Button>
                   </ButtonGroup>

@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState, useContext, useMemo, useCallback } from 'react';
+import React, { Fragment, useEffect, useRef, useState, useContext, useMemo, useCallback } from 'react';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -499,6 +499,27 @@ const VirtualMeterPrediction= ({ setRedirect, setRedirectUrl, t }) => {
     return false;
   };
 
+  const queryEditedRef = useRef(false);
+  const autoSubmittedRef = useRef(false);
+  const submitButtonRef = useRef(null);
+
+  useEffect(() => {
+    if (!settings.enableAutoSubmit || autoSubmittedRef.current || queryEditedRef.current || submitButtonDisabled) {
+      return;
+    }
+    if (selectedVirtualMeter === undefined || selectedVirtualMeter === null || selectedVirtualMeter === '') {
+      return;
+    }
+    if (!reportingPeriodDateRange[0] || !reportingPeriodDateRange[1]) {
+      return;
+    }
+    if (!submitButtonRef.current) {
+      return;
+    }
+    autoSubmittedRef.current = true;
+    submitButtonRef.current.click();
+  }, [submitButtonDisabled, selectedVirtualMeter, reportingPeriodDateRange]);
+
   // Handler
   const handleSubmit = e => {
     e.preventDefault();
@@ -988,7 +1009,10 @@ const VirtualMeterPrediction= ({ setRedirect, setRedirectUrl, t }) => {
                     name="virtualMeterSelect"
                     bsSize="sm"
                     value={selectedVirtualMeter ?? ''}
-                    onChange={({ target }) => setSelectedVirtualMeter(target.value)}
+                    onChange={({ target }) => {
+                      queryEditedRef.current = true;
+                      setSelectedVirtualMeter(target.value);
+                    }}
                   >
                     {virtualMeterList.map((virtualMeter, index) => (
                       <option value={virtualMeter.value} key={virtualMeter.value}>
@@ -1030,7 +1054,10 @@ const VirtualMeterPrediction= ({ setRedirect, setRedirectUrl, t }) => {
                     name="periodType"
                     bsSize="sm"
                     value={periodType}
-                    onChange={({ target }) => setPeriodType(target.value)}
+                    onChange={({ target }) => {
+                      queryEditedRef.current = true;
+                      setPeriodType(target.value);
+                    }}
                   >
                     {periodTypeOptions.map((periodType, index) => (
                       <option value={periodType.value} key={periodType.value}>
@@ -1120,7 +1147,7 @@ const VirtualMeterPrediction= ({ setRedirect, setRedirectUrl, t }) => {
                 <FormGroup>
                   <br />
                   <ButtonGroup id="submit">
-                    <Button size="sm" color="success" disabled={submitButtonDisabled}>
+                    <Button size="sm" color="success" disabled={submitButtonDisabled} innerRef={submitButtonRef}>
                       {t('Submit')}
                     </Button>
                   </ButtonGroup>
