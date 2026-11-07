@@ -256,9 +256,19 @@ class Reporting:
             raw_json = req.stream.read().decode('utf-8')
             new_values = json.loads(raw_json)
             formdata = new_values['value']
+            space_id = new_values['spaceid']
+            if isinstance(space_id, bool) or not isinstance(space_id, (int, str)):
+                raise ValueError
+            if isinstance(space_id, str):
+                space_id = space_id.strip()
+                if not space_id.isdigit():
+                    raise ValueError
+            space_id = int(space_id)
+            if space_id <= 0:
+                raise ValueError
             production_data = dict()
-            production_data['space_id'] = new_values['spaceid']
-            production_data['product_id'] = new_values['spaceid']
+            production_data['space_id'] = space_id
+            production_data['product_id'] = space_id
             production_data['data'] = dict()
             for item in formdata:
                 start_datetime_local = datetime(year=int(item[0][0:4]),
@@ -314,7 +324,7 @@ class Reporting:
 
                 cursor_system.execute(" SELECT name "
                                       " FROM tbl_spaces "
-                                      " WHERE id = %s ", (str(production_data['space_id']),))
+                                      " WHERE id = %s ", (production_data['space_id'],))
                 row = cursor_system.fetchone()
 
                 if row is None:
@@ -343,21 +353,21 @@ class Reporting:
 
                     cnx_production.commit()
 
-                    add_values = (" INSERT INTO tbl_space_hourly "
-                                  "(space_id, product_id, start_datetime_utc, product_count) "
-                                  " VALUES  ")
+                    insert_hourly = (" INSERT INTO tbl_space_hourly "
+                                     "(space_id, product_id, start_datetime_utc, product_count) "
+                                     " VALUES (%s, %s, %s, %s) ")
+                    hourly_rows = []
                     sum_24hours = actual_value * 24
                     last_date_utc = end_datetime_utc - timedelta(minutes=config.minutes_to_count)
                     while start_datetime_utc < end_datetime_utc:
                         if start_datetime_utc == last_date_utc and sum_24hours != daily_value:
                             actual_value = daily_value - sum_24hours + actual_value
-                        add_values += " (" + str(production_data['space_id']) + ","
-                        add_values += str(production_data['product_id']) + ","
-                        add_values += "'" + start_datetime_utc.strftime('%Y-%m-%d %H:%M:%S') + "',"
-                        add_values += str(actual_value) + "), "
+                        hourly_rows.append((production_data['space_id'],
+                                            production_data['product_id'],
+                                            start_datetime_utc.strftime('%Y-%m-%d %H:%M:%S'),
+                                            actual_value))
                         start_datetime_utc += timedelta(minutes=config.minutes_to_count)
-                    # trim ", " at the end of string and then execute
-                    cursor_production.execute(add_values[:-2])
+                    cursor_production.executemany(insert_hourly, hourly_rows)
                     cnx_production.commit()
 
             finally:

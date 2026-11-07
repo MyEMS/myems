@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - added config to indicate if auto submit when a report page opens and the submit button is enabled in myems-web
 ### Changed
 - changed apipost and postman files in myems-api
+- changed SQL string concatenation to executemany in myems-api
 ### Fixed
 - fixed pep 8 warnings in myems-api
 ### Removed

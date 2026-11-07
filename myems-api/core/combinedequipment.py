@@ -777,15 +777,10 @@ class CombinedEquipmentItem:
                                (id_,))
                 rows_meters = cursor.fetchall()
                 if rows_meters is not None and len(rows_meters) > 0:
-                    add_values = (" INSERT INTO tbl_combined_equipments_meters "
-                                  "(combined_equipment_id, meter_id, is_output) "
-                                  " VALUES  ")
-                    for row in rows_meters:
-                        add_values += " (" + str(new_id) + ","
-                        add_values += str(row[0]) + ","
-                        add_values += str(bool(row[1])) + "), "
-                    # trim ", " at the end of string and then execute
-                    cursor.execute(add_values[:-2])
+                    cursor.executemany(" INSERT INTO tbl_combined_equipments_meters "
+                                       "(combined_equipment_id, meter_id, is_output) "
+                                       " VALUES (%s, %s, %s) ",
+                                       [(new_id, row[0], row[1]) for row in rows_meters])
                     cnx.commit()
 
                 # clone relation with offline meter
@@ -795,15 +790,10 @@ class CombinedEquipmentItem:
                                (id_,))
                 rows_offline_meters = cursor.fetchall()
                 if rows_offline_meters is not None and len(rows_offline_meters) > 0:
-                    add_values = (" INSERT INTO tbl_combined_equipments_offline_meters "
-                                  " (combined_equipment_id, offline_meter_id, is_output) "
-                                  " VALUES  ")
-                    for row in rows_offline_meters:
-                        add_values += " (" + str(new_id) + ","
-                        add_values += "'" + str(row[0]) + "',"
-                        add_values += str(bool(row[1])) + "), "
-                    # trim ", " at the end of string and then execute
-                    cursor.execute(add_values[:-2])
+                    cursor.executemany(" INSERT INTO tbl_combined_equipments_offline_meters "
+                                       " (combined_equipment_id, offline_meter_id, is_output) "
+                                       " VALUES (%s, %s, %s) ",
+                                       [(new_id, row[0], row[1]) for row in rows_offline_meters])
                     cnx.commit()
 
                 # clone relation with virtual meter
@@ -813,15 +803,10 @@ class CombinedEquipmentItem:
                                (id_,))
                 rows_virtual_meters = cursor.fetchall()
                 if rows_virtual_meters is not None and len(rows_virtual_meters) > 0:
-                    add_values = (" INSERT INTO tbl_combined_equipments_virtual_meters "
-                                  " (combined_equipment_id, virtual_meter_id, is_output) "
-                                  " VALUES  ")
-                    for row in rows_virtual_meters:
-                        add_values += " (" + str(new_id) + ","
-                        add_values += str(row[0]) + ","
-                        add_values += str(bool(row[1])) + "), "
-                    # trim ", " at the end of string and then execute
-                    cursor.execute(add_values[:-2])
+                    cursor.executemany(" INSERT INTO tbl_combined_equipments_virtual_meters "
+                                       " (combined_equipment_id, virtual_meter_id, is_output) "
+                                       " VALUES (%s, %s, %s) ",
+                                       [(new_id, row[0], row[1]) for row in rows_virtual_meters])
                     cnx.commit()
 
                 # clone parameters
@@ -832,35 +817,12 @@ class CombinedEquipmentItem:
                                (id_,))
                 rows_parameters = cursor.fetchall()
                 if rows_parameters is not None and len(rows_parameters) > 0:
-                    add_values = (" INSERT INTO tbl_combined_equipments_parameters"
-                                  "     (combined_equipment_id, name, parameter_type, constant, point_id, "
-                                  "      numerator_meter_uuid, denominator_meter_uuid) "
-                                  " VALUES  ")
-                    for row in rows_parameters:
-                        add_values += " (" + str(new_id) + ","
-                        add_values += "'" + str(row[0]) + "',"
-                        add_values += "'" + str(row[1]) + "',"
-                        if row[2] is not None:
-                            add_values += "'" + str(row[2]) + "',"
-                        else:
-                            add_values += "null, "
-
-                        if row[3] is not None:
-                            add_values += str(row[2]) + ","
-                        else:
-                            add_values += "null, "
-
-                        if row[4] is not None:
-                            add_values += "'" + row[4] + "',"
-                        else:
-                            add_values += "null, "
-                        if row[5] is not None:
-                            add_values += "'" + row[5] + "'), "
-                        else:
-                            add_values += "null), "
-
-                    # trim ", " at the end of string and then execute
-                    cursor.execute(add_values[:-2])
+                    cursor.executemany(" INSERT INTO tbl_combined_equipments_parameters"
+                                       "     (combined_equipment_id, name, parameter_type, constant, point_id, "
+                                       "      numerator_meter_uuid, denominator_meter_uuid) "
+                                       " VALUES (%s, %s, %s, %s, %s, %s, %s) ",
+                                       [(new_id, row[0], row[1], row[2], row[3], row[4], row[5])
+                                        for row in rows_parameters])
                     cnx.commit()
 
             finally:
