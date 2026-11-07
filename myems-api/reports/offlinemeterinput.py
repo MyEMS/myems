@@ -73,8 +73,18 @@ class Reporting:
                     raw_json = req.stream.read().decode('utf-8')
                     new_values = json.loads(raw_json)
                     formdata = new_values['value']
+                    meter_id = new_values['meter']
+                    if isinstance(meter_id, bool) or not isinstance(meter_id, (int, str)):
+                        raise ValueError
+                    if isinstance(meter_id, str):
+                        meter_id = meter_id.strip()
+                        if not meter_id.isdigit():
+                            raise ValueError
+                    meter_id = int(meter_id)
+                    if meter_id <= 0:
+                        raise ValueError
                     offline_meter_data = dict()
-                    offline_meter_data['offline_meter_id'] = new_values['meter']
+                    offline_meter_data['offline_meter_id'] = meter_id
                     offline_meter_data['data'] = dict()
                     for onepieces in formdata:
                         start_datetime_local = datetime(year=int(onepieces[0][0:4]),
@@ -147,20 +157,20 @@ class Reporting:
                             raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
                                                    description='API.INVALID_OFFLINE_METER_VALUE')
 
-                        add_values = (" INSERT INTO tbl_offline_meter_hourly "
-                                      "             (offline_meter_id, start_datetime_utc, actual_value) "
-                                      " VALUES  ")
+                        insert_hourly = (" INSERT INTO tbl_offline_meter_hourly "
+                                         "             (offline_meter_id, start_datetime_utc, actual_value) "
+                                         " VALUES (%s, %s, %s) ")
+                        hourly_rows = []
                         sum_24hours = actual_value * 24
                         last_date_utc = end_datetime_utc - timedelta(minutes=config.minutes_to_count)
                         while start_datetime_utc < end_datetime_utc:
                             if start_datetime_utc == last_date_utc and sum_24hours != daily_value:
                                 actual_value = daily_value - sum_24hours + actual_value
-                            add_values += " (" + str(offline_meter_id) + ","
-                            add_values += "'" + start_datetime_utc.strftime('%Y-%m-%d %H:%M:%S') + "',"
-                            add_values += str(actual_value) + "), "
+                            hourly_rows.append((offline_meter_id,
+                                                start_datetime_utc.strftime('%Y-%m-%d %H:%M:%S'),
+                                                actual_value))
                             start_datetime_utc += timedelta(minutes=config.minutes_to_count)
-                        # trim ", " at the end of string and then execute
-                        cursor_energy.execute(add_values[:-2])
+                        cursor_energy.executemany(insert_hourly, hourly_rows)
                         cnx_energy.commit()
             finally:
                 if cursor_energy:
