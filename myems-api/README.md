@@ -43,14 +43,10 @@ Refer to [myems.cn](https://myems.cn/docs/installation/docker-linux#step-2-myems
 
 Refer to [myems.cn](https://myems.cn/docs/installation/debian-ubuntu#step-2-myems-api)
 
-### Installation Option 3: Install myems-api on macOS
-
-Refer to [Installation on macOS (Chinese)](/myems-api/installation_macos_zh.md)
-
 
 ## API List
 
-Please refer to [API List](https://myems.cn/docs/api)
+Please refer to [API List](https://myems.cn/docs/tutorial/api)
 
 ## References
 

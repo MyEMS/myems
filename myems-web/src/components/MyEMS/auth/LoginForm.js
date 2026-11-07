@@ -3,7 +3,17 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import AppContext from '../../../context/Context';
-import { Button, Form, Row, Col, FormGroup, Input, CustomInput, Label } from 'reactstrap';
+import {
+  Button,
+  Form,
+  FormGroup,
+  Input,
+  CustomInput,
+  Label,
+  InputGroup,
+  InputGroupAddon,
+  InputGroupText
+} from 'reactstrap';
 import { createCookie, getItemFromStore, setItemToStore, themeColors } from '../../../helpers/utils';
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
@@ -107,70 +117,62 @@ const LoginForm = ({ setRedirect, hasLabel, layout, t }) => {
             placeholder={!hasLabel ? t('Password') : ''}
             value={password}
             maxLength={100}
-            className="password-input pr-6"
+            className="password-input"
             onChange={({ target }) => setPassword(target.value)}
             type={passwordVisible ? 'text' : 'password'}
           />
           <Button
             color="link"
-            className="position-absolute bg-transparent border-0 px-3 text-500"
+            className="absolute-vertical-center r-0 bg-transparent border-0 shadow-none px-3 py-0 text-500"
             onClick={togglePasswordVisibility}
             type="button"
             aria-label={t(passwordVisible ? 'Hide password' : 'Show password')}
-            style={{
-              top: '50%',
-              right: 0,
-              transform: 'translateY(-50%)',
-              boxShadow: 'none',
-              zIndex: 3
-            }}
           >
             {passwordVisible ? <FaEye /> : <FaEyeSlash />}
           </Button>
         </div>
       </FormGroup>
       <FormGroup>
-        <Row className="justify-content-between align-items-center">
-          <Col xs="6" className="pr-0">
-            {hasLabel && <Label>{t('CaptchaCode')}</Label>}
-            <Input
-              placeholder={!hasLabel ? t('CaptchaCode') : ''}
-              value={code}
-              onChange={({ target }) => setCode(target.value.trim())}
-              type="text"
-            />
-          </Col>
-          <Col xs="6" className="d-flex pr-0 pl-0">
-            <Captcha
-              charNum={4}
-              width={100}
-              height={36}
-              bgColor={!isDark ? themeColors.light : themeColors.dark}
-              onChange={value => setCaptchaCode(value)}
-              ref={captchaRef}
-            />
-          </Col>
-        </Row>
-      </FormGroup>
-      <Row className="justify-content-between align-items-center">
-        <Col xs="auto">
-          <CustomInput
-            id="customCheckRemember"
-            label={t('Remember me')}
-            bsSize="sm"
-            checked={remember}
-            onChange={({ target }) => setRemember(target.checked)}
-            type="checkbox"
+        {hasLabel && <Label>{t('CaptchaCode')}</Label>}
+        <InputGroup>
+          <Input
+            placeholder={!hasLabel ? t('CaptchaCode') : ''}
+            value={code}
+            onChange={({ target }) => setCode(target.value.trim())}
+            type="text"
           />
-        </Col>
-        <Col xs="auto">
-          <Link className="fs--1" to={`/authentication/${layout}/sent-forgot-email`}>
-            {t('Forgot Password?')}
-          </Link>
-        </Col>
-      </Row>
+          <InputGroupAddon addonType="append">
+            <InputGroupText className={`p-0 overflow-hidden ${isDark ? 'bg-dark' : 'bg-white'}`}>
+              <Captcha
+                charNum={4}
+                width={116}
+                height={34}
+                fontSize={20}
+                className="d-block"
+                bgColor={!isDark ? themeColors.light : themeColors.dark}
+                onChange={value => setCaptchaCode(value)}
+                ref={captchaRef}
+              />
+            </InputGroupText>
+          </InputGroupAddon>
+        </InputGroup>
+      </FormGroup>
+      <div className="d-flex justify-content-between align-items-center mb-3">
+        <CustomInput
+          id="customCheckRemember"
+          label={t('Remember me')}
+          bsSize="sm"
+          className="mb-0"
+          checked={remember}
+          onChange={({ target }) => setRemember(target.checked)}
+          type="checkbox"
+        />
+        <Link className="fs--1 text-nowrap" to={`/authentication/${layout}/sent-forgot-email`}>
+          {t('Forgot Password?')}
+        </Link>
+      </div>
       <FormGroup>
-        <Button color="primary" block className="mt-3" disabled={isDisabled}>
+        <Button color="primary" block className="py-2 font-weight-semi-bold" disabled={isDisabled}>
           {t('Log in')}
         </Button>
       </FormGroup>
@@ -178,8 +180,7 @@ const LoginForm = ({ setRedirect, hasLabel, layout, t }) => {
         type="select"
         id="language"
         name="language"
-        bsSize="sm"
-        className="mb-3"
+        className="mb-4"
         value={language}
         onChange={({ target }) => setLanguage(target.value)}
       >
@@ -204,14 +205,12 @@ const LoginForm = ({ setRedirect, hasLabel, layout, t }) => {
         <option value="jp">{t('language-jp')}</option>
         <option value="fa">{t('language-fa')}</option>
       </CustomInput>
-      <Row className="justify-content-center align-items-center">
-        <Col xs="auto">
-          {t('New to MyEMS')}?&nbsp;
-          <Link className="fs--1" to={`/authentication/${layout}/sent-register-email`}>
-            {t('Create an account')}
-          </Link>
-        </Col>
-      </Row>
+      <div className="text-center border-top pt-3">
+        <span className="text-600">{t('New to MyEMS')}? </span>
+        <Link className="font-weight-semi-bold" to={`/authentication/${layout}/sent-register-email`}>
+          {t('Create an account')}
+        </Link>
+      </div>
     </Form>
   );
 };
