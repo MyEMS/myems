@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
+- added work order management for repair, inspection and installation to myems-api and myems-web
 - added json validtor to myems-admin
 - added dockerignore files
 - added modbus parser tool to myems-web
