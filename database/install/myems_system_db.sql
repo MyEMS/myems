@@ -1072,7 +1072,11 @@ VALUES
 (800,'Auxiliary System','/auxiliarysystem',NULL,0),
 (801,'Energy Flow Diagram','/auxiliarysystem/energyflowdiagram',800,0),
 (802,'Distribution System','/auxiliarysystem/distributionsystem',800,0),
-(1200,'Knowledge Base','/knowledgebase',NULL,0);
+(1200,'Knowledge Base','/knowledgebase',NULL,0),
+(1300,'Work Order','/workorder',NULL,0),
+(1301,'Work Order Repair','/workorder/repair',1300,0),
+(1302,'Work Order Inspection','/workorder/inspection',1300,0),
+(1303,'Work Order Installation','/workorder/installation',1300,0);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_meters`
@@ -2797,6 +2801,74 @@ CREATE INDEX `tbl_virtual_power_plants_microgrids_index_1`
 ON `myems_system_db`.`tbl_virtual_power_plants_microgrids` (`virtual_power_plant_id`);
 
 -- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_system_db`.`tbl_work_orders`
+-- category: repair, inspection, installation
+-- priority: critical, high, medium, low
+-- status: new, assigned, in_progress, pending_acceptance, done, cancelled
+-- ---------------------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `myems_system_db`.`tbl_work_order_files` ;
+DROP TABLE IF EXISTS `myems_system_db`.`tbl_work_order_logs` ;
+DROP TABLE IF EXISTS `myems_system_db`.`tbl_work_orders` ;
+
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_work_orders` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `number` VARCHAR(32) NOT NULL,
+  `category` VARCHAR(32) NOT NULL,
+  `title` VARCHAR(255) NOT NULL,
+  `description` LONGTEXT NOT NULL,
+  `priority` VARCHAR(32) NOT NULL,
+  `status` VARCHAR(32) NOT NULL,
+  `belong_to_object_type` VARCHAR(128) NULL
+  COMMENT 'SYSTEM, SPACE, METER, TENANT, STORE, SHOPFLOOR, EQUIPMENT, COMBINEDEQUIPMENT, MICROGRID, ENERGYSTORAGECONTAINER, PHOTOVOLTAICPOWERSTATION',
+  `belong_to_object_id` BIGINT NULL,
+  `source_type` VARCHAR(32) NOT NULL DEFAULT 'manual',
+  `source_id` BIGINT NULL,
+  `creator_user_id` BIGINT NOT NULL COMMENT 'primary key in myems_user_db.tbl_users',
+  `assignee_user_id` BIGINT NULL COMMENT 'primary key in myems_user_db.tbl_users',
+  `scheduled_start_datetime_utc` DATETIME NULL,
+  `due_datetime_utc` DATETIME NULL,
+  `started_datetime_utc` DATETIME NULL,
+  `finished_datetime_utc` DATETIME NULL,
+  `created_datetime_utc` DATETIME NOT NULL,
+  `update_datetime_utc` DATETIME NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE UNIQUE INDEX `tbl_work_orders_index_1` ON `myems_system_db`.`tbl_work_orders` (`number`);
+CREATE INDEX `tbl_work_orders_index_2`
+ON `myems_system_db`.`tbl_work_orders` (`category`, `created_datetime_utc`);
+CREATE INDEX `tbl_work_orders_index_3` ON `myems_system_db`.`tbl_work_orders` (`status`);
+CREATE INDEX `tbl_work_orders_index_4` ON `myems_system_db`.`tbl_work_orders` (`assignee_user_id`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_system_db`.`tbl_work_order_logs`
+-- ---------------------------------------------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_work_order_logs` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `work_order_id` BIGINT NOT NULL,
+  `user_id` BIGINT NOT NULL COMMENT 'primary key in myems_user_db.tbl_users',
+  `action` VARCHAR(32) NOT NULL,
+  `from_status` VARCHAR(32) NULL,
+  `to_status` VARCHAR(32) NOT NULL,
+  `comment` LONGTEXT NULL,
+  `created_datetime_utc` DATETIME NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_work_order_logs_index_1` ON `myems_system_db`.`tbl_work_order_logs` (`work_order_id`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Table `myems_system_db`.`tbl_work_order_files`
+-- File bytes are stored under upload_path. Phase 1 creates the table for later uploads.
+-- ---------------------------------------------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_work_order_files` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `work_order_id` BIGINT NOT NULL,
+  `file_name` VARCHAR(255) NOT NULL,
+  `file_path` VARCHAR(255) NOT NULL,
+  `file_size` BIGINT NOT NULL,
+  `uploaded_by_user_id` BIGINT NOT NULL COMMENT 'primary key in myems_user_db.tbl_users',
+  `created_datetime_utc` DATETIME NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE INDEX `tbl_work_order_files_index_1` ON `myems_system_db`.`tbl_work_order_files` (`work_order_id`);
+
+-- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_versions`
 -- ---------------------------------------------------------------------------------------------------------------------
 DROP TABLE IF EXISTS `myems_system_db`.`tbl_versions` ;
@@ -2813,7 +2885,7 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_versions` (
 INSERT INTO `myems_system_db`.`tbl_versions`
 (`id`, `version`, `release_date`)
 VALUES
-(1, '6.10.0', '2026-10-27');
+(1, '6.11.0RC', '2026-11-07');
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_wind_farms`

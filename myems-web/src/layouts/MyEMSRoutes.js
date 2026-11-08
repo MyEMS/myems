@@ -138,6 +138,9 @@ const JSONValidator = loadable(() => import('../components/MyEMS/Tools/JSONValid
 const ModbusParser = loadable(() => import('../components/MyEMS/Tools/ModbusParser/ModbusParser'), { fallback: loadingFallback });
 
 const Notification = loadable(() => import('../components/MyEMS/Notification/Notification'), { fallback: loadingFallback });
+const WorkOrderRepair = loadable(() => import('../components/MyEMS/WorkOrder/Repair'), { fallback: loadingFallback });
+const WorkOrderInspection = loadable(() => import('../components/MyEMS/WorkOrder/Inspection'), { fallback: loadingFallback });
+const WorkOrderInstallation = loadable(() => import('../components/MyEMS/WorkOrder/Installation'), { fallback: loadingFallback });
 
 const FDDFault = loadable(() => import('../components/MyEMS/FDD/Fault'), { fallback: loadingFallback });
 
@@ -292,6 +295,12 @@ const MyEMSRoutes = () => (
 
         {/* Notification */}
         <Route path="/notification" exact component={Notification} />
+
+        {/* Work Order */}
+        <Route path="/workorder" exact render={() => <Redirect to="/workorder/repair" />} />
+        <Route path="/workorder/repair" exact component={WorkOrderRepair} />
+        <Route path="/workorder/inspection" exact component={WorkOrderInspection} />
+        <Route path="/workorder/installation" exact component={WorkOrderInstallation} />
 
         {/*FDD*/}
         <Route path="/fdd" exact component={FDDFault} />

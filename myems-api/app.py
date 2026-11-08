@@ -12,7 +12,7 @@ from core import advancedreport, apikey, command, controlmode, energyflowdiagram
     shopfloor, webmessage, distributionsystem, store, emailmessage, tenanttype, wechatmessage, space, gateway, \
     offlinemeter, rule, energycategory, sensor, energyitem, notification, menu, datarepairfile, workingcalendar, \
     microgrid,  virtualpowerplant, energystoragecontainer, energystoragepowerstation, photovoltaicpowerstation, \
-    windfarm, energyplanfile, svg, protocol, ticket, iotsimcard, log, emissionfactor
+    windfarm, energyplanfile, svg, protocol, ticket, iotsimcard, log, emissionfactor, workorder
 
 from reports import advancedreportfile
 from reports import combinedequipmentbatch
@@ -1106,6 +1106,15 @@ api.add_route('/tickets',
               ticket.TicketCollection())
 api.add_route('/tickets/{id_}',
               ticket.TicketItem())
+
+api.add_route('/workorders',
+              workorder.WorkOrderCollection())
+api.add_route('/workorders/assignees',
+              workorder.WorkOrderAssigneeCollection())
+api.add_route('/workorders/{id_}',
+              workorder.WorkOrderItem())
+api.add_route('/workorders/{id_}/actions',
+              workorder.WorkOrderAction())
 
 api.add_route('/timezones',
               timezone.TimezoneCollection())

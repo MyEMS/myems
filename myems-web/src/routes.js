@@ -191,6 +191,17 @@ export const auxiliarySystemRoutes = {
 };
 
 
+export const workOrderRoutes = {
+  name: 'Work Order',
+  to: '/workorder',
+  icon: 'cogs',
+  children: [
+    { to: '/workorder/repair', name: 'Work Order Repair' },
+    { to: '/workorder/inspection', name: 'Work Order Inspection' },
+    { to: '/workorder/installation', name: 'Work Order Installation' }
+  ]
+};
+
 export const knowledgeBaseRoutes = {
   name: 'Knowledge Base',
   to: '/knowledgebase',
@@ -222,6 +233,7 @@ export default [
   shopfloorRoutes,
   combinedEquipmentRoutes,
   auxiliarySystemRoutes,
+  workOrderRoutes,
   knowledgeBaseRoutes,
   toolsRoutes
 ];
