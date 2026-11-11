@@ -2631,10 +2631,10 @@
                 "Energy Flow Diagram": 'แผนภาพการไหลของพลังงาน',
                 "Distribution System": 'ระบบกระจายสินค้า',
                 "Advanced Reporting": 'การรายงานขั้นสูง',
-                "Work Order": 'Work Order',
-                "Work Order Repair": 'Repair',
-                "Work Order Inspection": 'Inspection',
-                "Work Order Installation": 'Installation',
+                "Work Order": 'ใบสั่งงาน',
+                "Work Order Repair": 'ซ่อม',
+                "Work Order Inspection": 'ตรวจสอบ',
+                "Work Order Installation": 'ติดตั้ง',
                 "Knowledge Base": 'ฐานความรู้'
             };
 })(window);

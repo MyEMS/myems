@@ -2631,10 +2631,10 @@
                 "Energy Flow Diagram": 'Sơ đồ dòng năng lượng',
                 "Distribution System": 'Hệ thống phân phối',
                 "Advanced Reporting": 'Báo cáo nâng cao',
-                "Work Order": 'Work Order',
-                "Work Order Repair": 'Repair',
-                "Work Order Inspection": 'Inspection',
-                "Work Order Installation": 'Installation',
+                "Work Order": 'Lệnh công việc',
+                "Work Order Repair": 'Sửa chữa',
+                "Work Order Inspection": 'Kiểm tra',
+                "Work Order Installation": 'Lắp đặt',
                 "Knowledge Base": 'Cơ sở tri thức'
             };
 })(window);

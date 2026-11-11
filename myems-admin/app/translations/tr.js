@@ -2631,10 +2631,10 @@
                 "Energy Flow Diagram": 'Enerji Akış Diyagramı',
                 "Distribution System": 'Dağıtım Sistemi',
                 "Advanced Reporting": 'Gelişmiş Raporlama',
-                "Work Order": 'Work Order',
-                "Work Order Repair": 'Repair',
-                "Work Order Inspection": 'Inspection',
-                "Work Order Installation": 'Installation',
+                "Work Order": 'İş emri',
+                "Work Order Repair": 'Onarım',
+                "Work Order Inspection": 'Kontrol',
+                "Work Order Installation": 'Kurulum',
                 "Knowledge Base": 'Bilgi Bankası'
             };
 })(window);

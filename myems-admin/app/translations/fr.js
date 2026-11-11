@@ -2630,8 +2630,8 @@
                 "Energy Flow Diagram": 'Diagramme de flux d\'énergie',
                 "Distribution System": 'Système de distribution',
                 "Advanced Reporting": 'Rapports avancés',
-                "Work Order": 'Work Order',
-                "Work Order Repair": 'Repair',
+                "Work Order": 'Bon de travail',
+                "Work Order Repair": 'Réparation',
                 "Work Order Inspection": 'Inspection',
                 "Work Order Installation": 'Installation',
                 "Knowledge Base": 'Base de connaissances'

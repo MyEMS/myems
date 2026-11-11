@@ -2631,10 +2631,10 @@
                 "Energy Flow Diagram": 'Диаграмма потока энергии',
                 "Distribution System": 'Система распределения',
                 "Advanced Reporting": 'Расширенная отчетность',
-                "Work Order": 'Work Order',
-                "Work Order Repair": 'Repair',
-                "Work Order Inspection": 'Inspection',
-                "Work Order Installation": 'Installation',
+                "Work Order": 'Наряд',
+                "Work Order Repair": 'Ремонт',
+                "Work Order Inspection": 'Осмотр',
+                "Work Order Installation": 'Монтаж',
                 "Knowledge Base": 'База знаний'
             };
 })(window);

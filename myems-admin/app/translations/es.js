@@ -2631,10 +2631,10 @@
                 "Energy Flow Diagram": 'Diagrama de Flujo de Energía',
                 "Distribution System": 'Sistema de Distribución',
                 "Advanced Reporting": 'Informes avanzados',
-                "Work Order": 'Work Order',
-                "Work Order Repair": 'Repair',
-                "Work Order Inspection": 'Inspection',
-                "Work Order Installation": 'Installation',
+                "Work Order": 'Orden de trabajo',
+                "Work Order Repair": 'Reparación',
+                "Work Order Inspection": 'Inspección',
+                "Work Order Installation": 'Instalación',
                 "Knowledge Base": 'Base de Conocimientos'
             };
 })(window);

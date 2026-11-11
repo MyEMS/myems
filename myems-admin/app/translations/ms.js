@@ -2631,10 +2631,10 @@
                 "Energy Flow Diagram": 'Rajah Aliran Tenaga',
                 "Distribution System": 'Sistem Pengedaran',
                 "Advanced Reporting": 'Laporan Lanjutan',
-                "Work Order": 'Work Order',
-                "Work Order Repair": 'Repair',
-                "Work Order Inspection": 'Inspection',
-                "Work Order Installation": 'Installation',
+                "Work Order": 'Pesanan kerja',
+                "Work Order Repair": 'Pembaikan',
+                "Work Order Inspection": 'Pemeriksaan',
+                "Work Order Installation": 'Pemasangan',
                 "Knowledge Base": 'Pangkalan Pengetahuan'
             };
 })(window);
