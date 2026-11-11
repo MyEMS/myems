@@ -2630,6 +2630,11 @@
                 "Auxiliary System": 'سیستم کمکی',
                 "Energy Flow Diagram": 'نمودار جریان انرژی',
                 "Distribution System": 'سیستم توزیع',
+                "Advanced Reporting": 'گزارش‌گیری پیشرفته',
+                "Work Order": 'مدیریت دستورکار',
+                "Work Order Repair": 'رکورد تعمیر',
+                "Work Order Inspection": 'رکورد بازرسی',
+                "Work Order Installation": 'رکورد نصب',
                 "Knowledge Base": 'پایگاه دانش'
             };
  })(window);

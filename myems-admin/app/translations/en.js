@@ -2631,6 +2631,11 @@
                 "Auxiliary System": 'Auxiliary System',
                 "Energy Flow Diagram": 'Energy Flow Diagram',
                 "Distribution System": 'Distribution System',
+                "Advanced Reporting": 'Advanced Reporting',
+                "Work Order": 'Work Order',
+                "Work Order Repair": 'Repair',
+                "Work Order Inspection": 'Inspection',
+                "Work Order Installation": 'Installation',
                 "Knowledge Base": 'Knowledge Base'
             };
 })(window);

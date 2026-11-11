@@ -2630,6 +2630,11 @@
                 "Auxiliary System": 'Sistem Bantu',
                 "Energy Flow Diagram": 'Rajah Aliran Tenaga',
                 "Distribution System": 'Sistem Pengedaran',
+                "Advanced Reporting": 'Laporan Lanjutan',
+                "Work Order": 'Work Order',
+                "Work Order Repair": 'Repair',
+                "Work Order Inspection": 'Inspection',
+                "Work Order Installation": 'Installation',
                 "Knowledge Base": 'Pangkalan Pengetahuan'
             };
 })(window);

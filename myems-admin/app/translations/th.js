@@ -2630,6 +2630,11 @@
                 "Auxiliary System": 'ระบบเสริม',
                 "Energy Flow Diagram": 'แผนภาพการไหลของพลังงาน',
                 "Distribution System": 'ระบบกระจายสินค้า',
+                "Advanced Reporting": 'การรายงานขั้นสูง',
+                "Work Order": 'Work Order',
+                "Work Order Repair": 'Repair',
+                "Work Order Inspection": 'Inspection',
+                "Work Order Installation": 'Installation',
                 "Knowledge Base": 'ฐานความรู้'
             };
 })(window);

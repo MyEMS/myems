@@ -2630,6 +2630,11 @@
                 "Auxiliary System": 'Hệ thống phụ trợ',
                 "Energy Flow Diagram": 'Sơ đồ dòng năng lượng',
                 "Distribution System": 'Hệ thống phân phối',
+                "Advanced Reporting": 'Báo cáo nâng cao',
+                "Work Order": 'Work Order',
+                "Work Order Repair": 'Repair',
+                "Work Order Inspection": 'Inspection',
+                "Work Order Installation": 'Installation',
                 "Knowledge Base": 'Cơ sở tri thức'
             };
 })(window);

@@ -2630,6 +2630,11 @@
                 "Auxiliary System": 'نظام مساعد',
                 "Energy Flow Diagram": 'مخطط تدفق الطاقة',
                 "Distribution System": 'نظام التوزيع',
+                "Advanced Reporting": 'التقارير المتقدمة',
+                "Work Order": 'Work Order',
+                "Work Order Repair": 'Repair',
+                "Work Order Inspection": 'Inspection',
+                "Work Order Installation": 'Installation',
                 "Knowledge Base": 'قاعدة المعرفة'
             }; 
 })(window);

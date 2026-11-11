@@ -2630,6 +2630,11 @@
                 "Auxiliary System": 'Hulpsysteem',
                 "Energy Flow Diagram": 'Energiestroomdiagram',
                 "Distribution System": 'Distributiesysteem',
+                "Advanced Reporting": 'Geavanceerde rapportage',
+                "Work Order": 'Werkorderbeheer',
+                "Work Order Repair": 'Reparatierecord',
+                "Work Order Inspection": 'Inspectierecord',
+                "Work Order Installation": 'Installatierecord',
                 "Knowledge Base": 'Kennisbank'
             };
 })(window);
