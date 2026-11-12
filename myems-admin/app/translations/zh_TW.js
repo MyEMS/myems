@@ -2858,11 +2858,7 @@
       "Auxiliary System": "輔助系統",
       "Energy Flow Diagram": "能流圖",
       "Distribution System": "配電系統",
-      "Advanced Reporting": "高級報表",
-      "Work Order": "工單管理",
-      "Work Order Repair": "維修記錄",
-      "Work Order Inspection": "巡檢記錄",
-      "Work Order Installation": "安裝記錄",
+
       "Knowledge Base": "知識庫",
     };
 })(window);
