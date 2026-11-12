@@ -2633,9 +2633,9 @@
                 "Distribution System": 'Distribution System',
                 "Advanced Reporting": 'Advanced Reporting',
                 "Work Order": 'Work Order',
-                "Work Order Repair": 'Repair',
-                "Work Order Inspection": 'Inspection',
-                "Work Order Installation": 'Installation',
+                "Work Order Repair": 'Repair Record',
+                "Work Order Inspection": 'Inspection Record',
+                "Work Order Installation": 'Installation Record',
                 "Knowledge Base": 'Knowledge Base'
             };
 })(window);

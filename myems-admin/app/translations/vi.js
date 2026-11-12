@@ -2632,9 +2632,9 @@
                 "Distribution System": 'Hệ thống phân phối',
                 "Advanced Reporting": 'Báo cáo nâng cao',
                 "Work Order": 'Lệnh công việc',
-                "Work Order Repair": 'Sửa chữa',
-                "Work Order Inspection": 'Kiểm tra',
-                "Work Order Installation": 'Lắp đặt',
+                "Work Order Repair": 'Bản ghi sửa chữa',
+                "Work Order Inspection": 'Bản ghi kiểm tra',
+                "Work Order Installation": 'Bản ghi lắp đặt',
                 "Knowledge Base": 'Cơ sở tri thức'
             };
 })(window);

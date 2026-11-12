@@ -2632,9 +2632,9 @@
                 "Distribution System": 'نظام التوزيع',
                 "Advanced Reporting": 'التقارير المتقدمة',
                 "Work Order": 'أمر العمل',
-                "Work Order Repair": 'إصلاح',
-                "Work Order Inspection": 'فحص',
-                "Work Order Installation": 'تركيب',
+                "Work Order Repair": 'سجل إصلاح',
+                "Work Order Inspection": 'سجل فحص',
+                "Work Order Installation": 'سجل تركيب',
                 "Knowledge Base": 'قاعدة المعرفة'
             }; 
 })(window);

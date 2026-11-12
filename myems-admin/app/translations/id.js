@@ -2632,9 +2632,9 @@
                 "Distribution System": 'Sistem Distribusi',
                 "Advanced Reporting": 'Laporan Lanjutan',
                 "Work Order": 'Perintah kerja',
-                "Work Order Repair": 'Perbaikan',
-                "Work Order Inspection": 'Pemeriksaan',
-                "Work Order Installation": 'Pemasangan',
+                "Work Order Repair": 'Catatan perbaikan',
+                "Work Order Inspection": 'Catatan pemeriksaan',
+                "Work Order Installation": 'Catatan pemasangan',
                 "Knowledge Base": 'Basis Pengetahuan'
             }; 
 })(window);

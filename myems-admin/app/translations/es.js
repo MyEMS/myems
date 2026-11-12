@@ -2632,9 +2632,9 @@
                 "Distribution System": 'Sistema de Distribución',
                 "Advanced Reporting": 'Informes avanzados',
                 "Work Order": 'Orden de trabajo',
-                "Work Order Repair": 'Reparación',
-                "Work Order Inspection": 'Inspección',
-                "Work Order Installation": 'Instalación',
+                "Work Order Repair": 'Registro de reparación',
+                "Work Order Inspection": 'Registro de inspección',
+                "Work Order Installation": 'Registro de instalación',
                 "Knowledge Base": 'Base de Conocimientos'
             };
 })(window);

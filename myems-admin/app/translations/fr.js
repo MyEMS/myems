@@ -2631,9 +2631,9 @@
                 "Distribution System": 'Système de distribution',
                 "Advanced Reporting": 'Rapports avancés',
                 "Work Order": 'Bon de travail',
-                "Work Order Repair": 'Réparation',
-                "Work Order Inspection": 'Inspection',
-                "Work Order Installation": 'Installation',
+                "Work Order Repair": 'Rapport de réparation',
+                "Work Order Inspection": 'Rapport d\'inspection',
+                "Work Order Installation": 'Rapport d\'installation',
                 "Knowledge Base": 'Base de connaissances'
             };
 })(window);

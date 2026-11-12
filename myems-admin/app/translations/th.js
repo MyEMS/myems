@@ -2632,9 +2632,9 @@
                 "Distribution System": 'ระบบกระจายสินค้า',
                 "Advanced Reporting": 'การรายงานขั้นสูง',
                 "Work Order": 'ใบสั่งงาน',
-                "Work Order Repair": 'ซ่อม',
-                "Work Order Inspection": 'ตรวจสอบ',
-                "Work Order Installation": 'ติดตั้ง',
+                "Work Order Repair": 'บันทึกซ่อม',
+                "Work Order Inspection": 'บันทึกตรวจสอบ',
+                "Work Order Installation": 'บันทึกติดตั้ง',
                 "Knowledge Base": 'ฐานความรู้'
             };
 })(window);

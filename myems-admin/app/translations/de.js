@@ -2631,9 +2631,9 @@
                 "Distribution System": 'Vertriebssystem',
                 "Advanced Reporting": 'Erweiterte Berichterstellung',
                 "Work Order": 'Arbeitsauftrag',
-                "Work Order Repair": 'Reparatur',
-                "Work Order Inspection": 'Inspektion',
-                "Work Order Installation": 'Installation',
+                "Work Order Repair": 'Reparaturaufzeichnung',
+                "Work Order Inspection": 'Inspektionsaufzeichnung',
+                "Work Order Installation": 'Installationsaufzeichnung',
                 "Knowledge Base": 'Wissensbasis'
             }; 
 })(window);

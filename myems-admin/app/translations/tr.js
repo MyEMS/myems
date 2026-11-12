@@ -2632,9 +2632,9 @@
                 "Distribution System": 'Dağıtım Sistemi',
                 "Advanced Reporting": 'Gelişmiş Raporlama',
                 "Work Order": 'İş emri',
-                "Work Order Repair": 'Onarım',
-                "Work Order Inspection": 'Kontrol',
-                "Work Order Installation": 'Kurulum',
+                "Work Order Repair": 'Onarım kaydı',
+                "Work Order Inspection": 'Kontrol kaydı',
+                "Work Order Installation": 'Kurulum kaydı',
                 "Knowledge Base": 'Bilgi Bankası'
             };
 })(window);
