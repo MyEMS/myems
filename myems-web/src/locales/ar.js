@@ -16,7 +16,7 @@ export default {
         'Photovoltaic Power Station': 'محطة توليد الكهرباء',
         'Fault Alarm': 'إنذار الأعطال',
         Monitoring: 'رصد',
-        'Advanced Reporting': 'التقارير المتقدمة',
+        'Advanced Reporting': 'التقارير المتقدمةⒺ',
         'Knowledge Base': 'معارف',
         'Tools': 'أدوات',
         'Cable Sizing Tool': 'أداة اختيار الكابلات',

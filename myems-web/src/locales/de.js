@@ -16,7 +16,7 @@ export default {
         'Photovoltaic Power Station': 'Kraftwerk',
         'Fault Alarm': 'Fehleralarm',
         Monitoring: 'Überwachung',
-        'Advanced Reporting': 'Erweiterte Berichterstellung',
+        'Advanced Reporting': 'Erweiterte BerichterstellungⒺ',
         'Knowledge Base': 'Wissensbasis',
         'Tools': 'Werkzeuge',
         'Cable Sizing Tool': 'Kabelauswahl-Tool',

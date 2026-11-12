@@ -16,7 +16,7 @@ export default {
         'Photovoltaic Power Station': 'Trạm điện',
         'Fault Alarm': 'Báo động lỗi',
         Monitoring: 'Giám sát',
-        'Advanced Reporting': 'Báo cáo nâng cao',
+        'Advanced Reporting': 'Báo cáo nâng caoⒺ',
         'Knowledge Base': 'Cơ sở tri thức',
         'Tools': 'Công cụ',
         'Cable Sizing Tool': 'Công cụ chọn cáp',

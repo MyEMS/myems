@@ -16,7 +16,7 @@ export default {
         'Photovoltaic Power Station': 'สถานีไฟฟ้า',
         'Fault Alarm': 'สัญญาณเตือนความผิดพลาด',
         Monitoring: 'ตรวจ สอบ',
-        'Advanced Reporting': 'การรายงานขั้นสูง',
+        'Advanced Reporting': 'การรายงานขั้นสูงⒺ',
         'Knowledge Base': 'ฐานความรู้',
         'Tools': 'เครื่องมือ',
         'Cable Sizing Tool': 'เครื่องมือเลือกสายเคเบิล',

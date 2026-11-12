@@ -16,7 +16,7 @@ export default {
         'Photovoltaic Power Station': 'نیروگاه',
         'Fault Alarm': 'هشدار خرابی',
         Monitoring: 'پایش تجهیزات',
-        'Advanced Reporting': 'گزارش‌گیری پیشرفته',
+        'Advanced Reporting': 'گزارش‌گیری پیشرفتهⒺ',
         'Knowledge Base': 'پایگاه دانش',
         'Tools': 'ابزارها',
         'Cable Sizing Tool': 'ابزار انتخاب کابل',

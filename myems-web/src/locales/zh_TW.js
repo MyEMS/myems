@@ -16,7 +16,7 @@ export default {
         'Photovoltaic Power Station': '電站',
         'Fault Alarm': '故障報警',
         Monitoring: '設備監控',
-        'Advanced Reporting': '⾼級報表',
+        'Advanced Reporting': '⾼級報表㊭',
         'Knowledge Base': '知識庫',
         // Tools - Cable Sizing
         'Tools': '工具',

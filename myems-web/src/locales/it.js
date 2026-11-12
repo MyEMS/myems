@@ -16,7 +16,7 @@ export default {
         'Photovoltaic Power Station': 'Centrale Fotovoltaica',
         'Fault Alarm': 'Allarme Guasto',
         Monitoring: 'Monitoraggio',
-        'Advanced Reporting': 'Report Avanzati',
+        'Advanced Reporting': 'Report AvanzatiⒺ',
         'Knowledge Base': 'Base di Conoscenza',
         'Tools': 'Strumenti',
         'Cable Sizing Tool': 'Strumento di scelta dei cavi',
