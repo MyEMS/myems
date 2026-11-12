@@ -2630,6 +2630,11 @@
                 "Auxiliary System": 'Yardımcı Sistem',
                 "Energy Flow Diagram": 'Enerji Akış Diyagramı',
                 "Distribution System": 'Dağıtım Sistemi',
+                "Advanced Reporting": 'Gelişmiş Raporlama',
+                "Work Order": 'İş emri',
+                "Work Order Repair": 'Onarım kaydı',
+                "Work Order Inspection": 'Kontrol kaydı',
+                "Work Order Installation": 'Kurulum kaydı',
                 "Knowledge Base": 'Bilgi Bankası'
             };
 })(window);

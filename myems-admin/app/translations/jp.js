@@ -2630,6 +2630,11 @@
                 "Auxiliary System": '補助システム',
                 "Energy Flow Diagram": 'エネルギー流れ図',
                 "Distribution System": '配電システム',
+                "Advanced Reporting": '高度レポート',
+                "Work Order": '作業票管理',
+                "Work Order Repair": '修理記録',
+                "Work Order Inspection": '巡回点検記録',
+                "Work Order Installation": '設置記録',
                 "Knowledge Base": 'ナレッジベース'
             };
 })(window);

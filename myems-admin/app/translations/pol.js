@@ -2630,6 +2630,11 @@
                 "Auxiliary System": 'Systemy pomocnicze',
                 "Energy Flow Diagram": 'Schemat przepływu energii',
                 "Distribution System": 'System rozdziału energii',
+                "Advanced Reporting": 'Zaawansowane raportowanie',
+                "Work Order": 'Zarządzanie zleceniami pracy',
+                "Work Order Repair": 'Rejestr napraw',
+                "Work Order Inspection": 'Rejestr inspekcji',
+                "Work Order Installation": 'Rejestr instalacji',
                 "Knowledge Base": 'Baza wiedzy'
             };
 })(window);

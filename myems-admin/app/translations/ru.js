@@ -2630,6 +2630,11 @@
                 "Auxiliary System": 'Вспомогательная система',
                 "Energy Flow Diagram": 'Диаграмма потока энергии',
                 "Distribution System": 'Система распределения',
+                "Advanced Reporting": 'Расширенная отчетность',
+                "Work Order": 'Наряд',
+                "Work Order Repair": 'Запись о ремонте',
+                "Work Order Inspection": 'Запись об осмотре',
+                "Work Order Installation": 'Запись о монтаже',
                 "Knowledge Base": 'База знаний'
             };
 })(window);
