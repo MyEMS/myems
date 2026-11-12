@@ -16,7 +16,7 @@ export default {
         'Photovoltaic Power Station': '태양광 발전소',
         'Fault Alarm': '고장 알람',
         Monitoring: '장비 모니터링',
-        'Advanced Reporting': '고급 보고서',
+        'Advanced Reporting': '고급 보고서Ⓔ',
         'Knowledge Base': '지식 베이스',
         'Tools': '도구',
         'Cable Sizing Tool': '케이블 선정 도구',

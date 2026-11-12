@@ -16,7 +16,7 @@ export default {
         'Photovoltaic Power Station': '発電所',
         'Fault Alarm': '故障アラーム',
         Monitoring: '設備監視',
-        'Advanced Reporting': '高度レポート',
+        'Advanced Reporting': '高度レポートⒺ',
         'Knowledge Base': 'ナレッジベース',
         'Tools': 'ツール',
         'Cable Sizing Tool': 'ケーブル選定ツール',

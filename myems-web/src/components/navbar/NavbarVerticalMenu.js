@@ -34,7 +34,7 @@ const NavbarVerticalMenu = ({ routes, location, history }) => {
   };
 
   const getHr = name => {
-    if (name === 'Widgets' || name === 'Documentation') {
+    if (name === 'Widgets' || name === 'Documentation' || name === 'Tools') {
       return (
         <div className="navbar-vertical-divider">
           <hr className="navbar-vertical-hr my-2" />

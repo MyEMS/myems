@@ -223,6 +223,13 @@ export const toolsRoutes = {
   ]
 };
 
+export const advancedReportingRoutes = {
+  name: 'Advanced Reporting',
+  to: '/advancedreporting',
+  exact: true,
+  icon: 'file-alt'
+};
+
 export default [
   dashboardRoutes,
   spaceRoutes,
@@ -235,5 +242,6 @@ export default [
   auxiliarySystemRoutes,
   workOrderRoutes,
   knowledgeBaseRoutes,
-  toolsRoutes
+  toolsRoutes,
+  advancedReportingRoutes
 ];

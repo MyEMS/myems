@@ -2630,6 +2630,11 @@
                 "Auxiliary System": '보조 시스템',
                 "Energy Flow Diagram": '에너지 흐름도',
                 "Distribution System": '배전 시스템',
+                "Advanced Reporting": '고급 보고서',
+                "Work Order": '작업 지시 관리',
+                "Work Order Repair": '수리 기록',
+                "Work Order Inspection": '점검 기록',
+                "Work Order Installation": '설치 기록',
                 "Knowledge Base": '지식 베이스'
             };
 })(window);

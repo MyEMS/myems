@@ -16,7 +16,7 @@ export default {
         'Photovoltaic Power Station': 'Электростанция',
         'Fault Alarm': 'Сигнализация неисправности',
         Monitoring: 'Контроль',
-        'Advanced Reporting': 'Расширенная отчетность',
+        'Advanced Reporting': 'Расширенная отчетностьⒺ',
         'Knowledge Base': 'База знаний',
         'Tools': 'Инструменты',
         'Cable Sizing Tool': 'Инструмент выбора кабелей',

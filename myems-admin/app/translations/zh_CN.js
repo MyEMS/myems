@@ -2860,6 +2860,11 @@
       "Auxiliary System": "辅助系统",
       "Energy Flow Diagram": "能流图",
       "Distribution System": "配电系统",
+      "Advanced Reporting": "高级报表",
+      "Work Order": "工单管理",
+      "Work Order Repair": "维修记录",
+      "Work Order Inspection": "巡检记录",
+      "Work Order Installation": "安装记录",
       "Knowledge Base": "知识库",
     };
 })(window);

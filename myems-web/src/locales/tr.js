@@ -16,7 +16,7 @@ export default {
         'Photovoltaic Power Station': 'Güç İstasyonu',
         'Fault Alarm': 'Arıza Alarmı',
         Monitoring: 'Izleme',
-        'Advanced Reporting': 'Gelişmiş Raporlama',
+        'Advanced Reporting': 'Gelişmiş RaporlamaⒺ',
         'Knowledge Base': 'Bilgi bankası',
         'Tools': 'Araçlar',
         'Cable Sizing Tool': 'Kablo Seçim Aracı',

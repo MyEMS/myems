@@ -16,7 +16,7 @@ export default {
         'Photovoltaic Power Station': 'Power Station',
         'Fault Alarm': 'Fault Alarm',
         Monitoring: 'Monitoring',
-        'Advanced Reporting': 'Advanced Reporting',
+        'Advanced Reporting': 'Advanced ReportingⒺ',
         'Knowledge Base': 'Knowledge Base',
         // Tools - Cable Sizing
         'Tools': 'Tools',

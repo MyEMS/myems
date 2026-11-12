@@ -16,7 +16,7 @@ export default {
         'Photovoltaic Power Station': 'Stasiun Daya',
         'Fault Alarm': 'Alarm Cacat',
         Monitoring: 'Monitor Peralatan',
-        'Advanced Reporting': 'Laporan Lanjutan',
+        'Advanced Reporting': 'Laporan LanjutanⒺ',
         'Knowledge Base': 'Dasar Pengetahuan',
         'Tools': 'Perkakas',
         'Cable Sizing Tool': 'Alat Pemilihan Kabel',

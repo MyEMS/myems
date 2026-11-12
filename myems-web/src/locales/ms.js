@@ -16,7 +16,7 @@ export default {
         'Photovoltaic Power Station': 'Stesen Kuasa',
         'Fault Alarm': 'Penggera Kesalahan',
         Monitoring: 'Pemantauan',
-        'Advanced Reporting': 'Laporan Lanjutan',
+        'Advanced Reporting': 'Laporan LanjutanⒺ',
         'Knowledge Base': 'Pangkalan Pengetahuan',
         'Tools': 'Alatan',
         'Cable Sizing Tool': 'Alat Pemilihan Kabel',
