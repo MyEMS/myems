@@ -1,5 +1,5 @@
 mysql-connector-python
-python-snap7
+python-snap7>=1.4.1,<3
 schedule
 python-decouple
 telnetlib3

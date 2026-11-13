@@ -2,7 +2,10 @@ import sys
 import telnetlib3
 import asyncio
 import snap7
-from snap7.snap7types import S7AreaPE, S7AreaMK, S7AreaCT, S7AreaTM
+try:
+    from snap7.type import Area as S7Area
+except ImportError:
+    from snap7.types import Areas as S7Area
 
 
 async def check_connectivity(host, port):
@@ -49,7 +52,7 @@ def main():
         print("S7 Client get_block_info error : " + str(e))
 
     try:
-        reading = s7_client.read_area(area=S7AreaPE, dbnumber=0, start=0, size=1)
+        reading = s7_client.read_area(area=S7Area.PE, dbnumber=0, start=0, size=1)
         print('AHU-1 = ' + str(snap7.util.get_bool(reading, byte_index=0, bool_index=0)))
         print('AHU-2 = ' + str(snap7.util.get_bool(reading, byte_index=0, bool_index=1)))
         print('AHU-3 = ' + str(snap7.util.get_bool(reading, byte_index=0, bool_index=2)))
@@ -62,7 +65,7 @@ def main():
         print("S7 Client read_area error : " + str(e))
 
     try:
-        reading = s7_client.read_area(area=S7AreaPE, dbnumber=0, start=320, size=2)
+        reading = s7_client.read_area(area=S7Area.PE, dbnumber=0, start=320, size=2)
         print(str(reading))
         print('PIW320 = ' + str(snap7.util.get_int(reading, byte_index=0)))
 

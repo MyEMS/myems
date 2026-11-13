@@ -7,6 +7,10 @@ from datetime import datetime, timezone
 from decimal import Decimal
 import mysql.connector
 import snap7
+try:
+    from snap7.type import Area as S7Area
+except ImportError:
+    from snap7.types import Areas as S7Area
 import config
 
 
@@ -183,17 +187,17 @@ def process(logger, data_source_id, host, rack, slot, port, interval_in_seconds)
                 value = None
                 try:
                     if address['area'] == 'PE':
-                        area = snap7.snap7types.S7AreaPE
+                        area = S7Area.PE
                     elif address['area'] == 'PA':
-                        area = snap7.snap7types.S7AreaPA
+                        area = S7Area.PA
                     elif address['area'] == 'MK':
-                        area = snap7.snap7types.S7AreaMK
+                        area = S7Area.MK
                     elif address['area'] == 'DB':
-                        area = snap7.snap7types.S7AreaDB
+                        area = S7Area.DB
                     elif address['area'] == 'CT':
-                        area = snap7.snap7types.S7AreaCT
+                        area = S7Area.CT
                     elif address['area'] == 'TM':
-                        area = snap7.snap7types.S7AreaTM
+                        area = S7Area.TM
 
                     reading = s7_client.read_area(area,
                                                   address['db_number'],
