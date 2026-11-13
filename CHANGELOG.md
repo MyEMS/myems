@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - changed SQL string concatenation to executemany in myems-api
 ### Fixed
 - fixed pep 8 warnings in myems-api
+- fixed installation issue in myems-s7
 ### Removed
 
 ## [6.10.0] - 2026-10-27

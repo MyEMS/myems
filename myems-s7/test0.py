@@ -3,7 +3,10 @@ import telnetlib3
 import asyncio
 import struct
 import snap7
-from snap7.snap7types import S7AreaDB
+try:
+    from snap7.type import Area as S7Area
+except ImportError:
+    from snap7.types import Areas as S7Area
 
 
 async def check_connectivity(host, port):
@@ -49,13 +52,13 @@ def main():
 
     try:
         # Machine Status(Int)
-        print('Machine Status     = ' + str(snap7.util.get_int(s7_client.read_area(S7AreaDB, db_number, 1, 2), 0)))
+        print('Machine Status     = ' + str(snap7.util.get_int(s7_client.read_area(S7Area.DB, db_number, 1, 2), 0)))
     except Exception as e:
         print("S7 Client read_area error : " + str(e))
 
     try:
         # User Status(Short)
-        data = s7_client.read_area(S7AreaDB, db_number, 3, 1)[0:1]
+        data = s7_client.read_area(S7Area.DB, db_number, 3, 1)[0:1]
         data[0] = data[0] & 0xff
         packed = struct.pack('B', *data)
         value = struct.unpack('>B', packed)[0]
@@ -65,109 +68,109 @@ def main():
 
     try:
         # Production(Int)
-        print('Production         = ' + str(snap7.util.get_int(s7_client.read_area(S7AreaDB, db_number, 4, 2), 0)))
+        print('Production         = ' + str(snap7.util.get_int(s7_client.read_area(S7Area.DB, db_number, 4, 2), 0)))
     except Exception as e:
         print("S7 Client read_area error : " + str(e))
 
     try:
         # Active Energy(REAL) wh
-        print('Active Energy      = ' + str(snap7.util.get_real(s7_client.read_area(S7AreaDB, db_number, 6, 4), 0)))
+        print('Active Energy      = ' + str(snap7.util.get_real(s7_client.read_area(S7Area.DB, db_number, 6, 4), 0)))
     except Exception as e:
         print("S7 Client read_area error : " + str(e))
 
     try:
         # Current_L1(REAL)
-        print('Current_L1         = ' + str(snap7.util.get_real(s7_client.read_area(S7AreaDB, db_number, 10, 4), 0)))
+        print('Current_L1         = ' + str(snap7.util.get_real(s7_client.read_area(S7Area.DB, db_number, 10, 4), 0)))
     except Exception as e:
         print("S7 Client read_area error : " + str(e))
 
     try:
         # Current_L2(REAL)
-        print('Current_L2         = ' + str(snap7.util.get_real(s7_client.read_area(S7AreaDB, db_number, 14, 4), 0)))
+        print('Current_L2         = ' + str(snap7.util.get_real(s7_client.read_area(S7Area.DB, db_number, 14, 4), 0)))
     except Exception as e:
         print("S7 Client read_area error : " + str(e))
 
     try:
         # Current_L3(REAL)
-        print('Current_L3         = ' + str(snap7.util.get_real(s7_client.read_area(S7AreaDB, db_number, 18, 4), 0)))
+        print('Current_L3         = ' + str(snap7.util.get_real(s7_client.read_area(S7Area.DB, db_number, 18, 4), 0)))
     except Exception as e:
         print("S7 Client read_area error : " + str(e))
 
     try:
         # Voltage_L1-L2(REAL)
-        print('Voltage_L1-L2      = ' + str(snap7.util.get_real(s7_client.read_area(S7AreaDB, db_number, 22, 4), 0)))
+        print('Voltage_L1-L2      = ' + str(snap7.util.get_real(s7_client.read_area(S7Area.DB, db_number, 22, 4), 0)))
     except Exception as e:
         print("S7 Client read_area error : " + str(e))
 
     try:
         # Voltage_L2-L3(REAL)
-        print('Voltage_L2-L3      = ' + str(snap7.util.get_real(s7_client.read_area(S7AreaDB, db_number, 26, 4), 0)))
+        print('Voltage_L2-L3      = ' + str(snap7.util.get_real(s7_client.read_area(S7Area.DB, db_number, 26, 4), 0)))
     except Exception as e:
         print("S7 Client read_area error : " + str(e))
 
     try:
         # Voltage_L3-L1(REAL)
-        print('Voltage_L3-L1      = ' + str(snap7.util.get_real(s7_client.read_area(S7AreaDB, db_number, 30, 4), 0)))
+        print('Voltage_L3-L1      = ' + str(snap7.util.get_real(s7_client.read_area(S7Area.DB, db_number, 30, 4), 0)))
     except Exception as e:
         print("S7 Client read_area error : " + str(e))
 
     try:
         # TotalActivePower(REAL)
-        print('TotalActivePower   = ' + str(snap7.util.get_real(s7_client.read_area(S7AreaDB, db_number, 34, 4), 0)))
+        print('TotalActivePower   = ' + str(snap7.util.get_real(s7_client.read_area(S7Area.DB, db_number, 34, 4), 0)))
     except Exception as e:
         print("S7 Client read_area error : " + str(e))
 
     try:
         # TotalReactivePower(REAL)
-        print('TotalReactivePower = ' + str(snap7.util.get_real(s7_client.read_area(S7AreaDB, db_number, 38, 4), 0)))
+        print('TotalReactivePower = ' + str(snap7.util.get_real(s7_client.read_area(S7Area.DB, db_number, 38, 4), 0)))
     except Exception as e:
         print("S7 Client read_area error : " + str(e))
 
     try:
         # TotalApparentPower(REAL)
-        print('TotalApparentPower = ' + str(snap7.util.get_real(s7_client.read_area(S7AreaDB, db_number, 42, 4), 0)))
+        print('TotalApparentPower = ' + str(snap7.util.get_real(s7_client.read_area(S7Area.DB, db_number, 42, 4), 0)))
     except Exception as e:
         print("S7 Client read_area error : " + str(e))
 
     try:
         # Apparent Energy(REAL)
-        print('Apparent Energy    = ' + str(snap7.util.get_real(s7_client.read_area(S7AreaDB, db_number, 46, 4), 0)))
+        print('Apparent Energy    = ' + str(snap7.util.get_real(s7_client.read_area(S7Area.DB, db_number, 46, 4), 0)))
     except Exception as e:
         print("S7 Client read_area error : " + str(e))
 
     try:
         # Power factor L1(REAL)
-        print('Power factor L1    = ' + str(snap7.util.get_real(s7_client.read_area(S7AreaDB, db_number, 50, 4), 0)))
+        print('Power factor L1    = ' + str(snap7.util.get_real(s7_client.read_area(S7Area.DB, db_number, 50, 4), 0)))
     except Exception as e:
         print("S7 Client read_area error : " + str(e))
 
     try:
         # Power factor L2(REAL)
-        print('Power factor L2    = ' + str(snap7.util.get_real(s7_client.read_area(S7AreaDB, db_number, 54, 4), 0)))
+        print('Power factor L2    = ' + str(snap7.util.get_real(s7_client.read_area(S7Area.DB, db_number, 54, 4), 0)))
     except Exception as e:
         print("S7 Client read_area error : " + str(e))
 
     try:
         # Power factor L3(REAL)
-        print('Power factor L3    = ' + str(snap7.util.get_real(s7_client.read_area(S7AreaDB, db_number, 58, 4), 0)))
+        print('Power factor L3    = ' + str(snap7.util.get_real(s7_client.read_area(S7Area.DB, db_number, 58, 4), 0)))
     except Exception as e:
         print("S7 Client read_area error : " + str(e))
 
     try:
         # Total Power factor (REAL)
-        print('Total Power factor = ' + str(snap7.util.get_real(s7_client.read_area(S7AreaDB, db_number, 62, 4), 0)))
+        print('Total Power factor = ' + str(snap7.util.get_real(s7_client.read_area(S7Area.DB, db_number, 62, 4), 0)))
     except Exception as e:
         print("S7 Client read_area error : " + str(e))
 
     try:
         # Unbalance Voltage
-        print('Unbalance Voltage  = ' + str(snap7.util.get_real(s7_client.read_area(S7AreaDB, db_number, 66, 4), 0)))
+        print('Unbalance Voltage  = ' + str(snap7.util.get_real(s7_client.read_area(S7Area.DB, db_number, 66, 4), 0)))
     except Exception as e:
         print("S7 Client read_area error : " + str(e))
 
     try:
         # Unbalance Current
-        print('Unbalance Current  = ' + str(snap7.util.get_real(s7_client.read_area(S7AreaDB, db_number, 70, 4), 0)))
+        print('Unbalance Current  = ' + str(snap7.util.get_real(s7_client.read_area(S7Area.DB, db_number, 70, 4), 0)))
     except Exception as e:
         print("S7 Client read_area error : " + str(e))
 
