@@ -1,6 +1,6 @@
 ## MyEMS OPC UA Service
 
-###Introduction
+### Introduction
 
 This service is a component of MyEMS to acquire data from OPC UA server.
 
@@ -19,11 +19,17 @@ telnetlib3
 ### Quick Run for Development
 
 ```bash
-cd myems/myems-opc-ua
+cd myems-opc-ua
 pip install -r requirements.txt
 cp example.env .env
 chmod +x run.sh
 ./run.sh
+```
+
+On Ubuntu 24.04, pip refuses to install into the system Python until you add `--break-system-packages`:
+
+```bash
+pip install -r requirements.txt --break-system-packages
 ```
 
 ### Installation
@@ -42,14 +48,13 @@ cd c:\myems-opc-ua
 
 On Linux:
 ```bash
-cp -r myems-opc-ua /
+sudo cp -r myems-opc-ua /
 cd /myems-opc-ua
 ```
 
-* Create .env file based on example.env file
+* Create .env file based on example.env
 
 Manually replace ~~127.0.0.1~~ with real **HOST** IP address.
-
 ```bash
 cp example.env .env
 ```
@@ -59,33 +64,39 @@ cp example.env .env
 docker build -t myems-opc-ua .
 ```
 
-To build for multiple platforms and not only for the architecture and operating system that the user invoking the build happens to run.
-You can use buildx and set the --platform flag to specify the target platform for the build output, (for example, linux/amd64, linux/arm64, or darwin/amd64).
+To build for another Linux architecture, use buildx and set `--platform` to `linux/amd64` or `linux/arm64`. Add `--load` so the image is available to `docker save` and `docker run` on this machine. `--load` works with one platform at a time.
 ```bash
-docker buildx build --platform=linux/amd64 -t myems/myems-opc-ua .
+docker buildx build --platform=linux/amd64 --load -t myems-opc-ua .
 ```
 
 * Export the Docker image
 
-To immigrate the image to another computer,
+To migrate the image to another computer,
 * Export image to tarball file
 ```bash
 docker save --output myems-opc-ua.tar myems-opc-ua
 ```
 
 * Copy the tarball file to another computer, and then load image from tarball file
+
+On Linux:
+```bash
+docker load --input ./myems-opc-ua.tar
+```
+
+On Windows:
 ```bash
 docker load --input .\myems-opc-ua.tar
 ```
 
-* Run a Docker container on Linux
+* Run a Docker container on Linux (run as superuser)
 ```bash
-docker run -d -v /myems-opc-ua/.env:/code/.env:ro --log-opt max-size=1m --log-opt max-file=2 --restart always --name myems-opc-ua myems-opc-ua
+sudo docker run -d -v /myems-opc-ua/.env:/app/.env:ro --log-opt max-size=1m --log-opt max-file=2 --restart always --name myems-opc-ua myems-opc-ua
 ```
 
-* Run a Docker container on Windows
+* Run a Docker container on Windows (Run as Administrator)
 ```bash
-docker run -d -v c:\myems-opc-ua\.env:/code/.env:ro --log-opt max-size=1m --log-opt max-file=2 --restart always --name myems-opc-ua myems-opc-ua
+docker run -d -v c:\myems-opc-ua\.env:/app/.env:ro --log-opt max-size=1m --log-opt max-file=2 --restart always --name myems-opc-ua myems-opc-ua
 ```
 
 * -d Run container in background and print container ID
@@ -94,7 +105,7 @@ docker run -d -v c:\myems-opc-ua\.env:/code/.env:ro --log-opt max-size=1m --log-
 -v creates the endpoint for you. It is always created as a directory.
 The ro option, if present, causes the bind mount to be mounted into the container as read-only.
 
-* --log-opt max-size=2m The maximum size of the log before it is rolled. A positive integer plus a modifier representing the unit of measure (k, m, or g).
+* --log-opt max-size=1m The maximum size of the log before it is rolled. A positive integer plus a modifier representing the unit of measure (k, m, or g).
 
 * --log-opt max-file=2 The maximum number of log files that can be present. If rolling the logs creates excess files, the oldest file is removed. A positive integer.
 
@@ -102,49 +113,80 @@ The ro option, if present, causes the bind mount to be mounted into the containe
 
 * --name Assign a name to the container
 
-The absolute path before colon is for path on host  and that may vary on your system.
-The absolute path after colon is for path on container and that CANNOT be changed.
-By passing .env as bind-mount parameter, you can change the configuration values later.
-If you changed .env file, restart the container to make the change effective.
-
+The absolute path before the colon is the path on the host and may vary on your system.
+The absolute path after the colon is `/app/.env`. The image `WORKDIR` is `/app`, and that container path cannot be changed.
+By passing .env as a bind-mount parameter, you can change the configuration values later.
+If you change the .env file, restart the container to apply it:
+```bash
+sudo docker restart myems-opc-ua
+```
 
 ### Installation Option 2: Online install on Ubuntu server with internet access
 
 In this section, you will install myems-opc-ua on Ubuntu Server with internet access.
+Run the commands below from the directory that contains `myems-opc-ua`.
 
-Copy source code to root directory:
+The service file starts `/usr/bin/python3`.
 ```bash
-cp -r myems-opc-ua /myems-opc-ua
-cd /myems-opc-ua
-pip install --no-cache-dir -r requirements.txt
+sudo apt-get update
+sudo apt-get install -y python3 python3-pip
 ```
+Install Python packages:
+```bash
+sudo cp -r myems-opc-ua /myems-opc-ua
+cd /myems-opc-ua
+sudo pip install -r requirements.txt
+```
+
+On Ubuntu 24.04, if pip reports an externally managed environment, install with:
+```bash
+sudo pip install -r requirements.txt --break-system-packages
+```
+
 Copy example.env file to .env and modify the .env file:
 ```bash
-cp /myems-opc-ua/example.env /myems-opc-ua/.env
-nano /myems-opc-ua/.env
+sudo cp /myems-opc-ua/example.env /myems-opc-ua/.env
+sudo nano /myems-opc-ua/.env
 ```
 Setup systemd service:
 ```bash
-cp myems-opc-ua.service /lib/systemd/system/
+sudo cp myems-opc-ua.service /lib/systemd/system/
+sudo systemctl daemon-reload
 ```
 Enable the service:
 ```bash
-systemctl enable myems-opc-ua.service
+sudo systemctl enable myems-opc-ua.service
 ```
 Start the service:
 ```bash
-systemctl start myems-opc-ua.service
+sudo systemctl start myems-opc-ua.service
 ```
 Monitor the service:
 ```bash
-systemctl status myems-opc-ua.service
+sudo systemctl status myems-opc-ua.service
 ```
-View the log:
+View service output:
+```bash
+sudo journalctl -u myems-opc-ua.service
+```
+The process also appends error messages to `/myems-opc-ua.log`:
 ```bash
 cat /myems-opc-ua.log
 ```
 
 ### Add Data Sources and Points in MyEMS Admin
+
+NOTE: If you modified OPC UA data sources and points, restart this service.
+
+On Ubuntu:
+```bash
+sudo systemctl restart myems-opc-ua.service
+```
+
+On Docker:
+```bash
+sudo docker restart myems-opc-ua
+```
 
 Input Data source protocol:
 ```
