@@ -31,14 +31,15 @@ app.controller('DistributionSystemPreviewController', function($scope, $window, 
         });
   	};
 
-    // Handle distribution system change
+    // Handle distribution system change. Stored source is rebuilt without script or event handlers.
     $scope.changeDistributionSystem=function(item,model){
         $scope.currentDistributionSystem=item;
         $scope.currentDistributionSystem.selected=model;
-        if ($scope.currentDistributionSystem.svg != null &&
-            $scope.currentDistributionSystem.svg.source_code != null) {
-            document.getElementById("preview-svg").innerHTML = $scope.currentDistributionSystem.svg.source_code;
-        }
+        var svg = $scope.currentDistributionSystem.svg;
+        renderSanitizedSvgPreview(
+            document.getElementById("preview-svg"),
+            svg ? svg.source_code : null
+        );
     };
 
     $scope.getAllDistributionSystems();
