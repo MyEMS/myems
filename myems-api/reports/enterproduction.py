@@ -266,9 +266,19 @@ class Reporting:
             space_id = int(space_id)
             if space_id <= 0:
                 raise ValueError
+            product_id = new_values['productid']
+            if isinstance(product_id, bool) or not isinstance(product_id, (int, str)):
+                raise ValueError
+            if isinstance(product_id, str):
+                product_id = product_id.strip()
+                if not product_id.isdigit():
+                    raise ValueError
+            product_id = int(product_id)
+            if product_id <= 0:
+                raise ValueError
             production_data = dict()
             production_data['space_id'] = space_id
-            production_data['product_id'] = space_id
+            production_data['product_id'] = product_id
             production_data['data'] = dict()
             for item in formdata:
                 start_datetime_local = datetime(year=int(item[0][0:4]),
