@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useRef, useState } from 'react';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -64,6 +64,8 @@ const EnterProduction = ({ setRedirect, setRedirectUrl, t }) => {
   const [newDateList, setNewDateList] = useState([]);
   const [newValueList, setNewValueList] = useState([]);
   const [production, setProduction] = useState(0);
+  const [productionSubmitting, setProductionSubmitting] = useState(false);
+  const productionSubmittingRef = useRef(false);
 
   //Query From
   const [reportingPeriodDateRange, setReportingPeriodDateRange] = useState([
@@ -260,8 +262,38 @@ const EnterProduction = ({ setRedirect, setRedirectUrl, t }) => {
       });
   };
 
-  const saveChange = async (oldValue, newValue, row, column) => {
+  const postProductionValues = async valuePairs => {
     let isResponseOK = false;
+    try {
+      const response = await fetch(APIBaseURL + '/reports/enterproduction', {
+        method: 'POST',
+        headers: {
+          'Content-type': 'application/json',
+          'User-UUID': getCookieValue('user_uuid'),
+          Token: getCookieValue('token')
+        },
+        body: JSON.stringify({
+          spaceid: selectedSpaceID,
+          productid: 1,
+          value: valuePairs
+        })
+      });
+      if (response.ok) {
+        isResponseOK = true;
+      }
+      const json = await response.json();
+      if (isResponseOK) {
+        toast.success(t('Successfully Saved'));
+        await getProductionListData();
+      } else {
+        handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const saveChange = async (oldValue, newValue, row, column) => {
     if (newValue == null || newValue === '' || newValue < 0 || oldValue === newValue) {
       row.daily_value = oldValue;
       return;
@@ -280,55 +312,38 @@ const EnterProduction = ({ setRedirect, setRedirectUrl, t }) => {
       }
     }
 
-    let param = {
-      spaceid: selectedSpaceID,
-      productid: 1,
-      value: [[row.monthdate, newValue]]
-    };
-    await fetch(APIBaseURL + '/reports/enterproduction', {
-      method: 'POST',
-      headers: {
-        'Content-type': 'application/json',
-        'User-UUID': getCookieValue('user_uuid'),
-        Token: getCookieValue('token')
-      },
-      body: JSON.stringify(param)
-    })
-      .then(response => {
-        if (response.ok) {
-          isResponseOK = true;
-        }
-        return response.json();
-      })
-      .then(json => {
-        if (isResponseOK) {
-          toast.success(t('Successfully Saved'));
-          getProductionListData();
-        } else {
-          handleAPIError(json, setRedirect, setRedirectUrl, t, toast);
-        }
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    await postProductionValues([[row.monthdate, newValue]]);
   };
 
-  const handleSubmitProduction = e => {
+  const handleSubmitProduction = async e => {
     e.preventDefault();
-    let newProductionList = [];
+    if (productionSubmittingRef.current) {
+      return;
+    }
     let length = productionList.length;
     if (length <= 0) {
       return;
     }
     let value = Math.round(production / length);
-    productionList.forEach((currentValue, index) => {
-      newProductionList.push({
-        monthdate: currentValue['monthdate'],
-        daily_value: value
-      });
-      saveChange(currentValue['daily_value'], value, currentValue);
+    let valuePairs = [];
+    productionList.forEach(currentValue => {
+      let oldValue = currentValue['daily_value'];
+      if (oldValue != null && oldValue !== '' && Number(oldValue) === Number(value)) {
+        return;
+      }
+      valuePairs.push([currentValue['monthdate'], value]);
     });
-    setProductionList(newProductionList);
+    if (valuePairs.length === 0) {
+      return;
+    }
+    productionSubmittingRef.current = true;
+    setProductionSubmitting(true);
+    try {
+      await postProductionValues(valuePairs);
+    } finally {
+      productionSubmittingRef.current = false;
+      setProductionSubmitting(false);
+    }
   };
 
   const onProductionChange = value => {
@@ -422,7 +437,7 @@ const EnterProduction = ({ setRedirect, setRedirectUrl, t }) => {
                 <FormGroup>
                   <br />
                   <ButtonGroup id="submit">
-                    <Button size="sm" color="success">
+                    <Button size="sm" color="success" disabled={productionSubmitting}>
                       {t('Submit')}
                     </Button>
                   </ButtonGroup>
