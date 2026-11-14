@@ -19,11 +19,14 @@ app.controller('SVGPreviewController', function($scope, $window, SVGService) {
       });
     };
 
-    // Handle svg change
+    // Handle svg change. Stored source is rebuilt without script or event handlers.
     $scope.changeSVG=function(item,model){
         $scope.currentSVG=item;
         $scope.currentSVG.selected=model;
-        document.getElementById("preview-svg").innerHTML = $scope.currentSVG.source_code;
+        renderSanitizedSvgPreview(
+            document.getElementById("preview-svg"),
+            $scope.currentSVG ? $scope.currentSVG.source_code : null
+        );
     };
 
     $scope.getAllSVGs();
