@@ -3,6 +3,7 @@ from datetime import datetime, timezone
 from functools import wraps
 import falcon
 import mysql.connector
+from mysql.connector.errors import InterfaceError, OperationalError, ProgrammingError, DataError
 import simplejson as json
 import config
 
@@ -262,51 +263,28 @@ def user_logger(func):
             func(*args, **kwargs)
             return
 
-        if func_name == "on_post":
+        request_body = None
+        if func_name in ("on_post", "on_put"):
             try:
-                raw_json = _read_and_replay_request_body(req)
-                func(*args, **kwargs)
-                write_log(user_uuid=user_uuid, request_method='POST', resource_type=class_name,
-                          resource_id=kwargs.get('id_'), request_body=raw_json)
-            except OSError as e:
-                print("Failed to stream request")
-            except UnicodeDecodeError as e:
-                print("Failed to decode request")
-            except Exception as e:
-                if isinstance(e, falcon.HTTPError):
-                    raise e
-                else:
-                    print('user_logger:' + str(e))
-            return
-        elif func_name == "on_put":
-            try:
-                raw_json = _read_and_replay_request_body(req)
-                func(*args, **kwargs)
-                write_log(user_uuid=user_uuid, request_method='PUT', resource_type=class_name,
-                          resource_id=kwargs.get('id_'), request_body=raw_json)
-            except OSError as e:
-                print("Failed to stream request")
-            except UnicodeDecodeError as e:
-                print("Failed to decode request")
-            except Exception as e:
-                if isinstance(e, falcon.HTTPError):
-                    raise e
-                else:
-                    print('user_logger:' + str(e))
+                request_body = _read_and_replay_request_body(req)
+            except UnicodeDecodeError:
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                       description='API.INVALID_ENCODING')
+            except OSError:
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                       description='API.FAILED_TO_READ_REQUEST_STREAM')
 
-            return
-        elif func_name == "on_delete":
+        func(*args, **kwargs)
+
+        if func_name == "on_delete":
             try:
-                func(*args, **kwargs)
-                write_log(user_uuid=user_uuid, request_method="DELETE", resource_type=class_name,
-                          resource_id=kwargs.get('id_'), request_body=json.dumps(kwargs))
-            except (TypeError, ValueError) as e:
-                print("Failed to decode JSON")
-            except Exception as e:
-                if isinstance(e, falcon.HTTPError):
-                    raise e
-                else:
-                    print('user_logger:' + str(e))
-            return
+                request_body = json.dumps(kwargs)
+            except (TypeError, ValueError) as ex:
+                print("Failed to decode JSON: " + str(ex))
+                request_body = None
+
+        request_method = {"on_post": "POST", "on_put": "PUT", "on_delete": "DELETE"}[func_name]
+        write_log(user_uuid=user_uuid, request_method=request_method, resource_type=class_name,
+                  resource_id=kwargs.get('id_'), request_body=request_body)
 
     return logger
