@@ -37,11 +37,6 @@ export const POWER_UNITS = [
   { id: 'BTU_h', symbol: 'BTU/h', factor: 0.29307107017 },
 ];
 
-// Locale keys of the notes rendered by the reference panel, one per dimension.
-// The converter's own remarks (e.g. why the air-conditioning "pi" unit is not
-// offered) are covered by these two strings.
-export const REFERENCE_NOTES = ['Energy Unit Note', 'Power Unit Note'];
-
 // Energy unit the third tab (power x duration) always starts from.
 export const ENERGY_BASE_ID = 'kWh';
 

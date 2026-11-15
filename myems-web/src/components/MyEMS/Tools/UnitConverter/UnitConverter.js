@@ -197,14 +197,14 @@ const UnitConverter = ({ setRedirect, setRedirectUrl, t }) => {
 
       <TabContent activeTab={activeTab}>
         <TabPane tabId="energy">
-          <Row className="mb-3">
-            <Col xs={12} lg={5}>
-              <Card>
+          <Row className="mb-3 align-items-stretch">
+            <Col xs={12} lg={5} className="d-flex mb-3 mb-lg-0">
+              <Card className="flex-fill">
                 <FalconCardHeader
                   title={t('Energy Conversion')}
                   titleClass="text-lightSlateGray mb-0"
                 />
-                <CardBody>
+                <CardBody className="d-flex flex-column">
                   <ConverterForm
                     t={t}
                     idPrefix="energy"
@@ -216,11 +216,17 @@ const UnitConverter = ({ setRedirect, setRedirectUrl, t }) => {
                     onSwap={handleEnergySwap}
                     onReset={() => setEnergyInput(DEFAULT_ENERGY_INPUT)}
                   />
+                  <ReferencePanel
+                    t={t}
+                    units={ENERGY_UNITS}
+                    baseSymbol="kJ"
+                    noteKey="Energy Unit Note"
+                  />
                 </CardBody>
               </Card>
             </Col>
-            <Col xs={12} lg={7}>
-              <Card>
+            <Col xs={12} lg={7} className="d-flex">
+              <Card className="flex-fill">
                 <FalconCardHeader
                   title={t('Conversion Result')}
                   titleClass="text-lightSlateGray mb-0"
@@ -243,14 +249,14 @@ const UnitConverter = ({ setRedirect, setRedirectUrl, t }) => {
         </TabPane>
 
         <TabPane tabId="power">
-          <Row className="mb-3">
-            <Col xs={12} lg={5}>
-              <Card>
+          <Row className="mb-3 align-items-stretch">
+            <Col xs={12} lg={5} className="d-flex mb-3 mb-lg-0">
+              <Card className="flex-fill">
                 <FalconCardHeader
                   title={t('Power Conversion')}
                   titleClass="text-lightSlateGray mb-0"
                 />
-                <CardBody>
+                <CardBody className="d-flex flex-column">
                   <ConverterForm
                     t={t}
                     idPrefix="power"
@@ -262,11 +268,17 @@ const UnitConverter = ({ setRedirect, setRedirectUrl, t }) => {
                     onSwap={handlePowerSwap}
                     onReset={() => setPowerInput(DEFAULT_POWER_INPUT)}
                   />
+                  <ReferencePanel
+                    t={t}
+                    units={POWER_UNITS}
+                    baseSymbol="W"
+                    noteKey="Power Unit Note"
+                  />
                 </CardBody>
               </Card>
             </Col>
-            <Col xs={12} lg={7}>
-              <Card>
+            <Col xs={12} lg={7} className="d-flex">
+              <Card className="flex-fill">
                 <FalconCardHeader
                   title={t('Conversion Result')}
                   titleClass="text-lightSlateGray mb-0"
@@ -289,14 +301,14 @@ const UnitConverter = ({ setRedirect, setRedirectUrl, t }) => {
         </TabPane>
 
         <TabPane tabId="duration">
-          <Row className="mb-3">
-            <Col xs={12} lg={5}>
-              <Card>
+          <Row className="mb-3 align-items-stretch">
+            <Col xs={12} lg={5} className="d-flex mb-3 mb-lg-0">
+              <Card className="flex-fill">
                 <FalconCardHeader
                   title={t('Power and Duration')}
                   titleClass="text-lightSlateGray mb-0"
                 />
-                <CardBody>
+                <CardBody className="d-flex flex-column">
                   <PowerDurationForm
                     t={t}
                     power={durationInput.power}
@@ -306,11 +318,17 @@ const UnitConverter = ({ setRedirect, setRedirectUrl, t }) => {
                     onChange={handleDurationChange}
                     onReset={() => setDurationInput(DEFAULT_DURATION_INPUT)}
                   />
+                  <ReferencePanel
+                    t={t}
+                    units={ENERGY_UNITS}
+                    baseSymbol="kJ"
+                    noteKey="Energy Unit Note"
+                  />
                 </CardBody>
               </Card>
             </Col>
-            <Col xs={12} lg={7}>
-              <Card>
+            <Col xs={12} lg={7} className="d-flex">
+              <Card className="flex-fill">
                 <FalconCardHeader
                   title={t('Energy Result')}
                   titleClass="text-lightSlateGray mb-0"
@@ -334,8 +352,6 @@ const UnitConverter = ({ setRedirect, setRedirectUrl, t }) => {
           </Row>
         </TabPane>
       </TabContent>
-
-      <ReferencePanel t={t} energyUnits={ENERGY_UNITS} powerUnits={POWER_UNITS} />
     </div>
   );
 };

@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - added docx and pdf exporters to energyflow diagram in myems-api and myems-web
 - added pdf exporter to offlinemeter prediction in myems-api and myems-web
 - added config to indicate if auto submit when a report page opens and the submit button is enabled in myems-web
+- added energy unit converter tool to myems-web
 ### Changed
 - changed apipost and postman files in myems-api
 - changed SQL string concatenation to executemany in myems-api
