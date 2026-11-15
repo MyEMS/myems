@@ -1046,6 +1046,9 @@ Please copy it to the input box below.':
         'Select Row': '請選擇要操作的數據⾏',
         // Offline Meter Input
         'Daily Value': '⽇數據',
+        'Click to enter': '點擊輸入',
+        'Click the box to enter the daily value. It is saved when you leave the box.':
+          '點擊輸入框填寫日數據，離開輸入框後自動保存。',
         Date: '⽇期',
         'Successfully Saved': '保存成功',
         'Previous Data Is Empty': '之前的數據為空',

@@ -1057,6 +1057,9 @@ em um link de conta de registro inválido. Por favor tente novamente.',
         'Select Row': 'Selecione Linha de Dados',
         // Offline Meter Input
         'Daily Value': 'Valor diário',
+        'Click to enter': 'Clique para introduzir',
+        'Click the box to enter the daily value. It is saved when you leave the box.':
+          'Clique na caixa para introduzir o valor diário. É guardado quando sair da caixa.',
         Date: 'Data',
         'Successfully Saved': 'Salvado com sucesso',
         'Previous Data Is Empty': 'Dados anteriores estão vazios',

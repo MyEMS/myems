@@ -1129,6 +1129,9 @@ export default {
         'Select Row': 'Please Select Data Row',
         // Offline Meter Input
         'Daily Value': 'Daily Value',
+        'Click to enter': 'Click to enter',
+        'Click the box to enter the daily value. It is saved when you leave the box.':
+          'Click the box to enter the daily value. It is saved when you leave the box.',
         Date: 'Date',
         'Successfully Saved': 'Successfully Saved',
         'Previous Data Is Empty': 'Previous Data Is Empty',

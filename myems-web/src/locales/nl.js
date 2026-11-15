@@ -1040,6 +1040,9 @@ export default {
         'Select Row': 'Selecteer een rij om te bewerken',
         // Offline Meter Input
         'Daily Value': 'Dagelijkse waarde',
+        'Click to enter': 'Klik om in te voeren',
+        'Click the box to enter the daily value. It is saved when you leave the box.':
+          'Klik op het vak om de dagelijkse waarde in te voeren. Deze wordt opgeslagen wanneer u het vak verlaat.',
         Date: 'Datum',
         'Successfully Saved': 'Succesvol opgeslagen',
         'Previous Data Is Empty': 'Vorige gegevens zijn leeg',

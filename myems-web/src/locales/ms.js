@@ -1066,6 +1066,9 @@ akaun pendaftaran tidak sah. Sila cubalah.',
         'Select Row': 'Sila Pilih Baris Data',
         // Offline Meter Input
         'Daily Value': 'Nilai Harian',
+        'Click to enter': 'Klik untuk memasukkan',
+        'Click the box to enter the daily value. It is saved when you leave the box.':
+          'Klik kotak untuk memasukkan nilai harian. Ia disimpan apabila anda meninggalkan kotak.',
         Date: 'Tarikh',
         'Successfully Saved': 'Berjaya Diselamatkan',
         'Previous Data Is Empty': 'Data Sebelumnya Kosong',

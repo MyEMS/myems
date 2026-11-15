@@ -1041,6 +1041,9 @@ export default {
         'Select Row': 'Seleziona la riga di dati da operare',
         // Offline Meter Input
         'Daily Value': 'Dati Giornalieri',
+        'Click to enter': 'Fare clic per inserire',
+        'Click the box to enter the daily value. It is saved when you leave the box.':
+          'Fare clic sulla casella per inserire il valore giornaliero. Viene salvato quando si esce dalla casella.',
         Date: 'Data',
         'Successfully Saved': 'Salvato con Successo',
         'Previous Data Is Empty': 'I dati precedenti sono vuoti',

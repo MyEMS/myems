@@ -350,10 +350,17 @@ class Reporting:
                     raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                            description='API.PRODUCT_NOT_FOUND')
 
+                if config.minutes_to_count <= 0 or (24 * 60) % config.minutes_to_count != 0:
+                    raise falcon.HTTPError(status=falcon.HTTP_500, title='API.INTERNAL_SERVER_ERROR',
+                                           description='API.INVALID_MINUTES_TO_COUNT')
+                period_count = (24 * 60) // config.minutes_to_count
+                insert_hourly = (" INSERT INTO tbl_space_hourly "
+                                 "(space_id, product_id, start_datetime_utc, product_count) "
+                                 " VALUES (%s, %s, %s, %s) ")
                 for start_datetime_utc, daily_value in production_data['data'].items():
-                    end_datetime_utc = (start_datetime_utc + timedelta(hours=24))
-                    actual_value = \
-                        round(daily_value / (Decimal(24) * Decimal(60) / Decimal(config.minutes_to_count)), 3)
+                    end_datetime_utc = start_datetime_utc + timedelta(hours=24)
+                    slot_value = round(daily_value / Decimal(period_count), 3)
+                    allocated = slot_value * Decimal(period_count)
 
                     cursor_production.execute(" DELETE FROM tbl_space_hourly WHERE space_id = %s AND product_id = %s "
                                               " AND start_datetime_utc >= %s AND start_datetime_utc < %s ",
@@ -361,24 +368,19 @@ class Reporting:
                                                start_datetime_utc.strftime('%Y-%m-%d %H:%M:%S'),
                                                end_datetime_utc.strftime('%Y-%m-%d %H:%M:%S')))
 
-                    cnx_production.commit()
-
-                    insert_hourly = (" INSERT INTO tbl_space_hourly "
-                                     "(space_id, product_id, start_datetime_utc, product_count) "
-                                     " VALUES (%s, %s, %s, %s) ")
                     hourly_rows = []
-                    sum_24hours = actual_value * 24
-                    last_date_utc = end_datetime_utc - timedelta(minutes=config.minutes_to_count)
-                    while start_datetime_utc < end_datetime_utc:
-                        if start_datetime_utc == last_date_utc and sum_24hours != daily_value:
-                            actual_value = daily_value - sum_24hours + actual_value
+                    slot_start = start_datetime_utc
+                    for index in range(period_count):
+                        value = slot_value
+                        if index == period_count - 1 and allocated != daily_value:
+                            value = daily_value - allocated + slot_value
                         hourly_rows.append((production_data['space_id'],
                                             production_data['product_id'],
-                                            start_datetime_utc.strftime('%Y-%m-%d %H:%M:%S'),
-                                            actual_value))
-                        start_datetime_utc += timedelta(minutes=config.minutes_to_count)
+                                            slot_start.strftime('%Y-%m-%d %H:%M:%S'),
+                                            value))
+                        slot_start += timedelta(minutes=config.minutes_to_count)
                     cursor_production.executemany(insert_hourly, hourly_rows)
-                    cnx_production.commit()
+                cnx_production.commit()
 
             finally:
                 if cursor_system:

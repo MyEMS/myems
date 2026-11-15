@@ -1040,6 +1040,9 @@ export default {
         'Select Row': 'لطفاً ردیف داده را برای عملیات انتخاب کنید',
         // Offline Meter Input
         'Daily Value': 'داده روزانه',
+        'Click to enter': 'برای وارد کردن کلیک کنید',
+        'Click the box to enter the daily value. It is saved when you leave the box.':
+          'برای وارد کردن داده روزانه روی کادر کلیک کنید. با خروج از کادر به‌طور خودکار ذخیره می‌شود.',
         Date: 'تاریخ',
         'Successfully Saved': 'با موفقیت ذخیره شد',
         'Previous Data Is Empty': 'داده قبلی خالی است',

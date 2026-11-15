@@ -211,6 +211,8 @@ const OfflineMeterInput = ({ setRedirect, setRedirectUrl, t }) => {
       headerClasses: 'border-0',
       text: t('Daily Value'),
       classes: 'border-0 py-2 align-middle',
+      headerStyle: { width: '280px' },
+      style: { width: '280px' },
       sort: false,
       editable: true,
       editor: {
@@ -218,13 +220,19 @@ const OfflineMeterInput = ({ setRedirect, setRedirectUrl, t }) => {
         step: 0.000001,
         min: 0,
         max: 999999.999999,
-        style: { width: '20%' },
-
+        style: { width: '240px', height: '34px' },
         precision: 6
       },
       formatter: cell => {
-        if (cell == null || cell === '') return '';
-        return Number(cell).toFixed(6);
+        const empty = cell == null || cell === '';
+        return (
+          <div
+            className={`form-control form-control-sm mb-0 ${empty ? 'text-muted' : ''}`}
+            style={{ width: '240px', cursor: 'text' }}
+          >
+            {empty ? t('Click to enter') : Number(cell).toFixed(6)}
+          </div>
+        );
       },
       validator: newValue => {
         if (newValue === '' || newValue == null) return true;
@@ -391,6 +399,9 @@ const OfflineMeterInput = ({ setRedirect, setRedirectUrl, t }) => {
         <Card>
           <FalconCardHeader title={t('Daily Value')} className="bg-light" titleClass="text-lightSlateGray mb-0" />
           <CardBody>
+            <p className="text-muted fs--1 mb-2">
+              {t('Click the box to enter the daily value. It is saved when you leave the box.')}
+            </p>
             <BootstrapTable
               bootstrap4
               keyField="monthdate"

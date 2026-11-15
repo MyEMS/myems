@@ -1061,6 +1061,9 @@ bağlantısına tıklamış gibi görünüyorsunuz. Lütfen tekrar deneyin.',
         'Select Row': 'Lütfen Veri Satırı Seçiniz',
         // Offline Meter Input
         'Daily Value': 'Günlük Değer',
+        'Click to enter': 'Girmek için tıklayın',
+        'Click the box to enter the daily value. It is saved when you leave the box.':
+          'Günlük değeri girmek için kutuya tıklayın. Kutudan çıkınca otomatik kaydedilir.',
         Date: 'Tarih',
         'Successfully Saved': 'Başarıyla Kaydedildi',
         'Previous Data Is Empty': 'Önceki veriler boş',

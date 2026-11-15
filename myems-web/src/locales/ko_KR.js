@@ -1035,6 +1035,9 @@ Please copy it to the input box below.':
         'Select Row': '작업할 데이터 행 선택',
         // Offline Meter Input
         'Daily Value': '일일 데이터',
+        'Click to enter': '클릭하여 입력',
+        'Click the box to enter the daily value. It is saved when you leave the box.':
+          '입력란을 클릭하여 일일 데이터를 입력하세요. 입력란을 벗어나면 자동으로 저장됩니다.',
         Date: '날짜',
         'Successfully Saved': '성공적으로 저장됨',
         'Previous Data Is Empty': '이전 데이터가 비어 있음',

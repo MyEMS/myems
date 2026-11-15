@@ -137,41 +137,45 @@ class Reporting:
                     if row_meter is None:
                         raise falcon.HTTPError(status=falcon.HTTP_404, title='API.NOT_FOUND',
                                                description='API.OFFLINE_METER_NOT_FOUND')
-                    hourly_low_limit = row_meter[0] if row_meter[0] is not None else 0
-                    hourly_high_limit = row_meter[1] if row_meter[1] is not None else 0
+                    hourly_low_limit = row_meter[0]
+                    hourly_high_limit = row_meter[1]
+                    if config.minutes_to_count <= 0 or (24 * 60) % config.minutes_to_count != 0:
+                        raise falcon.HTTPError(status=falcon.HTTP_500, title='API.INTERNAL_SERVER_ERROR',
+                                               description='API.INVALID_MINUTES_TO_COUNT')
+                    period_count = (24 * 60) // config.minutes_to_count
 
                     for start_datetime_utc, daily_value in energy_data_item['data'].items():
+                        hourly_value = daily_value / Decimal(24)
+                        if (hourly_low_limit is not None and hourly_value < hourly_low_limit) or \
+                                (hourly_high_limit is not None and hourly_value > hourly_high_limit):
+                            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                                   description='API.INVALID_OFFLINE_METER_VALUE')
+
+                    insert_hourly = (" INSERT INTO tbl_offline_meter_hourly "
+                                     "             (offline_meter_id, start_datetime_utc, actual_value) "
+                                     " VALUES (%s, %s, %s) ")
+                    for start_datetime_utc, daily_value in energy_data_item['data'].items():
                         end_datetime_utc = start_datetime_utc + timedelta(hours=24)
-                        actual_value = \
-                            round(daily_value / (Decimal(24) * Decimal(60) / Decimal(config.minutes_to_count)), 3)
+                        slot_value = round(daily_value / Decimal(period_count), 3)
+                        allocated = slot_value * Decimal(period_count)
 
                         cursor_energy.execute("DELETE FROM tbl_offline_meter_hourly WHERE offline_meter_id = %s "
                                               "AND start_datetime_utc >= %s AND start_datetime_utc < %s ",
                                               (offline_meter_id, start_datetime_utc.strftime('%Y-%m-%d %H:%M:%S'),
                                                end_datetime_utc.strftime('%Y-%m-%d %H:%M:%S')))
 
-                        cnx_energy.commit()
-                        # check with hourly low limit and hourly high limit
-                        if actual_value < hourly_low_limit \
-                                or actual_value > hourly_high_limit:
-                            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
-                                                   description='API.INVALID_OFFLINE_METER_VALUE')
-
-                        insert_hourly = (" INSERT INTO tbl_offline_meter_hourly "
-                                         "             (offline_meter_id, start_datetime_utc, actual_value) "
-                                         " VALUES (%s, %s, %s) ")
                         hourly_rows = []
-                        sum_24hours = actual_value * 24
-                        last_date_utc = end_datetime_utc - timedelta(minutes=config.minutes_to_count)
-                        while start_datetime_utc < end_datetime_utc:
-                            if start_datetime_utc == last_date_utc and sum_24hours != daily_value:
-                                actual_value = daily_value - sum_24hours + actual_value
+                        slot_start = start_datetime_utc
+                        for index in range(period_count):
+                            value = slot_value
+                            if index == period_count - 1 and allocated != daily_value:
+                                value = daily_value - allocated + slot_value
                             hourly_rows.append((offline_meter_id,
-                                                start_datetime_utc.strftime('%Y-%m-%d %H:%M:%S'),
-                                                actual_value))
-                            start_datetime_utc += timedelta(minutes=config.minutes_to_count)
+                                                slot_start.strftime('%Y-%m-%d %H:%M:%S'),
+                                                value))
+                            slot_start += timedelta(minutes=config.minutes_to_count)
                         cursor_energy.executemany(insert_hourly, hourly_rows)
-                        cnx_energy.commit()
+                    cnx_energy.commit()
             finally:
                 if cursor_energy:
                     cursor_energy.close()

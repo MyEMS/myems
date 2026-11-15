@@ -1061,6 +1061,9 @@ export default {
         'Select Row': 'الرجاء اختيار صف البيانات',
         // Offline Meter Input
         'Daily Value': 'القيمة اليومية',
+        'Click to enter': 'انقر للإدخال',
+        'Click the box to enter the daily value. It is saved when you leave the box.':
+          'انقر على المربع لإدخال القيمة اليومية. يتم الحفظ عند مغادرة المربع.',
         Date: 'تاريخ',
         'Successfully Saved': 'تم الحفظ بنجاح',
         'Previous Data Is Empty': 'البيانات السابقة فارغة',
