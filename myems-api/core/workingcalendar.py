@@ -212,7 +212,7 @@ class WorkingCalendarCollection:
         clear_working_calendar_cache()
 
         resp.status = falcon.HTTP_201
-        resp.location = '/workingcalendar/' + str(new_id)
+        resp.location = '/workingcalendars/' + str(new_id)
 
 
 class WorkingCalendarItem:
@@ -611,7 +611,7 @@ class NonWorkingDayCollection:
         clear_working_calendar_cache(working_calendar_id=int(working_calendar_id))
 
         resp.status = falcon.HTTP_201
-        resp.location = '/nonworkingday/' + str(new_id)
+        resp.location = '/nonworkingdays/' + str(new_id)
 
 
 class NonWorkingDayItem:
@@ -1014,7 +1014,7 @@ class WorkingCalendarImport:
         clear_working_calendar_cache()
 
         resp.status = falcon.HTTP_201
-        resp.location = '/workingcalendar/' + str(new_id)
+        resp.location = '/workingcalendars/' + str(new_id)
 
 
 class WorkingCalendarClone:
@@ -1094,4 +1094,4 @@ class WorkingCalendarClone:
         clear_working_calendar_cache()
 
         resp.status = falcon.HTTP_201
-        resp.location = '/workingcalendar/' + str(new_id)
+        resp.location = '/workingcalendars/' + str(new_id)
