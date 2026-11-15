@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - fixed svg preview issue in myems-admin
 - fixed enter production issue in myems-api and myems-web
 - fixed offline meter input issue in myems-api and myems-web
+- fixed user_logger issue in myems-api
 ### Removed
 
 ## [6.10.0] - 2026-10-27

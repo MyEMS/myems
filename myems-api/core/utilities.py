@@ -3,6 +3,7 @@ import statistics
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal
 import mysql.connector
+from mysql.connector.errors import InterfaceError, OperationalError, ProgrammingError, DataError
 import config
 import gettext
 
