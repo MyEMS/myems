@@ -1164,8 +1164,8 @@ class ChangePassword:
                 update_session = (" UPDATE tbl_sessions "
                                   " SET utc_expires = %s "
                                   " WHERE user_uuid = %s AND token = %s ")
-                utc_expires = datetime.now(timezone.utc) + timedelta(seconds=1000 * 60 * 60 * 8)
-                utc_expires = utc_expires.replace(tzinfo=None)
+                utc_expires = datetime.now(timezone.utc).replace(tzinfo=None) + \
+                    timedelta(seconds=config.session_expires_in_seconds)
                 cursor.execute(update_session, (utc_expires, user_uuid, token,))
                 cnx.commit()
             finally:
@@ -1315,8 +1315,8 @@ class ResetPassword:
                 update_session = (" UPDATE tbl_sessions "
                                   " SET utc_expires = %s "
                                   " WHERE user_uuid = %s and token = %s ")
-                utc_expires = datetime.now(timezone.utc) + timedelta(seconds=1000 * 60 * 60 * 8)
-                utc_expires = utc_expires.replace(tzinfo=None)
+                utc_expires = datetime.now(timezone.utc).replace(tzinfo=None) + \
+                    timedelta(seconds=config.session_expires_in_seconds)
                 cursor.execute(update_session, (utc_expires, admin_user_uuid, admin_token,))
                 cnx.commit()
             finally:
