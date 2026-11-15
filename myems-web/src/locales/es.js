@@ -1071,6 +1071,9 @@ export default {
         'Select Row': 'Seleccione Fila de datos',
         // Offline Meter Input
         'Daily Value': 'Valor diario',
+        'Click to enter': 'Haga clic para introducir',
+        'Click the box to enter the daily value. It is saved when you leave the box.':
+          'Haga clic en el cuadro para introducir el valor diario. Se guarda al salir del cuadro.',
         Date: 'Fecha',
         'Successfully Saved': 'Guardado correctamente',
         'Previous Data Is Empty': 'Los datos anteriores están vacíos',

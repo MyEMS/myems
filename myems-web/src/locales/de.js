@@ -1071,6 +1071,9 @@ export default {
         'Select Row': 'Bitte wählen Sie die zu bearbeitende Zeile aus',
         // Offline Meter Input
         'Daily Value': 'Tageswert',
+        'Click to enter': 'Zum Eingeben klicken',
+        'Click the box to enter the daily value. It is saved when you leave the box.':
+          'Klicken Sie in das Feld, um den Tageswert einzugeben. Er wird gespeichert, wenn Sie das Feld verlassen.',
         Date: 'Datum',
         'Successfully Saved': 'Betrieb erfolgreich',
         'Previous Data Is Empty': 'Vorherige Daten sind leer',

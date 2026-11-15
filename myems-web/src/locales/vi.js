@@ -1060,6 +1060,9 @@ liên kết tài khoản đăng ký không hợp lệ. Vui lòng thử lại.',
         'Select Row': 'Vui lòng chọn Hàng dữ liệu',
         // Offline Meter Input
         'Daily Value': 'Giá trị hàng ngày',
+        'Click to enter': 'Nhấp để nhập',
+        'Click the box to enter the daily value. It is saved when you leave the box.':
+          'Nhấp vào ô để nhập giá trị hàng ngày. Dữ liệu được lưu khi bạn rời khỏi ô.',
         Date: 'Ngày',
         'Successfully Saved': 'Đã lưu thành công',
         'Previous Data Is Empty': 'Dữ liệu trước đó trống',

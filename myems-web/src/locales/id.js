@@ -1067,6 +1067,9 @@ export default {
         'Select Row': 'Silakan Pilih Baris Data Untuk Beroperasi',
         // Offline Meter Input
         'Daily Value': 'Data Sehari',
+        'Click to enter': 'Klik untuk memasukkan',
+        'Click the box to enter the daily value. It is saved when you leave the box.':
+          'Klik kotak untuk memasukkan data harian. Data disimpan saat Anda meninggalkan kotak.',
         Date: 'Tanggal',
         'Successfully Saved': 'Successfully Saved',
         'Previous Data Is Empty': 'Data Sebelumnya Kosong',

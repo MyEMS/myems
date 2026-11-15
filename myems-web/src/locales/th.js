@@ -1059,6 +1059,9 @@ export default {
             'Select Row': 'กรุณาเลือกแถวข้อมูล',
             // Offline Meter Input
             'Daily Value': 'ปริมาณที่แนะนําต่อวัน',
+            'Click to enter': 'คลิกเพื่อป้อน',
+            'Click the box to enter the daily value. It is saved when you leave the box.':
+              'คลิกที่ช่องเพื่อป้อนค่าประจำวัน ระบบจะบันทึกเมื่อคุณออกจากช่อง',
             Date: 'วันที่',
             'Successfully Saved': 'บันทึกสําเร็จ',
             'Previous Data Is Empty': 'ข้อมูลก่อนหน้าว่างเปล่า',

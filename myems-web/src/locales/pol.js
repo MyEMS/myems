@@ -1040,6 +1040,9 @@ export default {
         'Select Row': 'Wybierz wiersz do operacji',
         // Offline Meter Input
         'Daily Value': 'Dane dzienne',
+        'Click to enter': 'Kliknij, aby wprowadzić',
+        'Click the box to enter the daily value. It is saved when you leave the box.':
+          'Kliknij pole, aby wprowadzić dane dzienne. Zostaną zapisane po opuszczeniu pola.',
         Date: 'Data',
         'Successfully Saved': 'Zapisano pomyślnie',
         'Previous Data Is Empty': 'Poprzednie dane są puste',

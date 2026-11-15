@@ -1040,6 +1040,9 @@ export default {
         'Select Row': '操作するデータ行を選択してください',
         // Offline Meter Input
         'Daily Value': '日次データ',
+        'Click to enter': 'クリックして入力',
+        'Click the box to enter the daily value. It is saved when you leave the box.':
+          '入力欄をクリックして日次データを入力してください。入力欄を離れると自動保存されます。',
         Date: '日付',
         'Successfully Saved': '保存成功',
         'Previous Data Is Empty': '以前のデータが空です',

@@ -1072,6 +1072,9 @@ export default {
         'Select Row': 'Пожалуйста, выберите строку данных',
         // Offline Meter Input
         'Daily Value': 'Суточная норма',
+        'Click to enter': 'Нажмите для ввода',
+        'Click the box to enter the daily value. It is saved when you leave the box.':
+          'Нажмите на поле, чтобы ввести суточное значение. Оно сохранится, когда вы покинете поле.',
         Date: 'Дата',
         'Successfully Saved': 'Успешно сохранено',
         'Previous Data Is Empty': 'Предыдущие данные пусты',

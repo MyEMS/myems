@@ -1110,6 +1110,9 @@ export default {
         'Select Row': '请选择要操作的数据行',
         // Offline Meter Input
         'Daily Value': '日数据',
+        'Click to enter': '点击输入',
+        'Click the box to enter the daily value. It is saved when you leave the box.':
+          '点击输入框填写日数据，离开输入框后自动保存。',
         Date: '日期',
         'Successfully Saved': '保存成功',
         'Previous Data Is Empty': '之前的数据为空',

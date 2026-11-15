@@ -1064,6 +1064,9 @@ export default {
         'Select Row': 'Veuillez sélectionner la ligne de données',
         // Offline Meter Input
         'Daily Value': 'Quotidien Valeur',
+        'Click to enter': 'Cliquer pour saisir',
+        'Click the box to enter the daily value. It is saved when you leave the box.':
+          'Cliquez sur le champ pour saisir la valeur quotidienne. Elle est enregistrée lorsque vous quittez le champ.',
         Date: 'Date',
         'Successfully Saved': 'Avec succès Sauvé',
         'Previous Data Is Empty': 'Précédent Les données sont vides',
