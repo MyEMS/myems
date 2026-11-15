@@ -1474,7 +1474,7 @@ class CombinedEquipmentParameterCollection:
         clear_combined_equipment_cache(combined_equipment_id=id_)
 
         resp.status = falcon.HTTP_201
-        resp.location = '/combinedequipments/' + str(id_) + 'parameters/' + str(new_id)
+        resp.location = '/combinedequipments/' + str(id_) + '/parameters/' + str(new_id)
 
 
 class CombinedEquipmentParameterItem:

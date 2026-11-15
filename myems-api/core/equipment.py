@@ -1247,7 +1247,7 @@ class EquipmentParameterCollection:
         clear_equipment_cache(equipment_id=id_)
 
         resp.status = falcon.HTTP_201
-        resp.location = '/equipments/' + str(id_) + 'parameters/' + str(new_id)
+        resp.location = '/equipments/' + str(id_) + '/parameters/' + str(new_id)
 
 
 class EquipmentParameterItem:

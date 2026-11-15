@@ -1478,7 +1478,7 @@ class PhotovoltaicPowerStationGridCollection:
                 cnx.close()
 
         resp.status = falcon.HTTP_201
-        resp.location = '/photovoltaics/' + str(id_) + '/grids/' + str(new_id)
+        resp.location = '/photovoltaicpowerstations/' + str(id_) + '/grids/' + str(new_id)
 
 
 class PhotovoltaicPowerStationGridItem:
