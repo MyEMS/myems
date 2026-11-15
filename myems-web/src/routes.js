@@ -219,7 +219,8 @@ export const toolsRoutes = {
   children: [
     { to: '/tools/cablesizing', name: 'Cable Sizing Tool' },
     { to: '/tools/jsonvalidator', name: 'JSON Validator Tool' },
-    { to: '/tools/modbusparser', name: 'Modbus Parser Tool' }
+    { to: '/tools/modbusparser', name: 'Modbus Parser Tool' },
+    { to: '/tools/unitconverter', name: 'Energy Unit Converter Tool' }
   ]
 };
 
