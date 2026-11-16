@@ -270,7 +270,7 @@ class Reporting:
         ################################################################################################################
         # Step 7 & 8: query charge/discharge carbon data
         ################################################################################################################
-        cnx_carbon_db = mysql.connector.connect(**config.myems_billing_db)
+        cnx_carbon_db = mysql.connector.connect(**config.myems_carbon_db)
         try:
             cursor_carbon_db = cnx_carbon_db.cursor()
             try:

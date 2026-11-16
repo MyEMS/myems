@@ -208,7 +208,7 @@ class Reporting:
         ################################################################################################################
         total_charge_carbon = Decimal(0.0)
         total_discharge_carbon = Decimal(0.0)
-        cnx_carbon_db = mysql.connector.connect(**config.myems_billing_db)
+        cnx_carbon_db = mysql.connector.connect(**config.myems_carbon_db)
         try:
             cursor_carbon_db = cnx_carbon_db.cursor()
             try:
