@@ -14,8 +14,9 @@ The acquisition process performs the following functions:
 
 The module supports multiple data types:
 - ANALOG_VALUE: Continuous sensor readings (temperature, pressure, flow, etc.)
-- DIGITAL_VALUE: Binary states (on/off, open/closed, alarm status, etc.)
 - ENERGY_VALUE: Cumulative energy consumption data (kWh readings)
+- DIGITAL_VALUE: Binary states (on/off, open/closed, alarm status, etc.)
+- TEXT_VALUE: String or LocalizedText states (batch number, product name, etc.)
 
 Data processing includes:
 - Ratio and offset calculations for calibration
@@ -44,6 +45,8 @@ INT_MIN = -2147483648
 
 # Default timeout in seconds for a single OPC UA request
 DEFAULT_REQUEST_TIMEOUT_IN_SECONDS = 10.0
+# Timeout in seconds for establishing the OPC UA session
+CONNECT_TIMEOUT_IN_SECONDS = 15.0
 # Default interval in seconds between two acquisition cycles
 DEFAULT_INTERVAL_IN_SECONDS = 300.0
 # The minimum interval in seconds to avoid flooding the OPC UA server
@@ -56,11 +59,33 @@ VALUE_TABLES = {
     'ANALOG_VALUE': ('tbl_analog_value', 'tbl_analog_value_latest'),
     'ENERGY_VALUE': ('tbl_energy_value', 'tbl_energy_value_latest'),
     'DIGITAL_VALUE': ('tbl_digital_value', 'tbl_digital_value_latest'),
+    'TEXT_VALUE': ('tbl_text_value', 'tbl_text_value_latest'),
+}
+
+# Errors that only affect one point. They must never abort the whole acquisition
+# cycle nor trigger a reconnection, otherwise a few misconfigured points with the
+# smallest ids would hide every other point of the data source forever.
+POINT_LEVEL_ERROR_NAMES = {
+    'BadNodeIdUnknown',
+    'BadNodeIdInvalid',
+    'BadAttributeIdInvalid',
+    'BadTypeMismatch',
+    'BadNotReadable',
+    'BadUserAccessDenied',
+    'BadIndexRangeInvalid',
+    'BadNotSupported',
+    'BadDataEncodingInvalid',
+    'BadDataEncodingUnsupported',
+    'BadWaitingForInitialData',
 }
 
 
 class SessionBrokenError(Exception):
     """Raised when the OPC UA session can no longer be used and must be recreated."""
+
+
+class HistoricalDatabaseError(Exception):
+    """Raised when values could not be written to the historical database."""
 
 
 ########################################################################################################################
@@ -138,6 +163,12 @@ async def process_async(logger, data_source_id, url, interval_in_seconds):
                 logger.error("OPC UA session of Data Source (ID=%s) broken: %s", data_source_id, e)
                 await asyncio.sleep(RETRY_DELAY_IN_SECONDS)
 
+            except HistoricalDatabaseError as e:
+                # Drop the historical connection, the next iteration opens a new one
+                logger.error("Historical database of Data Source (ID=%s) unavailable: %s",
+                             data_source_id, e)
+                await asyncio.sleep(RETRY_DELAY_IN_SECONDS)
+
             except Exception as e:
                 # The system database connection may be broken, drop it and reconnect later
                 logger.error("Error in acquisition process of Data Source (ID=%s): %s: %s",
@@ -166,17 +197,27 @@ async def run_session(logger, data_source_id, url, cnx_system_db, point_list, in
     """
     cnx_historical_db = None
     try:
-        cnx_historical_db = mysql.connector.connect(**config.myems_historical_db)
+        try:
+            cnx_historical_db = mysql.connector.connect(**config.myems_historical_db)
+        except Exception as e:
+            raise HistoricalDatabaseError(str(e) or type(e).__name__)
 
-        # Use async with so that the client, the session and the socket are always closed
-        async with Client(url=url, timeout=DEFAULT_REQUEST_TIMEOUT_IN_SECONDS) as client:
-            print("Succeeded to connect %s in acquisition process of Data Source (ID=%s)" %
-                  (url, data_source_id))
+        # Connect explicitly so that a server that accepts TCP but never answers
+        # cannot block the acquisition process forever
+        client = Client(url=url, timeout=DEFAULT_REQUEST_TIMEOUT_IN_SECONDS)
+        try:
+            try:
+                await asyncio.wait_for(client.connect(), timeout=CONNECT_TIMEOUT_IN_SECONDS)
+            except Exception as e:
+                raise SessionBrokenError("connect failed: %s: %s" % (type(e).__name__, e))
+            logger.info("Succeeded to connect %s in acquisition process of Data Source (ID=%s)",
+                        url, data_source_id)
             while True:
                 # Reload points on every cycle so that added, removed or rescaled points take effect
                 point_list = get_point_list(logger, cnx_system_db, data_source_id)
                 if not point_list:
-                    logger.error("Point Not Found in Data Source (ID=%s), reconnect later", data_source_id)
+                    logger.warning("Point Not Found in Data Source (ID=%s), reconnect later",
+                                   data_source_id)
                     return
 
                 # Step 4: Read point values from OPC UA server
@@ -185,11 +226,28 @@ async def run_session(logger, data_source_id, url, cnx_system_db, point_list, in
                 if read_count > 0:
                     # Step 5: Bulk insert point values and update latest values
                     current_datetime_utc = datetime.now(timezone.utc).replace(tzinfo=None)
-                    store_point_values(logger, cnx_historical_db, current_datetime_utc, value_lists)
-                    # A data source is online only if at least one value was read in this cycle
+                    try:
+                        store_point_values(logger, cnx_historical_db, current_datetime_utc, value_lists)
+                    except Exception as e:
+                        # The historical connection may be dead, drop it so that the next
+                        # iteration reconnects. last_seen must not be updated, otherwise the
+                        # data source would be reported online while nothing is stored.
+                        logger.error("Error in step 5 of acquisition process of Data Source (ID=%s): %s: %s",
+                                     data_source_id, type(e).__name__, e)
+                        close_connection(cnx_historical_db)
+                        cnx_historical_db = None
+                        raise HistoricalDatabaseError(str(e) or type(e).__name__)
+                    # A data source is online only if at least one value was read and stored
                     update_last_seen(logger, cnx_system_db, data_source_id, current_datetime_utc)
 
                 await asyncio.sleep(interval_in_seconds)
+
+        finally:
+            # Always close the client, the session and the socket of this attempt
+            try:
+                await client.disconnect()
+            except Exception:
+                pass
 
     finally:
         # Always release the historical database connection opened by this session
@@ -200,9 +258,9 @@ async def read_point_values(logger, data_source_id, client, point_list):
     """
     Read and validate all configured point values once.
 
-    A single bad point is logged and skipped. If no point can be read at all, or if
-    consecutive read requests fail, the session is considered broken so that the
-    caller reconnects instead of silently acquiring nothing forever.
+    A bad point is logged and skipped, the remaining points are still read. Only an
+    error that affects the session itself aborts the cycle so that the caller
+    reconnects, for example when the server closed the session or the connection.
 
     Args:
         logger: Logger instance for recording acquisition activities and errors
@@ -216,9 +274,8 @@ async def read_point_values(logger, data_source_id, client, point_list):
     Raises:
         SessionBrokenError: If the OPC UA session can no longer be used
     """
-    value_lists = {'ANALOG_VALUE': list(), 'ENERGY_VALUE': list(), 'DIGITAL_VALUE': list()}
+    value_lists = {object_type: list() for object_type in VALUE_TABLES}
     read_count = 0
-    failure_count = 0
 
     for point in point_list:
         node_id = get_node_id(logger, data_source_id, point)
@@ -228,15 +285,20 @@ async def read_point_values(logger, data_source_id, client, point_list):
 
         try:
             node = client.get_node(node_id)
+            # The request timeout is configured on the client, the outer timeout is the
+            # last resort against a half-open socket. A timeout invalidates the session,
+            # the caller reconnects instead of reusing a cancelled request.
             value = await asyncio.wait_for(node.get_value(),
                                            timeout=DEFAULT_REQUEST_TIMEOUT_IN_SECONDS)
+        except asyncio.TimeoutError:
+            raise SessionBrokenError("read timeout on node %s" % node_id)
         except Exception as e:
-            logger.error("%s at host: %s node_id: %s", e, client.server_url.netloc, node_id)
-            failure_count += 1
-            # Skip this bad point and continue with the remaining points
-            if read_count == 0 and failure_count >= 3:
-                raise SessionBrokenError("consecutive read requests failed")
-            continue
+            if is_point_level_error(e):
+                # A misconfigured or temporarily unavailable point must not stop the others
+                logger.warning("Data Source(ID=%s), Point(ID=%s) skipped, node_id: %s: %s",
+                               data_source_id, point['id'], node_id, e)
+                continue
+            raise SessionBrokenError("read failed: %s: %s" % (type(e).__name__, e))
 
         read_count += 1
         point_value = convert_value(logger, data_source_id, point, value)
@@ -245,10 +307,19 @@ async def read_point_values(logger, data_source_id, client, point_list):
                                                       'is_trend': point['is_trend'],
                                                       'value': point_value})
 
-    if read_count == 0 and failure_count > 0:
-        raise SessionBrokenError("no point could be read")
-
     return value_lists, read_count
+
+
+def is_point_level_error(exception):
+    """
+    Return True when the error only affects the current point.
+
+    Unknown errors are treated as session errors, reconnecting is safer than
+    repeatedly reading from a session that may already be unusable.
+    """
+    if isinstance(exception, (ValueError, TypeError, KeyError)):
+        return True
+    return type(exception).__name__ in POINT_LEVEL_ERROR_NAMES
 
 
 def convert_value(logger, data_source_id, point, value):
@@ -270,6 +341,10 @@ def convert_value(logger, data_source_id, point, value):
         logger.error("Data Source(ID=%s), Point(ID=%s) Invalid object type: %s",
                      data_source_id, point['id'], object_type)
         return None
+
+    if object_type == 'TEXT_VALUE':
+        # Text points accept strings and LocalizedText, they are stored as they are
+        return convert_text_value(value)
 
     # bool is a subclass of int, convert it before checking numeric types
     if isinstance(value, bool):
@@ -311,6 +386,15 @@ def convert_value(logger, data_source_id, point, value):
                      data_source_id, point['id'], calibrated_value)
         return None
     return calibrated_value
+
+
+def convert_text_value(value):
+    """Convert an OPC UA value of a text point to the string stored in the database."""
+    # LocalizedText exposes its content in the Text attribute
+    text = getattr(value, 'Text', None)
+    if text is not None:
+        return str(text)
+    return str(value)
 
 
 def get_calibration(point):
@@ -438,12 +522,13 @@ def store_point_values(logger, cnx_historical_db, current_datetime_utc, value_li
 
         cnx_historical_db.commit()
 
-    except Exception as e:
-        logger.error("Error in step 5 of acquisition process: " + str(e))
+    except Exception:
+        # Roll back and let the caller invalidate the connection and the last seen time
         try:
             cnx_historical_db.rollback()
         except Exception:
             pass
+        raise
     finally:
         if cursor_historical_db:
             cursor_historical_db.close()

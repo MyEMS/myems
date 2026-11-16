@@ -16,9 +16,10 @@ async def main():
     try:
         server_url = urlparse(url)
         await check_connectivity(server_url.hostname, server_url.port)
-        print("Succeeded to telnet %s:%s in acquisition process ", server_url.hostname, server_url.port)
+        print("Succeeded to telnet %s:%s in acquisition process" % (server_url.hostname, server_url.port))
     except Exception as e:
-        print("Failed to telnet %s:%s in acquisition process: %s  ", server_url.hostname, server_url.port, str(e))
+        print("Failed to telnet %s:%s in acquisition process: %s" %
+              (server_url.hostname, server_url.port, str(e)))
         return
 
     try:
@@ -55,7 +56,4 @@ async def main():
         print('error: ' + str(e))
 
 if __name__ == "__main__":
-    loop = asyncio.get_event_loop()
-    loop.set_debug(True)
-    loop.run_until_complete(main())
-    loop.close()
+    asyncio.run(main())

@@ -18,6 +18,7 @@ will connect to and read data from at regular intervals.
 
 import json
 import logging
+import multiprocessing
 import time
 from logging.handlers import RotatingFileHandler
 from multiprocessing import Process
@@ -50,7 +51,7 @@ def setup_logger():
     # where debug is the lowest built-in severity level and critical is the highest built-in severity.
     # For example, if the severity level is INFO, the logger will handle only INFO, WARNING, ERROR, and CRITICAL
     # messages and will ignore DEBUG messages.
-    logger.setLevel(logging.ERROR)
+    logger.setLevel(logging.INFO)
     if not logger.handlers:
         # create file handler which logs messages
         fh = RotatingFileHandler(LOG_FILE_NAME, maxBytes=1024*1024, backupCount=1)
@@ -151,6 +152,26 @@ def reset_process_ids(logger):
             cnx_system_db.close()
 
 
+def clear_process_id(logger, data_source_id):
+    """Clear the process id of a data source whose acquisition process was stopped."""
+    cnx_system_db = None
+    cursor_system_db = None
+    try:
+        cnx_system_db = mysql.connector.connect(**config.myems_system_db)
+        cursor_system_db = cnx_system_db.cursor()
+        cursor_system_db.execute(" UPDATE tbl_data_sources "
+                                 " SET process_id = NULL "
+                                 " WHERE id = %s ", (data_source_id,))
+        cnx_system_db.commit()
+    except Exception as e:
+        logger.error("Error in main process when clearing process id: " + str(e))
+    finally:
+        if cursor_system_db:
+            cursor_system_db.close()
+        if cnx_system_db:
+            cnx_system_db.close()
+
+
 def supervise_workers(logger, rows_data_source, workers):
     """
     Start, restart and stop acquisition processes so that they match the data sources.
@@ -164,8 +185,8 @@ def supervise_workers(logger, rows_data_source, workers):
 
     for row_data_source in rows_data_source:
         data_source_id = row_data_source[0]
-        print("Data Source: ID=%s, Name=%s, Connection=%s " %
-              (row_data_source[0], row_data_source[1], row_data_source[2]))
+        logger.info("Data Source: ID=%s, Name=%s, Connection=%s ",
+                    row_data_source[0], row_data_source[1], row_data_source[2])
 
         worker_config = parse_data_source(logger, row_data_source)
         if worker_config is None:
@@ -184,11 +205,11 @@ def supervise_workers(logger, rows_data_source, workers):
 
         if worker is not None:
             if worker['process'].is_alive():
-                logger.error("Data Source (ID=%s) configuration changed, restarting its process.",
-                             data_source_id)
+                logger.info("Data Source (ID=%s) configuration changed, restarting its process.",
+                            data_source_id)
             else:
-                logger.error("Acquisition process of Data Source (ID=%s) terminated, restarting it.",
-                             data_source_id)
+                logger.warning("Acquisition process of Data Source (ID=%s) terminated, restarting it.",
+                               data_source_id)
             stop_process(worker['process'])
 
         worker_process = Process(target=run_acquisition,
@@ -202,8 +223,10 @@ def supervise_workers(logger, rows_data_source, workers):
     # Stop processes of data sources that no longer exist or are no longer valid
     for data_source_id in list(workers.keys()):
         if data_source_id not in active_data_source_ids:
-            logger.error("Data Source (ID=%s) removed, stopping its process.", data_source_id)
+            logger.info("Data Source (ID=%s) removed, stopping its process.", data_source_id)
             stop_process(workers.pop(data_source_id)['process'])
+            # The process is gone, clear its id so that MyEMS does not show a stale process
+            clear_process_id(logger, data_source_id)
 
 
 def parse_data_source(logger, row_data_source):
@@ -256,4 +279,8 @@ def stop_process(worker_process):
 
 
 if __name__ == "__main__":
+    # The main process opens database connections before starting subprocesses.
+    # fork would duplicate those sockets into the children, spawn gives every
+    # process its own connections and matches the behaviour the code was written for.
+    multiprocessing.set_start_method('spawn')
     main()
