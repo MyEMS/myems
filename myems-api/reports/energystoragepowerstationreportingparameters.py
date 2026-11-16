@@ -63,7 +63,7 @@ class Reporting:
             api_key_control(req)
         # this procedure accepts energy storage power station id or
         # energy storage power station uuid to identify a energy storage power station
-        point_id_list = req.params.get('pointids').split(",")
+        point_ids_param = req.params.get('pointids')
         reporting_period_start_datetime_local = req.params.get('reportingperiodstartdatetime')
         reporting_period_end_datetime_local = req.params.get('reportingperiodenddatetime')
         language = req.params.get('language')
@@ -72,6 +72,17 @@ class Reporting:
         ################################################################################################################
         # Step 1: valid parameters
         ################################################################################################################
+
+        if point_ids_param is None or len(str.strip(point_ids_param)) == 0:
+            raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                   description='API.INVALID_POINT_ID')
+        point_id_list = list()
+        for point_id in point_ids_param.split(','):
+            point_id = str.strip(point_id)
+            if not point_id.isdigit() or int(point_id) <= 0:
+                raise falcon.HTTPError(status=falcon.HTTP_400, title='API.BAD_REQUEST',
+                                       description='API.INVALID_POINT_ID')
+            point_id_list.append(int(point_id))
 
         timezone_offset = int(config.utc_offset[1:3]) * 60 + int(config.utc_offset[4:6])
         if config.utc_offset[0] == '-':
@@ -133,9 +144,11 @@ class Reporting:
         try:
             cursor_system = cnx_system.cursor()
             try:
+                placeholders = ', '.join(['%s'] * len(point_id_list))
                 cursor_system.execute(" SELECT id, name, units, object_type  "
                                       " FROM tbl_points "
-                                      " WHERE id IN ( " + ', '.join(map(str, point_id_list)) + ") ", ())
+                                      " WHERE id IN ( " + placeholders + ") ",
+                                      tuple(point_id_list))
                 rows_points = cursor_system.fetchall()
                 if rows_points is not None and len(rows_points) > 0:
                     for row_point in rows_points:
