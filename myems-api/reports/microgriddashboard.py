@@ -179,7 +179,7 @@ class Reporting:
             cnx_system_db = mysql.connector.connect(**config.myems_system_db)
             cnx_energy_db = mysql.connector.connect(**config.myems_energy_db)
             cnx_billing_db = mysql.connector.connect(**config.myems_billing_db)
-            cnx_carbon_db = mysql.connector.connect(**config.myems_billing_db)
+            cnx_carbon_db = mysql.connector.connect(**config.myems_carbon_db)
 
             cursor_user = None
             cursor_system_db = None
@@ -192,7 +192,7 @@ class Reporting:
                 cursor_energy_db = cnx_energy_db.cursor()
                 cursor_billing_db = cnx_billing_db.cursor()
                 cursor_carbon_db = cnx_carbon_db.cursor()
-                
+
                 cursor_user.execute(" SELECT id, is_admin, privilege_id "
                                     " FROM tbl_users "
                                     " WHERE uuid = %s ", (user_uuid,))

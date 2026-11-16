@@ -90,24 +90,24 @@ class Reporting:
         cnx_energy_db = None
         cnx_billing_db = None
         cnx_carbon_db = None
-        
+
         try:
             cnx_system_db = mysql.connector.connect(**config.myems_system_db)
             cnx_energy_db = mysql.connector.connect(**config.myems_energy_db)
             cnx_billing_db = mysql.connector.connect(**config.myems_billing_db)
-            cnx_carbon_db = mysql.connector.connect(**config.myems_billing_db)
+            cnx_carbon_db = mysql.connector.connect(**config.myems_carbon_db)
 
             cursor_system_db = None
             cursor_energy_db = None
             cursor_billing_db = None
             cursor_carbon_db = None
-            
+
             try:
                 cursor_system_db = cnx_system_db.cursor()
                 cursor_energy_db = cnx_energy_db.cursor()
                 cursor_billing_db = cnx_billing_db.cursor()
                 cursor_carbon_db = cnx_carbon_db.cursor()
-                
+
                 # Get Spaces associated with energy storage power stations
                 query = (" SELECT se.photovoltaic_power_station_id, s.name "
                          " FROM tbl_spaces s, tbl_spaces_photovoltaic_power_stations se "
