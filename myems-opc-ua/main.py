@@ -19,13 +19,23 @@ will connect to and read data from at regular intervals.
 import json
 import logging
 import multiprocessing
+import os
 import time
-from logging.handlers import RotatingFileHandler
 from multiprocessing import Process
 import mysql.connector
 import acquisition
 import config
 import gateway
+
+try:
+    import fcntl
+except ImportError:
+    # Windows has no fcntl, msvcrt is used instead
+    fcntl = None
+try:
+    import msvcrt
+except ImportError:
+    msvcrt = None
 
 
 # Name of the logger shared by the main process and all subprocesses
@@ -37,6 +47,80 @@ RELOAD_INTERVAL_IN_SECONDS = 60
 DEFAULT_INTERVAL_IN_SECONDS = 300
 # Timeout in seconds while waiting for a terminated subprocess to stop
 STOP_TIMEOUT_IN_SECONDS = 5
+# Maximum size in bytes of the log file before it is rotated
+LOG_FILE_MAX_BYTES = 1024 * 1024
+# Number of rotated log files to keep
+LOG_FILE_BACKUP_COUNT = 1
+
+
+class MultiprocessRotatingFileHandler(logging.Handler):
+    """
+    Size based rotating file handler that is safe when several processes share a file.
+
+    The standard RotatingFileHandler keeps the file open and rotates it independently
+    in every process, so one process keeps writing into the renamed file while another
+    one starts a new file. This handler opens the file for every record, takes an
+    exclusive lock on a lock file, rotates the log once when the size limit is reached
+    and then appends the record.
+    """
+
+    def __init__(self, filename, max_bytes, backup_count):
+        super().__init__()
+        self.filename = os.path.abspath(filename)
+        self.max_bytes = max_bytes
+        self.backup_count = backup_count
+        self.lock_filename = self.filename + '.lock'
+
+    def emit(self, record):
+        try:
+            message = (self.format(record) + '\n').encode('utf-8', 'replace')
+            lock_file_descriptor = os.open(self.lock_filename, os.O_CREAT | os.O_RDWR, 0o644)
+            try:
+                lock_file(lock_file_descriptor)
+                self.rotate()
+                file_descriptor = os.open(self.filename,
+                                          os.O_CREAT | os.O_WRONLY | os.O_APPEND, 0o644)
+                try:
+                    os.write(file_descriptor, message)
+                finally:
+                    os.close(file_descriptor)
+            finally:
+                unlock_file(lock_file_descriptor)
+                os.close(lock_file_descriptor)
+        except Exception:
+            self.handleError(record)
+
+    def rotate(self):
+        """Rename the log file when it reached the size limit, the caller holds the lock."""
+        try:
+            if os.path.getsize(self.filename) < self.max_bytes:
+                return
+        except OSError:
+            return
+
+        for index in range(self.backup_count - 1, 0, -1):
+            source = '%s.%d' % (self.filename, index)
+            if os.path.exists(source):
+                os.replace(source, '%s.%d' % (self.filename, index + 1))
+        os.replace(self.filename, self.filename + '.1')
+
+
+def lock_file(file_descriptor):
+    """Take an exclusive advisory lock shared by all processes of the service."""
+    if fcntl is not None:
+        fcntl.flock(file_descriptor, fcntl.LOCK_EX)
+    elif msvcrt is not None:
+        os.lseek(file_descriptor, 0, os.SEEK_SET)
+        msvcrt.locking(file_descriptor, msvcrt.LK_LOCK, 1)
+
+
+def unlock_file(file_descriptor):
+    """Release the lock taken by lock_file."""
+    if fcntl is not None:
+        fcntl.flock(file_descriptor, fcntl.LOCK_UN)
+    elif msvcrt is not None:
+        os.lseek(file_descriptor, 0, os.SEEK_SET)
+        msvcrt.locking(file_descriptor, msvcrt.LK_UNLCK, 1)
 
 
 def setup_logger():
@@ -54,7 +138,9 @@ def setup_logger():
     logger.setLevel(logging.INFO)
     if not logger.handlers:
         # create file handler which logs messages
-        fh = RotatingFileHandler(LOG_FILE_NAME, maxBytes=1024*1024, backupCount=1)
+        fh = MultiprocessRotatingFileHandler(LOG_FILE_NAME,
+                                             max_bytes=LOG_FILE_MAX_BYTES,
+                                             backup_count=LOG_FILE_BACKUP_COUNT)
         # create formatter and add it to the handlers
         formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
         fh.setFormatter(formatter)

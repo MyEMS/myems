@@ -25,6 +25,8 @@ Data processing includes:
 """
 
 import asyncio
+import concurrent.futures
+import functools
 import json
 import math
 import os
@@ -88,6 +90,21 @@ class HistoricalDatabaseError(Exception):
     """Raised when values could not be written to the historical database."""
 
 
+# All MySQL calls run on this single worker thread. The MySQL driver is blocking and
+# would otherwise stall the event loop that also renews the OPC UA session, so a slow
+# database could make the server drop the session. One worker keeps every call of a
+# connection on the same thread and in the same order.
+DATABASE_EXECUTOR = concurrent.futures.ThreadPoolExecutor(max_workers=1,
+                                                          thread_name_prefix='myems-db')
+
+
+async def run_in_database(function, *args, **kwargs):
+    """Run a blocking database function without blocking the event loop."""
+    loop = asyncio.get_running_loop()
+    return await loop.run_in_executor(DATABASE_EXECUTOR,
+                                      functools.partial(function, *args, **kwargs))
+
+
 ########################################################################################################################
 # Acquisition Procedures
 # Step 1: Update process ID in database for monitoring and management
@@ -141,11 +158,12 @@ async def process_async(logger, data_source_id, url, interval_in_seconds):
             try:
                 # Step 1: Update process ID in database for monitoring and management
                 if cnx_system_db is None or not cnx_system_db.is_connected():
-                    cnx_system_db = mysql.connector.connect(**config.myems_system_db)
-                    register_process(logger, cnx_system_db, data_source_id)
+                    cnx_system_db = await run_in_database(mysql.connector.connect,
+                                                          **config.myems_system_db)
+                    await run_in_database(register_process, logger, cnx_system_db, data_source_id)
 
                 # Step 2: Get point list from system database for this data source
-                point_list = get_point_list(logger, cnx_system_db, data_source_id)
+                point_list = await run_in_database(get_point_list, logger, cnx_system_db, data_source_id)
                 if not point_list:
                     logger.error("Point Not Found in Data Source (ID=%s), retry later", data_source_id)
                     await asyncio.sleep(RETRY_DELAY_IN_SECONDS)
@@ -173,11 +191,11 @@ async def process_async(logger, data_source_id, url, interval_in_seconds):
                 # The system database connection may be broken, drop it and reconnect later
                 logger.error("Error in acquisition process of Data Source (ID=%s): %s: %s",
                              data_source_id, type(e).__name__, e)
-                close_connection(cnx_system_db)
+                await run_in_database(close_connection, cnx_system_db)
                 cnx_system_db = None
                 await asyncio.sleep(RETRY_DELAY_IN_SECONDS)
     finally:
-        close_connection(cnx_system_db)
+        await run_in_database(close_connection, cnx_system_db)
 
 
 async def run_session(logger, data_source_id, url, cnx_system_db, point_list, interval_in_seconds):
@@ -198,7 +216,8 @@ async def run_session(logger, data_source_id, url, cnx_system_db, point_list, in
     cnx_historical_db = None
     try:
         try:
-            cnx_historical_db = mysql.connector.connect(**config.myems_historical_db)
+            cnx_historical_db = await run_in_database(mysql.connector.connect,
+                                                      **config.myems_historical_db)
         except Exception as e:
             raise HistoricalDatabaseError(str(e) or type(e).__name__)
 
@@ -214,7 +233,7 @@ async def run_session(logger, data_source_id, url, cnx_system_db, point_list, in
                         url, data_source_id)
             while True:
                 # Reload points on every cycle so that added, removed or rescaled points take effect
-                point_list = get_point_list(logger, cnx_system_db, data_source_id)
+                point_list = await run_in_database(get_point_list, logger, cnx_system_db, data_source_id)
                 if not point_list:
                     logger.warning("Point Not Found in Data Source (ID=%s), reconnect later",
                                    data_source_id)
@@ -227,18 +246,25 @@ async def run_session(logger, data_source_id, url, cnx_system_db, point_list, in
                     # Step 5: Bulk insert point values and update latest values
                     current_datetime_utc = datetime.now(timezone.utc).replace(tzinfo=None)
                     try:
-                        store_point_values(logger, cnx_historical_db, current_datetime_utc, value_lists)
+                        stored_count = await run_in_database(store_point_values, logger,
+                                                             cnx_historical_db,
+                                                             current_datetime_utc, value_lists)
                     except Exception as e:
                         # The historical connection may be dead, drop it so that the next
                         # iteration reconnects. last_seen must not be updated, otherwise the
                         # data source would be reported online while nothing is stored.
                         logger.error("Error in step 5 of acquisition process of Data Source (ID=%s): %s: %s",
                                      data_source_id, type(e).__name__, e)
-                        close_connection(cnx_historical_db)
+                        await run_in_database(close_connection, cnx_historical_db)
                         cnx_historical_db = None
                         raise HistoricalDatabaseError(str(e) or type(e).__name__)
-                    # A data source is online only if at least one value was read and stored
-                    update_last_seen(logger, cnx_system_db, data_source_id, current_datetime_utc)
+                    if stored_count > 0:
+                        # A data source is online only if at least one value was stored
+                        await run_in_database(update_last_seen, logger, cnx_system_db,
+                                              data_source_id, current_datetime_utc)
+                    else:
+                        logger.error("No value of Data Source (ID=%s) could be stored in this cycle",
+                                     data_source_id)
 
                 await asyncio.sleep(interval_in_seconds)
 
@@ -251,16 +277,18 @@ async def run_session(logger, data_source_id, url, cnx_system_db, point_list, in
 
     finally:
         # Always release the historical database connection opened by this session
-        close_connection(cnx_historical_db)
+        await run_in_database(close_connection, cnx_historical_db)
 
 
 async def read_point_values(logger, data_source_id, client, point_list):
     """
     Read and validate all configured point values once.
 
-    A bad point is logged and skipped, the remaining points are still read. Only an
-    error that affects the session itself aborts the cycle so that the caller
-    reconnects, for example when the server closed the session or the connection.
+    All nodes are read in a single OPC UA request instead of one request per point,
+    so one slow node no longer delays the whole cycle. A bad point is logged and
+    skipped, the remaining points are still used. Only an error that affects the
+    session itself aborts the cycle so that the caller reconnects, for example when
+    the server closed the session or the connection.
 
     Args:
         logger: Logger instance for recording acquisition activities and errors
@@ -277,29 +305,51 @@ async def read_point_values(logger, data_source_id, client, point_list):
     value_lists = {object_type: list() for object_type in VALUE_TABLES}
     read_count = 0
 
+    nodes = list()
+    node_ids = list()
+    readable_points = list()
     for point in point_list:
         node_id = get_node_id(logger, data_source_id, point)
         if node_id is None:
             # Invalid point configuration, go on to process the next point
             continue
-
         try:
-            node = client.get_node(node_id)
-            # The request timeout is configured on the client, the outer timeout is the
-            # last resort against a half-open socket. A timeout invalidates the session,
-            # the caller reconnects instead of reusing a cancelled request.
-            value = await asyncio.wait_for(node.get_value(),
-                                           timeout=DEFAULT_REQUEST_TIMEOUT_IN_SECONDS)
-        except asyncio.TimeoutError:
-            raise SessionBrokenError("read timeout on node %s" % node_id)
+            nodes.append(client.get_node(node_id))
         except Exception as e:
-            if is_point_level_error(e):
+            # get_node only parses the node id locally and never talks to the server,
+            # so any error here is a bad point address, not a broken session
+            logger.warning("Data Source(ID=%s), Point(ID=%s) skipped, node_id: %s: %s",
+                           data_source_id, point['id'], node_id, e)
+            continue
+        node_ids.append(node_id)
+        readable_points.append(point)
+
+    if not nodes:
+        return value_lists, 0
+
+    try:
+        # The request timeout is configured on the client, the outer timeout is the
+        # last resort against a half-open socket. A timeout invalidates the session,
+        # the caller reconnects instead of reusing a cancelled request.
+        data_values = await asyncio.wait_for(client.read_attributes(nodes),
+                                             timeout=DEFAULT_REQUEST_TIMEOUT_IN_SECONDS)
+    except asyncio.TimeoutError:
+        raise SessionBrokenError("read timeout on %d nodes" % len(nodes))
+    except Exception as e:
+        raise SessionBrokenError("read failed: %s: %s" % (type(e).__name__, e))
+
+    for point, node_id, data_value in zip(readable_points, node_ids, data_values):
+        status = data_value.StatusCode
+        if status is None or not status.is_good():
+            status_name = status.name if status is not None else 'BadStatusMissing'
+            if status_name in POINT_LEVEL_ERROR_NAMES:
                 # A misconfigured or temporarily unavailable point must not stop the others
                 logger.warning("Data Source(ID=%s), Point(ID=%s) skipped, node_id: %s: %s",
-                               data_source_id, point['id'], node_id, e)
+                               data_source_id, point['id'], node_id, status_name)
                 continue
-            raise SessionBrokenError("read failed: %s: %s" % (type(e).__name__, e))
+            raise SessionBrokenError("bad status %s on node %s" % (status_name, node_id))
 
+        value = data_value.Value.Value if data_value.Value is not None else None
         read_count += 1
         point_value = convert_value(logger, data_source_id, point, value)
         if point_value is not None:
@@ -308,18 +358,6 @@ async def read_point_values(logger, data_source_id, client, point_list):
                                                       'value': point_value})
 
     return value_lists, read_count
-
-
-def is_point_level_error(exception):
-    """
-    Return True when the error only affects the current point.
-
-    Unknown errors are treated as session errors, reconnecting is safer than
-    repeatedly reading from a session that may already be unusable.
-    """
-    if isinstance(exception, (ValueError, TypeError, KeyError)):
-        return True
-    return type(exception).__name__ in POINT_LEVEL_ERROR_NAMES
 
 
 def convert_value(logger, data_source_id, point, value):
@@ -390,6 +428,9 @@ def convert_value(logger, data_source_id, point, value):
 
 def convert_text_value(value):
     """Convert an OPC UA value of a text point to the string stored in the database."""
+    if value is None:
+        # A null value has nothing to store, skip it instead of writing the text "None"
+        return None
     # LocalizedText exposes its content in the Text attribute
     text = getattr(value, 'Text', None)
     if text is not None:
@@ -483,55 +524,145 @@ def get_point_list(logger, cnx_system_db, data_source_id):
 
 def store_point_values(logger, cnx_historical_db, current_datetime_utc, value_lists):
     """
-    Insert trend values and update the latest values in a single transaction.
+    Insert trend values and update the latest values of one cycle.
+
+    The whole cycle is written in a single transaction first. If one point makes the
+    batch fail, every point is retried in its own transaction, so a single bad point
+    no longer discards the values of all the other points.
 
     Args:
         logger: Logger instance for recording acquisition activities and errors
         cnx_historical_db: Opened historical database connection
         current_datetime_utc: Timestamp applied to every value of this cycle
         value_lists: Value lists grouped by object type
+
+    Returns:
+        The number of points whose values were stored
+
+    Raises:
+        Exception: If the database connection itself is unusable, the caller reconnects
     """
-    cursor_historical_db = None
     try:
         cursor_historical_db = cnx_historical_db.cursor()
-
-        for object_type, point_value_list in value_lists.items():
-            if not point_value_list:
-                continue
-
-            table, latest_table = VALUE_TABLES[object_type]
-
-            # Trend values, only the points configured with is_trend are stored
-            trend_rows = [(point_value['point_id'], current_datetime_utc, point_value['value'])
-                          for point_value in point_value_list if point_value['is_trend']]
-            if trend_rows:
-                cursor_historical_db.executemany(
-                    " INSERT INTO " + table + " (point_id, utc_date_time, actual_value) "
-                                             " VALUES (%s, %s, %s)", trend_rows)
-
-            # Latest values are replaced in the same transaction, so a failure can not
-            # leave a point without its latest value
-            cursor_historical_db.executemany(
-                " DELETE FROM " + latest_table + " WHERE point_id = %s",
-                [(point_value['point_id'], ) for point_value in point_value_list])
-            cursor_historical_db.executemany(
-                " INSERT INTO " + latest_table + " (point_id, utc_date_time, actual_value) "
-                                                " VALUES (%s, %s, %s)",
-                [(point_value['point_id'], current_datetime_utc, point_value['value'])
-                 for point_value in point_value_list])
-
-        cnx_historical_db.commit()
-
-    except Exception:
-        # Roll back and let the caller invalidate the connection and the last seen time
         try:
-            cnx_historical_db.rollback()
+            insert_value_lists(cursor_historical_db, current_datetime_utc, value_lists)
+        finally:
+            cursor_historical_db.close()
+        cnx_historical_db.commit()
+        return count_point_values(value_lists)
+
+    except Exception as e:
+        rollback(cnx_historical_db)
+        if not is_connection_usable(cnx_historical_db):
+            # The connection is gone, retrying on it would only hide the real problem
+            raise
+        logger.error("Batch insert failed, retrying point by point: %s: %s",
+                     type(e).__name__, e)
+        return store_point_values_individually(logger, cnx_historical_db,
+                                               current_datetime_utc, value_lists)
+
+
+def insert_value_lists(cursor_historical_db, current_datetime_utc, value_lists):
+    """Insert all values of one cycle with one statement per object type."""
+    for object_type, point_value_list in value_lists.items():
+        if not point_value_list:
+            continue
+
+        table, latest_table = VALUE_TABLES[object_type]
+
+        # Trend values, only the points configured with is_trend are stored
+        trend_rows = [(point_value['point_id'], current_datetime_utc, point_value['value'])
+                      for point_value in point_value_list if point_value['is_trend']]
+        if trend_rows:
+            cursor_historical_db.executemany(
+                " INSERT INTO " + table + " (point_id, utc_date_time, actual_value) "
+                                         " VALUES (%s, %s, %s)", trend_rows)
+
+        # Latest values are replaced in the same transaction, so a failure can not
+        # leave a point without its latest value
+        cursor_historical_db.executemany(
+            " DELETE FROM " + latest_table + " WHERE point_id = %s",
+            [(point_value['point_id'], ) for point_value in point_value_list])
+        cursor_historical_db.executemany(
+            " INSERT INTO " + latest_table + " (point_id, utc_date_time, actual_value) "
+                                            " VALUES (%s, %s, %s)",
+            [(point_value['point_id'], current_datetime_utc, point_value['value'])
+             for point_value in point_value_list])
+
+
+def insert_point_value(cursor_historical_db, current_datetime_utc, object_type, point_value):
+    """Insert the value of one point, used when the batch of the cycle failed."""
+    table, latest_table = VALUE_TABLES[object_type]
+
+    if point_value['is_trend']:
+        cursor_historical_db.execute(
+            " INSERT INTO " + table + " (point_id, utc_date_time, actual_value) "
+                                     " VALUES (%s, %s, %s)",
+            (point_value['point_id'], current_datetime_utc, point_value['value']))
+
+    cursor_historical_db.execute(
+        " DELETE FROM " + latest_table + " WHERE point_id = %s", (point_value['point_id'], ))
+    cursor_historical_db.execute(
+        " INSERT INTO " + latest_table + " (point_id, utc_date_time, actual_value) "
+                                        " VALUES (%s, %s, %s)",
+        (point_value['point_id'], current_datetime_utc, point_value['value']))
+
+
+def store_point_values_individually(logger, cnx_historical_db, current_datetime_utc, value_lists):
+    """
+    Store every point in its own transaction after the batch of the cycle failed.
+
+    Only the points whose own insert fails are lost, all the other points are stored.
+
+    Returns:
+        The number of points whose values were stored
+
+    Raises:
+        Exception: If the database connection itself is unusable
+    """
+    stored_count = 0
+    cursor_historical_db = cnx_historical_db.cursor()
+    try:
+        for object_type, point_value_list in value_lists.items():
+            for point_value in point_value_list:
+                try:
+                    insert_point_value(cursor_historical_db, current_datetime_utc,
+                                       object_type, point_value)
+                    cnx_historical_db.commit()
+                    stored_count += 1
+                except Exception as e:
+                    rollback(cnx_historical_db)
+                    if not is_connection_usable(cnx_historical_db):
+                        raise
+                    logger.error("Data Source value of Point(ID=%s) not stored: %s: %s",
+                                 point_value['point_id'], type(e).__name__, e)
+    finally:
+        try:
+            cursor_historical_db.close()
         except Exception:
             pass
-        raise
-    finally:
-        if cursor_historical_db:
-            cursor_historical_db.close()
+    return stored_count
+
+
+def count_point_values(value_lists):
+    """Return the number of point values in the value lists of one cycle."""
+    return sum(len(point_value_list) for point_value_list in value_lists.values())
+
+
+def is_connection_usable(cnx_historical_db):
+    """Return False when the database connection can no longer be used."""
+    try:
+        return cnx_historical_db.is_connected()
+    except Exception:
+        return False
+
+
+def rollback(cnx_historical_db):
+    """Roll back the current transaction without raising."""
+    try:
+        cnx_historical_db.rollback()
+    except Exception:
+        pass
 
 
 def register_process(logger, cnx_system_db, data_source_id):
