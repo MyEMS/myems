@@ -1,0 +1,98 @@
+version: '3.8'
+services:
+  api:
+    image: myems/myems-api:4.7.0
+    command: gunicorn app:api -b 0.0.0.0:8000 --timeout 600 --workers=4
+    volumes:
+      - ./myems-upload:/var/www/myems-admin/upload
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"   
+    depends_on:
+      - mysql
+    
+  aggregation:
+    image: myems/myems-aggregation:4.7.0
+    command: python main.py
+    restart: always
+    env_file:
+      - .env
+    depends_on:
+      - mysql
+
+  cleaning:
+    image: myems/myems-cleaning:4.7.0
+    command: python main.py
+    restart: always
+    env_file:
+      - .env
+    depends_on:
+      - mysql
+
+  modbus_tcp:
+    image: myems/myems-modbus-tcp:4.7.0
+    command: python main.py
+    restart: always
+    env_file:
+      - .env
+    depends_on:
+      - mysql
+
+  normalization:
+    image: myems/myems-normalization:4.7.0
+    command: python main.py
+    restart: always
+    env_file:
+      - .env
+    depends_on:
+      - mysql
+
+  admin:
+    image: myems/myems-admin:4.7.0
+    command: nginx -c /etc/nginx/nginx.conf -g "daemon off;"
+    healthcheck:
+      test: [ "CMD","nginx","-t" ]
+    volumes:
+      - ./myems-upload:/var/www/myems-admin/upload
+    restart: always
+    ports:
+      - "8001:8001"
+    depends_on:
+      - mysql
+      - api
+
+  web:
+    image: myems/myems-web:4.3.0
+    command: nginx -c /etc/nginx/nginx.conf -g "daemon off;"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    healthcheck:
+      test: [ "CMD","nginx","-t" ]
+    restart: always
+    ports:
+      - "8002:80"
+    depends_on:
+      - mysql
+      - api
+
+  mysql:
+    image: bitnami/mysql:8.4      
+    restart: always
+    environment:
+      TZ: Asia/Shanghai
+      MYSQL_ROOT_PASSWORD: '!MyEMS1'
+    ports:
+      - 3306:3306
+    volumes:
+      - 'mysql_data:/bitnami/mysql/data'
+      - ./mysql/init:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ['CMD', '/opt/bitnami/scripts/mysql/healthcheck.sh']
+      interval: 15s
+      timeout: 5s
+      retries: 6
+volumes:
+  mysql_data:
+    driver: local
