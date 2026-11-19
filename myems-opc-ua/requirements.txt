@@ -1,5 +1,6 @@
 mysql-connector-python==9.6.0
-asyncua
-schedule
+asyncua==2.1.0
+schedule==1.2.2
 python-decouple==3.8
-telnetlib3
+# Only used by test.py, the service itself does not need it
+telnetlib3==5.0.2

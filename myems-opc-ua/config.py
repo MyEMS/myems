@@ -17,21 +17,27 @@ from decouple import config
 # Database connection configuration for MyEMS System Database
 # This database contains system configuration, data source definitions, and gateway information
 myems_system_db = {
-    'host': config('MYEMS_SYSTEM_DB_HOST', default='127.0.0.1'),
-    'port': config('MYEMS_SYSTEM_DB_PORT', default=3306, cast=int),
-    'database': config('MYEMS_SYSTEM_DB_DATABASE', default='myems_system_db'),
-    'user': config('MYEMS_SYSTEM_DB_USER', default='root'),
-    'password': config('MYEMS_SYSTEM_DB_PASSWORD', default=''),
+    'host': config('MYEMS_SYSTEM_DB_HOST'),
+    'port': config('MYEMS_SYSTEM_DB_PORT', cast=int),
+    'database': config('MYEMS_SYSTEM_DB_DATABASE'),
+    'user': config('MYEMS_SYSTEM_DB_USER'),
+    'password': config('MYEMS_SYSTEM_DB_PASSWORD'),
+    'connection_timeout': 5,
+    'read_timeout': 30,
+    'write_timeout': 30,
 }
 
 # Database connection configuration for MyEMS Historical Database
 # This database contains time-series data collected from OPC UA servers
 myems_historical_db = {
-    'host': config('MYEMS_HISTORICAL_DB_HOST', default='127.0.0.1'),
-    'port': config('MYEMS_HISTORICAL_DB_PORT', default=3306, cast=int),
-    'database': config('MYEMS_HISTORICAL_DB_DATABASE', default='myems_historical_db'),
-    'user': config('MYEMS_HISTORICAL_DB_USER', default='root'),
-    'password': config('MYEMS_HISTORICAL_DB_PASSWORD', default=''),
+    'host': config('MYEMS_HISTORICAL_DB_HOST'),
+    'port': config('MYEMS_HISTORICAL_DB_PORT', cast=int),
+    'database': config('MYEMS_HISTORICAL_DB_DATABASE'),
+    'user': config('MYEMS_HISTORICAL_DB_USER'),
+    'password': config('MYEMS_HISTORICAL_DB_PASSWORD'),
+    'connection_timeout': 5,
+    'read_timeout': 30,
+    'write_timeout': 30,
 }
 
 # Gateway identification and authentication settings
@@ -41,6 +47,6 @@ myems_historical_db = {
 # 2. Authenticate gateway status reporting
 # 3. Authorize data source access
 gateway = {
-    'id': config('GATEWAY_ID', default=1, cast=int),
-    'token': config('GATEWAY_TOKEN', default='983427af-1c35-42ba-8b4d-288675550225')
+    'id': config('GATEWAY_ID', cast=int),
+    'token': config('GATEWAY_TOKEN')
 }
