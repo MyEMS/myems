@@ -179,6 +179,10 @@ cat /myems-opc-ua.log
 NOTE: No restart is required. The main process reloads data sources every 60 seconds
 and every acquisition process reloads its points on each cycle.
 
+The `gateway_id` of a data source must be the same as `GATEWAY_ID` in .env, and the
+token of that gateway must be the same as `GATEWAY_TOKEN`. The service only acquires
+the data sources of its own gateway.
+
 Input Data source protocol:
 ```
 opc-ua
