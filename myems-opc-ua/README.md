@@ -176,17 +176,12 @@ cat /myems-opc-ua.log
 
 ### Add Data Sources and Points in MyEMS Admin
 
-NOTE: If you modified OPC UA data sources and points, restart this service.
+NOTE: No restart is required. The main process reloads data sources every 60 seconds
+and every acquisition process reloads its points on each cycle.
 
-On Ubuntu:
-```bash
-sudo systemctl restart myems-opc-ua.service
-```
-
-On Docker:
-```bash
-sudo docker restart myems-opc-ua
-```
+The `gateway_id` of a data source must be the same as `GATEWAY_ID` in .env, and the
+token of that gateway must be the same as `GATEWAY_TOKEN`. The service only acquires
+the data sources of its own gateway.
 
 Input Data source protocol:
 ```
@@ -207,21 +202,21 @@ Alternatively, you can use SQL scripts (example):
 START TRANSACTION;
 USE `myems_system_db`;
 
-INSERT INTO `myems_system_db`.`tbl_data_sources`(`id`, `name`, `uuid`, `protocol`, `connection`)
+INSERT INTO `myems_system_db`.`tbl_data_sources`(`id`, `name`, `uuid`, `protocol`, `gateway_id`, `connection`)
 VALUES
-(1000231, 'OPC UA Server', 'a3502b7f-09e5-4066-9ce8-032e4f488930', 'opc-ua', '{"url":"opc.tcp://192.168.0.1:53530/OPCUA/Server/","interval_in_seconds":60}');
+(1000231, 'OPC UA Server', 'a3502b7f-09e5-4066-9ce8-032e4f488930', 'opc-ua', 1, '{"url":"opc.tcp://192.168.0.1:53530/OPCUA/Server/","interval_in_seconds":60}');
 
 COMMIT;
 
 INSERT INTO `myems_system_db`.`tbl_points`(`id`, `name`, `data_source_id`, `object_type`, `units`, `high_limit`, `low_limit`, `ratio`, `is_trend`, `address`)
 VALUES
- (1004540, 'Counter', 1000231, 'DIGITAL_VALUE', 'NA', 99999999999, 0, 1.0, 1, '{"node_id":"ns=3;s=Counter"}'),
- (1004541, 'Expression', 1000231, 'ANALOG_VALUE', 'NA', 99999999999, 0, 1.0, 1,  '{"node_id":"ns=3;s=Expression"}'),
- (1004542, 'Random', 1000231, 'ANALOG_VALUE', 'NA', 99999999999, 0, 1.0, 1,  '{"node_id":"ns=3;s=Random"}'),
- (1004543, 'Sawtooth', 1000231, 'ANALOG_VALUE', 'NA', 99999999999, 0, 1.0, 1,  '{"node_id":"ns=3;s=Sawtooth"}'),
- (1004544, 'Sinusoid', 1000231, 'ANALOG_VALUE', 'NA', 99999999999, 0, 1.0, 1,  '{"node_id":"ns=3;s=Sinusoid"}'),
- (1004545, 'Square', 1000231, 'ANALOG_VALUE', 'NA', 99999999999, 0, 1.0, 1,  '{"node_id":"ns=3;s=Square"}'),
- (1004546, 'Triangle', 1000231, 'ANALOG_VALUE', 'NA', 99999999999, 0, 1.0, 1,  '{"node_id":"ns=3;s=Triangle"}');
+ (1004540, 'Counter', 1000231, 'ENERGY_VALUE', 'kWh', 99999999999, 0, 1.0, 1, '{"node_id":"ns=3;i=1001"}'),
+ (1004541, 'Expression', 1000231, 'ANALOG_VALUE', 'NA', 99999999999, 0, 1.0, 1,  '{"node_id":"ns=3;i=1002"}'),
+ (1004542, 'Random', 1000231, 'ANALOG_VALUE', 'NA', 99999999999, 0, 1.0, 1,  '{"node_id":"ns=3;i=1003"}'),
+ (1004543, 'Sawtooth', 1000231, 'ANALOG_VALUE', 'NA', 99999999999, 0, 1.0, 1,  '{"node_id":"ns=3;i=1004"}'),
+ (1004544, 'Sinusoid', 1000231, 'ANALOG_VALUE', 'NA', 99999999999, 0, 1.0, 1,  '{"node_id":"ns=3;i=1005"}'),
+ (1004545, 'Square', 1000231, 'ANALOG_VALUE', 'NA', 99999999999, 0, 1.0, 1,  '{"node_id":"ns=3;i=1006"}'),
+ (1004546, 'Triangle', 1000231, 'ANALOG_VALUE', 'NA', 99999999999, 0, 1.0, 1,  '{"node_id":"ns=3;i=1007"}');
 
 COMMIT;
 ```

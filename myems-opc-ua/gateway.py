@@ -96,10 +96,10 @@ def job(logger):
     ############################################################################################################
     # Update the gateway's last seen timestamp to indicate it's active
     update_row = (" UPDATE tbl_gateways "
-                  " SET last_seen_datetime_utc = '" + current_datetime_utc.isoformat() + "' "
+                  " SET last_seen_datetime_utc = %s "
                   " WHERE id = %s ")
     try:
-        cursor_system_db.execute(update_row, (config.gateway['id'], ))
+        cursor_system_db.execute(update_row, (current_datetime_utc, config.gateway['id'], ))
         cnx_system_db.commit()
     except Exception as e:
         logger.error("Error in step 3.1 of gateway process " + str(e))
@@ -125,6 +125,10 @@ def process(logger):
     """
     # Schedule the gateway monitoring job to run
     schedule.every(3).minutes.do(job, logger)
+
+    # Report the gateway status immediately, otherwise the first report is delayed
+    # by three minutes and the gateway looks offline right after the service starts
+    job(logger)
 
     # Main loop to check and execute scheduled jobs
     while True:
