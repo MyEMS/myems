@@ -12,6 +12,7 @@ import {
   checkEmpty
 } from './helpers/utils';
 import { changeLanguage } from './i18n';
+import { AIAssistantProvider } from './context/AIAssistantContext';
 
 const Main = props => {
   const [isFluid, setIsFluid] = useState(getItemFromStore('isFluid', settings.isFluid));
@@ -164,7 +165,11 @@ const Main = props => {
     );
   }
 
-  return <AppContext.Provider value={value}>{props.children}</AppContext.Provider>;
+  return (
+    <AppContext.Provider value={value}>
+      <AIAssistantProvider>{props.children}</AIAssistantProvider>
+    </AppContext.Provider>
+  );
 };
 
 Main.propTypes = { children: PropTypes.node };
