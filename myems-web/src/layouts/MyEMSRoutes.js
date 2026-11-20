@@ -137,7 +137,6 @@ const CableSizing = loadable(() => import('../components/MyEMS/Tools/CableSizing
 const JSONValidator = loadable(() => import('../components/MyEMS/Tools/JSONValidator/JSONValidator'), { fallback: loadingFallback });
 const ModbusParser = loadable(() => import('../components/MyEMS/Tools/ModbusParser/ModbusParser'), { fallback: loadingFallback });
 const UnitConverter = loadable(() => import('../components/MyEMS/Tools/UnitConverter/UnitConverter'), { fallback: loadingFallback });
-const EMCSavings = loadable(() => import('../components/MyEMS/Tools/EMCSavings/EMCSavings'), { fallback: loadingFallback });
 
 const Notification = loadable(() => import('../components/MyEMS/Notification/Notification'), { fallback: loadingFallback });
 const WorkOrderRepair = loadable(() => import('../components/MyEMS/WorkOrder/Repair'), { fallback: loadingFallback });
@@ -295,7 +294,6 @@ const MyEMSRoutes = () => (
         <Route path="/tools/jsonvalidator" exact component={JSONValidator} />
         <Route path="/tools/modbusparser" exact component={ModbusParser} />
         <Route path="/tools/unitconverter" exact component={UnitConverter} />
-        <Route path="/tools/emcsavings" exact component={EMCSavings} />
 
         {/* Notification */}
         <Route path="/notification" exact component={Notification} />

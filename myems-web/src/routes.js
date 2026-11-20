@@ -220,8 +220,7 @@ export const toolsRoutes = {
     { to: '/tools/cablesizing', name: 'Cable Sizing Tool' },
     { to: '/tools/jsonvalidator', name: 'JSON Validator Tool' },
     { to: '/tools/modbusparser', name: 'Modbus Parser Tool' },
-    { to: '/tools/unitconverter', name: 'Energy Unit Converter Tool' },
-    { to: '/tools/emcsavings', name: 'EMC Savings Calculation Tool' }
+    { to: '/tools/unitconverter', name: 'Energy Unit Converter Tool' }
   ]
 };
 
