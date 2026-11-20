@@ -23,7 +23,7 @@ import CountUp from 'react-countup';
 import moment from 'moment';
 import loadable from '@loadable/component';
 import Cascader from 'rc-cascader';
-import DeepSeekAnalysisModal from '../common/DeepSeekAnalysisModal';
+import { useAIAssistantReportContext } from '../../../context/AIAssistantContext';
 import CardSummary from '../common/CardSummary';
 import MultiTrendChart from '../common/MultiTrendChart';
 import MultipleLineChart from '../common/MultipleLineChart';
@@ -122,8 +122,6 @@ const SpaceOutput = ({ setRedirect, setRedirectUrl, t }) => {
   const [exportExcel, setExportExcel] = useState(false);
   const [exportPdf, setExportPdf] = useState(false);
   const [exportDocx, setExportDocx] = useState(false);
-  const [smartAnalysisOpen, setSmartAnalysisOpen] = useState(false);
-  const [smartAnalysisContext, setSmartAnalysisContext] = useState(null);
 
   //Results
   const [cardSummaryList, setCardSummaryList] = useState([]);
@@ -1038,10 +1036,7 @@ const SpaceOutput = ({ setRedirect, setRedirectUrl, t }) => {
     t
   ]);
 
-  const openSmartAnalysis = () => {
-    setSmartAnalysisContext(buildSmartAnalysisContext());
-    setSmartAnalysisOpen(true);
-  };
+  useAIAssistantReportContext(buildSmartAnalysisContext);
 
   return (
     <Fragment>
@@ -1242,19 +1237,6 @@ const SpaceOutput = ({ setRedirect, setRedirectUrl, t }) => {
                   </DropdownMenu>
                 </UncontrolledDropdown>
               </Col>
-              {settings.enableAIAnalysis ? (
-                <Col xs="auto">
-                  <br />
-                  <Button
-                    color="falcon-default"
-                    size="sm"
-                    hidden={exportButtonHidden}
-                    onClick={openSmartAnalysis}
-                  >
-                    {t('AI Analysis')}
-                  </Button>
-                </Col>
-              ) : null}
             </Row>
           </Form>
         </CardBody>
@@ -1375,16 +1357,6 @@ const SpaceOutput = ({ setRedirect, setRedirectUrl, t }) => {
           columns={childSpacesTableColumns}
         />
       </div>
-      {settings.enableAIAnalysis ? (
-        <DeepSeekAnalysisModal
-          isOpen={smartAnalysisOpen}
-          toggle={() => setSmartAnalysisOpen(false)}
-          language={language}
-          reportContext={smartAnalysisContext}
-          setRedirect={setRedirect}
-          setRedirectUrl={setRedirectUrl}
-        />
-      ) : null}
     </Fragment>
   );
 };

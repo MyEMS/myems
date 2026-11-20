@@ -23,7 +23,7 @@ import CountUp from 'react-countup';
 import moment from 'moment';
 import loadable from '@loadable/component';
 import Cascader from 'rc-cascader';
-import DeepSeekAnalysisModal from '../common/DeepSeekAnalysisModal';
+import { useAIAssistantReportContext } from '../../../context/AIAssistantContext';
 import CardSummary from '../common/CardSummary';
 import MultiTrendChart from '../common/MultiTrendChart';
 import MultipleLineChart from '../common/MultipleLineChart';
@@ -128,8 +128,6 @@ const SpacePrediction = ({ setRedirect, setRedirectUrl, t }) => {
   const [exportPdf, setExportPdf] = useState(false);
   const [exportDocx, setExportDocx] = useState(false);
   const [resultDataHidden, setResultDataHidden] = useState(true);
-  const [smartAnalysisOpen, setSmartAnalysisOpen] = useState(false);
-  const [smartAnalysisContext, setSmartAnalysisContext] = useState(null);
 
   //Results
   const [timeOfUseShareData, setTimeOfUseShareData] = useState([]);
@@ -1029,10 +1027,7 @@ const SpacePrediction = ({ setRedirect, setRedirectUrl, t }) => {
     t
   ]);
 
-  const openSmartAnalysis = () => {
-    setSmartAnalysisContext(buildSmartAnalysisContext());
-    setSmartAnalysisOpen(true);
-  };
+  useAIAssistantReportContext(buildSmartAnalysisContext);
 
   return (
     <Fragment>
@@ -1234,19 +1229,6 @@ const SpacePrediction = ({ setRedirect, setRedirectUrl, t }) => {
                   </DropdownMenu>
                 </UncontrolledDropdown>
               </Col>
-              {settings.enableAIAnalysis ? (
-                <Col xs="auto">
-                  <br />
-                  <Button
-                    color="falcon-default"
-                    size="sm"
-                    hidden={exportButtonHidden}
-                    onClick={openSmartAnalysis}
-                  >
-                    {t('AI Analysis')}
-                  </Button>
-                </Col>
-              ) : null}
             </Row>
           </Form>
         </CardBody>
@@ -1409,16 +1391,6 @@ const SpacePrediction = ({ setRedirect, setRedirectUrl, t }) => {
           pagesize={50}
         />
       </div>
-      {settings.enableAIAnalysis ? (
-        <DeepSeekAnalysisModal
-          isOpen={smartAnalysisOpen}
-          toggle={() => setSmartAnalysisOpen(false)}
-          language={language}
-          reportContext={smartAnalysisContext}
-          setRedirect={setRedirect}
-          setRedirectUrl={setRedirectUrl}
-        />
-      ) : null}
     </Fragment>
   );
 };

@@ -22,7 +22,6 @@ import {
 } from 'reactstrap';
 import CountUp from 'react-countup';
 import Cascader from 'rc-cascader';
-import DeepSeekAnalysisModal from '../common/DeepSeekAnalysisModal';
 import CardSummary from '../common/CardSummary';
 import moment from 'moment';
 import loadable from '@loadable/component';
@@ -37,6 +36,7 @@ import { APIBaseURL, settings } from '../../../config';
 import DateRangePickerWrapper from '../common/DateRangePickerWrapper';
 import { endOfDay } from 'date-fns';
 import Appcontext from '../../../context/Context';
+import { useAIAssistantReportContext } from '../../../context/AIAssistantContext';
 import blankPage from '../../../assets/img/generic/blank-page.png';
 
 const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
@@ -115,8 +115,6 @@ const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
   const [exportPdf, setExportPdf] = useState(false);
   const [exportDocx, setExportDocx] = useState(false);
   const [resultDataHidden, setResultDataHidden] = useState(true);
-  const [smartAnalysisOpen, setSmartAnalysisOpen] = useState(false);
-  const [smartAnalysisContext, setSmartAnalysisContext] = useState(null);
   // Results
   const [excelBytesBase64, setExcelBytesBase64] = useState(undefined);
   const [pdfBytesBase64, setPdfBytesBase64] = useState(undefined);
@@ -597,10 +595,7 @@ const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
     meterList
   ]);
 
-  const openSmartAnalysis = () => {
-    setSmartAnalysisContext(buildSmartAnalysisContext());
-    setSmartAnalysisOpen(true);
-  };
+  useAIAssistantReportContext(buildSmartAnalysisContext);
 
   return (
     <Fragment>
@@ -744,19 +739,7 @@ const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
                   </DropdownMenu>
                 </UncontrolledDropdown>
               </Col>
-              {settings.enableAIAnalysis ? (
-                <Col xs="auto">
-                  <br />
-                  <Button
-                    color="falcon-default"
-                    size="sm"
-                    hidden={exportButtonHidden}
-                    onClick={openSmartAnalysis}
-                  >
-                    {t('AI Analysis')}
-                  </Button>
-                </Col>
-              ) : null}
+
             </Row>
           </Form>
         </CardBody>
@@ -789,16 +772,7 @@ const MeterTracking = ({ setRedirect, setRedirectUrl, t }) => {
           onChangePage={persistTablePage}
         />
       </div>
-      {settings.enableAIAnalysis ? (
-        <DeepSeekAnalysisModal
-          isOpen={smartAnalysisOpen}
-          toggle={() => setSmartAnalysisOpen(false)}
-          language={language}
-          reportContext={smartAnalysisContext}
-          setRedirect={setRedirect}
-          setRedirectUrl={setRedirectUrl}
-        />
-      ) : null}
+
     </Fragment>
   );
 };

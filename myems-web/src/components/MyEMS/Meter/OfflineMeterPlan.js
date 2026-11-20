@@ -23,7 +23,6 @@ import CountUp from 'react-countup';
 import moment from 'moment';
 import loadable from '@loadable/component';
 import Cascader from 'rc-cascader';
-import DeepSeekAnalysisModal from '../common/DeepSeekAnalysisModal';
 import CardSummary from '../common/CardSummary';
 import MultiTrendChart from '../common/MultiTrendChart';
 import { getCookieValue, createCookie, checkEmpty, handleAPIError } from '../../../helpers/utils';
@@ -36,6 +35,7 @@ import { comparisonTypeOptions } from '../common/ComparisonTypeOptions';
 import DateRangePickerWrapper from '../common/DateRangePickerWrapper';
 import { endOfDay } from 'date-fns';
 import AppContext from '../../../context/Context';
+import { useAIAssistantReportContext } from '../../../context/AIAssistantContext';
 import MultipleLineChart from '../common/MultipleLineChart';
 import blankPage from '../../../assets/img/generic/blank-page.png';
 
@@ -118,8 +118,6 @@ const OfflineMeterPlan = ({ setRedirect, setRedirectUrl, t }) => {
   const [exportPdf, setExportPdf] = useState(false);
   const [exportDocx, setExportDocx] = useState(false);
   const [resultDataHidden, setResultDataHidden] = useState(true);
-  const [smartAnalysisOpen, setSmartAnalysisOpen] = useState(false);
-  const [smartAnalysisContext, setSmartAnalysisContext] = useState(null);
   //Results
   const [offlineMeterEnergyCategory, setOfflineMeterEnergyCategory] = useState({ name: '', unit: '' });
   const [reportingPeriodEnergySavingInCategory, setReportingPeriodEnergySavingInCategory] = useState(0);
@@ -895,10 +893,7 @@ const OfflineMeterPlan = ({ setRedirect, setRedirectUrl, t }) => {
     exportDocx
   ]);
 
-  const openSmartAnalysis = () => {
-    setSmartAnalysisContext(buildSmartAnalysisContext());
-    setSmartAnalysisOpen(true);
-  };
+  useAIAssistantReportContext(buildSmartAnalysisContext);
 
   return (
     <Fragment>
@@ -1110,19 +1105,6 @@ const OfflineMeterPlan = ({ setRedirect, setRedirectUrl, t }) => {
                   </DropdownMenu>
                 </UncontrolledDropdown>
               </Col>
-              {settings.enableAIAnalysis ? (
-                <Col xs="auto">
-                  <br />
-                  <Button
-                    color="falcon-default"
-                    size="sm"
-                    hidden={exportButtonHidden}
-                    onClick={openSmartAnalysis}
-                  >
-                    {t('AI Analysis')}
-                  </Button>
-                </Col>
-              ) : null}
             </Row>
           </Form>
         </CardBody>
@@ -1244,16 +1226,6 @@ const OfflineMeterPlan = ({ setRedirect, setRedirectUrl, t }) => {
           />
         </Fragment>
       </div>
-      {settings.enableAIAnalysis ? (
-        <DeepSeekAnalysisModal
-          isOpen={smartAnalysisOpen}
-          toggle={() => setSmartAnalysisOpen(false)}
-          language={language}
-          reportContext={smartAnalysisContext}
-          setRedirect={setRedirect}
-          setRedirectUrl={setRedirectUrl}
-        />
-      ) : null}
     </Fragment>
   );
 };

@@ -849,6 +849,19 @@ export default {
         'AI analysis copy failed': 'Could not copy',
         'AI analysis max messages hint':
             'Maximum conversation length reached (5 messages per session).',
+        'AI Assistant': 'AI Assistant',
+        'AI assistant welcome':
+            'Hi, I am the MyEMS AI assistant. You can ask me how to use the system, or let me analyze the current report data.',
+        'AI assistant placeholder': 'Type your question…',
+        'AI assistant thinking': 'Thinking…',
+        'AI assistant analyze report': 'Analyze current report',
+        'AI assistant need data': 'Please submit data first.',
+        'AI assistant ask usage': 'How to use the system',
+        'AI assistant usage prompt':
+            'Please introduce the main features of this system and explain how to view data and generate reports.',
+        'AI assistant new chat': 'New chat',
+        'AI assistant copy': 'Copy conversation',
+        'AI assistant close': 'Close',
         Datetime: 'Datetime',
         'Time-Of-Use Type': 'Time-Of-Use Type',
         'Top-Peak': 'Top-Peak',
