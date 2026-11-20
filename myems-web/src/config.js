@@ -21,7 +21,7 @@ export const settings = {
   mapboxToken: 'GET-YOUR-TOKEN-AT-MAPBOX.COM', // you can get access token at https://mapbox.com
   cookieExpireTime: 1000 * 60 * 60, //cookie expires time in milliseconds
   showTCEData: true, // indicates if show Tonne of Coal Equivalent data on dashboard and reports
-  enableAIAnalysis: true, // indicates if show the floating AI assistant, also set DEEPSEEK_API_KEY in myems-api/.env
+  enableAIAnalysis: false, // indicates if show the floating AI assistant, also set DEEPSEEK_API_KEY in myems-api/.env
   enableAutoSubmit: false // indicates if auto submit when a report page opens and the submit button is enabled
 };
 
