@@ -31,7 +31,7 @@ import { getCookieValue, createCookie, checkEmpty, handleAPIError } from '../../
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
-import DeepSeekAnalysisModal from '../common/DeepSeekAnalysisModal';
+import { useAIAssistantReportContext } from '../../../context/AIAssistantContext';
 import { APIBaseURL, settings } from '../../../config';
 import { v4 as uuid } from 'uuid';
 import { periodTypeOptions } from '../common/PeriodTypeOptions';
@@ -129,8 +129,6 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
   const [exportExcel, setExportExcel] = useState(false);
   const [exportPdf, setExportPdf] = useState(false);
   const [exportDocx, setExportDocx] = useState(false);
-  const [smartAnalysisOpen, setSmartAnalysisOpen] = useState(false);
-  const [smartAnalysisContext, setSmartAnalysisContext] = useState(null);
 
   //Results
   const [timeOfUseShareData, setTimeOfUseShareData] = useState([]);
@@ -1298,10 +1296,7 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
     t
   ]);
 
-  const openSmartAnalysis = () => {
-    setSmartAnalysisContext(buildSmartAnalysisContext());
-    setSmartAnalysisOpen(true);
-  };
+  useAIAssistantReportContext(buildSmartAnalysisContext);
 
   return (
     <Fragment>
@@ -1503,19 +1498,6 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
                   </DropdownMenu>
                 </UncontrolledDropdown>
               </Col>
-              {settings.enableAIAnalysis ? (
-                <Col xs="auto">
-                  <br />
-                  <Button
-                    color="falcon-default"
-                    size="sm"
-                    hidden={resultDataHidden}
-                    onClick={openSmartAnalysis}
-                  >
-                    {t('AI Analysis')}
-                  </Button>
-                </Col>
-              ) : null}
             </Row>
           </Form>
         </CardBody>
@@ -1732,16 +1714,6 @@ const SpaceEnergyCategory = ({ setRedirect, setRedirectUrl, t }) => {
           columns={childSpacesTableColumns}
         />
       </div>
-      {settings.enableAIAnalysis ? (
-        <DeepSeekAnalysisModal
-          isOpen={smartAnalysisOpen}
-          toggle={() => setSmartAnalysisOpen(false)}
-          language={language}
-          reportContext={smartAnalysisContext}
-          setRedirect={setRedirect}
-          setRedirectUrl={setRedirectUrl}
-        />
-      ) : null}
     </Fragment>
   );
 };

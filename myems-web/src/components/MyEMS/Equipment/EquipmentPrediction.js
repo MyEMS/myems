@@ -62,8 +62,6 @@ import { withTranslation } from 'react-i18next';
 
 import { toast } from 'react-toastify';
 
-import DeepSeekAnalysisModal from '../common/DeepSeekAnalysisModal';
-
 import { APIBaseURL, settings } from '../../../config';
 
 import { periodTypeOptions } from '../common/PeriodTypeOptions';
@@ -75,6 +73,8 @@ import DateRangePickerWrapper from '../common/DateRangePickerWrapper';
 import { endOfDay } from 'date-fns';
 
 import AppContext from '../../../context/Context';
+
+import { useAIAssistantReportContext } from '../../../context/AIAssistantContext';
 
 import MultipleLineChart from '../common/MultipleLineChart';
 
@@ -246,9 +246,6 @@ const EquipmentPrediction = ({ setRedirect, setRedirectUrl, t }) => {
 
   const [exportButtonHidden, setExportButtonHidden] = useState(true);
 
-  const [smartAnalysisOpen, setSmartAnalysisOpen] = useState(false);
-
-  const [smartAnalysisContext, setSmartAnalysisContext] = useState(null);
 
   const [spaceCascaderHidden, setSpaceCascaderHidden] = useState(false);
 
@@ -2272,13 +2269,7 @@ const EquipmentPrediction = ({ setRedirect, setRedirectUrl, t }) => {
 
 
 
-  const openSmartAnalysis = () => {
-
-    setSmartAnalysisContext(buildSmartAnalysisContext());
-
-    setSmartAnalysisOpen(true);
-
-  };
+  useAIAssistantReportContext(buildSmartAnalysisContext);
 
 
 
@@ -2720,31 +2711,6 @@ const EquipmentPrediction = ({ setRedirect, setRedirectUrl, t }) => {
 
               </Col>
 
-              {settings.enableAIAnalysis ? (
-
-                <Col xs="auto">
-
-                  <br />
-
-                  <Button
-
-                    color="falcon-default"
-
-                    size="sm"
-
-                    hidden={exportButtonHidden}
-
-                    onClick={openSmartAnalysis}
-
-                  >
-
-                    {t('AI Analysis')}
-
-                  </Button>
-
-                </Col>
-
-              ) : null}
 
             </Row>
 
@@ -3064,25 +3030,6 @@ const EquipmentPrediction = ({ setRedirect, setRedirectUrl, t }) => {
 
       </div>
 
-      {settings.enableAIAnalysis ? (
-
-        <DeepSeekAnalysisModal
-
-          isOpen={smartAnalysisOpen}
-
-          toggle={() => setSmartAnalysisOpen(false)}
-
-          language={language}
-
-          reportContext={smartAnalysisContext}
-
-          setRedirect={setRedirect}
-
-          setRedirectUrl={setRedirectUrl}
-
-        />
-
-      ) : null}
 
     </Fragment>
 

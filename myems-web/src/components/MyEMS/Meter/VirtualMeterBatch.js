@@ -26,11 +26,11 @@ import { getCookieValue, createCookie, checkEmpty, handleAPIError } from '../../
 import withRedirect from '../../../hoc/withRedirect';
 import { withTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
-import DeepSeekAnalysisModal from '../common/DeepSeekAnalysisModal';
 import { APIBaseURL, settings } from '../../../config';
 import DateRangePickerWrapper from '../common/DateRangePickerWrapper';
 import { endOfDay } from 'date-fns';
 import Appcontext from '../../../context/Context';
+import { useAIAssistantReportContext } from '../../../context/AIAssistantContext';
 import blankPage from '../../../assets/img/generic/blank-page.png';
 
 const DetailedDataTable = loadable(() => import('../common/DetailedDataTable'));
@@ -107,8 +107,6 @@ const VirtualMeterBatch = ({ setRedirect, setRedirectUrl, t }) => {
   const [exportPdf, setExportPdf] = useState(false);
   const [exportDocx, setExportDocx] = useState(false);
   const [resultDataHidden, setResultDataHidden] = useState(true);
-  const [smartAnalysisOpen, setSmartAnalysisOpen] = useState(false);
-  const [smartAnalysisContext, setSmartAnalysisContext] = useState(null);
   const stickyTableWrapperRef = useRef(null);
   const [stickySecondColumnLeft, setStickySecondColumnLeft] = useState(0);
   const [stickyScopeClassName] = useState(() => `virtual-meter-batch-sticky-two-${Math.random().toString(36).slice(2, 10)}`);
@@ -520,10 +518,7 @@ const VirtualMeterBatch = ({ setRedirect, setRedirectUrl, t }) => {
     exportDocx
   ]);
 
-  const openSmartAnalysis = () => {
-    setSmartAnalysisContext(buildSmartAnalysisContext());
-    setSmartAnalysisOpen(true);
-  };
+  useAIAssistantReportContext(buildSmartAnalysisContext);
 
   return (
     <Fragment>
@@ -647,19 +642,6 @@ const VirtualMeterBatch = ({ setRedirect, setRedirectUrl, t }) => {
                   </DropdownMenu>
                 </UncontrolledDropdown>
               </Col>
-              {settings.enableAIAnalysis ? (
-                <Col xs="auto">
-                  <br />
-                  <Button
-                    color="falcon-default"
-                    size="sm"
-                    hidden={exportButtonHidden}
-                    onClick={openSmartAnalysis}
-                  >
-                    {t('AI Analysis')}
-                  </Button>
-                </Col>
-              ) : null}
             </Row>
           </Form>
         </CardBody>
@@ -729,16 +711,7 @@ const VirtualMeterBatch = ({ setRedirect, setRedirectUrl, t }) => {
           enableHorizontalScroll={true}
         />
       </div>
-      {settings.enableAIAnalysis ? (
-        <DeepSeekAnalysisModal
-          isOpen={smartAnalysisOpen}
-          toggle={() => setSmartAnalysisOpen(false)}
-          language={language}
-          reportContext={smartAnalysisContext}
-          setRedirect={setRedirect}
-          setRedirectUrl={setRedirectUrl}
-        />
-      ) : null}
+
     </Fragment>
   );
 };

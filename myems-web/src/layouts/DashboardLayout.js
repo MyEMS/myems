@@ -11,7 +11,9 @@ import AppContext from '../context/Context';
 import ProductProvider from '../components/e-commerce/ProductProvider';
 import SidePanelModal from '../components/side-panel/SidePanelModal';
 import ErrorBoundary from '../components/ErrorBoundary';
+import DeepSeekAnalysisModal from '../components/MyEMS/common/DeepSeekAnalysisModal';
 import { getPageName } from '../helpers/utils';
+import { settings } from '../config';
 
 const DashboardRoutes = loadable(() => import('./MyEMSRoutes'));
 
@@ -46,6 +48,7 @@ const DashboardLayout = ({ location }) => {
         </div>
         <SidePanelModal autoShow={false} path={location.pathname} />
       </ProductProvider>
+      {settings.enableAIAnalysis && <DeepSeekAnalysisModal />}
     </div>
   );
 };
