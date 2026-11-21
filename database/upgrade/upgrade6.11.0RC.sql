@@ -76,6 +76,11 @@ INSERT INTO myems_system_db.tbl_menus (id, name, route, parent_menu_id, is_hidde
 SELECT 1303, 'Work Order Installation', '/workorder/installation', 1300, 0 FROM DUAL
 WHERE NOT EXISTS (SELECT 1 FROM myems_system_db.tbl_menus WHERE id = 1303);
 
+-- Drop the `is_trend` column from tbl_points.
+-- After this change the acquisition services write trend history data for all points unconditionally.
+-- WARNING: this drops configuration data and is not reversible; back up myems_system_db before running.
+ALTER TABLE `myems_system_db`.`tbl_points` DROP COLUMN `is_trend`;
+
 UPDATE `myems_system_db`.`tbl_versions` SET version='6.11.0RC', release_date='2026-11-07' WHERE id=1;
 
 COMMIT;

@@ -354,7 +354,6 @@ async def read_point_values(logger, data_source_id, client, point_list):
         point_value = convert_value(logger, data_source_id, point, value)
         if point_value is not None:
             value_lists[point['object_type']].append({'point_id': point['id'],
-                                                      'is_trend': point['is_trend'],
                                                       'value': point_value})
 
     return value_lists, read_count
@@ -497,7 +496,7 @@ def get_point_list(logger, cnx_system_db, data_source_id):
     cursor_system_db = None
     try:
         cursor_system_db = cnx_system_db.cursor()
-        query = (" SELECT id, name, object_type, is_trend, ratio, offset_constant, address "
+        query = (" SELECT id, name, object_type, ratio, offset_constant, address "
                  " FROM tbl_points "
                  " WHERE data_source_id = %s AND is_virtual = 0 "
                  " ORDER BY id ")
@@ -515,10 +514,9 @@ def get_point_list(logger, cnx_system_db, data_source_id):
         point_list.append({"id": row_point[0],
                            "name": row_point[1],
                            "object_type": row_point[2],
-                           "is_trend": row_point[3],
-                           "ratio": row_point[4],
-                           "offset_constant": row_point[5],
-                           "address": row_point[6]})
+                           "ratio": row_point[3],
+                           "offset_constant": row_point[4],
+                           "address": row_point[5]})
     return point_list
 
 
@@ -570,9 +568,9 @@ def insert_value_lists(cursor_historical_db, current_datetime_utc, value_lists):
 
         table, latest_table = VALUE_TABLES[object_type]
 
-        # Trend values, only the points configured with is_trend are stored
+        # Trend values are stored for all points unconditionally
         trend_rows = [(point_value['point_id'], current_datetime_utc, point_value['value'])
-                      for point_value in point_value_list if point_value['is_trend']]
+                      for point_value in point_value_list]
         if trend_rows:
             cursor_historical_db.executemany(
                 " INSERT INTO " + table + " (point_id, utc_date_time, actual_value) "
@@ -594,11 +592,10 @@ def insert_point_value(cursor_historical_db, current_datetime_utc, object_type, 
     """Insert the value of one point, used when the batch of the cycle failed."""
     table, latest_table = VALUE_TABLES[object_type]
 
-    if point_value['is_trend']:
-        cursor_historical_db.execute(
-            " INSERT INTO " + table + " (point_id, utc_date_time, actual_value) "
-                                     " VALUES (%s, %s, %s)",
-            (point_value['point_id'], current_datetime_utc, point_value['value']))
+    cursor_historical_db.execute(
+        " INSERT INTO " + table + " (point_id, utc_date_time, actual_value) "
+                                 " VALUES (%s, %s, %s)",
+        (point_value['point_id'], current_datetime_utc, point_value['value']))
 
     cursor_historical_db.execute(
         " DELETE FROM " + latest_table + " WHERE point_id = %s", (point_value['point_id'], ))

@@ -1308,7 +1308,6 @@ Please copy it to the input box below.':
         'API.INVALID_IS_OUTPUT_COUNTED_VALUE': '無效的輸出是否匯總值',
         'API.INVALID_IS_OUTPUT_VALUE': '無效的輸出是否匯總值',
         'API.INVALID_IS_READ_ONLY_VALUE': 'Invalid is read only value',
-        'API.INVALID_IS_TREND_VALUE': '無效的是否保存趨勢值',
         'API.INVALID_IS_VIRTUAL_VALUE': '無效的是否虛擬點值',
         'API.INVALID_KGCE': '無效的千克標準煤系數',
         'API.INVALID_KGCO2E': '無效的千克⼆氧化碳排放系數',

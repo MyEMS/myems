@@ -1324,7 +1324,6 @@ export default {
         'API.INVALID_IS_OUTPUT_COUNTED_VALUE': 'Invalid is output counted value',
         'API.INVALID_IS_OUTPUT_VALUE': 'Invalid is output value',
         'API.INVALID_IS_READ_ONLY_VALUE': 'Invalid is read only value',
-        'API.INVALID_IS_TREND_VALUE': 'Invalid is trend value',
         'API.INVALID_IS_VIRTUAL_VALUE': 'Invalid is virtual value',
         'API.INVALID_KGCE': 'Invalid kgce',
         'API.INVALID_KGCO2E': 'Invalid kgco2e',

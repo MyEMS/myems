@@ -1777,7 +1777,6 @@ CREATE TABLE IF NOT EXISTS `myems_system_db`.`tbl_points` (
   `is_in_alarm` BOOL DEFAULT FALSE NOT NULL COMMENT 'Used in FDD Service',
   `ratio` DECIMAL(21, 6) DEFAULT 1.000000 NOT NULL,
   `offset_constant` DECIMAL(21, 6) DEFAULT 0.000000 NOT NULL,
-  `is_trend` BOOL NOT NULL,
   `is_virtual` BOOL DEFAULT FALSE NOT NULL,
   `address` LONGTEXT NOT NULL COMMENT 'Address MUST be in JSON format',
   `description` VARCHAR(255),

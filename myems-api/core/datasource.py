@@ -484,7 +484,7 @@ class DataSourcePointCollection:
                 query_point = (" SELECT id, name, object_type, "
                                "        units, high_limit, low_limit, higher_limit, lower_limit, "
                                "        ratio, offset_constant, "
-                               "        is_trend, is_virtual, address, description, faults, definitions "
+                               "        is_virtual, address, description, faults, definitions "
                                " FROM tbl_points "
                                " WHERE data_source_id = %s "
                                " ORDER BY id ")
@@ -571,12 +571,11 @@ class DataSourcePointCollection:
                                "lower_limit": row[7],
                                "ratio": Decimal(row[8]),
                                "offset_constant": Decimal(row[9]),
-                               "is_trend": bool(row[10]),
-                               "is_virtual": bool(row[11]),
-                               "address": row[12],
-                               "description": row[13],
-                               "faults": row[14],
-                               "definitions": row[15],
+                               "is_virtual": bool(row[10]),
+                               "address": row[11],
+                               "description": row[12],
+                               "faults": row[13],
+                               "definitions": row[14],
                                "latest_value": latest_value,
                                }
 
@@ -653,7 +652,7 @@ class DataSourceExport:
                 # NOTE: there is no uuid in tbl_points
                 query_point = (" SELECT id, name, object_type, "
                                "        units, high_limit, low_limit, higher_limit, lower_limit, ratio, "
-                               "        is_trend, is_virtual, address, description, faults, definitions "
+                               "        is_virtual, address, description, faults, definitions "
                                " FROM tbl_points "
                                " WHERE data_source_id = %s "
                                " ORDER BY id ")
@@ -671,12 +670,11 @@ class DataSourceExport:
                                        "higher_limit": row_pt[6],
                                        "lower_limit": row_pt[7],
                                        "ratio": Decimal(row_pt[8]),
-                                       "is_trend": bool(row_pt[9]),
-                                       "is_virtual": bool(row_pt[10]),
-                                       "address": row_pt[11],
-                                       "description": row_pt[12],
-                                       "faults": row_pt[13],
-                                       "definitions": row_pt[14]}
+                                       "is_virtual": bool(row_pt[9]),
+                                       "address": row_pt[10],
+                                       "description": row_pt[11],
+                                       "faults": row_pt[12],
+                                       "definitions": row_pt[13]}
                         point_result.append(meta_result)
                     result['points'] = point_result
             finally:
@@ -796,9 +794,9 @@ class DataSourceImport:
                         add_value = (" INSERT INTO tbl_points (name, data_source_id, object_type, units, "
                                      "                         high_limit, low_limit, "
                                      "                         higher_limit, lower_limit, ratio, "
-                                     "                         is_trend, is_virtual, address, description, faults, "
+                                     "                         is_virtual, address, description, faults, "
                                      "                         definitions) "
-                                     " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                                     " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
                         cursor.execute(add_value, (point['name'],
                                                    new_id,
                                                    point['object_type'],
@@ -808,7 +806,6 @@ class DataSourceImport:
                                                    point['higher_limit'],
                                                    point['lower_limit'],
                                                    point['ratio'],
-                                                   point['is_trend'],
                                                    point['is_virtual'],
                                                    point['address'],
                                                    point['description'],
@@ -873,7 +870,7 @@ class DataSourceClone:
                 # NOTE: there is no uuid in tbl_points
                 query_point = (" SELECT id, name, object_type, "
                                "        units, high_limit, low_limit, higher_limit, lower_limit, ratio, "
-                               "        is_trend, is_virtual, address, description, faults, definitions "
+                               "        is_virtual, address, description, faults, definitions "
                                " FROM tbl_points "
                                " WHERE data_source_id = %s "
                                " ORDER BY id ")
@@ -891,12 +888,11 @@ class DataSourceClone:
                                      "higher_limit": row_pt[6],
                                      "lower_limit": row_pt[7],
                                      "ratio": Decimal(row_pt[8]),
-                                     "is_trend": bool(row_pt[9]),
-                                     "is_virtual": bool(row_pt[10]),
-                                     "address": row_pt[11],
-                                     "description": row_pt[12],
-                                     "faults": row_pt[13],
-                                     "definitions": row_pt[14]}
+                                     "is_virtual": bool(row_pt[9]),
+                                     "address": row_pt[10],
+                                     "description": row_pt[11],
+                                     "faults": row_pt[12],
+                                     "definitions": row_pt[13]}
                         point_result.append(result_pt)
                     meta_result['points'] = point_result
 
@@ -924,9 +920,9 @@ class DataSourceClone:
                         add_value = (" INSERT INTO tbl_points (name, data_source_id, object_type, units, "
                                      "                         high_limit, low_limit, "
                                      "                         higher_limit, lower_limit, ratio, "
-                                     "                         is_trend, is_virtual, address, description, faults, "
+                                     "                         is_virtual, address, description, faults, "
                                      "                         definitions) "
-                                     " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
+                                     " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ")
                         cursor.execute(add_value, (point['name'],
                                                    new_id,
                                                    point['object_type'],
@@ -936,7 +932,6 @@ class DataSourceClone:
                                                    point['higher_limit'],
                                                    point['lower_limit'],
                                                    point['ratio'],
-                                                   point['is_trend'],
                                                    point['is_virtual'],
                                                    point['address'],
                                                    point['description'],

@@ -1332,7 +1332,6 @@ export default {
         'API.INVALID_IS_OUTPUT_COUNTED_VALUE': 'Ungültig ist der gezählte Ausgabewert',
         'API.INVALID_IS_OUTPUT_VALUE': 'Ungültig ist Ausgabewert',
         'API.INVALID_IS_READ_ONLY_VALUE': 'Invalid is read only value',
-        'API.INVALID_IS_TREND_VALUE': 'Ungültig ist Trendwert',
         'API.INVALID_IS_VIRTUAL_VALUE': 'Ungültig ist virtueller Wert',
         'API.INVALID_KGCE': 'Ungültige kgce',
         'API.INVALID_KGCO2E': 'Ungültiges kgco2e',

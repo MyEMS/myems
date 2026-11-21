@@ -393,35 +393,35 @@ COMMIT;
 START TRANSACTION;
 
 INSERT INTO `myems_system_db`.`tbl_points`
-(`id`, `name`, `data_source_id`, `object_type`, `units`, `high_limit`, `low_limit`, `ratio`, `is_trend`, `is_virtual`, `address`, `description` )
+(`id`, `name`, `data_source_id`, `object_type`, `units`, `high_limit`, `low_limit`, `ratio`, `is_virtual`, `address`, `description` )
 VALUES
-(1, 'Active Energy Import Tariff 1', 1, 'ENERGY_VALUE', 'kWh', 99999999999, 0, 1.000, 1, 0,
+(1, 'Active Energy Import Tariff 1', 1, 'ENERGY_VALUE', 'kWh', 99999999999, 0, 1.000, 0,
   '{\"slave_id\":1, \"function_code\":3, \"offset\":801, \"number_of_registers\":4, \"format\":\"=d\", \"byte_swap\":false}', null),
 
-(2, 'Working hours counter', 1, 'ANALOG_VALUE',  'S', 999999999, 0, 1.000, 1, 0,
+(2, 'Working hours counter', 1, 'ANALOG_VALUE',  'S', 999999999, 0, 1.000, 0,
   '{\"slave_id\":1, \"function_code\":3, \"offset\":209, \"number_of_registers\":2, \"format\":\"=L\", \"byte_swap\":true}', null),
 
-(3, 'Current a', 1, 'ANALOG_VALUE',  'A', 5, 0, 1.000, 1, 0,
+(3, 'Current a', 1, 'ANALOG_VALUE',  'A', 5, 0, 1.000, 0,
   '{\"slave_id\":1, \"function_code\":3, \"offset\":13, \"number_of_registers\":2, \"format\":\"=f\", \"byte_swap\":false}', null),
 
-(4, 'Active Power a', 1, 'ANALOG_VALUE',  'W', 3450, 0, 1.000, 1, 0,
+(4, 'Active Power a', 1, 'ANALOG_VALUE',  'W', 3450, 0, 1.000, 0,
   '{\"slave_id\":1, \"function_code\":3, \"offset\":25, \"number_of_registers\":2, \"format\":\"=f\", \"byte_swap\":false}', null),
 
-(5, 'Power Factor a', 1, 'ANALOG_VALUE',  'W', 1, 0, 1.000, 1, 0,
+(5, 'Power Factor a', 1, 'ANALOG_VALUE',  'W', 1, 0, 1.000, 0,
   '{\"slave_id\":1, \"function_code\":3, \"offset\":37, \"number_of_registers\":2, \"format\":\"=f\", \"byte_swap\":false}', null),
 
-(6, 'จุดข้อมูล Modbus TCP ตัวอย่าง 6', 2, 'ENERGY_VALUE',  'Wh', 99999999999, 0, 1.000, 1, 0,
+(6, 'จุดข้อมูล Modbus TCP ตัวอย่าง 6', 2, 'ENERGY_VALUE',  'Wh', 99999999999, 0, 1.000, 0,
   '{\"slave_id\":1, \"function_code\":3, \"offset\":40001, \"number_of_registers\":2, \"format\":\"=f\", \"byte_swap\":false}', null),
 
-(7, 'จุดข้อมูลตัวอย่าง 7', 2, 'ANALOG_VALUE',  'V', 690, 0, 1.000, 1, 0,
+(7, 'จุดข้อมูลตัวอย่าง 7', 2, 'ANALOG_VALUE',  'V', 690, 0, 1.000, 0,
   '{\"slave_id\":1, \"function_code\":3, \"offset\":40002, \"number_of_registers\":2, \"format\":\"=f\", \"byte_swap\":false}', null),
 
-(8, 'จุดข้อมูล BACnet ตัวอย่าง 1', 3, 'ANALOG_VALUE',  'V', 690, 0, 1.000, 1, 0,
+(8, 'จุดข้อมูล BACnet ตัวอย่าง 1', 3, 'ANALOG_VALUE',  'V', 690, 0, 1.000, 0,
   '{\"object_type\":\"analogValue\", \"object_id\":3004860, \"property_name\":\"presentValue\", \"property_array_index\":null}', null),
 -- BACnet Object Type
 -- analogValue, analogInput, analogOutput, binaryValue, binaryInput, binaryOutput
 
-(9, 'จุดข้อมูล S7 ตัวอย่าง 1', 4, 'ANALOG_VALUE',  'kWh', 99999999999, 0, 1.000, 1, 0,
+(9, 'จุดข้อมูล S7 ตัวอย่าง 1', 4, 'ANALOG_VALUE',  'kWh', 99999999999, 0, 1.000, 0,
   '{\"area\":\"DB\", \"db_number\":700, \"start\":8, \"size\":4}', null);
 -- # S7 Area
 -- 'PE', 'PA', 'MK', 'DB', 'CT', 'TM'

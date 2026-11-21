@@ -266,7 +266,6 @@ app.controller('DataSourceController', function(
 									higher_limit: null,
 									lower_limit: null,
 									ratio: 1,
-									is_trend: true,
 									is_virtual: false,
 									address: "{\"format\": \"<f\", \"offset\": 0, \"slave_id\": 1, \"byte_swap\": true, \"function_code\": 3, \"number_of_registers\": 2}",
 									description: "Point description",

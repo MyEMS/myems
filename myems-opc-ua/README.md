@@ -208,15 +208,15 @@ VALUES
 
 COMMIT;
 
-INSERT INTO `myems_system_db`.`tbl_points`(`id`, `name`, `data_source_id`, `object_type`, `units`, `high_limit`, `low_limit`, `ratio`, `is_trend`, `address`)
+INSERT INTO `myems_system_db`.`tbl_points`(`id`, `name`, `data_source_id`, `object_type`, `units`, `high_limit`, `low_limit`, `ratio`, `address`)
 VALUES
- (1004540, 'Counter', 1000231, 'ENERGY_VALUE', 'kWh', 99999999999, 0, 1.0, 1, '{"node_id":"ns=3;i=1001"}'),
- (1004541, 'Expression', 1000231, 'ANALOG_VALUE', 'NA', 99999999999, 0, 1.0, 1,  '{"node_id":"ns=3;i=1002"}'),
- (1004542, 'Random', 1000231, 'ANALOG_VALUE', 'NA', 99999999999, 0, 1.0, 1,  '{"node_id":"ns=3;i=1003"}'),
- (1004543, 'Sawtooth', 1000231, 'ANALOG_VALUE', 'NA', 99999999999, 0, 1.0, 1,  '{"node_id":"ns=3;i=1004"}'),
- (1004544, 'Sinusoid', 1000231, 'ANALOG_VALUE', 'NA', 99999999999, 0, 1.0, 1,  '{"node_id":"ns=3;i=1005"}'),
- (1004545, 'Square', 1000231, 'ANALOG_VALUE', 'NA', 99999999999, 0, 1.0, 1,  '{"node_id":"ns=3;i=1006"}'),
- (1004546, 'Triangle', 1000231, 'ANALOG_VALUE', 'NA', 99999999999, 0, 1.0, 1,  '{"node_id":"ns=3;i=1007"}');
+ (1004540, 'Counter', 1000231, 'ENERGY_VALUE', 'kWh', 99999999999, 0, 1.0, '{"node_id":"ns=3;i=1001"}'),
+ (1004541, 'Expression', 1000231, 'ANALOG_VALUE', 'NA', 99999999999, 0, 1.0,  '{"node_id":"ns=3;i=1002"}'),
+ (1004542, 'Random', 1000231, 'ANALOG_VALUE', 'NA', 99999999999, 0, 1.0,  '{"node_id":"ns=3;i=1003"}'),
+ (1004543, 'Sawtooth', 1000231, 'ANALOG_VALUE', 'NA', 99999999999, 0, 1.0,  '{"node_id":"ns=3;i=1004"}'),
+ (1004544, 'Sinusoid', 1000231, 'ANALOG_VALUE', 'NA', 99999999999, 0, 1.0,  '{"node_id":"ns=3;i=1005"}'),
+ (1004545, 'Square', 1000231, 'ANALOG_VALUE', 'NA', 99999999999, 0, 1.0,  '{"node_id":"ns=3;i=1006"}'),
+ (1004546, 'Triangle', 1000231, 'ANALOG_VALUE', 'NA', 99999999999, 0, 1.0,  '{"node_id":"ns=3;i=1007"}');
 
 COMMIT;
 ```
