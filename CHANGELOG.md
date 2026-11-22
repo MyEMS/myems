@@ -31,6 +31,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - fixed carbon database connector issue in myems-api
 - fixed issues in myems-opc-ua
 ### Removed
+- removed is_trend from point in database, myems-api, myems-admin, myems-modbus-tcp, myems-bacnet, myems-opc-ua and myems-s7
 
 ## [6.10.0] - 2026-10-27
 ### Added
