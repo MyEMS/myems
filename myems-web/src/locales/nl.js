@@ -1292,7 +1292,6 @@ export default {
         'API.INVALID_IS_OUTPUT_COUNTED_VALUE': 'Ongeldige uitvoer telwaarde',
         'API.INVALID_IS_OUTPUT_VALUE': 'Ongeldige uitvoerwaarde',
         'API.INVALID_IS_READ_ONLY_VALUE': 'Ongeldige alleen-lezen waarde',
-        'API.INVALID_IS_TREND_VALUE': 'Ongeldige trendwaarde',
         'API.INVALID_IS_VIRTUAL_VALUE': 'Ongeldige virtuele puntwaarde',
         'API.INVALID_KGCE': 'Ongeldige kilogram standaardkool coëfficiënt',
         'API.INVALID_KGCO2E': 'Ongeldige kilogram CO2-uitstoot coëfficiënt',

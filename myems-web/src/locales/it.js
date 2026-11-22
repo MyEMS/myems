@@ -1294,7 +1294,6 @@ export default {
         'API.INVALID_IS_OUTPUT_COUNTED_VALUE': 'Valore output conteggiato non valido',
         'API.INVALID_IS_OUTPUT_VALUE': 'Valore output non valido',
         'API.INVALID_IS_READ_ONLY_VALUE': 'Invalid is read only value',
-        'API.INVALID_IS_TREND_VALUE': 'Valore salvataggio trend non valido',
         'API.INVALID_IS_VIRTUAL_VALUE': 'Valore punto virtuale non valido',
         'API.INVALID_KGCE': 'Coefficiente kg carbone standard non valido',
         'API.INVALID_KGCO2E': 'Coefficiente kg emissioni CO2 non valido',

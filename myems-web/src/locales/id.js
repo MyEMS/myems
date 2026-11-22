@@ -1327,7 +1327,6 @@ export default {
         'API.INVALID_IS_OUTPUT_COUNTED_VALUE': 'Apakah output tidak valid agregat',
         'API.INVALID_IS_OUTPUT_VALUE': 'Apakah output tidak valid agregat',
         'API.INVALID_IS_READ_ONLY_VALUE': 'Invalid is read only value',
-        'API.INVALID_IS_TREND_VALUE': 'Apakah menyimpan nilai trend yang tidak valid',
         'API.INVALID_IS_VIRTUAL_VALUE': 'Nilai titik virtual tidak valid',
         'API.INVALID_KGCE': 'Koefisien batubara standar kilogram tidak valid',
         'API.INVALID_KGCO2E': 'Koefisien emisi dioksida karbon kilogram tidak valid',

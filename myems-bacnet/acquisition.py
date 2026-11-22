@@ -164,7 +164,7 @@ def process(logger, ):
             # Step 2: Get point list
             ############################################################################################################
             try:
-                query = (" SELECT id, name, object_type, is_trend, ratio, address "
+                query = (" SELECT id, name, object_type, ratio, address "
                          " FROM tbl_points "
                          " WHERE data_source_id = %s AND is_virtual = 0 "
                          " ORDER BY id ")
@@ -182,14 +182,13 @@ def process(logger, ):
 
             # There are points for this data source
             for row_point in rows_points:
-                # print("Point in DataSource(ID=%s): ID=%s, Name=%s, ObjectType=%s, IsTrend = %s, Address=%s ",
-                #       data_source_id, row_point[0], row_point[1], row_point[2], row_point[3], row_point[4])
+                # print("Point in DataSource(ID=%s): ID=%s, Name=%s, ObjectType=%s, Address=%s ",
+                #       data_source_id, row_point[0], row_point[1], row_point[2], row_point[3])
                 point_id = row_point[0]
                 point_name = row_point[1]
                 point_object_type = row_point[2]
-                is_trend = row_point[3]
-                ratio = row_point[4]
-                address = json.loads(row_point[5])
+                ratio = row_point[3]
+                address = json.loads(row_point[4])
                 # address example
                 # {"object_type":"analogValue", "object_id":3004860, "property_name":"presentValue",
                 # "property_array_index":null}
@@ -204,7 +203,7 @@ def process(logger, ):
                         or len(address['property_name']) == 0 \
                         or 'property_array_index' not in address.keys():
                     logger.error("Point Address Invalid. ID=%s, Name=%s, Address=%s ",
-                                 row_point[0], row_point[1], row_point[5])
+                                 row_point[0], row_point[1], row_point[4])
                     continue  # for row_point loop
 
                 bacnet_object_type = address['object_type']
@@ -215,7 +214,6 @@ def process(logger, ):
                 point_dict[point_id] = {'data_source_id': data_source_id,
                                         'point_name': point_name,
                                         'object_type': point_object_type,
-                                        'is_trend': is_trend,
                                         'ratio': ratio,
                                         }
                 bacnet_point_list.append((point_id,
@@ -274,7 +272,6 @@ def process(logger, ):
                 point_id = request[0]
                 data_source_id = point_dict[point_id]['data_source_id']
                 object_type = point_dict[point_id]['object_type']
-                is_trend = point_dict[point_id]['is_trend']
                 ratio = point_dict[point_id]['ratio']
                 if not isinstance(response, int) and \
                     not isinstance(response, float) and \
@@ -294,7 +291,6 @@ def process(logger, ):
 
                     analog_value_list.append({'data_source_id': data_source_id,
                                               'point_id': point_id,
-                                              'is_trend': is_trend,
                                               'value': Decimal(value) * ratio})
 
                 elif object_type == 'ENERGY_VALUE':
@@ -304,7 +300,6 @@ def process(logger, ):
 
                     energy_value_list.append({'data_source_id': data_source_id,
                                               'point_id': point_id,
-                                              'is_trend': is_trend,
                                               'value': Decimal(value) * ratio})
                 elif object_type == 'DIGITAL_VALUE':
                     if isinstance(value, str):
@@ -315,7 +310,6 @@ def process(logger, ):
 
                     digital_value_list.append({'data_source_id': data_source_id,
                                                'point_id': point_id,
-                                               'is_trend': is_trend,
                                                'value': int(value) * int(ratio)})
 
                 # add data_source_id to the last seen set
@@ -354,24 +348,20 @@ def process(logger, ):
         if len(analog_value_list) > 0:
             add_values = (" INSERT INTO tbl_analog_value (point_id, utc_date_time, actual_value) "
                           " VALUES  ")
-            trend_value_count = 0
 
             for point_value in analog_value_list:
-                if point_value['is_trend']:
-                    add_values += " (" + str(point_value['point_id']) + ","
-                    add_values += "'" + current_datetime_utc.isoformat() + "',"
-                    add_values += str(point_value['value']) + "), "
-                    trend_value_count += 1
+                add_values += " (" + str(point_value['point_id']) + ","
+                add_values += "'" + current_datetime_utc.isoformat() + "',"
+                add_values += str(point_value['value']) + "), "
 
-            if trend_value_count > 0:
-                try:
-                    # trim ", " at the end of string and then execute
-                    cursor_historical_db.execute(add_values[:-2])
-                    cnx_historical_db.commit()
-                except Exception as e:
-                    logger.error("Error in step 4.2.1 of acquisition process " + str(e))
-                    # ignore this exception
-                    pass  # the outermost while true loop
+            try:
+                # trim ", " at the end of string and then execute
+                cursor_historical_db.execute(add_values[:-2])
+                cnx_historical_db.commit()
+            except Exception as e:
+                logger.error("Error in step 4.2.1 of acquisition process " + str(e))
+                # ignore this exception
+                pass  # the outermost while true loop
 
             # update tbl_analog_value_latest
             delete_values = " DELETE FROM tbl_analog_value_latest WHERE point_id IN ( "
@@ -408,24 +398,20 @@ def process(logger, ):
         if len(energy_value_list) > 0:
             add_values = (" INSERT INTO tbl_energy_value (point_id, utc_date_time, actual_value) "
                           " VALUES  ")
-            trend_value_count = 0
 
             for point_value in energy_value_list:
-                if point_value['is_trend']:
-                    add_values += " (" + str(point_value['point_id']) + ","
-                    add_values += "'" + current_datetime_utc.isoformat() + "',"
-                    add_values += str(point_value['value']) + "), "
-                    trend_value_count += 1
+                add_values += " (" + str(point_value['point_id']) + ","
+                add_values += "'" + current_datetime_utc.isoformat() + "',"
+                add_values += str(point_value['value']) + "), "
 
-            if trend_value_count > 0:
-                try:
-                    # trim ", " at the end of string and then execute
-                    cursor_historical_db.execute(add_values[:-2])
-                    cnx_historical_db.commit()
-                except Exception as e:
-                    logger.error("Error in step 4.3.1 of acquisition process: " + str(e))
-                    # ignore this exception
-                    pass  # the outermost while true loop
+            try:
+                # trim ", " at the end of string and then execute
+                cursor_historical_db.execute(add_values[:-2])
+                cnx_historical_db.commit()
+            except Exception as e:
+                logger.error("Error in step 4.3.1 of acquisition process: " + str(e))
+                # ignore this exception
+                pass  # the outermost while true loop
 
             # update tbl_energy_value_latest
             delete_values = " DELETE FROM tbl_energy_value_latest WHERE point_id IN ( "
@@ -464,24 +450,20 @@ def process(logger, ):
         if len(digital_value_list) > 0:
             add_values = (" INSERT INTO tbl_digital_value (point_id, utc_date_time, actual_value) "
                           " VALUES  ")
-            trend_value_count = 0
 
             for point_value in digital_value_list:
-                if point_value['is_trend']:
-                    add_values += " (" + str(point_value['point_id']) + ","
-                    add_values += "'" + current_datetime_utc.isoformat() + "',"
-                    add_values += str(point_value['value']) + "), "
-                    trend_value_count += 1
+                add_values += " (" + str(point_value['point_id']) + ","
+                add_values += "'" + current_datetime_utc.isoformat() + "',"
+                add_values += str(point_value['value']) + "), "
 
-            if trend_value_count > 0:
-                try:
-                    # trim ", " at the end of string and then execute
-                    cursor_historical_db.execute(add_values[:-2])
-                    cnx_historical_db.commit()
-                except Exception as e:
-                    logger.error("Error in step 4.4.1 of acquisition process: " + str(e))
-                    # ignore this exception
-                    pass  # the outermost while true loop
+            try:
+                # trim ", " at the end of string and then execute
+                cursor_historical_db.execute(add_values[:-2])
+                cnx_historical_db.commit()
+            except Exception as e:
+                logger.error("Error in step 4.4.1 of acquisition process: " + str(e))
+                # ignore this exception
+                pass  # the outermost while true loop
 
             # update tbl_digital_value_latest
             delete_values = " DELETE FROM tbl_digital_value_latest WHERE point_id IN ( "

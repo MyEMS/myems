@@ -63,7 +63,7 @@ def process(logger, data_source_id, host, rack, slot, port, interval_in_seconds)
             continue
 
         try:
-            query = (" SELECT id, name, object_type, is_trend, ratio, address "
+            query = (" SELECT id, name, object_type, ratio, address "
                      " FROM tbl_points "
                      " WHERE data_source_id = %s AND is_virtual = 0 "
                      " ORDER BY id ")
@@ -92,9 +92,8 @@ def process(logger, data_source_id, host, rack, slot, port, interval_in_seconds)
             point_list.append({"id": row_point[0],
                                "name": row_point[1],
                                "object_type": row_point[2],
-                               "is_trend": row_point[3],
-                               "ratio": row_point[4],
-                               "address": row_point[5]})
+                               "ratio": row_point[3],
+                               "address": row_point[4]})
 
         ################################################################################################################
         # Step 3: Read values from the S7 device
@@ -234,17 +233,14 @@ def process(logger, data_source_id, host, rack, slot, port, interval_in_seconds)
                 if point['object_type'] == 'ANALOG_VALUE':
                     analog_value_list.append({'data_source_id': data_source_id,
                                               'point_id': point['id'],
-                                              'is_trend': point['is_trend'],
                                               'value': Decimal(value) * point['ratio']})
                 elif point['object_type'] == 'ENERGY_VALUE':
                     energy_value_list.append({'data_source_id': data_source_id,
                                               'point_id': point['id'],
-                                              'is_trend': point['is_trend'],
                                               'value': Decimal(value) * point['ratio']})
                 elif point['object_type'] == 'DIGITAL_VALUE':
                     digital_value_list.append({'data_source_id': data_source_id,
                                                'point_id': point['id'],
-                                               'is_trend': point['is_trend'],
                                                'value': int(value) * int(point['ratio'])})
             # end of foreach point loop
 
@@ -272,24 +268,20 @@ def process(logger, data_source_id, host, rack, slot, port, interval_in_seconds)
             if len(analog_value_list) > 0:
                 add_values = (" INSERT INTO tbl_analog_value (point_id, utc_date_time, actual_value) "
                               " VALUES  ")
-                trend_value_count = 0
 
                 for point_value in analog_value_list:
-                    if point_value['is_trend']:
-                        add_values += " (" + str(point_value['point_id']) + ","
-                        add_values += "'" + current_datetime_utc.isoformat() + "',"
-                        add_values += str(point_value['value']) + "), "
-                        trend_value_count += 1
+                    add_values += " (" + str(point_value['point_id']) + ","
+                    add_values += "'" + current_datetime_utc.isoformat() + "',"
+                    add_values += str(point_value['value']) + "), "
 
-                if trend_value_count > 0:
-                    try:
-                        # trim ", " at the end of string and then execute
-                        cursor_historical_db.execute(add_values[:-2])
-                        cnx_historical_db.commit()
-                    except Exception as e:
-                        logger.error("Error in step 4.2.1 of acquisition process " + str(e))
-                        # ignore this exception
-                        pass
+                try:
+                    # trim ", " at the end of string and then execute
+                    cursor_historical_db.execute(add_values[:-2])
+                    cnx_historical_db.commit()
+                except Exception as e:
+                    logger.error("Error in step 4.2.1 of acquisition process " + str(e))
+                    # ignore this exception
+                    pass
 
                 # update tbl_analog_value_latest
                 delete_values = " DELETE FROM tbl_analog_value_latest WHERE point_id IN ( "
@@ -326,24 +318,20 @@ def process(logger, data_source_id, host, rack, slot, port, interval_in_seconds)
             if len(energy_value_list) > 0:
                 add_values = (" INSERT INTO tbl_energy_value (point_id, utc_date_time, actual_value) "
                               " VALUES  ")
-                trend_value_count = 0
 
                 for point_value in energy_value_list:
-                    if point_value['is_trend']:
-                        add_values += " (" + str(point_value['point_id']) + ","
-                        add_values += "'" + current_datetime_utc.isoformat() + "',"
-                        add_values += str(point_value['value']) + "), "
-                        trend_value_count += 1
+                    add_values += " (" + str(point_value['point_id']) + ","
+                    add_values += "'" + current_datetime_utc.isoformat() + "',"
+                    add_values += str(point_value['value']) + "), "
 
-                if trend_value_count > 0:
-                    try:
-                        # trim ", " at the end of string and then execute
-                        cursor_historical_db.execute(add_values[:-2])
-                        cnx_historical_db.commit()
-                    except Exception as e:
-                        logger.error("Error in step 4.3.1 of acquisition process: " + str(e))
-                        # ignore this exception
-                        pass
+                try:
+                    # trim ", " at the end of string and then execute
+                    cursor_historical_db.execute(add_values[:-2])
+                    cnx_historical_db.commit()
+                except Exception as e:
+                    logger.error("Error in step 4.3.1 of acquisition process: " + str(e))
+                    # ignore this exception
+                    pass
 
                 # update tbl_energy_value_latest
                 delete_values = " DELETE FROM tbl_energy_value_latest WHERE point_id IN ( "
@@ -382,24 +370,20 @@ def process(logger, data_source_id, host, rack, slot, port, interval_in_seconds)
             if len(digital_value_list) > 0:
                 add_values = (" INSERT INTO tbl_digital_value (point_id, utc_date_time, actual_value) "
                               " VALUES  ")
-                trend_value_count = 0
 
                 for point_value in digital_value_list:
-                    if point_value['is_trend']:
-                        add_values += " (" + str(point_value['point_id']) + ","
-                        add_values += "'" + current_datetime_utc.isoformat() + "',"
-                        add_values += str(point_value['value']) + "), "
-                        trend_value_count += 1
+                    add_values += " (" + str(point_value['point_id']) + ","
+                    add_values += "'" + current_datetime_utc.isoformat() + "',"
+                    add_values += str(point_value['value']) + "), "
 
-                if trend_value_count > 0:
-                    try:
-                        # trim ", " at the end of string and then execute
-                        cursor_historical_db.execute(add_values[:-2])
-                        cnx_historical_db.commit()
-                    except Exception as e:
-                        logger.error("Error in step 4.4.1 of acquisition process: " + str(e))
-                        # ignore this exception
-                        pass
+                try:
+                    # trim ", " at the end of string and then execute
+                    cursor_historical_db.execute(add_values[:-2])
+                    cnx_historical_db.commit()
+                except Exception as e:
+                    logger.error("Error in step 4.4.1 of acquisition process: " + str(e))
+                    # ignore this exception
+                    pass
 
                 # update tbl_digital_value_latest
                 delete_values = " DELETE FROM tbl_digital_value_latest WHERE point_id IN ( "

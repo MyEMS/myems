@@ -333,7 +333,6 @@ app.controller('PointController', function(
 							lower_limit: null,
 							ratio: 1,
 							offset_constant: 0,
-							is_trend: true,
 							is_virtual: false,
 							address: "{\"format\": \"<f\", \"offset\": 0, \"slave_id\": 1, \"byte_swap\": true, \"function_code\": 3, \"number_of_registers\": 2}",
 							description: "Point description",
@@ -395,7 +394,6 @@ app.controller('ModalAddPointCtrl', function($scope, $uibModalInstance) {
         offset_constant: 0
 	};
 	$scope.point.object_type = "ENERGY_VALUE";
-	$scope.point.is_trend = true;
 	$scope.point.is_virtual = false;
 	$scope.ok = function() {
 		// Block submission when the form is invalid, e.g. address/faults/definitions is not valid JSON

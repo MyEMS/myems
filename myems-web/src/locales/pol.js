@@ -1292,7 +1292,6 @@ export default {
         'API.INVALID_IS_OUTPUT_COUNTED_VALUE': 'Nieprawidłowa wartość sumowania wyjść',
         'API.INVALID_IS_OUTPUT_VALUE': 'Nieprawidłowa wartość sumowania wyjść',
         'API.INVALID_IS_READ_ONLY_VALUE': 'Invalid is read only value',
-        'API.INVALID_IS_TREND_VALUE': 'Nieprawidłowa wartość zapisywania trendu',
         'API.INVALID_IS_VIRTUAL_VALUE': 'Nieprawidłowa wartość punktu wirtualnego',
         'API.INVALID_KGCE': 'Nieprawidłowy współczynnik kg ekwiwalentu węgla',
         'API.INVALID_KGCO2E': 'Nieprawidłowy współczynnik kg emisji CO2',
