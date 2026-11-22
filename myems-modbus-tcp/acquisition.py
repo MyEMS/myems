@@ -160,7 +160,7 @@ def process(logger, data_source_id, host, port, interval_in_seconds):
 
         # Retrieve all configured points for this data source
         try:
-            query = (" SELECT id, name, object_type, is_trend, ratio, offset_constant, address "
+            query = (" SELECT id, name, object_type, ratio, offset_constant, address "
                      " FROM tbl_points "
                      " WHERE data_source_id = %s AND is_virtual = 0 "
                      " ORDER BY id ")
@@ -197,10 +197,9 @@ def process(logger, data_source_id, host, port, interval_in_seconds):
             point_list.append({"id": row_point[0],
                                "name": row_point[1],
                                "object_type": row_point[2],
-                               "is_trend": row_point[3],
-                               "ratio": row_point[4],
-                               "offset_constant": row_point[5],
-                               "address": row_point[6]})
+                               "ratio": row_point[3],
+                               "offset_constant": row_point[4],
+                               "address": row_point[5]})
 
         ################################################################################################################
         # Step 4: Read point values from Modbus TCP slaves using configured parameters
@@ -336,7 +335,6 @@ def process(logger, data_source_id, host, port, interval_in_seconds):
                     # from -999999999999999.999 to 999999999999999.999.
                     if Decimal(-999999999999999.999) <= Decimal(value) <= Decimal(999999999999999.999):
                         analog_value_list.append({'point_id': point['id'],
-                                                  'is_trend': point['is_trend'],
                                                   'value': Decimal(value) * point['ratio'] + point['offset_constant']})
                 elif point['object_type'] == 'ENERGY_VALUE':
                     # Standard SQL requires that DECIMAL(18, 3) be able to store any value with 18 digits and
@@ -344,11 +342,9 @@ def process(logger, data_source_id, host, port, interval_in_seconds):
                     # from -999999999999999.999 to 999999999999999.999.
                     if Decimal(-999999999999999.999) <= Decimal(value) <= Decimal(999999999999999.999):
                         energy_value_list.append({'point_id': point['id'],
-                                                  'is_trend': point['is_trend'],
                                                   'value': Decimal(value) * point['ratio'] + point['offset_constant']})
                 elif point['object_type'] == 'DIGITAL_VALUE':
                     digital_value_list.append({'point_id': point['id'],
-                                               'is_trend': point['is_trend'],
                                                'value': int(value) * int(point['ratio']) + int(point['offset_constant'])
                                                })
 
@@ -422,25 +418,21 @@ def process(logger, data_source_id, host, port, interval_in_seconds):
                 # Build INSERT statement for trend data (historical values)
                 add_values = (" INSERT INTO tbl_analog_value (point_id, utc_date_time, actual_value) "
                               " VALUES  ")
-                trend_value_count = 0
 
-                # Add trend values to INSERT statement
+                # Add all values to INSERT statement (write trend history unconditionally)
                 for point_value in analog_value_list_100:
-                    if point_value['is_trend']:
-                        add_values += " (" + str(point_value['point_id']) + ","
-                        add_values += "'" + current_datetime_utc.isoformat() + "',"
-                        add_values += str(point_value['value']) + "), "
-                        trend_value_count += 1
+                    add_values += " (" + str(point_value['point_id']) + ","
+                    add_values += "'" + current_datetime_utc.isoformat() + "',"
+                    add_values += str(point_value['value']) + "), "
 
-                # Execute trend data insertion if there are trend values
-                if trend_value_count > 0:
-                    try:
-                        # Trim ", " at the end of string and then execute
-                        cursor_historical_db.execute(add_values[:-2])
-                        cnx_historical_db.commit()
-                    except Exception as e:
-                        logger.error("Error in step 5.3.1 of acquisition process " + str(e))
-                        # Ignore this exception and continue processing
+                # Execute trend data insertion
+                try:
+                    # Trim ", " at the end of string and then execute
+                    cursor_historical_db.execute(add_values[:-2])
+                    cnx_historical_db.commit()
+                except Exception as e:
+                    logger.error("Error in step 5.3.1 of acquisition process " + str(e))
+                    # Ignore this exception and continue processing
 
                 # Update latest values table for analog values
                 delete_values = " DELETE FROM tbl_analog_value_latest WHERE point_id IN ( "
@@ -483,25 +475,21 @@ def process(logger, data_source_id, host, port, interval_in_seconds):
                 # Build INSERT statement for trend data (historical values)
                 add_values = (" INSERT INTO tbl_energy_value (point_id, utc_date_time, actual_value) "
                               " VALUES  ")
-                trend_value_count = 0
 
-                # Add trend values to INSERT statement
+                # Add all values to INSERT statement (write trend history unconditionally)
                 for point_value in energy_value_list_100:
-                    if point_value['is_trend']:
-                        add_values += " (" + str(point_value['point_id']) + ","
-                        add_values += "'" + current_datetime_utc.isoformat() + "',"
-                        add_values += str(point_value['value']) + "), "
-                        trend_value_count += 1
+                    add_values += " (" + str(point_value['point_id']) + ","
+                    add_values += "'" + current_datetime_utc.isoformat() + "',"
+                    add_values += str(point_value['value']) + "), "
 
-                # Execute trend data insertion if there are trend values
-                if trend_value_count > 0:
-                    try:
-                        # Trim ", " at the end of string and then execute
-                        cursor_historical_db.execute(add_values[:-2])
-                        cnx_historical_db.commit()
-                    except Exception as e:
-                        logger.error("Error in step 5.4.1 of acquisition process: " + str(e))
-                        # Ignore this exception and continue processing
+                # Execute trend data insertion
+                try:
+                    # Trim ", " at the end of string and then execute
+                    cursor_historical_db.execute(add_values[:-2])
+                    cnx_historical_db.commit()
+                except Exception as e:
+                    logger.error("Error in step 5.4.1 of acquisition process: " + str(e))
+                    # Ignore this exception and continue processing
 
                 # Update latest values table for energy values
                 delete_values = " DELETE FROM tbl_energy_value_latest WHERE point_id IN ( "
@@ -544,25 +532,21 @@ def process(logger, data_source_id, host, port, interval_in_seconds):
                 # Build INSERT statement for trend data (historical values)
                 add_values = (" INSERT INTO tbl_digital_value (point_id, utc_date_time, actual_value) "
                               " VALUES  ")
-                trend_value_count = 0
 
-                # Add trend values to INSERT statement
+                # Add all values to INSERT statement (write trend history unconditionally)
                 for point_value in digital_value_list_100:
-                    if point_value['is_trend']:
-                        add_values += " (" + str(point_value['point_id']) + ","
-                        add_values += "'" + current_datetime_utc.isoformat() + "',"
-                        add_values += str(point_value['value']) + "), "
-                        trend_value_count += 1
+                    add_values += " (" + str(point_value['point_id']) + ","
+                    add_values += "'" + current_datetime_utc.isoformat() + "',"
+                    add_values += str(point_value['value']) + "), "
 
-                # Execute trend data insertion if there are trend values
-                if trend_value_count > 0:
-                    try:
-                        # Trim ", " at the end of string and then execute
-                        cursor_historical_db.execute(add_values[:-2])
-                        cnx_historical_db.commit()
-                    except Exception as e:
-                        logger.error("Error in step 5.5.1 of acquisition process: " + str(e))
-                        # Ignore this exception and continue processing
+                # Execute trend data insertion
+                try:
+                    # Trim ", " at the end of string and then execute
+                    cursor_historical_db.execute(add_values[:-2])
+                    cnx_historical_db.commit()
+                except Exception as e:
+                    logger.error("Error in step 5.5.1 of acquisition process: " + str(e))
+                    # Ignore this exception and continue processing
 
                 # Update latest values table for digital values
                 delete_values = " DELETE FROM tbl_digital_value_latest WHERE point_id IN ( "

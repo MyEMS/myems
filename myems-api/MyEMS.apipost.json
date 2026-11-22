@@ -25874,7 +25874,7 @@
 				"body": {
 					"mode": "json",
 					"parameter": [],
-					"raw": "{\n\t\"name\": \"Modbus1\",\n\t\"gateway\": {\n\t\t\"id\": 1,\n\t\t\"name\": \"Gateway1\",\n\t\t\"uuid\": \"dc681938-5053-8660-98ed-266c58227231\"\n\t},\n\t\"protocol\": \"modbus-tcp\",\n\t\"connection\": \"{\\\"host\\\":\\\"10.1.2.88\\\", \\\"port\\\":502}\",\n\t\"description\": \"Modbus1\",\n\t\"points\": [\n\t\t{\n\t\t\t\"name\": \"Active Energy Import 1\",\n\t\t\t\"object_type\": \"ENERGY_VALUE\",\n\t\t\t\"units\": \"kWh\",\n\t\t\t\"high_limit\": 99999999999,\n\t\t\t\"low_limit\": 0,\n\t\t\t\"higher_limit\": null,\n\t\t\t\"lower_limit\": null,\n\t\t\t\"ratio\": 1,\n\t\t\t\"is_trend\": true,\n\t\t\t\"is_virtual\": false,\n\t\t\t\"address\": \"{\\\"slave_id\\\":1, \\\"function_code\\\":3, \\\"offset\\\":801, \\\"number_of_registers\\\":4, \\\"format\\\":\\\"=d\\\", \\\"byte_swap\\\":false}\",\n\t\t\t\"description\": null\n\t\t},\n\t\t{\n\t\t\t\"name\": \"Active Power  2\",\n\t\t\t\"object_type\": \"ANALOG_VALUE\",\n\t\t\t\"units\": \"kW\",\n\t\t\t\"high_limit\": 999999999,\n\t\t\t\"low_limit\": 0,\n\t\t\t\"higher_limit\": null,\n\t\t\t\"lower_limit\": null,\n\t\t\t\"ratio\": 1,\n\t\t\t\"is_trend\": true,\n\t\t\t\"is_virtual\": false,\n\t\t\t\"address\": \"{\\\"slave_id\\\":1, \\\"function_code\\\":3, \\\"offset\\\":209, \\\"number_of_registers\\\":2, \\\"format\\\":\\\"=L\\\", \\\"byte_swap\\\":true}\",\n\t\t\t\"description\": null\n\t\t}\n\t]\n}",
+					"raw": "{\n\t\"name\": \"Modbus1\",\n\t\"gateway\": {\n\t\t\"id\": 1,\n\t\t\"name\": \"Gateway1\",\n\t\t\"uuid\": \"dc681938-5053-8660-98ed-266c58227231\"\n\t},\n\t\"protocol\": \"modbus-tcp\",\n\t\"connection\": \"{\\\"host\\\":\\\"10.1.2.88\\\", \\\"port\\\":502}\",\n\t\"description\": \"Modbus1\",\n\t\"points\": [\n\t\t{\n\t\t\t\"name\": \"Active Energy Import 1\",\n\t\t\t\"object_type\": \"ENERGY_VALUE\",\n\t\t\t\"units\": \"kWh\",\n\t\t\t\"high_limit\": 99999999999,\n\t\t\t\"low_limit\": 0,\n\t\t\t\"higher_limit\": null,\n\t\t\t\"lower_limit\": null,\n\t\t\t\"ratio\": 1,\n\t\t\t\"is_virtual\": false,\n\t\t\t\"address\": \"{\\\"slave_id\\\":1, \\\"function_code\\\":3, \\\"offset\\\":801, \\\"number_of_registers\\\":4, \\\"format\\\":\\\"=d\\\", \\\"byte_swap\\\":false}\",\n\t\t\t\"description\": null\n\t\t},\n\t\t{\n\t\t\t\"name\": \"Active Power  2\",\n\t\t\t\"object_type\": \"ANALOG_VALUE\",\n\t\t\t\"units\": \"kW\",\n\t\t\t\"high_limit\": 999999999,\n\t\t\t\"low_limit\": 0,\n\t\t\t\"higher_limit\": null,\n\t\t\t\"lower_limit\": null,\n\t\t\t\"ratio\": 1,\n\t\t\t\"is_virtual\": false,\n\t\t\t\"address\": \"{\\\"slave_id\\\":1, \\\"function_code\\\":3, \\\"offset\\\":209, \\\"number_of_registers\\\":2, \\\"format\\\":\\\"=L\\\", \\\"byte_swap\\\":true}\",\n\t\t\t\"description\": null\n\t\t}\n\t]\n}",
 					"raw_parameter": [],
 					"raw_schema": {
 						"type": "object",
@@ -25899,9 +25899,6 @@
 										"address": {
 											"type": "string",
 											"format": "style"
-										},
-										"is_trend": {
-											"type": "boolean"
 										},
 										"low_limit": {
 											"type": "integer"
@@ -98832,7 +98829,7 @@
 				"body": {
 					"mode": "json",
 					"parameter": [],
-					"raw": "{\n\t\"data\": {\n\t\t\"name\": \"ModbusPoint3\",\n\t\t\"data_source_id\": 1,\n\t\t\"object_type\": \"ENERGY_VALUE\",\n\t\t\"units\": \"kWh\",\n\t\t\"high_limit\": 999999999,\n\t\t\"low_limit\": 0,\n\t\t\"higher_limit\": 1099999998.9,\n\t\t\"lower_limit\": 0,\n\t\t\"ratio\": 1,\n\t\t\"offset_constant\": 0,\n\t\t\"is_trend\": true,\n\t\t\"is_virtual\": false,\n\t\t\"address\": \"{\\\"slave_id\\\":1, \\\"function_code\\\":3, \\\"offset\\\":1, \\\"number_of_registers\\\":2, \\\"data_format\\\":\\\"float\\\"}\",\n\t\t\"description\": null,\n\t\t\"faults\": null\n\t}\n}",
+					"raw": "{\n\t\"data\": {\n\t\t\"name\": \"ModbusPoint3\",\n\t\t\"data_source_id\": 1,\n\t\t\"object_type\": \"ENERGY_VALUE\",\n\t\t\"units\": \"kWh\",\n\t\t\"high_limit\": 999999999,\n\t\t\"low_limit\": 0,\n\t\t\"higher_limit\": 1099999998.9,\n\t\t\"lower_limit\": 0,\n\t\t\"ratio\": 1,\n\t\t\"offset_constant\": 0,\n\t\t\"is_virtual\": false,\n\t\t\"address\": \"{\\\"slave_id\\\":1, \\\"function_code\\\":3, \\\"offset\\\":1, \\\"number_of_registers\\\":2, \\\"data_format\\\":\\\"float\\\"}\",\n\t\t\"description\": null,\n\t\t\"faults\": null\n\t}\n}",
 					"raw_parameter": [],
 					"raw_schema": {
 						"type": "object",
@@ -98855,9 +98852,6 @@
 									"address": {
 										"type": "string",
 										"format": "style"
-									},
-									"is_trend": {
-										"type": "boolean"
 									},
 									"low_limit": {
 										"type": "integer"
@@ -99350,7 +99344,7 @@
 				"body": {
 					"mode": "json",
 					"parameter": [],
-					"raw": "{\n\t\"data\": {\n\t\t\"name\": \"ModbusPoint1\",\n\t\t\"data_source_id\": 1,\n\t\t\"object_type\": \"ENERGY_VALUE\",\n\t\t\"units\": \"kWh\",\n\t\t\"high_limit\": 999999999,\n\t\t\"low_limit\": 0,\n\t\t\"higher_limit\": 1099999998.9,\n\t\t\"lower_limit\": 0,\n\t\t\"ratio\": 100,\n\t\t\"offset_constant\": 12,\n\t\t\"is_trend\": true,\n\t\t\"is_virtual\": false,\n\t\t\"address\": \"{\\\"slave_id\\\":1, \\\"function_code\\\":3, \\\"offset\\\":1, \\\"number_of_registers\\\":2, \\\"data_format\\\":\\\"float\\\"}\",\n\t\t\"description\": null,\n\t\t\"faults\": null,\n\t\t\"definitions\": null\n\t}\n}",
+					"raw": "{\n\t\"data\": {\n\t\t\"name\": \"ModbusPoint1\",\n\t\t\"data_source_id\": 1,\n\t\t\"object_type\": \"ENERGY_VALUE\",\n\t\t\"units\": \"kWh\",\n\t\t\"high_limit\": 999999999,\n\t\t\"low_limit\": 0,\n\t\t\"higher_limit\": 1099999998.9,\n\t\t\"lower_limit\": 0,\n\t\t\"ratio\": 100,\n\t\t\"offset_constant\": 12,\n\t\t\"is_virtual\": false,\n\t\t\"address\": \"{\\\"slave_id\\\":1, \\\"function_code\\\":3, \\\"offset\\\":1, \\\"number_of_registers\\\":2, \\\"data_format\\\":\\\"float\\\"}\",\n\t\t\"description\": null,\n\t\t\"faults\": null,\n\t\t\"definitions\": null\n\t}\n}",
 					"raw_parameter": [],
 					"raw_schema": {
 						"type": "object",
@@ -99373,9 +99367,6 @@
 									"address": {
 										"type": "string",
 										"format": "style"
-									},
-									"is_trend": {
-										"type": "boolean"
 									},
 									"low_limit": {
 										"type": "integer"
@@ -100122,7 +100113,7 @@
 				"body": {
 					"mode": "json",
 					"parameter": [],
-					"raw": "{\n\t\"name\": \"Active Energy Import 1\",\n\t\"data_source\": {\n\t\t\"id\": 1,\n\t\t\"name\": \"示例ModbusTCP数据源\",\n\t\t\"uuid\": \"b3ace9d4-b63b-419b-818f-0f6d1d0603a4\"\n\t},\n\t\"object_type\": \"ENERGY_VALUE\",\n\t\"units\": \"kWh\",\n\t\"high_limit\": 99999999999,\n\t\"low_limit\": 0,\n\t\"higher_limit\": null,\n\t\"lower_limit\": null,\n\t\"ratio\": 1,\n\t\"offset_constant\": 0,\n\t\"is_trend\": true,\n\t\"is_virtual\": false,\n\t\"address\": \"{\\\"slave_id\\\":1, \\\"function_code\\\":3, \\\"offset\\\":801, \\\"number_of_registers\\\":4, \\\"format\\\":\\\"=d\\\", \\\"byte_swap\\\":false}\",\n\t\"description\": null,\n\t\"faults\": null,\n\t\"definitions\": null\n}",
+					"raw": "{\n\t\"name\": \"Active Energy Import 1\",\n\t\"data_source\": {\n\t\t\"id\": 1,\n\t\t\"name\": \"示例ModbusTCP数据源\",\n\t\t\"uuid\": \"b3ace9d4-b63b-419b-818f-0f6d1d0603a4\"\n\t},\n\t\"object_type\": \"ENERGY_VALUE\",\n\t\"units\": \"kWh\",\n\t\"high_limit\": 99999999999,\n\t\"low_limit\": 0,\n\t\"higher_limit\": null,\n\t\"lower_limit\": null,\n\t\"ratio\": 1,\n\t\"offset_constant\": 0,\n\t\"is_virtual\": false,\n\t\"address\": \"{\\\"slave_id\\\":1, \\\"function_code\\\":3, \\\"offset\\\":801, \\\"number_of_registers\\\":4, \\\"format\\\":\\\"=d\\\", \\\"byte_swap\\\":false}\",\n\t\"description\": null,\n\t\"faults\": null,\n\t\"definitions\": null\n}",
 					"raw_parameter": [],
 					"raw_schema": {
 						"type": "object",
@@ -100142,9 +100133,6 @@
 							"address": {
 								"type": "string",
 								"format": "style"
-							},
-							"is_trend": {
-								"type": "boolean"
 							},
 							"low_limit": {
 								"type": "integer"

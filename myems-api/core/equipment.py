@@ -3968,7 +3968,7 @@ class EquipmentAddPointsCollection:
 
                 query = (" SELECT id, name, data_source_id, object_type, units, "
                          "        high_limit, low_limit, higher_limit, lower_limit, ratio, offset_constant, "
-                         "        is_trend, is_virtual, address, description, faults, definitions "
+                         "        is_virtual, address, description, faults, definitions "
                          " FROM tbl_points ")
                 cursor.execute(query)
                 rows = cursor.fetchall()
@@ -3995,12 +3995,11 @@ class EquipmentAddPointsCollection:
                                "lower_limit": row[8],
                                "ratio": Decimal(row[9]) if row[9] is not None else None,
                                "offset_constant": Decimal(row[10]) if row[10] is not None else None,
-                               "is_trend": bool(row[11]),
-                               "is_virtual": bool(row[12]),
-                               "address": row[13],
-                               "description": row[14],
-                               "faults": row[15],
-                               "definitions": row[16]}
+                               "is_virtual": bool(row[11]),
+                               "address": row[12],
+                               "description": row[13],
+                               "faults": row[14],
+                               "definitions": row[15]}
                 result.append(meta_result)
         resp.text = json.dumps(result)
 
@@ -4068,7 +4067,7 @@ class EquipmentEditPointsCollection:
 
                 query = (" SELECT id, name, data_source_id, object_type, units, "
                          "        high_limit, low_limit, higher_limit, lower_limit, ratio, offset_constant, "
-                         "        is_trend, is_virtual, address, description, faults, definitions "
+                         "        is_virtual, address, description, faults, definitions "
                          " FROM tbl_points ")
                 cursor.execute(query)
                 rows = cursor.fetchall()
@@ -4096,12 +4095,11 @@ class EquipmentEditPointsCollection:
                                "lower_limit": row[8],
                                "ratio": Decimal(row[9]) if row[9] is not None else None,
                                "offset_constant": Decimal(row[10]) if row[10] is not None else None,
-                               "is_trend": bool(row[11]),
-                               "is_virtual": bool(row[12]),
-                               "address": row[13],
-                               "description": row[14],
-                               "faults": row[15],
-                               "definitions": row[16]}
+                               "is_virtual": bool(row[11]),
+                               "address": row[12],
+                               "description": row[13],
+                               "faults": row[14],
+                               "definitions": row[15]}
                 result_first.append(meta_result)
                 
         for item in result_first:

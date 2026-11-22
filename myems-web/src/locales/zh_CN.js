@@ -1370,7 +1370,6 @@ export default {
         'API.INVALID_IS_OUTPUT_COUNTED_VALUE': '无效的输出是否汇总值',
         'API.INVALID_IS_OUTPUT_VALUE': '无效的输出是否汇总值',
         'API.INVALID_IS_READ_ONLY_VALUE': 'Invalid is read only value',
-        'API.INVALID_IS_TREND_VALUE': '无效的是否保存趋势值',
         'API.INVALID_IS_VIRTUAL_VALUE': '无效的是否虚拟点值',
         'API.INVALID_KGCE': '无效的千克标准煤系数',
         'API.INVALID_KGCO2E': '无效的千克二氧化碳排放系数',

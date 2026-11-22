@@ -141,7 +141,6 @@
                                     <th class="text-center">{{'POINT.LATEST_VALUE' | translate}}</th>
                                     <th class="text-center">{{'POINT.UNIT' | translate}}</th>
                                     <th class="text-center">{{'POINT.RATIO' | translate}}</th>
-                                    <th class="text-center">{{'POINT.IS_TREND' | translate}}</th>
                                     <th class="text-center">{{'POINT.IS_VIRTUAL' | translate}}</th>
                                     <th class="text-center">{{'POINT.ADDRESS' | translate}}</th>
                                     <th class="text-center">{{'SETTING.DESCRIPTION' | translate}}
@@ -158,9 +157,6 @@
                                     <td class="text-center">{{ point.latest_value }}</td>
                                     <td class="text-center">{{ point.units }}</td>
                                     <td class="text-center">{{ point.ratio }}</td>
-                                    <td class="text-center">
-                                        {{ point.is_trend == false ? 'SETTING.NO' : 'SETTING.YES' | translate }}
-                                    </td>
                                     <td class="text-center">
                                         {{ point.is_virtual == false ? 'SETTING.NO' : 'SETTING.YES' | translate }}
                                     </td>

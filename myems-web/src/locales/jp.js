@@ -1292,7 +1292,6 @@ export default {
         'API.INVALID_IS_OUTPUT_COUNTED_VALUE': '無効な出力計上フラグ',
         'API.INVALID_IS_OUTPUT_VALUE': '無効な出力計上フラグ',
         'API.INVALID_IS_READ_ONLY_VALUE': '無効な読み取り専用フラグ',
-        'API.INVALID_IS_TREND_VALUE': '無効な傾向保存フラグ',
         'API.INVALID_IS_VIRTUAL_VALUE': '無効な仮想ポイントフラグ',
         'API.INVALID_KGCE': '無効なキログラム標準炭係数',
         'API.INVALID_KGCO2E': '無効なキログラム二酸化炭素排出係数',

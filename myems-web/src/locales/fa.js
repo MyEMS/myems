@@ -1292,7 +1292,6 @@ export default {
         'API.INVALID_IS_OUTPUT_COUNTED_VALUE': 'مقدار جمع‌آوری خروجی نامعتبر',
         'API.INVALID_IS_OUTPUT_VALUE': 'مقدار جمع‌آوری خروجی نامعتبر',
         'API.INVALID_IS_READ_ONLY_VALUE': 'مقدار فقط خواندنی نامعتبر',
-        'API.INVALID_IS_TREND_VALUE': 'مقدار ذخیره روند نامعتبر',
         'API.INVALID_IS_VIRTUAL_VALUE': 'مقدار نقطه مجازی نامعتبر',
         'API.INVALID_KGCE': 'ضریب تبدیل به کیلوگرم زغال سنگ استاندارد نامعتبر',
         'API.INVALID_KGCO2E': 'ضریب انتشار دی‌اکسید کربن به کیلوگرم نامعتبر',
