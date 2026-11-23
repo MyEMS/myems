@@ -81,6 +81,6 @@ WHERE NOT EXISTS (SELECT 1 FROM myems_system_db.tbl_menus WHERE id = 1303);
 -- WARNING: this drops configuration data and is not reversible; back up myems_system_db before running.
 ALTER TABLE `myems_system_db`.`tbl_points` DROP COLUMN `is_trend`;
 
-UPDATE `myems_system_db`.`tbl_versions` SET version='6.11.0RC', release_date='2026-11-07' WHERE id=1;
+UPDATE `myems_system_db`.`tbl_versions` SET version='6.11.0', release_date='2026-11-23' WHERE id=1;
 
 COMMIT;
