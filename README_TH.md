@@ -218,6 +218,8 @@ Web UI:
 
 ## 🔖 แนะนำ
 
+- 👉 MyBACnet: เครื่องมือเรียกดูเครือข่าย BACnet/IP ข้ามแพลตฟอร์มที่เขียนด้วย TypeScript [https://gitee.com/mybacnet/mybacnet](https://gitee.com/mybacnet/mybacnet)
+- 👉 XBACnet: เผยแพร่ข้อมูลใดๆ เป็น BACnet [https://gitee.com/xbacnet/xbacnet](https://gitee.com/xbacnet/xbacnet)
 - 👉 แบบฟอร์มเวิร์กโฟลว์ BPM Chichang โค้ดต่ำ : [https://gitee.com/opencc/ccflow](https://gitee.com/opencc/ccflow)
 - 👉 IoTGateway: เกตเวย์ IoT ข้ามแพลตฟอร์มที่ใช้ .NET6 [https://gitee.com/iioter/iotgateway](https://gitee.com/iioter/iotgateway)
 - 👉 แพลตฟอร์ม iot Enjoy [https://gitee.com/open-enjoy/enjoy-iot](https://gitee.com/open-enjoy/enjoy-iot)

@@ -218,6 +218,8 @@ Web UI:
 
 ## 🔖 Рекомендации
 
+- 👉 MyBACnet: Кроссплатформенный браузер сети BACnet/IP, написанный на TypeScript. [https://gitee.com/mybacnet/mybacnet](https://gitee.com/mybacnet/mybacnet)
+- 👉 XBACnet: Публикация любых данных как BACnet. [https://gitee.com/xbacnet/xbacnet](https://gitee.com/xbacnet/xbacnet)
 - 👉 Форма рабочего процесса BPM Chichang с низким кодом : [https://gitee.com/opencc/ccflow](https://gitee.com/opencc/ccflow)
 - 👉 IoTGateway : Кроссплатформенный шлюз IoT на основе .NET6 [https://gitee.com/iioter/iotgateway](https://gitee.com/iioter/iotgateway)
 - 👉 Платформа iot Enjoy [https://gitee.com/open-enjoy/enjoy-iot](https://gitee.com/open-enjoy/enjoy-iot)

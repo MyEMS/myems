@@ -217,6 +217,8 @@ Hasło: !MyEMS1
 
 ## 🔖 Rekomendacje
 
+- 👉 MyBACnet: Wieloplatformowa przeglądarka sieci BACnet/IP napisana w TypeScript. [https://gitee.com/mybacnet/mybacnet](https://gitee.com/mybacnet/mybacnet)
+- 👉 XBACnet: Publikuj dowolne dane jako BACnet. [https://gitee.com/xbacnet/xbacnet](https://gitee.com/xbacnet/xbacnet)
 - 👉 Chęciny BPM Low-Code Workflow Forms: [https://gitee.com/opencc/ccflow](https://gitee.com/opencc/ccflow)
 - 👉 IoTGateway: wieloplatformowa brama IoT oparta na .NET6 [https://gitee.com/iioter/iotgateway](https://gitee.com/iioter/iotgateway)
 - 👉 Platforma Lelian IoT [https://gitee.com/open-enjoy/enjoy-iot](https://gitee.com/open-enjoy/enjoy-iot)

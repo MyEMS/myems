@@ -218,6 +218,8 @@ Web UI:
 
 ## 🔖 おすすめ
 
+- 👉 MyBACnet: TypeScriptで書かれたクロスプラットフォームのBACnet/IPネットワークブラウザ。 [https://gitee.com/mybacnet/mybacnet](https://gitee.com/mybacnet/mybacnet)
+- 👉 XBACnet: あらゆるデータをBACnetとして公開 [https://gitee.com/xbacnet/xbacnet](https://gitee.com/xbacnet/xbacnet)
 - 👉 馳騁BPM低コードワークフローフォーム： [https://gitee.com/opencc/ccflow](https://gitee.com/opencc/ccflow)
 - 👉 IoTGateway:.NET6ベースのクロスプラットフォームIoTゲートウェイ [https://gitee.com/iioter/iotgateway](https://gitee.com/iioter/iotgateway)
 - 👉 楽聯iotプラットフォーム [https://gitee.com/open-enjoy/enjoy-iot](https://gitee.com/open-enjoy/enjoy-iot)

@@ -218,6 +218,8 @@ Mot de passe : !MyEMS1
 
 ## 🔖 Recommandations
 
+- 👉 MyBACnet : Un navigateur de réseau BACnet/IP multiplateforme écrit en TypeScript. [https://gitee.com/mybacnet/mybacnet](https://gitee.com/mybacnet/mybacnet)
+- 👉 XBACnet : Publiez n'importe quelle donnée en BACnet. [https://gitee.com/xbacnet/xbacnet](https://gitee.com/xbacnet/xbacnet)
 - 👉 BPM Chichang low-code workflow form : [https://gitee.com/opencc/ccflow](https://gitee.com/opencc/ccflow)
 - 👉 IoTGateway : Passerelle IoT multiplateforme basée sur .NET6 [https://gitee.com/iioter/iotgateway](https://gitee.com/iioter/iotgateway)
 - 👉 Plateforme iot Enjoy [https://gitee.com/open-enjoy/enjoy-iot](https://gitee.com/open-enjoy/enjoy-iot)

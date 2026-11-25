@@ -218,6 +218,8 @@ Mật khẩu: !MyEMS1
 
 ## 🔖 Đề xuất
 
+- 👉 MyBACnet: Trình duyệt mạng BACnet/IP đa nền tảng viết bằng TypeScript. [https://gitee.com/mybacnet/mybacnet](https://gitee.com/mybacnet/mybacnet)
+- 👉 XBACnet: Phát hành mọi dữ liệu dưới dạng BACnet. [https://gitee.com/xbacnet/xbacnet](https://gitee.com/xbacnet/xbacnet)
 - 👉 Biểu mẫu quy trình làm việc BPM Chichang mã thấp : [https://gitee.com/opencc/ccflow](https://gitee.com/opencc/ccflow)
 - 👉 IoTGateway: Cổng IoT đa nền tảng dựa trên .NET6 [https://gitee.com/iioter/iotgateway](https://gitee.com/iioter/iotgateway)
 - 👉 Nền tảng iot Enjoy [https://gitee.com/open-enjoy/enjoy-iot](https://gitee.com/open-enjoy/enjoy-iot)

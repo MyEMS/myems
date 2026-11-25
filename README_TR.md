@@ -218,6 +218,8 @@ Kullanıcı adı: administrator
 
 ## 🔖 Öneriler
 
+- 👉 MyBACnet: TypeScript ile yazılmış platformlar arası bir BACnet/IP ağ tarayıcısı. [https://gitee.com/mybacnet/mybacnet](https://gitee.com/mybacnet/mybacnet)
+- 👉 XBACnet: Herhangi bir veriyi BACnet olarak yayınlayın. [https://gitee.com/xbacnet/xbacnet](https://gitee.com/xbacnet/xbacnet)
 - 👉 Chichang BPM düşük kod iş akışı formu : [https://gitee.com/opencc/ccflow](https://gitee.com/opencc/ccflow)
 - 👉 IoTGateway: .NET6 tabanlı çapraz platform IoT ağ geçidi [https://gitee.com/iioter/iotgateway](https://gitee.com/iioter/iotgateway)
 - 👉 Enjoy iot platformu [https://gitee.com/open-enjoy/enjoy-iot](https://gitee.com/open-enjoy/enjoy-iot)
