@@ -1,5 +1,7 @@
 # myems-normalization
 
+Chinese version: [README_CN.md](README_CN.md)
+
 MyEMS Normalization Service 
 
 数据规范化服务

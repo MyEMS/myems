@@ -140,6 +140,10 @@ MyEMS開源能源管理系統參考ISO 50001能源管理體系標準(GB/T 23331-
 
 詳見 [myems-modbus-tcp](./myems-modbus-tcp/README.md)介紹
 
+### MyEMS Modbus RTU 資料採集服務
+
+詳見 [myems-modbus-rtu](./myems-modbus-rtu/README.md)介紹
+
 ### MyEMS BACnet 數據採集服務
 
 詳見 [myems-bacnet](./myems-bacnet/README.md)介紹

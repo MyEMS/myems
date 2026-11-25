@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
+-- added myems-modbus-rtu service to acquire data from Modbus RTU devices over serial ports
 ### Changed
 ### Fixed
 ### Removed

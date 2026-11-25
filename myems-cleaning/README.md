@@ -1,5 +1,7 @@
 # myems-cleaning
 
+Chinese version: [README_CN.md](README_CN.md)
+
 MyEMS Cleaning Service 
 
 MyEMS 数据清洗服务

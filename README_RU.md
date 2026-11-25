@@ -140,6 +140,10 @@
 
 См. введение [myems-modbus-tcp](./myems-modbus-tcp/README.md)
 
+### Служба сбора данных Modbus RTU MyEMS
+
+См. введение [myems-modbus-rtu](./myems-modbus-rtu/README.md)
+
 ### Служба сбора данных MyEMS BACnet
 
 См. введение [myems-bacnet](./myems-bacnet/README.md)

@@ -140,6 +140,10 @@ Ver introdução [myems-admin](myems-admin/README.md)
 
 Ver introdução [myems-modbus-tcp](./myems-modbus-tcp/README.md)
 
+### Serviço de coleta de dados Modbus RTU MyEMS
+
+Ver introdução [myems-modbus-rtu](./myems-modbus-rtu/README.md)
+
 ### Serviço de aquisição de dados MyEMS BACnet
 
 Ver introdução [myems-bacnet](./myems-bacnet/README.md)

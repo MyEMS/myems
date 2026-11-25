@@ -1,0 +1,72 @@
+"""
+MyEMS Modbus RTU Gateway Service - Gateway Monitoring Module
+"""
+
+import time
+from datetime import datetime, timezone
+import mysql.connector
+import schedule
+import config
+
+
+def job(logger):
+    cnx_system_db = None
+    cursor_system_db = None
+
+    try:
+        cnx_system_db = mysql.connector.connect(**config.myems_system_db)
+        cursor_system_db = cnx_system_db.cursor()
+    except Exception as e:
+        logger.error("Error in step 1.1 of Gateway process " + str(e))
+        if cursor_system_db:
+            cursor_system_db.close()
+        if cnx_system_db:
+            cnx_system_db.close()
+        return
+
+    try:
+        query = (" SELECT name "
+                 " FROM tbl_gateways "
+                 " WHERE id = %s AND token = %s ")
+        cursor_system_db.execute(query, (config.gateway['id'], config.gateway['token'],))
+        row = cursor_system_db.fetchone()
+    except Exception as e:
+        logger.error("Error in step 1.2 of gateway process: " + str(e))
+        if cursor_system_db:
+            cursor_system_db.close()
+        if cnx_system_db:
+            cnx_system_db.close()
+        return
+
+    if row is None:
+        logger.error("Error in step 1.3 of gateway process: Not Found ")
+        if cursor_system_db:
+            cursor_system_db.close()
+        if cnx_system_db:
+            cnx_system_db.close()
+        return
+
+    current_datetime_utc = datetime.now(timezone.utc).replace(tzinfo=None)
+
+    update_row = (" UPDATE tbl_gateways "
+                  " SET last_seen_datetime_utc = '" + current_datetime_utc.isoformat() + "' "
+                  " WHERE id = %s ")
+    try:
+        cursor_system_db.execute(update_row, (config.gateway['id'], ))
+        cnx_system_db.commit()
+    except Exception as e:
+        logger.error("Error in step 3.1 of gateway process " + str(e))
+        return
+    finally:
+        if cursor_system_db:
+            cursor_system_db.close()
+        if cnx_system_db:
+            cnx_system_db.close()
+
+
+def process(logger):
+    schedule.every(3).minutes.do(job, logger)
+
+    while True:
+        schedule.run_pending()
+        time.sleep(60)

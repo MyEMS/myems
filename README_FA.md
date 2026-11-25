@@ -140,6 +140,10 @@
 
 جهت مشاهده توضیحات به [myems-modbus-tcp](./myems-modbus-tcp/README.md) مراجعه نمایید
 
+### سرویس جمع‌آوری داده Modbus RTU MyEMS
+
+جهت مشاهده توضیحات به [myems-modbus-rtu](./myems-modbus-rtu/README.md) مراجعه نمایید
+
 ### سرویس جمع آوری داده MyEMS BACnet
 
 جهت مشاهده توضیحات به [myems-bacnet](./myems-bacnet/README.md) مراجعه نمایید

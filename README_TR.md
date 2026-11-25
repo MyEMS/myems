@@ -140,6 +140,10 @@ Giriş için [myems-admin](myems-admin/README.md) bakın
 
 Giriş için [myems-modbus-tcp](./myems-modbus-tcp/README.md) bakın
 
+### MyEMS Modbus RTU Veri Toplama Servisi
+
+Giriş için [myems-modbus-rtu](./myems-modbus-rtu/README.md) bakın
+
 ### MyEMS BACnet Veri Toplama Hizmeti
 
 Giriş için [myems-bacnet](./myems-bacnet/README.md) bakın

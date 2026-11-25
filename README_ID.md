@@ -140,6 +140,10 @@ Lihat pengantar [myems-admin](myems-admin/README.md)
 
 Lihat pengantar [myems-modbus-tcp](./myems-modbus-tcp/README.md)
 
+### Layanan pengumpulan data Modbus RTU MyEMS
+
+Lihat pengantar [myems-modbus-rtu](./myems-modbus-rtu/README.md)
+
 ### Layanan akuisisi data MyEMS BACnet
 
 Lihat pengantar [myems-bacnet](./myems-bacnet/README.md)

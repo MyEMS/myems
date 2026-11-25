@@ -144,6 +144,10 @@ See [myems-admin](myems-admin/README.md) Introduction
 
 See [myems-modbus-tcp](./myems-modbus-tcp/README.md) Introduction
 
+### MyEMS Modbus RTU Acquisition Service (Python)
+
+See [myems-modbus-rtu](./myems-modbus-rtu/README.md) Introduction
+
 ### MyEMS BACnet Data Acquisition Service (Python)
 
 See [myems-bacnet](./myems-bacnet/README.md) Introduction

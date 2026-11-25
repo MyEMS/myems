@@ -1,5 +1,7 @@
 ## MyEMS OPC UA Service
 
+Chinese version: [README_CN.md](README_CN.md)
+
 ### Introduction
 
 This service is a component of MyEMS to acquire data from OPC UA server.

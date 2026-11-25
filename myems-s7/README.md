@@ -1,5 +1,6 @@
 ## MyEMS S7 Service
 
+Chinese version: [README_CN.md](README_CN.md)
 
 ### Introduction
 
@@ -86,8 +87,7 @@ docker load --input .\myems-s7.tar
 sudo docker run -d -v /myems-s7/.env:/app/.env:ro --log-opt max-size=1m --log-opt max-file=2 --restart always --name myems-s7 myems-s7
 ```
 
-* Run a D
-* ocker container on Windows (Run as Administrator)
+* Run a Docker container on Windows (Run as Administrator)
 ```bash
 docker run -d -v c:\myems-s7\.env:/app/.env:ro --log-opt max-size=1m --log-opt max-file=2 --restart always --name myems-s7 myems-s7
 ```

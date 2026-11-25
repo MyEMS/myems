@@ -140,6 +140,10 @@ MyEMSオープンソースエネルギー管理システムは、ISO 50001エネ
 
 詳細は [myems-modbus-tcp](./myems-modbus-tcp/README.md) をご覧ください
 
+### MyEMS Modbus RTU データ収集サービス
+
+詳細は [myems-modbus-rtu](./myems-modbus-rtu/README.md) をご覧ください
+
 ### MyEMS BACnet データ収集サービス
 
 詳細は [myems-bacnet](./myems-bacnet/README.md) をご覧ください
