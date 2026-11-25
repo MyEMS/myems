@@ -11,8 +11,7 @@ START TRANSACTION;
 
 INSERT INTO myems_system_db.tbl_menus (id,name,route, parent_menu_id,is_hidden)
 VALUES
-(217,'Equipment Realtime Monitor','/equipment/realtimemonitor',200,0),
-(330,'Dashboard','/meter',300,0);
+(217,'Equipment Realtime Monitor','/equipment/realtimemonitor',200,0);
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `myems_system_db`.`tbl_emission_factors`
