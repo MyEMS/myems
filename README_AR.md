@@ -218,6 +218,8 @@ Web UI:
 
 ## 🔖 توصيات
 
+- 👉 MyBACnet: متصفح شبكة BACnet/IP متعدد المنصات مكتوب بلغة TypeScript. [https://gitee.com/mybacnet/mybacnet](https://gitee.com/mybacnet/mybacnet)
+- 👉 XBACnet: انشر أي بيانات بصيغة BACnet. [https://gitee.com/xbacnet/xbacnet](https://gitee.com/xbacnet/xbacnet)
 - 👉 نموذج سير عمل BPM Chichang منخفض الكود : [https://gitee.com/opencc/ccflow](https://gitee.com/opencc/ccflow)
 - 👉 IoTGateway : بوابة إنترنت الأشياء متعددة المنصات المبنية على .NET6 [https://gitee.com/iioter/iotgateway](https://gitee.com/iioter/iotgateway)
 - 👉 منصة إنترنت الأشياء Enjoy [https://gitee.com/open-enjoy/enjoy-iot](https://gitee.com/open-enjoy/enjoy-iot)

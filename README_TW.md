@@ -218,6 +218,8 @@ Web UI:
 
 ## 🔖 推薦
 
+- 👉 MyBACnet: 一個用 TypeScript 編寫的跨平台 BACnet/IP 網路瀏覽工具。 [https://gitee.com/mybacnet/mybacnet](https://gitee.com/mybacnet/mybacnet)
+- 👉 XBACnet: 把任何資料發布為BACnet [https://gitee.com/xbacnet/xbacnet](https://gitee.com/xbacnet/xbacnet)
 - 👉 馳騁BPM低程式碼工作流程表單： [https://gitee.com/opencc/ccflow](https://gitee.com/opencc/ccflow)
 - 👉 IoTGateway:基於.NET6的跨平台物聯網閘道 [https://gitee.com/iioter/iotgateway](https://gitee.com/iioter/iotgateway)
 - 👉 樂聯iot平台 [https://gitee.com/open-enjoy/enjoy-iot](https://gitee.com/open-enjoy/enjoy-iot)

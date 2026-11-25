@@ -218,6 +218,8 @@ Kata sandi: !MyEMS1
 
 ## 🔖 Rekomendasi
 
+- 👉 MyBACnet: Peramban jaringan BACnet/IP lintas platform yang ditulis dalam TypeScript. [https://gitee.com/mybacnet/mybacnet](https://gitee.com/mybacnet/mybacnet)
+- 👉 XBACnet: Publikasikan data apa pun sebagai BACnet. [https://gitee.com/xbacnet/xbacnet](https://gitee.com/xbacnet/xbacnet)
 - 👉 Formulir alur kerja BPM Chichang kode rendah : [https://gitee.com/opencc/ccflow](https://gitee.com/opencc/ccflow)
 - 👉 IoTGateway: Gateway IoT lintas platform berbasis .NET6 [https://gitee.com/iioter/iotgateway](https://gitee.com/iioter/iotgateway)
 - 👉 Platform iot Enjoy [https://gitee.com/open-enjoy/enjoy-iot](https://gitee.com/open-enjoy/enjoy-iot)

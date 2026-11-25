@@ -218,6 +218,8 @@ Wachtwoord: !MyEMS1
 
 ## 🔖 Aanbevelingen
 
+- 👉 MyBACnet: Een platformonafhankelijke BACnet/IP-netwerkbrowser geschreven in TypeScript. [https://gitee.com/mybacnet/mybacnet](https://gitee.com/mybacnet/mybacnet)
+- 👉 XBACnet: Publiceer alle gegevens als BACnet. [https://gitee.com/xbacnet/xbacnet](https://gitee.com/xbacnet/xbacnet)
 - 👉 Chiteng BPM Low-code Workflow Formulieren: [https://gitee.com/opencc/ccflow](https://gitee.com/opencc/ccflow)
 - 👉 IoTGateway: Cross-platform IoT Gateway gebaseerd op .NET6 [https://gitee.com/iioter/iotgateway](https://gitee.com/iioter/iotgateway)
 - 👉 Lelian iot platform [https://gitee.com/open-enjoy/enjoy-iot](https://gitee.com/open-enjoy/enjoy-iot)
