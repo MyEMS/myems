@@ -140,6 +140,10 @@ Lihat pengenalan [myems-admin](myems-admin/README.md)
 
 Lihat pengenalan [myems-modbus-tcp](./myems-modbus-tcp/README.md)
 
+### Perkhidmatan pengumpulan data Modbus RTU MyEMS
+
+Lihat pengenalan [myems-modbus-rtu](./myems-modbus-rtu/README.md)
+
 ### Perkhidmatan pemerolehan data MyEMS BACnet
 
 Lihat pengenalan [myems-bacnet](./myems-bacnet/README.md)

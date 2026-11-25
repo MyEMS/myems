@@ -1,5 +1,7 @@
 # myems-admin
 
+Chinese version: [README_CN.md](README_CN.md)
+
 ## Introduction
 
 系统管理用户界面，用于MyEMS系统配置

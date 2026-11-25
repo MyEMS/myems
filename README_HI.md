@@ -141,6 +141,10 @@
 
 परिचय देखें [myems-modbus-tcp](./myems-modbus-tcp/README.md)
 
+### MyEMS Modbus RTU डेटा संग्रह सेवा
+
+परिचय देखें [myems-modbus-rtu](./myems-modbus-rtu/README.md)
+
 ### MyEMS BACnet डेटा अधिग्रहण सेवा
 
 परिचय देखें [myems-bacnet](./myems-bacnet/README.md)

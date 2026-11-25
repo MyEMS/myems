@@ -1,5 +1,7 @@
 ## myems-aggregation
 
+Chinese version: [README_CN.md](README_CN.md)
+
 Data Aggregation Service 
 
 数据汇总服务

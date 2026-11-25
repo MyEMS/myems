@@ -140,6 +140,10 @@
 
 انظر مقدمة [myems-modbus-tcp](./myems-modbus-tcp/README.md)
 
+### خدمة جمع بيانات Modbus RTU MyEMS
+
+انظر مقدمة [myems-modbus-rtu](./myems-modbus-rtu/README.md)
+
 ### خدمة الحصول على البيانات MyEMS BACnet
 
 انظر مقدمة [myems-bacnet](./myems-bacnet/README.md)

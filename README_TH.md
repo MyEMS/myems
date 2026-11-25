@@ -140,6 +140,10 @@
 
 ดูการแนะนำ [myems-modbus-tcp](./myems-modbus-tcp/README.md)
 
+### บริการรวบรวมข้อมูล Modbus RTU MyEMS
+
+ดูการแนะนำ [myems-modbus-rtu](./myems-modbus-rtu/README.md)
+
 ### บริการรวบรวมข้อมูล MyEMS BACnet
 
 ดูการแนะนำ [myems-bacnet](./myems-bacnet/README.md)

@@ -1,5 +1,7 @@
 # MyEMS API Service
 
+Chinese version: [README_CN.md](README_CN.md)
+
 ## Introduction
 
 RESTful API service for [MyEMS](https://github.com/MyEMS/myems) components and third party applications.

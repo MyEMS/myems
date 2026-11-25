@@ -130,43 +130,47 @@ MyEMS开源能源管理系统参考ISO 50001能源管理体系标准(GB/T 23331-
 
 ### MyEMS API 应用程序接口
 
-详见 [myems-api](./myems-api/README.md)介绍
+详见 [myems-api](./myems-api/README_CN.md)介绍
 
 ### MyEMS 管理 UI
 
-详见 [myems-admin](myems-admin/README.md)介绍
+详见 [myems-admin](myems-admin/README_CN.md)介绍
 
 ### MyEMS Modbus TCP 数据采集服务
 
-详见 [myems-modbus-tcp](./myems-modbus-tcp/README.md)介绍
+详见 [myems-modbus-tcp](./myems-modbus-tcp/README_CN.md)介绍
+
+### MyEMS Modbus RTU 数据采集服务
+
+详见 [myems-modbus-rtu](./myems-modbus-rtu/README_CN.md)介绍
 
 ### MyEMS BACnet 数据采集服务
 
-详见 [myems-bacnet](./myems-bacnet/README.md)介绍
+详见 [myems-bacnet](./myems-bacnet/README_CN.md)介绍
 
 ### MyEMS OPC UA 数据采集服务
 
-详见 [myems-opc-ua](./myems-opc-ua/README.md)介绍
+详见 [myems-opc-ua](./myems-opc-ua/README_CN.md)介绍
 
 ### MyEMS S7 数据采集服务
 
-详见 [myems-s7](./myems-s7/README.md)介绍
+详见 [myems-s7](./myems-s7/README_CN.md)介绍
 
 ### MyEMS 数据清洗服务
 
-详见 [myems-cleaning](./myems-cleaning/README.md)介绍
+详见 [myems-cleaning](./myems-cleaning/README_CN.md)介绍
 
 ### MyEMS 数据规范化服务
 
-详见 [myems-normalization](./myems-normalization/README.md)介绍
+详见 [myems-normalization](./myems-normalization/README_CN.md)介绍
 
 ### MyEMS 数据汇总服务
 
-详见 [myems-aggregation](./myems-aggregation/README.md)介绍
+详见 [myems-aggregation](./myems-aggregation/README_CN.md)介绍
 
 ### MyEMS Web UI
 
-详见 [myems-web](myems-web/README.md)介绍
+详见 [myems-web](myems-web/README_CN.md)介绍
 
 ### 默认端口号
 

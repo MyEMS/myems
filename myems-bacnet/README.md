@@ -1,5 +1,6 @@
 # MyEMS BACnet Service
 
+Chinese version: [README_CN.md](README_CN.md)
 
 ## Introduction
 

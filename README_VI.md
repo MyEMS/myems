@@ -140,6 +140,10 @@ Xem giới thiệu [myems-admin](myems-admin/README.md)
 
 Xem giới thiệu [myems-modbus-tcp](./myems-modbus-tcp/README.md)
 
+### Dịch vụ thu thập dữ liệu Modbus RTU MyEMS
+
+Xem giới thiệu [myems-modbus-rtu](./myems-modbus-rtu/README.md)
+
 ### Dịch vụ thu thập dữ liệu MyEMS BACnet
 
 Xem giới thiệu [myems-bacnet](./myems-bacnet/README.md)

@@ -1,5 +1,7 @@
 # myems-web
 
+Chinese version: [README_CN.md](README_CN.md)
+
 ## Introduction
 
 Web用户界面，用于MyEMS能源数据可视化
