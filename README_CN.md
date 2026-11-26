@@ -218,8 +218,8 @@ Web UI:
 
 
 ## 🔖 推荐
-- 👉 MyBACnet: 一个用 TypeScript 编写的跨平台 BACnet/IP 网络浏览工具。 [https://gitee.com/mybacnet/mybacnet](https://gitee.com/mybacnet/mybacnet)
-- 👉 XBACnet: 把任何数据发布为BACnet [https://gitee.com/xbacnet/xbacnet](https://gitee.com/xbacnet/xbacnet)
+- 👉 MyBACnet: 一个用 TypeScript 编写的 BACnet/IP 网络浏览工具。协议栈完全依据 ASHRAE 135 标准实现，面向楼宇自动化设备，支持发现、读取、写入、监视、事件、 日程表与备份恢复等日常运维工作。 [https://gitee.com/mybacnet/mybacnet](https://gitee.com/mybacnet/mybacnet)
+- 👉 XBACnet: 万能BACnet网关，把任何数据发布为BACnet [https://gitee.com/xbacnet/xbacnet](https://gitee.com/xbacnet/xbacnet)
 - 👉 驰骋BPM低代码工作流表单： [https://gitee.com/opencc/ccflow](https://gitee.com/opencc/ccflow)
 - 👉 IoTGateway:基于.NET6的跨平台物联网网关 [https://gitee.com/iioter/iotgateway](https://gitee.com/iioter/iotgateway)
 - 👉 乐联iot平台 [https://gitee.com/open-enjoy/enjoy-iot](https://gitee.com/open-enjoy/enjoy-iot)

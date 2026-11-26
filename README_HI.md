@@ -219,8 +219,8 @@ Web UI:
 
 ## 🔖 अनुशंसाएँ
 
-- 👉 MyBACnet: TypeScript में लिखा एक क्रॉस-प्लेटफ़ॉर्म BACnet/IP नेटवर्क ब्राउज़र। [https://gitee.com/mybacnet/mybacnet](https://gitee.com/mybacnet/mybacnet)
-- 👉 XBACnet: किसी भी डेटा को BACnet के रूप में प्रकाशित करें। [https://gitee.com/xbacnet/xbacnet](https://gitee.com/xbacnet/xbacnet)
+- 👉 MyBACnet: TypeScript में लिखा एक BACnet/IP नेटवर्क ब्राउज़र। प्रोटोकॉल स्टैक ASHRAE 135 मानक के अनुसार पूरी तरह लागू किया गया है, भवन स्वचालन उपकरणों के लिए है, और खोज, पढ़ना, लिखना, निगरानी, घटनाएँ, अनुसूची तथा बैकअप और पुनर्स्थापना जैसे दैनिक संचालन का समर्थन करता है। [https://gitee.com/mybacnet/mybacnet](https://gitee.com/mybacnet/mybacnet)
+- 👉 XBACnet: सार्वभौमिक BACnet गेटवे, जो किसी भी डेटा को BACnet के रूप में प्रकाशित करता है। [https://gitee.com/xbacnet/xbacnet](https://gitee.com/xbacnet/xbacnet)
 - 👉 चिचांग BPM लो-कोड वर्कफ़्लो फॉर्म : [https://gitee.com/opencc/ccflow](https://gitee.com/opencc/ccflow)
 - 👉 IoTGateway: .NET6 आधारित क्रॉस-प्लेटफ़ॉर्म IoT गेटवे [https://gitee.com/iioter/iotgateway](https://gitee.com/iioter/iotgateway)
 - 👉 एन्जॉय iot प्लेटफ़ॉर्म [https://gitee.com/open-enjoy/enjoy-iot](https://gitee.com/open-enjoy/enjoy-iot)

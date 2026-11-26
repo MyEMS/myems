@@ -218,8 +218,8 @@ Password：!MyEMS1
 
 ## 🔖 Raccomandazioni
 
-- 👉 MyBACnet: Un browser di rete BACnet/IP multipiattaforma scritto in TypeScript. [https://gitee.com/mybacnet/mybacnet](https://gitee.com/mybacnet/mybacnet)
-- 👉 XBACnet: Pubblica qualsiasi dato come BACnet. [https://gitee.com/xbacnet/xbacnet](https://gitee.com/xbacnet/xbacnet)
+- 👉 MyBACnet: Un browser di rete BACnet/IP scritto in TypeScript. Lo stack di protocollo è implementato interamente secondo lo standard ASHRAE 135 per i dispositivi di automazione degli edifici e supporta le operazioni quotidiane come scoperta, lettura, scrittura, monitoraggio, eventi, pianificazioni, nonché backup e ripristino. [https://gitee.com/mybacnet/mybacnet](https://gitee.com/mybacnet/mybacnet)
+- 👉 XBACnet: Un gateway BACnet universale che pubblica qualsiasi dato come BACnet. [https://gitee.com/xbacnet/xbacnet](https://gitee.com/xbacnet/xbacnet)
 - 👉 BPM a basso codice Chizheng flusso di lavoro form: [https://gitee.com/opencc/ccflow](https://gitee.com/opencc/ccflow)
 - 👉 IoTGateway: Gateway IoT multipiattaforma basato su .NET6 [https://gitee.com/iioter/iotgateway](https://gitee.com/iioter/iotgateway)
 - 👉 Piattaforma iot EnjoyLink [https://gitee.com/open-enjoy/enjoy-iot](https://gitee.com/open-enjoy/enjoy-iot)

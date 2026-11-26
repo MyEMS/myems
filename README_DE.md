@@ -219,8 +219,8 @@ Passwort: !MyEMS1
 
 ## 🔖 Empfehlungen
 
-- 👉 MyBACnet: Ein plattformübergreifender BACnet/IP-Netzwerkbrowser, geschrieben in TypeScript. [https://gitee.com/mybacnet/mybacnet](https://gitee.com/mybacnet/mybacnet)
-- 👉 XBACnet: Beliebige Daten als BACnet veröffentlichen. [https://gitee.com/xbacnet/xbacnet](https://gitee.com/xbacnet/xbacnet)
+- 👉 MyBACnet: Ein in TypeScript geschriebener BACnet/IP-Netzwerkbrowser. Der Protokollstack ist vollständig nach dem ASHRAE-135-Standard für Gebäudeautomationsgeräte implementiert und unterstützt den täglichen Betrieb wie Erkennung, Lesen, Schreiben, Überwachung, Ereignisse, Zeitpläne sowie Sicherung und Wiederherstellung. [https://gitee.com/mybacnet/mybacnet](https://gitee.com/mybacnet/mybacnet)
+- 👉 XBACnet: Ein universelles BACnet-Gateway, das beliebige Daten als BACnet veröffentlicht. [https://gitee.com/xbacnet/xbacnet](https://gitee.com/xbacnet/xbacnet)
 - 👉 JFlow&ccflow： [https://gitee.com/opencc/ccflow](https://gitee.com/opencc/ccflow)
 - 👉 IoTGateway: A cross-platform IoT gateway based on .net6 [https://gitee.com/iioter/iotgateway](https://gitee.com/iioter/iotgateway)
 - 👉 Enjoy IoT: [https://gitee.com/open-enjoy/enjoy-iot](https://gitee.com/open-enjoy/enjoy-iot)
