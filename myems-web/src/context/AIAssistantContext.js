@@ -9,6 +9,7 @@ export const AIAssistantProvider = ({ children }) => {
   const [reportContextGetter, setReportContextGetter] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
   const [reportQueried, setReportQueried] = useState(false);
+  const [reportQueryToken, setReportQueryToken] = useState(0);
   const reportQueriedRef = useRef(false);
 
   const registerReportContext = useCallback(getter => {
@@ -54,6 +55,7 @@ export const AIAssistantProvider = ({ children }) => {
         return result.then(response => {
           if (response && response.ok) {
             markReportQueried();
+            setReportQueryToken(token => token + 1);
           }
           return response;
         });
@@ -71,11 +73,20 @@ export const AIAssistantProvider = ({ children }) => {
       setIsOpen,
       hasReportContext: typeof reportContextGetter === 'function',
       reportQueried,
+      reportQueryToken,
       registerReportContext,
       getReportContext,
       resetReportQueried
     }),
-    [isOpen, reportQueried, registerReportContext, getReportContext, reportContextGetter, resetReportQueried]
+    [
+      isOpen,
+      reportQueried,
+      reportQueryToken,
+      registerReportContext,
+      getReportContext,
+      reportContextGetter,
+      resetReportQueried
+    ]
   );
 
   return <AIAssistantContext.Provider value={value}>{children}</AIAssistantContext.Provider>;
@@ -94,7 +105,6 @@ export const useAIAssistantReportContext = getter => {
     if (resetReportQueried) {
       resetReportQueried();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

@@ -214,8 +214,8 @@ Web UI:
 
 ## 🔖 추천
 
-- 👉 MyBACnet: TypeScript로 작성된 크로스 플랫폼 BACnet/IP 네트워크 브라우저. [https://gitee.com/mybacnet/mybacnet](https://gitee.com/mybacnet/mybacnet)
-- 👉 XBACnet: 모든 데이터를 BACnet으로 게시 [https://gitee.com/xbacnet/xbacnet](https://gitee.com/xbacnet/xbacnet)
+- 👉 MyBACnet: TypeScript로 작성된 BACnet/IP 네트워크 브라우저. 프로토콜 스택은 ASHRAE 135 표준에 따라 완전히 구현되었으며, 빌딩 자동화 장비를 대상으로 탐색, 읽기, 쓰기, 감시, 이벤트, 스케줄, 백업 및 복원 등 일상 운영을 지원합니다. [https://gitee.com/mybacnet/mybacnet](https://gitee.com/mybacnet/mybacnet)
+- 👉 XBACnet: 모든 데이터를 BACnet으로 게시하는 만능 BACnet 게이트웨이 [https://gitee.com/xbacnet/xbacnet](https://gitee.com/xbacnet/xbacnet)
 - 👉 치청 BPM 저코드 워크플로우 폼: [https://gitee.com/opencc/ccflow](https://gitee.com/opencc/ccflow)
 - 👉 IoTGateway: .NET6 기반 크로스 플랫폼 IoT 게이트웨이 [https://gitee.com/iioter/iotgateway](https://gitee.com/iioter/iotgateway)
 - 👉 뮤직 IoT 플랫폼 [https://gitee.com/open-enjoy/enjoy-iot](https://gitee.com/open-enjoy/enjoy-iot)

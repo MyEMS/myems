@@ -218,8 +218,8 @@ Kata laluan: !MyEMS1
 
 ## 🔖 Cadangan
 
-- 👉 MyBACnet: Pelayar rangkaian BACnet/IP merentas platform yang ditulis dalam TypeScript. [https://gitee.com/mybacnet/mybacnet](https://gitee.com/mybacnet/mybacnet)
-- 👉 XBACnet: Terbitkan sebarang data sebagai BACnet. [https://gitee.com/xbacnet/xbacnet](https://gitee.com/xbacnet/xbacnet)
+- 👉 MyBACnet: Pelayar rangkaian BACnet/IP yang ditulis dalam TypeScript. Tindanan protokol dilaksanakan sepenuhnya mengikut piawaian ASHRAE 135 untuk peralatan automasi bangunan, dan menyokong operasi harian seperti penemuan, pembacaan, penulisan, pemantauan, peristiwa, jadual serta sandaran dan pemulihan. [https://gitee.com/mybacnet/mybacnet](https://gitee.com/mybacnet/mybacnet)
+- 👉 XBACnet: Gerbang BACnet universal yang menerbitkan sebarang data sebagai BACnet. [https://gitee.com/xbacnet/xbacnet](https://gitee.com/xbacnet/xbacnet)
 - 👉 Borang alur kerja BPM Chichang kod rendah : [https://gitee.com/opencc/ccflow](https://gitee.com/opencc/ccflow)
 - 👉 IoTGateway: Gerbang IoT merentas platform berdasarkan .NET6 [https://gitee.com/iioter/iotgateway](https://gitee.com/iioter/iotgateway)
 - 👉 Platform iot Enjoy [https://gitee.com/open-enjoy/enjoy-iot](https://gitee.com/open-enjoy/enjoy-iot)

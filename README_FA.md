@@ -218,8 +218,8 @@
 
 ## 🔖 پیشنهادها
 
-- 👉 MyBACnet: یک مرورگر شبکه BACnet/IP چندسکویی نوشته‌شده با TypeScript. [https://gitee.com/mybacnet/mybacnet](https://gitee.com/mybacnet/mybacnet)
-- 👉 XBACnet: انتشار هر داده‌ای به‌صورت BACnet. [https://gitee.com/xbacnet/xbacnet](https://gitee.com/xbacnet/xbacnet)
+- 👉 MyBACnet: یک مرورگر شبکه BACnet/IP نوشته‌شده با TypeScript. پشته پروتکل کاملاً بر اساس استاندارد ASHRAE 135 برای تجهیزات اتوماسیون ساختمان پیاده‌سازی شده و از کارهای روزمره مانند کشف، خواندن، نوشتن، پایش، رویدادها، زمان‌بندی و پشتیبان‌گیری و بازیابی پشتیبانی می‌کند. [https://gitee.com/mybacnet/mybacnet](https://gitee.com/mybacnet/mybacnet)
+- 👉 XBACnet: درگاه همه‌کاره BACnet که هر داده‌ای را به‌صورت BACnet منتشر می‌کند. [https://gitee.com/xbacnet/xbacnet](https://gitee.com/xbacnet/xbacnet)
 - 👉 فرم‌های گردش‌کار کم‌کد Ccbpm: [https://gitee.com/opencc/ccflow](https://gitee.com/opencc/ccflow)
 - 👉 IoTGateway: درگاه اینترنت اشیا بین‌سکویی مبتنی بر .NET6 [https://gitee.com/iioter/iotgateway](https://gitee.com/iioter/iotgateway)
 - 👉 پلتفرم اینترنت اشیای LeLian [https://gitee.com/open-enjoy/enjoy-iot](https://gitee.com/open-enjoy/enjoy-iot)

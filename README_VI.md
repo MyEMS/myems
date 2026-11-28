@@ -218,8 +218,8 @@ Mật khẩu: !MyEMS1
 
 ## 🔖 Đề xuất
 
-- 👉 MyBACnet: Trình duyệt mạng BACnet/IP đa nền tảng viết bằng TypeScript. [https://gitee.com/mybacnet/mybacnet](https://gitee.com/mybacnet/mybacnet)
-- 👉 XBACnet: Phát hành mọi dữ liệu dưới dạng BACnet. [https://gitee.com/xbacnet/xbacnet](https://gitee.com/xbacnet/xbacnet)
+- 👉 MyBACnet: Trình duyệt mạng BACnet/IP viết bằng TypeScript. Ngăn xếp giao thức được triển khai hoàn toàn theo tiêu chuẩn ASHRAE 135 cho thiết bị tự động hóa tòa nhà, hỗ trợ các công việc vận hành hàng ngày như khám phá, đọc, ghi, giám sát, sự kiện, lịch biểu cùng sao lưu và khôi phục. [https://gitee.com/mybacnet/mybacnet](https://gitee.com/mybacnet/mybacnet)
+- 👉 XBACnet: Cổng BACnet vạn năng, phát hành mọi dữ liệu dưới dạng BACnet. [https://gitee.com/xbacnet/xbacnet](https://gitee.com/xbacnet/xbacnet)
 - 👉 Biểu mẫu quy trình làm việc BPM Chichang mã thấp : [https://gitee.com/opencc/ccflow](https://gitee.com/opencc/ccflow)
 - 👉 IoTGateway: Cổng IoT đa nền tảng dựa trên .NET6 [https://gitee.com/iioter/iotgateway](https://gitee.com/iioter/iotgateway)
 - 👉 Nền tảng iot Enjoy [https://gitee.com/open-enjoy/enjoy-iot](https://gitee.com/open-enjoy/enjoy-iot)
